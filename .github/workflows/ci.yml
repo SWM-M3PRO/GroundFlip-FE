@@ -13,6 +13,10 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v4
 
+      - name: Set env
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
