@@ -20,7 +20,7 @@ class MainScreen extends StatelessWidget {
       body: Obx(
         () => SafeArea(child: navigationController.getCurrentPage()),
       ),
-      bottomNavigationBar: const MyBottomNavigationBar(),
+      bottomNavigationBar: const CustomBottomNavigationBar(),
     );
   }
 }

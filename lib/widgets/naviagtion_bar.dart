@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 
 import '../controllers/navigation_controller.dart';
 
-class MyBottomNavigationBar extends GetView<NavigationController> {
-  const MyBottomNavigationBar({super.key});
+class CustomBottomNavigationBar extends GetView<NavigationController> {
+  const CustomBottomNavigationBar({super.key});
 
   @override
   Widget build(BuildContext context) {
