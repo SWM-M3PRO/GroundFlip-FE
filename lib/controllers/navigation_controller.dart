@@ -5,6 +5,7 @@ import '../screens/group_screen.dart';
 import '../screens/map_screen.dart';
 import '../screens/my_page_screen.dart';
 import '../screens/ranking_screen.dart';
+import '../widgets/app_bar.dart';
 
 class NavigationController extends GetxController {
   final RxInt selectedIndex = 0.obs;
@@ -14,6 +15,12 @@ class NavigationController extends GetxController {
     const GroupScreen(),
     const MyPageScreen(),
   ];
+  static List<Widget> appBars = <Widget>[
+    const MapAppBar(),
+    const RankingAppBar(),
+    const GroupAppBar(),
+    const MyPageAppBar(),
+  ];
 
   void changeIndex(int index) {
     selectedIndex(index);
@@ -21,5 +28,9 @@ class NavigationController extends GetxController {
 
   Widget getCurrentPage() {
     return tabPages[selectedIndex.value];
+  }
+
+  Widget getCurrentAppBar() {
+    return appBars[selectedIndex.value];
   }
 }
