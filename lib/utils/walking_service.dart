@@ -1,7 +1,10 @@
-abstract class WalkingService {
-  late int step;
+import 'package:get/get.dart';
+import 'package:pedometer/pedometer.dart';
 
-  int getCurrentStep();
+abstract class WalkingService {
+  late RxInt step;
+
+  void getCurrentStep(StepCount event);
 
   List<int> getWeeklySteps(startDate, endDate);
 }
