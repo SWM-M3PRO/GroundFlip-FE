@@ -11,20 +11,26 @@ class MapController extends GetxController {
   Completer<GoogleMapController> completer = Completer();
 
   late LocationData currentLocation;
+
   RxSet<Marker> markers = <Marker>{}.obs;
   RxBool isLoading = true.obs;
 
   @override
   void onInit() async {
     super.onInit();
-    _loadMapStyle();
+    await _loadMapStyle();
     await getCurrentPosition();
     _addMarkerOnCurrentLatLng();
   }
 
   Future<void> getCurrentPosition() async {
-    currentLocation = await location.getLocation();
-    isLoading.value = false;
+    try {
+      currentLocation = await location.getLocation();
+    } catch (e) {
+      throw Error();
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   void _addMarkerOnCurrentLatLng() {
@@ -42,7 +48,7 @@ class MapController extends GetxController {
     markers.add(marker);
   }
 
-  void _loadMapStyle() async {
+  Future<void> _loadMapStyle() async {
     darkMapStyle = await rootBundle.loadString('assets/map_style/dark_map_style.txt');
   }
 }
