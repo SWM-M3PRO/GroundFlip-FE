@@ -24,6 +24,7 @@ class MapScreen extends StatelessWidget {
               onMapCreated: (GoogleMapController ctrl) {
                 mapController.completer.complete(ctrl);
               },
+              style: mapController.darkMapStyle,
             ),
     );
   }
