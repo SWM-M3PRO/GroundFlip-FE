@@ -18,14 +18,31 @@ class IosWalkingService implements WalkingService {
   }
 
   @override
-  int getCurrentStep() {
-    // TODO: implement getCurrentStep
-    throw UnimplementedError();
+  Future<int?> getCurrentStep() async {
+    final now = DateTime.now();
+    final startTime = DateTime(now.year, now.month, now.day);
+    int? steps = await Health().getTotalStepsInInterval(startTime, now);
+    return steps;
   }
 
   @override
-  List<int> getWeeklySteps(startDate, endDate) {
-    // TODO: implement getWeeklySteps
-    throw UnimplementedError();
+  Future<List<int>> getDailyStepsInInterval(
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
+    List<int> dailySteps = [];
+
+    for (DateTime date = startDate;
+        date.isBefore(endDate) || date.isAtSameMomentAs(endDate);
+        date = date.add(const Duration(days: 1))) {
+      DateTime startOfDay = DateTime(date.year, date.month, date.day, 0, 0, 0);
+      DateTime endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
+      int? dailyStep =
+          await Health().getTotalStepsInInterval(startOfDay, endOfDay);
+
+      dailySteps.add(dailyStep!);
+    }
+
+    return dailySteps;
   }
 }
