@@ -8,18 +8,44 @@ import '../utils/walking_service.dart';
 class AndroidWalkInterface extends GetxController implements WalkingService{
   late Stream<StepCount> _stepCountStream;
 
-  @override
-  RxInt step = 0.obs;
+  RxInt _currentSteps = 0.obs;
+  RxInt _pastSteps = 0.obs;
+  RxInt _totalSteps = 0.obs;
 
-  RxInt get steps => step;
+
+  late RxInt step = 0.obs;
+
+  RxInt get steps => _currentSteps;
+
+  @override
+  void onInit(){
+    super.onInit();
+    initPlatformState();
+    Timer.periodic(const Duration(seconds: 10), (t){
+      resetStepTimer();
+    });
+  }
+
+  void resetStepTimer() {//현재는 10초마다 초기화
+    //DateTime now = DateTime.now();
+    //DateTime nextMidnight = DateTime(now.year, now.month, now.day, now.second+10);
+    _pastSteps.value = _totalSteps.value;
+    print('reset timer ${_totalSteps.value}, ${_currentSteps.value}, ${_pastSteps.value}');
+  }
 
   @override
   void getCurrentStep(StepCount event){
-    step.value = event.steps;
+    _totalSteps.value = event.steps;
+    _currentSteps.value = _totalSteps.value - _pastSteps.value;
+
+    // if(check==false){
+    //   _pastSteps.value = event.steps;
+    //   print('check ok');
+    // }
+    print('init ${_currentSteps.value},${_totalSteps.value}, ${_pastSteps.value}');
   }
 
   void onStepCountError(error) {
-    //print('onStepCountError: $error');
     step.value = 0;
   }
 
