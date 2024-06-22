@@ -37,21 +37,6 @@ class MapScreen extends StatelessWidget {
             );
           }
         }),
-      // body: mapController.isLoading
-      //     ? const Center(child: CircularProgressIndicator())
-      //     : GoogleMap(
-      //         mapType: MapType.normal,
-      //         initialCameraPosition: CameraPosition(
-      //             target: LatLng(
-      //                 mapController.currentLocation.latitude!,
-      //                 mapController.currentLocation.longitude!,),
-      //             zoom: 16.0,
-      //         ),
-      //         onMapCreated: (GoogleMapController ctrl) {
-      //           mapController.completer.complete(ctrl);
-      //         },
-      //         style: mapController.darkMapStyle,
-      //       ),
     );
   }
 }
