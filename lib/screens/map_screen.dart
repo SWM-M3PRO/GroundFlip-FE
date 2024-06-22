@@ -10,7 +10,6 @@ class MapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PermissionController permissionController =
     Get.put(PermissionController());
     final MapController mapController = Get.put(MapController());
 
