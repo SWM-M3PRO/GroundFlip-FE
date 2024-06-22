@@ -11,21 +11,47 @@ class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PermissionController permissionController =
-        Get.put(PermissionController());
+    Get.put(PermissionController());
     final MapController mapController = Get.put(MapController());
 
     return Scaffold(
-      body: mapController.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : GoogleMap(
+        body: Obx(() {
+          if (mapController.isLoading.value) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return GoogleMap(
               mapType: MapType.normal,
               initialCameraPosition: CameraPosition(
-                  target: LatLng(37.505200, 127.046748), zoom: 16.0),
+                target: LatLng(
+                  mapController.currentLocation.latitude!,
+                  mapController.currentLocation.longitude!,),
+                zoom: 16.0,
+              ),
               onMapCreated: (GoogleMapController ctrl) {
                 mapController.completer.complete(ctrl);
               },
               style: mapController.darkMapStyle,
-            ),
+              markers: mapController.markers,
+            );
+          }
+        }),
+      // body: mapController.isLoading
+      //     ? const Center(child: CircularProgressIndicator())
+      //     : GoogleMap(
+      //         mapType: MapType.normal,
+      //         initialCameraPosition: CameraPosition(
+      //             target: LatLng(
+      //                 mapController.currentLocation.latitude!,
+      //                 mapController.currentLocation.longitude!,),
+      //             zoom: 16.0,
+      //         ),
+      //         onMapCreated: (GoogleMapController ctrl) {
+      //           mapController.completer.complete(ctrl);
+      //         },
+      //         style: mapController.darkMapStyle,
+      //       ),
     );
   }
 }
