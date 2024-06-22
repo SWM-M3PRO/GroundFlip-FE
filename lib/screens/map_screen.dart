@@ -10,12 +10,12 @@ class MapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AndroidWalkInterface AndroidWalkController =
-      Get.put(AndroidWalkInterface());
+    final AndroidStepCounter AndroidStepController =
+      Get.put(AndroidStepCounter());
     return Column(
         children: [
           Text('지도'),
-          Obx(() => Text('${AndroidWalkController.steps.value}'))
+          Obx(() => Text('${AndroidStepController.steps.value}'))
           ],
       );
   }

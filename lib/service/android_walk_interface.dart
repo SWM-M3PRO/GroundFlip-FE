@@ -5,7 +5,7 @@ import 'package:pedometer/pedometer.dart';
 
 import '../utils/walking_service.dart';
 
-class AndroidWalkInterface extends GetxController implements WalkingService{
+class AndroidStepCounter extends GetxController implements WalkingService{
   late Stream<StepCount> _stepCountStream;
 
   final RxInt _currentSteps = 0.obs;
