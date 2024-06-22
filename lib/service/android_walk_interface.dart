@@ -8,11 +8,11 @@ import '../utils/walking_service.dart';
 class AndroidWalkInterface extends GetxController implements WalkingService{
   late Stream<StepCount> _stepCountStream;
 
-  RxInt _currentSteps = 0.obs;
-  RxInt _pastSteps = 0.obs;
-  RxInt _totalSteps = 0.obs;
+  final RxInt _currentSteps = 0.obs;
+  final RxInt _pastSteps = 0.obs;
+  final RxInt _totalSteps = 0.obs;
 
-
+  @override
   late RxInt step = 0.obs;
 
   RxInt get steps => _currentSteps;
