@@ -20,6 +20,7 @@ dependencies:
   permission_handler: ^11.3.1
   google_maps_flutter: ^2.6.1
   flutter_config: ^2.0.2
+  health: ^10.2.0
 
 dev_dependencies:
   flutter_test:

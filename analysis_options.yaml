@@ -12,7 +12,6 @@ linter:
     - non_constant_identifier_names
     - constant_identifier_names
     - directives_ordering
-    - lines_longer_than_80_chars
     - curly_braces_in_flow_control_structures
 
     - use_string_in_part_of_directives
@@ -30,5 +29,9 @@ linter:
     - avoid_function_literals_in_foreach_calls
     - prefer_is_empty
     - prefer_is_not_empty
+    - prefer_const_constructors: false
+    - prefer_const_literals_to_create_immutables: false
+    - prefer_const_constructors_in_immutables: false
 
-
+code_style:
+  line_length: 120
