@@ -32,7 +32,7 @@ class MapScreen extends StatelessWidget {
                 mapController.completer.complete(ctrl);
               },
               style: mapController.darkMapStyle,
-              markers: mapController.markers,
+              markers: Set<Marker>.of(mapController.markers),
             );
           }
         }),
