@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 class MapController extends GetxController {
-  static const String mapStylePath = 'assets/map_style/dark_map_style.txt';
+  static const String darkMapStylePath = 'assets/map_style/dark_map_style.txt';
   static const String userMarkerId = 'USER';
 
   final Location location = Location();
@@ -15,18 +15,26 @@ class MapController extends GetxController {
 
   late LocationData currentLocation;
 
-  RxSet<Marker> markers = <Marker>{}.obs;
+  RxList<Marker> markers = <Marker>[].obs;
   RxBool isLoading = true.obs;
 
   @override
   void onInit() async {
     super.onInit();
     await _loadMapStyle();
-    await getCurrentPosition();
-    _addMarkerOnCurrentLatLng();
+    await updateCurrentLocation();
+    _createUserMarker();
+    _trackUserLocation();
   }
 
-  Future<void> getCurrentPosition() async {
+  void _trackUserLocation() {
+    location.onLocationChanged.listen((newLocation) {
+      currentLocation = newLocation;
+      _updateMarkerPosition(newLocation, userMarkerId);
+    });
+  }
+
+  Future<void> updateCurrentLocation() async {
     try {
       currentLocation = await location.getLocation();
     } catch (e) {
@@ -36,11 +44,8 @@ class MapController extends GetxController {
     }
   }
 
-  void _addMarkerOnCurrentLatLng() {
-    _addMarker(
-      LatLng(currentLocation.latitude!, currentLocation.longitude!),
-      userMarkerId,
-    );
+  void _createUserMarker() {
+    _addMarker(LatLng(currentLocation.latitude!, currentLocation.longitude!), userMarkerId);
   }
 
   void _addMarker(LatLng position, String markerId) {
@@ -52,6 +57,11 @@ class MapController extends GetxController {
   }
 
   Future<void> _loadMapStyle() async {
-    darkMapStyle = await rootBundle.loadString(mapStylePath);
+    darkMapStyle = await rootBundle.loadString(darkMapStylePath);
+  }
+
+  void _updateMarkerPosition(LocationData newLocation, String markerId) {
+    markers.removeWhere((marker) => marker.markerId.value == markerId);
+    _addMarker(LatLng(newLocation.latitude!, newLocation.longitude!), markerId);
   }
 }
