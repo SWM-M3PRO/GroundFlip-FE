@@ -22,6 +22,8 @@ class MapScreen extends StatelessWidget {
           } else {
             return GoogleMap(
               mapType: MapType.normal,
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
               initialCameraPosition: CameraPosition(
                 target: LatLng(
                   mapController.currentLocation.latitude!,
