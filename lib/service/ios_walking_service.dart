@@ -18,10 +18,10 @@ class IosWalkingService implements WalkingService {
   }
 
   @override
-  Future<int?> getCurrentStep() async {
+  Future<int> getCurrentStep() async {
     final now = DateTime.now();
     final startTime = DateTime(now.year, now.month, now.day);
-    int? steps = await Health().getTotalStepsInInterval(startTime, now);
+    int steps = await Health().getTotalStepsInInterval(startTime, now) ?? 0;
     return steps;
   }
 
