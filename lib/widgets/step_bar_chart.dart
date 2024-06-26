@@ -19,12 +19,18 @@ class StepBarChart extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await walkController.loadPreviousWeekSteps();
+                  },
                   icon: Icon(Icons.arrow_back_ios_new_outlined)),
-              Text(walkController.getInterval()),
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.arrow_forward_ios_outlined)),
+              Obx(() => Text(walkController.getSelectedWeek())),
+              Obx(() => IconButton(
+                  onPressed: walkController.getIsNextButtonEnabled()
+                      ? () {
+                          walkController.loadNextWeekSteps();
+                        }
+                      : null,
+                  icon: Icon(Icons.arrow_forward_ios_outlined))),
             ],
           ),
           AspectRatio(
@@ -89,12 +95,12 @@ class StepBarChart extends StatelessWidget {
         rightTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 30,
+            reservedSize: 40,
             interval: maxStep / 4,
             getTitlesWidget: (value, meta) {
               return SideTitleWidget(
                 axisSide: meta.axisSide,
-                space: 4,
+                space: 5,
                 child: Text(
                   value.toInt().toString(),
                   style: TextStyle(
