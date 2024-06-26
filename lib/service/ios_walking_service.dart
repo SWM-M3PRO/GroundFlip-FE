@@ -37,10 +37,9 @@ class IosWalkingService implements WalkingService {
         date = date.add(const Duration(days: 1))) {
       DateTime startOfDay = DateTime(date.year, date.month, date.day, 0, 0, 0);
       DateTime endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
-      int? dailyStep =
-          await Health().getTotalStepsInInterval(startOfDay, endOfDay);
-
-      dailySteps.add(dailyStep!);
+      int dailyStep =
+          await Health().getTotalStepsInInterval(startOfDay, endOfDay) ?? 0;
+      dailySteps.add(dailyStep);
     }
 
     return dailySteps;
