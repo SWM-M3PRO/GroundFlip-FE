@@ -1,13 +1,27 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/my_page_controller.dart';
+import '../widgets/step_bar_chart.dart';
 
 class MyPageScreen extends StatelessWidget {
   const MyPageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    final MyPageController walkController = Get.put(MyPageController());
+
+    return Column(
       children: [
-        Text('마이페이지'),
+        const Text('마이페이지'),
+        Obx(() => Text(walkController.getCurrentStep())),
+        TextButton(
+          onPressed: () {
+            walkController.updateCurrentStep();
+          },
+          child: const Text('업데이트'),
+        ),
+        StepBarChart(),
       ],
     );
   }
