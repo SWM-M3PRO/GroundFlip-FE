@@ -19,16 +19,16 @@ class StepBarChart extends StatelessWidget {
           () => BarChart(
             BarChartData(
               barTouchData: barTouchData,
-              titlesData: titlesData,
+              titlesData: getTitlesData(walkController.getMaxStep()),
               borderData: borderData,
-              barGroups: barGroups,
-              gridData: const FlGridData(
+              barGroups: getBarGroups(walkController.getWeeklyStep()),
+              gridData: FlGridData(
                 show: true,
                 drawVerticalLine: false,
-                horizontalInterval: 2000,
+                horizontalInterval: walkController.getMaxStep() / 4,
               ),
               alignment: BarChartAlignment.spaceAround,
-              maxY: 8000,
+              maxY: walkController.getMaxStep(),
             ),
           ),
         ),
@@ -55,7 +55,7 @@ class StepBarChart extends StatelessWidget {
     );
   }
 
-  FlTitlesData get titlesData => FlTitlesData(
+  FlTitlesData getTitlesData(maxStep) => FlTitlesData(
         show: true,
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
@@ -74,7 +74,7 @@ class StepBarChart extends StatelessWidget {
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
-            interval: 2000,
+            interval: maxStep / 4,
             getTitlesWidget: (value, meta) {
               return SideTitleWidget(
                 axisSide: meta.axisSide,
@@ -97,9 +97,8 @@ class StepBarChart extends StatelessWidget {
         show: false,
       );
 
-  List<BarChartGroupData> get barGroups {
+  List<BarChartGroupData> getBarGroups(steps) {
     List<BarChartGroupData> barChartGroupData = [];
-    List<int> steps = walkController.getWeeklyStep();
     for (int i = 0; i < steps.length; i++) {
       barChartGroupData.add(
         BarChartGroupData(

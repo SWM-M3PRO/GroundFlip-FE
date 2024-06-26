@@ -46,4 +46,14 @@ class MyPageController extends GetxController {
   List<int> getWeeklyStep() {
     return weeklySteps.toList();
   }
+
+  double getMaxStep() {
+    int maxStep = weeklySteps.toList()[0];
+    for (int number in weeklySteps.toList()) {
+      if (number > maxStep) {
+        maxStep = number;
+      }
+    }
+    return (maxStep / 100).ceil() * 100;
+  }
 }
