@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 
-import '../service/ios_walking_service.dart';
 import '../utils/date_utils.dart';
 import '../utils/walking_service.dart';
+import '../utils/walking_service_factory.dart';
 
 class MyPageController extends GetxController {
   final RxInt currentStep = 0.obs;
@@ -16,13 +16,13 @@ class MyPageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    walkingService = IosWalkingService();
+    walkingService = WalkingServiceFactory.getWalkingService();
     _initializeWeeklySteps();
     _initializeCurrentStep();
   }
 
   void _initializeCurrentStep() async {
-    currentStep.value = (await walkingService.getCurrentStep())!;
+    currentStep.value = (await walkingService.getCurrentStep());
   }
 
   Future<void> _initializeWeeklySteps() async {
@@ -68,7 +68,7 @@ class MyPageController extends GetxController {
   }
 
   Future<void> updateCurrentStep() async {
-    currentStep.value = (await walkingService.getCurrentStep())!;
+    currentStep.value = (await walkingService.getCurrentStep());
   }
 
   _updateSelectedWeekSteps() async {
