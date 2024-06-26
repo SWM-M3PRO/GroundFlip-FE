@@ -15,20 +15,21 @@ class StepBarChart extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: AspectRatio(
         aspectRatio: 1.6,
-        child: BarChart(
-          BarChartData(
-            barTouchData: barTouchData,
-            titlesData: titlesData,
-            borderData: borderData,
-            barGroups: barGroups,
-            gridData: const FlGridData(
-              show: true,
-              drawVerticalLine: false,
-              horizontalInterval: 2000,
+        child: Obx(
+          () => BarChart(
+            BarChartData(
+              barTouchData: barTouchData,
+              titlesData: titlesData,
+              borderData: borderData,
+              barGroups: barGroups,
+              gridData: const FlGridData(
+                show: true,
+                drawVerticalLine: false,
+                horizontalInterval: 2000,
+              ),
+              alignment: BarChartAlignment.spaceAround,
+              maxY: 8000,
             ),
-            alignment: BarChartAlignment.spaceAround,
-            maxY: 8000,
-            // backgroundColor: Colors.grey,
           ),
         ),
       ),
@@ -100,15 +101,17 @@ class StepBarChart extends StatelessWidget {
     List<BarChartGroupData> barChartGroupData = [];
     List<int> steps = walkController.getWeeklyStep();
     for (int i = 0; i < steps.length; i++) {
-      barChartGroupData.add(BarChartGroupData(
-        x: i,
-        barRods: [
-          BarChartRodData(
-            toY: steps[i].toDouble(),
-            color: Colors.greenAccent,
-          )
-        ],
-      ));
+      barChartGroupData.add(
+        BarChartGroupData(
+          x: i,
+          barRods: [
+            BarChartRodData(
+              toY: steps[i].toDouble(),
+              color: Colors.greenAccent,
+            ),
+          ],
+        ),
+      );
     }
     return barChartGroupData;
   }
