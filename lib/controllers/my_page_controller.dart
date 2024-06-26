@@ -1,12 +1,13 @@
 import 'package:get/get.dart';
 
 import '../service/ios_walking_service.dart';
+import '../utils/date_utils.dart';
 import '../utils/walking_service.dart';
 
 class MyPageController extends GetxController {
   final RxInt currentStep = 0.obs;
-  final RxList<int> weeklySteps = <int>[0, 0, 0, 0, 0, 0, 0].obs;
-  final RxString selectedWeek = "".obs;
+  final RxList<int> selectedWeeklySteps = <int>[0, 0, 0, 0, 0, 0, 0].obs;
+  final RxString selectedWeekInfo = "".obs;
   final RxBool isNextButtonEnabled = false.obs;
   late DateTime selectedWeekStartDate;
   late DateTime selectedWeekEndDate;
@@ -16,7 +17,7 @@ class MyPageController extends GetxController {
   void onInit() {
     super.onInit();
     walkingService = IosWalkingService();
-    _initializeWeeklyStep();
+    _initializeWeeklySteps();
     _initializeCurrentStep();
   }
 
@@ -24,41 +25,33 @@ class MyPageController extends GetxController {
     currentStep.value = (await walkingService.getCurrentStep())!;
   }
 
-  Future<void> _initializeWeeklyStep() async {
+  Future<void> _initializeWeeklySteps() async {
     DateTime nowDate = DateTime.now();
     selectedWeekStartDate =
         nowDate.subtract(Duration(days: nowDate.weekday - 1));
     selectedWeekEndDate =
         nowDate.add(Duration(days: DateTime.daysPerWeek - nowDate.weekday));
 
-    selectedWeek.value = getInterval();
-    final thisWeeklyStep = await walkingService.getDailyStepsInInterval(
-      selectedWeekStartDate,
-      selectedWeekEndDate,
-    );
-
-    weeklySteps.assignAll(thisWeeklyStep);
-  }
-
-  updateStep() async {
-    currentStep.value = (await walkingService.getCurrentStep())!;
+    _updateSelectedWeekInfo();
+    _updateSelectedWeekSteps();
   }
 
   String getCurrentStep() {
     return currentStep.value.toString();
   }
 
-  List<int> getWeeklyStep() {
-    return weeklySteps.toList();
+  List<int> getWeeklySteps() {
+    return selectedWeeklySteps.toList();
   }
 
   double getMaxStep() {
-    int maxStep = weeklySteps.toList()[0];
-    for (int number in weeklySteps.toList()) {
+    int maxStep = selectedWeeklySteps.toList()[0];
+    for (int number in selectedWeeklySteps.toList()) {
       if (number > maxStep) {
         maxStep = number;
       }
     }
+
     if (maxStep == 0) {
       return 10000;
     } else {
@@ -66,64 +59,54 @@ class MyPageController extends GetxController {
     }
   }
 
-  String getInterval() {
-    return "${_formatDate(selectedWeekStartDate)} ~ ${_formatDate(selectedWeekEndDate)}";
+  String getSelectedWeekInfo() {
+    return selectedWeekInfo.value;
   }
 
-  String _formatDate(DateTime date) {
-    String year = date.year.toString().padLeft(4, '0');
-    String month = date.month.toString().padLeft(2, '0');
-    String day = date.day.toString().padLeft(2, '0');
-
-    return '$year.$month.$day';
+  getIsNextButtonEnabled() {
+    return isNextButtonEnabled.value;
   }
 
-  String getSelectedWeek() {
-    return selectedWeek.value;
+  Future<void> updateCurrentStep() async {
+    currentStep.value = (await walkingService.getCurrentStep())!;
   }
 
-  Future<void> loadPreviousWeekSteps() async {
-    selectedWeekStartDate = selectedWeekStartDate.subtract(Duration(days: 7));
-    selectedWeekEndDate = selectedWeekEndDate.subtract(Duration(days: 7));
-    List<int> selectedWeekSteps = await walkingService.getDailyStepsInInterval(
-        selectedWeekStartDate, selectedWeekEndDate);
-    weeklySteps.assignAll(selectedWeekSteps);
-    selectedWeek.value = getInterval();
-    updateNextButtonStatus();
+  _updateSelectedWeekSteps() async {
+    List<int> thisWeeklyStep = await walkingService.getDailyStepsInInterval(
+      selectedWeekStartDate,
+      selectedWeekEndDate,
+    );
+    selectedWeeklySteps.assignAll(thisWeeklyStep);
   }
 
-  Future<void> loadNextWeekSteps() async {
-    selectedWeekStartDate = selectedWeekStartDate.add(Duration(days: 7));
-    selectedWeekEndDate = selectedWeekEndDate.add(Duration(days: 7));
-    List<int> selectedWeekSteps = await walkingService.getDailyStepsInInterval(
-        selectedWeekStartDate, selectedWeekEndDate);
-    weeklySteps.assignAll(selectedWeekSteps);
-    selectedWeek.value = getInterval();
-    updateNextButtonStatus();
+  void _updateSelectedWeekInfo() {
+    selectedWeekInfo.value =
+        "${DateUtils.formatDate(selectedWeekStartDate)} ~ ${DateUtils.formatDate(selectedWeekEndDate)}";
   }
 
-  updateNextButtonStatus() {
-    if (isTodayInRange(selectedWeekStartDate, selectedWeekEndDate)) {
+  _updateNextButtonStatus() {
+    if (DateUtils.isTodayInRange(selectedWeekStartDate, selectedWeekEndDate)) {
       isNextButtonEnabled.value = false;
     } else {
       isNextButtonEnabled.value = true;
     }
   }
 
-  bool isTodayInRange(DateTime startDate, DateTime endDate) {
-    DateTime today = DateTime.now();
-    DateTime todayOnly = DateTime(today.year, today.month, today.day);
-    DateTime startDateOnly =
-        DateTime(startDate.year, startDate.month, startDate.day);
-    DateTime endDateOnly = DateTime(endDate.year, endDate.month, endDate.day);
-
-    return (todayOnly.isAfter(startDateOnly) &&
-            todayOnly.isBefore(endDateOnly)) ||
-        todayOnly.isAtSameMomentAs(startDateOnly) ||
-        todayOnly.isAtSameMomentAs(endDateOnly);
+  Future<void> loadPreviousWeekSteps() async {
+    selectedWeekStartDate = selectedWeekStartDate.subtract(Duration(days: 7));
+    selectedWeekEndDate = selectedWeekEndDate.subtract(Duration(days: 7));
+    _loadWeekSteps();
   }
 
-  getIsNextButtonEnabled() {
-    return isNextButtonEnabled.value;
+  Future<void> loadNextWeekSteps() async {
+    selectedWeekStartDate = selectedWeekStartDate.add(Duration(days: 7));
+    selectedWeekEndDate = selectedWeekEndDate.add(Duration(days: 7));
+    _loadWeekSteps();
+  }
+
+  Future<void> _loadWeekSteps() async {
+    _updateSelectedWeekSteps();
+    _updateSelectedWeekInfo();
+    _updateNextButtonStatus();
   }
 }

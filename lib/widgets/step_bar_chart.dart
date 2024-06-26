@@ -23,7 +23,7 @@ class StepBarChart extends StatelessWidget {
                     await walkController.loadPreviousWeekSteps();
                   },
                   icon: Icon(Icons.arrow_back_ios_new_outlined)),
-              Obx(() => Text(walkController.getSelectedWeek())),
+              Obx(() => Text(walkController.getSelectedWeekInfo())),
               Obx(() => IconButton(
                   onPressed: walkController.getIsNextButtonEnabled()
                       ? () {
@@ -41,7 +41,7 @@ class StepBarChart extends StatelessWidget {
                   barTouchData: barTouchData,
                   titlesData: getTitlesData(walkController.getMaxStep()),
                   borderData: borderData,
-                  barGroups: getBarGroups(walkController.getWeeklyStep()),
+                  barGroups: getBarGroups(walkController.getWeeklySteps()),
                   gridData: FlGridData(
                     show: true,
                     drawVerticalLine: false,
