@@ -13,25 +13,41 @@ class StepBarChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: AspectRatio(
-        aspectRatio: 1.6,
-        child: Obx(
-          () => BarChart(
-            BarChartData(
-              barTouchData: barTouchData,
-              titlesData: getTitlesData(walkController.getMaxStep()),
-              borderData: borderData,
-              barGroups: getBarGroups(walkController.getWeeklyStep()),
-              gridData: FlGridData(
-                show: true,
-                drawVerticalLine: false,
-                horizontalInterval: walkController.getMaxStep() / 4,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.arrow_back_ios_new_outlined)),
+              Text(walkController.getInterval()),
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.arrow_forward_ios_outlined)),
+            ],
+          ),
+          AspectRatio(
+            aspectRatio: 1.6,
+            child: Obx(
+              () => BarChart(
+                BarChartData(
+                  barTouchData: barTouchData,
+                  titlesData: getTitlesData(walkController.getMaxStep()),
+                  borderData: borderData,
+                  barGroups: getBarGroups(walkController.getWeeklyStep()),
+                  gridData: FlGridData(
+                    show: true,
+                    drawVerticalLine: false,
+                    horizontalInterval: walkController.getMaxStep() / 4,
+                  ),
+                  alignment: BarChartAlignment.spaceAround,
+                  maxY: walkController.getMaxStep(),
+                ),
               ),
-              alignment: BarChartAlignment.spaceAround,
-              maxY: walkController.getMaxStep(),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

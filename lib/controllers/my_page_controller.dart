@@ -6,6 +6,8 @@ import '../utils/walking_service.dart';
 class MyPageController extends GetxController {
   final RxInt currentStep = 0.obs;
   final RxList<int> weeklySteps = <int>[].obs;
+  late DateTime selectedWeekStartDate;
+  late DateTime selectedWeekEndDate;
   late WalkingService walkingService;
 
   @override
@@ -22,11 +24,13 @@ class MyPageController extends GetxController {
 
   Future<void> _initializeWeeklyStep() async {
     DateTime nowDate = DateTime.now();
-    DateTime mondayOfThisWeek =
+    selectedWeekStartDate =
         nowDate.subtract(Duration(days: nowDate.weekday - 1));
+    selectedWeekEndDate =
+        nowDate.add(Duration(days: DateTime.daysPerWeek - nowDate.weekday));
     int daysUntilSunday = DateTime.daysPerWeek - nowDate.weekday;
     final thisWeeklyStep = await walkingService.getDailyStepsInInterval(
-      mondayOfThisWeek,
+      selectedWeekStartDate,
       nowDate,
     );
     for (int i = 0; i < daysUntilSunday; i++) {
@@ -55,5 +59,17 @@ class MyPageController extends GetxController {
       }
     }
     return (maxStep / 100).ceil() * 100;
+  }
+
+  String getInterval() {
+    return "${_formatDate(selectedWeekStartDate)} ~ ${_formatDate(selectedWeekEndDate)}";
+  }
+
+  String _formatDate(DateTime date) {
+    String year = date.year.toString().padLeft(4, '0');
+    String month = date.month.toString().padLeft(2, '0');
+    String day = date.day.toString().padLeft(2, '0');
+
+    return '$year.$month.$day';
   }
 }
