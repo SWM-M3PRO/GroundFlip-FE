@@ -1,27 +1,35 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/my_page_controller.dart';
 
 class StepBarChart extends StatelessWidget {
-  const StepBarChart({super.key});
+  StepBarChart({super.key});
+
+  final MyPageController walkController = Get.find<MyPageController>();
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.6,
-      child: BarChart(
-        BarChartData(
-          barTouchData: barTouchData,
-          titlesData: titlesData,
-          borderData: borderData,
-          barGroups: barGroups,
-          gridData: const FlGridData(
-            show: true,
-            drawVerticalLine: false,
-            horizontalInterval: 2000,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: AspectRatio(
+        aspectRatio: 1.6,
+        child: BarChart(
+          BarChartData(
+            barTouchData: barTouchData,
+            titlesData: titlesData,
+            borderData: borderData,
+            barGroups: barGroups,
+            gridData: const FlGridData(
+              show: true,
+              drawVerticalLine: false,
+              horizontalInterval: 2000,
+            ),
+            alignment: BarChartAlignment.spaceAround,
+            maxY: 8000,
+            // backgroundColor: Colors.grey,
           ),
-          alignment: BarChartAlignment.spaceAround,
-          maxY: 8000,
-          // backgroundColor: Colors.grey,
         ),
       ),
     );
@@ -46,7 +54,6 @@ class StepBarChart extends StatelessWidget {
     );
   }
 
-  // 제목
   FlTitlesData get titlesData => FlTitlesData(
         show: true,
         bottomTitles: AxisTitles(
@@ -62,11 +69,25 @@ class StepBarChart extends StatelessWidget {
         topTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
-        rightTitles: const AxisTitles(
+        rightTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
             interval: 2000,
+            getTitlesWidget: (value, meta) {
+              return SideTitleWidget(
+                axisSide: meta.axisSide,
+                space: 4,
+                child: Text(
+                  value.toInt().toString(),
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 10,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            },
           ),
         ),
       );
@@ -77,7 +98,7 @@ class StepBarChart extends StatelessWidget {
 
   List<BarChartGroupData> get barGroups {
     List<BarChartGroupData> barChartGroupData = [];
-    List<int> steps = [2900, 3600, 4500, 3289, 7012, 0, 0];
+    List<int> steps = walkController.getWeeklyStep();
     for (int i = 0; i < steps.length; i++) {
       barChartGroupData.add(BarChartGroupData(
         x: i,
