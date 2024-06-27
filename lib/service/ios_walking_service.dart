@@ -48,7 +48,7 @@ class IosWalkingService implements WalkingService {
 
   @override
   List<int> getWeeklySteps(startDate, endDate) {
-    // TODO: implement getWeeklySteps
+
     throw UnimplementedError();
   }
 }
