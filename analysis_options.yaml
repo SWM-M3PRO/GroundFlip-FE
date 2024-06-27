@@ -2,36 +2,39 @@ include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:
-    - require_trailing_commas
-    - prefer_relative_imports
-    - camel_case_types
-    - camel_case_extensions
-    - file_names
-    - package_names
-    - library_prefixes
-    - non_constant_identifier_names
-    - constant_identifier_names
-    - directives_ordering
-    - curly_braces_in_flow_control_structures
+    require_trailing_commas: true
+    prefer_relative_imports: true
+    camel_case_types: true
+    camel_case_extensions: true
+    file_names: true
+    package_names: true
+    library_prefixes: true
+    non_constant_identifier_names: true
+    constant_identifier_names: true
+    directives_ordering: true
+    curly_braces_in_flow_control_structures: true
+    use_string_in_part_of_directives: true
+    implementation_imports: true
+    avoid_relative_lib_imports: true
+    avoid_init_to_null: true
+    prefer_adjacent_string_concatenation: true
+    prefer_interpolation_to_compose_strings: true
+    unnecessary_brace_in_string_interps: true
+    unnecessary_new: true
+    empty_constructor_bodies: true
+    prefer_initializing_formals: true
+    unnecessary_this: true
+    prefer_function_declarations_over_variables: true
+    avoid_function_literals_in_foreach_calls: true
+    prefer_is_empty: true
+    prefer_is_not_empty: true
+    prefer_const_constructors: false
+    prefer_const_literals_to_create_immutables: false
+    prefer_const_constructors_in_immutables: false
 
-    - use_string_in_part_of_directives
-    - implementation_imports
-    - avoid_relative_lib_imports
-    - avoid_init_to_null
-    - prefer_adjacent_string_concatenation
-    - prefer_interpolation_to_compose_strings
-    - unnecessary_brace_in_string_interps
-    - unnecessary_new
-    - empty_constructor_bodies
-    - prefer_initializing_formals
-    - unnecessary_this
-    - prefer_function_declarations_over_variables
-    - avoid_function_literals_in_foreach_calls
-    - prefer_is_empty
-    - prefer_is_not_empty
-    - prefer_const_constructors: false
-    - prefer_const_literals_to_create_immutables: false
-    - prefer_const_constructors_in_immutables: false
+#    prefer_const_constructors: false
+#    prefer_const_literals_to_create_immutables: false
+#    prefer_const_constructors_in_immutables: false
 
 code_style:
   line_length: 120

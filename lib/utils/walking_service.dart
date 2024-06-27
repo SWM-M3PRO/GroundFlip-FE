@@ -1,8 +1,6 @@
 abstract class WalkingService {
 
-  Future<int?> getCurrentStep();
-
-  List<int> getWeeklySteps(startDate, endDate);
+  Future<int> getCurrentStep();
 
   Future<List<int>> getDailyStepsInInterval(
     DateTime startDate,
