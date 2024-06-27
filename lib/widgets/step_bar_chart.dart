@@ -164,7 +164,6 @@ class StepBarChart extends StatelessWidget {
             barTouchResponse.spot == null) {
           return;
         }
-        final touchedSpot = barTouchResponse.spot;
       },
     );
   }
