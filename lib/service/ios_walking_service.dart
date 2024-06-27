@@ -44,4 +44,5 @@ class IosWalkingService implements WalkingService {
 
     return dailySteps;
   }
+
 }
