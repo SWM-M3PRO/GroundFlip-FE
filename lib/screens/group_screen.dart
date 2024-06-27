@@ -13,12 +13,17 @@ class GroupScreen extends StatelessWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder:(context)=> SearchGroupScreen()),
-              );
-            }, child: const Text('그룹검색'))],
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SearchGroupScreen(),),
+                );
+              },
+              child: const Text('그룹검색'),
+            ),
+          ],
         ),
       ],
     );
