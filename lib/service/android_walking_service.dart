@@ -9,7 +9,9 @@ class AndroidWalkingService implements WalkingService {
 
   @override
   Future<List<int>> getDailyStepsInInterval(
-      DateTime startDate, DateTime endDate) {
+    DateTime startDate,
+    DateTime endDate,
+  ) {
     return Future.value([1500, 2500, 3500, 4500, 5500, 6500, 7500]);
   }
 }

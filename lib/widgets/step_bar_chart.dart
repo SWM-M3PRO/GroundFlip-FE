@@ -19,18 +19,22 @@ class StepBarChart extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                  onPressed: () async {
-                    await walkController.loadPreviousWeekSteps();
-                  },
-                  icon: Icon(Icons.arrow_back_ios_new_outlined)),
+                onPressed: () async {
+                  await walkController.loadPreviousWeekSteps();
+                },
+                icon: Icon(Icons.arrow_back_ios_new_outlined),
+              ),
               Obx(() => Text(walkController.getSelectedWeekInfo())),
-              Obx(() => IconButton(
+              Obx(
+                () => IconButton(
                   onPressed: walkController.getIsNextButtonEnabled()
                       ? () {
                           walkController.loadNextWeekSteps();
                         }
                       : null,
-                  icon: Icon(Icons.arrow_forward_ios_outlined))),
+                  icon: Icon(Icons.arrow_forward_ios_outlined),
+                ),
+              ),
             ],
           ),
           AspectRatio(
@@ -38,7 +42,7 @@ class StepBarChart extends StatelessWidget {
             child: Obx(
               () => BarChart(
                 BarChartData(
-                  barTouchData: barTouchData,
+                  barTouchData: getBarTouchData(),
                   titlesData: getTitlesData(walkController.getMaxStep()),
                   borderData: borderData,
                   barGroups: getBarGroups(walkController.getWeeklySteps()),
@@ -135,5 +139,33 @@ class StepBarChart extends StatelessWidget {
       );
     }
     return barChartGroupData;
+  }
+
+  BarTouchData getBarTouchData() {
+    return BarTouchData(
+      touchTooltipData: BarTouchTooltipData(
+        getTooltipColor: (_) => Colors.blueGrey,
+        tooltipHorizontalAlignment: FLHorizontalAlignment.center,
+        tooltipMargin: -10,
+        getTooltipItem: (group, groupIndex, rod, rodIndex) {
+          return BarTooltipItem(
+            (rod.toY - 1).toInt().toString(),
+            const TextStyle(
+              color: Colors.white, //widget.touchedBarColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          );
+        },
+      ),
+      touchCallback: (FlTouchEvent event, barTouchResponse) {
+        if (!event.isInterestedForInteractions ||
+            barTouchResponse == null ||
+            barTouchResponse.spot == null) {
+          return;
+        }
+        final touchedSpot = barTouchResponse.spot;
+      },
+    );
   }
 }
