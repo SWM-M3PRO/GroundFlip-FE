@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../controllers/group_controller.dart';
 import '../widgets/searched_group.dart';
 
 class SearchGroupScreen extends StatelessWidget {
   const SearchGroupScreen({super.key});
 
+
+
   @override
   Widget build(BuildContext context) {
+
+    SearchedGroup searchedGroup = SearchedGroup();
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -39,9 +45,9 @@ class SearchGroupScreen extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.all(10),
               children: [
-                SearchedGroup('홍익대학교'),
-                SearchedGroup('홍익대학교 세종캠'),
-                SearchedGroup('홍익대학교 부속고등학교'),
+                searchedGroup.searchedGroup('홍익대학교'),
+                searchedGroup.searchedGroup('홍익대학교 세종캠'),
+                searchedGroup.searchedGroup('홍익대학교 부속고등학교'),
               ],
             ),
           )
