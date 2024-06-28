@@ -33,8 +33,9 @@ class MapScreen extends StatelessWidget {
               onMapCreated: (GoogleMapController ctrl) {
                 mapController.completer.complete(ctrl);
               },
-              style: mapController.darkMapStyle,
+              style: mapController.mapStyle,
               markers: Set<Marker>.of(mapController.markers),
+              polygons: Set<Polygon>.of(mapController.pixels),
             );
           }
         }),
