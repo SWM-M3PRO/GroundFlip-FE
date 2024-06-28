@@ -6,6 +6,10 @@ import '../utils/dio_service.dart';
 
 class PixelService {
   static final PixelService _instance = PixelService._internal();
+  static const double latitudePerPixel = 0.000724;
+  static const double longitudePerPixel = 0.000909;
+  static const double upperLeftLatitude = 37.666508;
+  static const double upperLeftLongitude = 126.85411700000002;
 
   final Dio dio = DioService().getDio();
 
@@ -32,7 +36,7 @@ class PixelService {
     return IndividualPixel.listFromJson(response.data['data']);
   }
 
-  void occupyPixel({
+  Future<void> occupyPixel({
     required int userId,
     required double currentLatitude,
     required double currentLongitude,
@@ -40,18 +44,19 @@ class PixelService {
   }) async {
     Map<String, int> relativeCoordinate =
         _computeRelativeCoordinateByCoordinate(
-            currentLatitude, currentLongitude);
+            currentLatitude, currentLongitude,);
     PixelRequest pixelRequest = PixelRequest(
         userId: userId,
         x: relativeCoordinate['x']!,
         y: relativeCoordinate['y']!,
-        communityId: communityId);
+        communityId: communityId,);
     await dio.post('/pixels', data: pixelRequest.toJson());
   }
 
   Map<String, int> _computeRelativeCoordinateByCoordinate(
-      double latitude, double longitude) {
-    //ToDo 구현하기
-    return {'x': 1, 'y': 1};
+      double latitude, double longitude,) {
+    int x = ((upperLeftLatitude - latitude) / latitudePerPixel).floor();
+    int y = ((longitude - upperLeftLongitude) / longitudePerPixel).floor();
+    return {'x': x, 'y': y};
   }
 }
