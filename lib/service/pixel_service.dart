@@ -59,4 +59,5 @@ class PixelService {
     int y = ((longitude - upperLeftLongitude) / longitudePerPixel).floor();
     return {'x': x, 'y': y};
   }
+
 }

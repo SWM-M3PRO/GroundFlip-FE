@@ -1,24 +1,31 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
+import '../models/individual_pixel.dart';
 import '../service/pixel_service.dart';
+import '../widgets/pixel.dart';
 
 class MapController extends GetxController {
   final PixelService individualPixelService = PixelService();
 
   static const String darkMapStylePath = 'assets/map_style/dark_map_style.txt';
   static const String userMarkerId = 'USER';
+  static const double latPerPixel = 0.000724;
+  static const double lonPerPixel = 0.000909;
+  static const int defaultUserId = 1;
 
   final Location location = Location();
-  late final String darkMapStyle;
+  late final String mapStyle;
   Completer<GoogleMapController> completer = Completer();
 
   late LocationData currentLocation;
 
+  RxList<Pixel> pixels = <Pixel>[].obs;
   RxList<Marker> markers = <Marker>[].obs;
   RxBool isLoading = true.obs;
 
@@ -27,9 +34,10 @@ class MapController extends GetxController {
     super.onInit();
     await _loadMapStyle();
     await updateCurrentLocation();
+    await _updateIndividualPixel();
     _createUserMarker();
     _trackUserLocation();
-    await individualPixelService.getIndividualPixels(currentLatitude: currentLocation.latitude!, currentLongitude: currentLocation.longitude!);
+    _trackPixels();
   }
 
   void _trackUserLocation() {
@@ -62,11 +70,47 @@ class MapController extends GetxController {
   }
 
   Future<void> _loadMapStyle() async {
-    darkMapStyle = await rootBundle.loadString(darkMapStylePath);
+    mapStyle = await rootBundle.loadString(darkMapStylePath);
   }
 
   void _updateMarkerPosition(LocationData newLocation, String markerId) {
     markers.removeWhere((marker) => marker.markerId.value == markerId);
     _addMarker(LatLng(newLocation.latitude!, newLocation.longitude!), markerId);
+  }
+
+  Future<void> _updateIndividualPixel() async {
+    List<IndividualPixel> individualPixelList = await individualPixelService.getIndividualPixels(
+        currentLatitude: currentLocation.latitude!,
+        currentLongitude: currentLocation.longitude!,
+    );
+
+    pixels = [
+      for(var pixel in individualPixelList)
+        Pixel(
+            x: pixel.x,
+            y: pixel.y,
+            pixelId: pixel.pixelId,
+            polygonId: pixel.pixelId.toString(),
+            points: _getRectangleFromLatLng(topLeftPoint: LatLng(pixel.latitude, pixel.longitude)),
+            fillColor: (pixel.userId == defaultUserId) ? Colors.blue.withOpacity(0.3) : Colors.red.withOpacity(0.3),
+            strokeColor: (pixel.userId == defaultUserId) ? Colors.blue : Colors.red,
+            strokeWidth: 1,
+        ),
+    ].obs;
+  }
+
+  List<LatLng> _getRectangleFromLatLng({required LatLng topLeftPoint}) {
+    return List<LatLng>.of({
+      LatLng(topLeftPoint.latitude, topLeftPoint.longitude),
+      LatLng(topLeftPoint.latitude, topLeftPoint.longitude + lonPerPixel),
+      LatLng(topLeftPoint.latitude - latPerPixel, topLeftPoint.longitude + lonPerPixel),
+      LatLng(topLeftPoint.latitude - latPerPixel, topLeftPoint.longitude),
+    });
+  }
+
+  void _trackPixels() {
+    Timer.periodic(const Duration(seconds: 30), (timer) {
+      _updateIndividualPixel();
+    });
   }
 }
