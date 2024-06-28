@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../models/individual_pixel.dart';
-import '../models/pixel_request.dart';
+import '../models/pixel_occupy_request.dart';
 import '../utils/dio_service.dart';
 
 class PixelService {
@@ -44,17 +44,22 @@ class PixelService {
   }) async {
     Map<String, int> relativeCoordinate =
         _computeRelativeCoordinateByCoordinate(
-            currentLatitude, currentLongitude,);
-    PixelRequest pixelRequest = PixelRequest(
-        userId: userId,
-        x: relativeCoordinate['x']!,
-        y: relativeCoordinate['y']!,
-        communityId: communityId,);
+      currentLatitude,
+      currentLongitude,
+    );
+    PixelOccupyRequest pixelRequest = PixelOccupyRequest(
+      userId: userId,
+      x: relativeCoordinate['x']!,
+      y: relativeCoordinate['y']!,
+      communityId: communityId,
+    );
     await dio.post('/pixels', data: pixelRequest.toJson());
   }
 
   Map<String, int> _computeRelativeCoordinateByCoordinate(
-      double latitude, double longitude,) {
+    double latitude,
+    double longitude,
+  ) {
     int x = ((upperLeftLatitude - latitude) / latitudePerPixel).floor();
     int y = ((longitude - upperLeftLongitude) / longitudePerPixel).floor();
     return {'x': x, 'y': y};

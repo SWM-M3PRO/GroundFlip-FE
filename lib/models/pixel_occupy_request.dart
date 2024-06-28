@@ -1,10 +1,10 @@
-class PixelRequest {
+class PixelOccupyRequest {
   final int userId;
   final int? communityId;
   final int x;
   final int y;
 
-  PixelRequest({
+  PixelOccupyRequest({
     required this.userId,
     this.communityId,
     required this.x,
