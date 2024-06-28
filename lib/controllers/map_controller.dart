@@ -109,6 +109,8 @@ class MapController extends GetxController {
   }
 
   void _trackPixels() {
-
+    Timer.periodic(const Duration(seconds: 30), (timer) {
+      _updateIndividualPixel();
+    });
   }
 }
