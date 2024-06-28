@@ -34,7 +34,7 @@ class MapController extends GetxController {
     super.onInit();
     await _loadMapStyle();
     await updateCurrentLocation();
-    await _createIndividualPixel();
+    await _updateIndividualPixel();
     _createUserMarker();
     _trackUserLocation();
     _trackPixels();
@@ -78,7 +78,7 @@ class MapController extends GetxController {
     _addMarker(LatLng(newLocation.latitude!, newLocation.longitude!), markerId);
   }
 
-  Future<void> _createIndividualPixel() async {
+  Future<void> _updateIndividualPixel() async {
     List<IndividualPixel> individualPixelList = await individualPixelService.getIndividualPixels(
         currentLatitude: currentLocation.latitude!,
         currentLongitude: currentLocation.longitude!,
