@@ -28,7 +28,7 @@ class IndividualPixelService {
         'radius': radius,
       },
     );
-    print(response);
+
     return IndividualPixel.listFromJson(response.data['data']);
   }
 }

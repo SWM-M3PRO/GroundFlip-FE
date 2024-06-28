@@ -29,9 +29,7 @@ class MapController extends GetxController {
     await updateCurrentLocation();
     _createUserMarker();
     _trackUserLocation();
-    print('-------------http 요청-----------');
     await individualPixelService.getIndividualPixels(currentLatitude: currentLocation.latitude!, currentLongitude: currentLocation.longitude!);
-    print('-------------http 요청-----------');
   }
 
   void _trackUserLocation() {
@@ -71,6 +69,4 @@ class MapController extends GetxController {
     markers.removeWhere((marker) => marker.markerId.value == markerId);
     _addMarker(LatLng(newLocation.latitude!, newLocation.longitude!), markerId);
   }
-
-
 }
