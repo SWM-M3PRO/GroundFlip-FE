@@ -3,15 +3,15 @@ import 'package:dio/dio.dart';
 import '../models/individual_pixel.dart';
 import '../utils/dio_service.dart';
 
-class IndividualPixelService {
-  static final IndividualPixelService _instance =
-      IndividualPixelService._internal();
+class PixelService {
+  static final PixelService _instance =
+      PixelService._internal();
 
   final Dio dio = DioService().getDio();
 
-  IndividualPixelService._internal();
+  PixelService._internal();
 
-  factory IndividualPixelService() {
+  factory PixelService() {
     return _instance;
   }
 

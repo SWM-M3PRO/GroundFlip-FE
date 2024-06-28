@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
-import '../service/individual_pixel_service.dart';
+import '../service/pixel_service.dart';
 
 class MapController extends GetxController {
-  final IndividualPixelService individualPixelService = IndividualPixelService();
+  final PixelService individualPixelService = PixelService();
 
   static const String darkMapStylePath = 'assets/map_style/dark_map_style.txt';
   static const String userMarkerId = 'USER';
