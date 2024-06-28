@@ -20,7 +20,7 @@ class MapController extends GetxController {
   static const int defaultUserId = 1;
 
   final Location location = Location();
-  late final String darkMapStyle;
+  late final String mapStyle;
   Completer<GoogleMapController> completer = Completer();
 
   late LocationData currentLocation;
@@ -70,7 +70,7 @@ class MapController extends GetxController {
   }
 
   Future<void> _loadMapStyle() async {
-    darkMapStyle = await rootBundle.loadString(darkMapStylePath);
+    mapStyle = await rootBundle.loadString(darkMapStylePath);
   }
 
   void _updateMarkerPosition(LocationData newLocation, String markerId) {
