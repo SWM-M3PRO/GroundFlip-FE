@@ -35,6 +35,7 @@ class MapScreen extends StatelessWidget {
               },
               style: mapController.darkMapStyle,
               markers: Set<Marker>.of(mapController.markers),
+              polygons: Set<Polygon>.of(mapController.pixels),
             );
           }
         }),
