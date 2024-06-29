@@ -26,6 +26,7 @@ class MapController extends GetxController {
   Completer<GoogleMapController> completer = Completer();
 
   late LocationData currentLocation;
+  late Map<String, int> latestPixel;
   PixelMode pixelMode = PixelMode.individualHistory;
 
   RxList<Pixel> pixels = <Pixel>[].obs;
@@ -37,6 +38,9 @@ class MapController extends GetxController {
     super.onInit();
     await _loadMapStyle();
     await updateCurrentLocation();
+    _updateLatestPixel();
+    await occupyPixel();
+    await _updateIndividualPixel();
     await _updateIndividualHistoryPixels();
     _createUserMarker();
     _trackUserLocation();
@@ -44,8 +48,12 @@ class MapController extends GetxController {
   }
 
   void _trackUserLocation() {
-    location.onLocationChanged.listen((newLocation) {
+    location.onLocationChanged.listen((newLocation) async {
       currentLocation = newLocation;
+      if (isPixelChanged()) {
+        _updateLatestPixel();
+        await occupyPixel();
+      }
       _updateMarkerPosition(newLocation, userMarkerId);
     });
   }
@@ -60,8 +68,16 @@ class MapController extends GetxController {
     }
   }
 
+  void _updateLatestPixel() {
+    latestPixel = pixelService.computeRelativeCoordinateByCoordinate(
+      currentLocation.latitude!,
+      currentLocation.longitude!,
+    );
+  }
+
   void _createUserMarker() {
-    _addMarker(LatLng(currentLocation.latitude!, currentLocation.longitude!), userMarkerId);
+    _addMarker(LatLng(currentLocation.latitude!, currentLocation.longitude!),
+        userMarkerId,);
   }
 
   void _addMarker(LatLng position, String markerId) {
@@ -119,5 +135,22 @@ class MapController extends GetxController {
           break;
       }
     });
+  }
+
+  Future<void> occupyPixel() async {
+    await pixelService.occupyPixel(
+      userId: defaultUserId,
+      currentLatitude: currentLocation.latitude!,
+      currentLongitude: currentLocation.longitude!,
+    );
+    await _updateIndividualPixel();
+  }
+
+  isPixelChanged() {
+    Map<String, int> currentPixel =
+        pixelService.computeRelativeCoordinateByCoordinate(
+            currentLocation.latitude!, currentLocation.longitude!,);
+    return latestPixel['x'] != currentPixel['x'] ||
+        latestPixel['y'] != currentPixel['y'];
   }
 }
