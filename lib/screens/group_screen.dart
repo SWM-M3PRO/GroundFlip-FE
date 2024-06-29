@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'search_group_screen.dart';
 
@@ -15,11 +16,7 @@ class GroupScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SearchGroupScreen(),),
-                );
+                Get.to(()=> SearchGroupScreen());
               },
               child: const Text('그룹검색'),
             ),
