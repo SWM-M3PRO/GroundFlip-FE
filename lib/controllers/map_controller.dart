@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 import '../enum/pixel_mode.dart';
+import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
 import '../service/pixel_service.dart';
 import '../widgets/pixel.dart';
@@ -81,13 +82,14 @@ class MapController extends GetxController {
   }
 
   Future<void> _updateIndividualHistoryPixels() async {
-    List<IndividualModePixel> individualModePixelList = await individualPixelService.getIndividualModePixels(
+    List<IndividualHistoryPixel> individualHistoryPixels = await individualPixelService.getIndividualHistoryPixels(
         currentLatitude: currentLocation.latitude!,
         currentLongitude: currentLocation.longitude!,
+        userId: defaultUserId,
     );
 
     pixels = [
-      for(var pixel in individualModePixelList)
+      for(var pixel in individualHistoryPixels)
         Pixel(
             x: pixel.x,
             y: pixel.y,
