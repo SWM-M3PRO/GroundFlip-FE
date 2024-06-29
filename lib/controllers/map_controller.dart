@@ -24,6 +24,7 @@ class MapController extends GetxController {
   Completer<GoogleMapController> completer = Completer();
 
   late LocationData currentLocation;
+  late Map<String, int> latestPixel;
 
   RxList<Pixel> pixels = <Pixel>[].obs;
   RxList<Marker> markers = <Marker>[].obs;
@@ -34,6 +35,7 @@ class MapController extends GetxController {
     super.onInit();
     await _loadMapStyle();
     await updateCurrentLocation();
+    _updateLatestPixel();
     await occupyPixel();
     await _updateIndividualPixel();
     _createUserMarker();
@@ -42,8 +44,12 @@ class MapController extends GetxController {
   }
 
   void _trackUserLocation() {
-    location.onLocationChanged.listen((newLocation) {
+    location.onLocationChanged.listen((newLocation) async {
       currentLocation = newLocation;
+      if (isPixelChanged()) {
+        _updateLatestPixel();
+        await occupyPixel();
+      }
       _updateMarkerPosition(newLocation, userMarkerId);
     });
   }
@@ -56,6 +62,13 @@ class MapController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  void _updateLatestPixel() {
+    latestPixel = pixelService.computeRelativeCoordinateByCoordinate(
+      currentLocation.latitude!,
+      currentLocation.longitude!,
+    );
   }
 
   void _createUserMarker() {
@@ -128,5 +141,14 @@ class MapController extends GetxController {
       currentLatitude: currentLocation.latitude!,
       currentLongitude: currentLocation.longitude!,
     );
+    await _updateIndividualPixel();
+  }
+
+  isPixelChanged() {
+    Map<String, int> currentPixel =
+        pixelService.computeRelativeCoordinateByCoordinate(
+            currentLocation.latitude!, currentLocation.longitude!);
+    return latestPixel['x'] != currentPixel['x'] ||
+        latestPixel['y'] != currentPixel['y'];
   }
 }
