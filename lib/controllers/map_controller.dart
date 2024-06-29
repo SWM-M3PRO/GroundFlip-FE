@@ -11,7 +11,7 @@ import '../service/pixel_service.dart';
 import '../widgets/pixel.dart';
 
 class MapController extends GetxController {
-  final PixelService individualPixelService = PixelService();
+  final PixelService pixelService = PixelService();
 
   static const String darkMapStylePath = 'assets/map_style/dark_map_style.txt';
   static const String userMarkerId = 'USER';
@@ -34,6 +34,7 @@ class MapController extends GetxController {
     super.onInit();
     await _loadMapStyle();
     await updateCurrentLocation();
+    await occupyPixel();
     await _updateIndividualPixel();
     _createUserMarker();
     _trackUserLocation();
@@ -58,7 +59,8 @@ class MapController extends GetxController {
   }
 
   void _createUserMarker() {
-    _addMarker(LatLng(currentLocation.latitude!, currentLocation.longitude!), userMarkerId);
+    _addMarker(LatLng(currentLocation.latitude!, currentLocation.longitude!),
+        userMarkerId);
   }
 
   void _addMarker(LatLng position, String markerId) {
@@ -79,22 +81,27 @@ class MapController extends GetxController {
   }
 
   Future<void> _updateIndividualPixel() async {
-    List<IndividualPixel> individualPixelList = await individualPixelService.getIndividualPixels(
-        currentLatitude: currentLocation.latitude!,
-        currentLongitude: currentLocation.longitude!,
+    List<IndividualPixel> individualPixelList =
+        await pixelService.getIndividualPixels(
+      currentLatitude: currentLocation.latitude!,
+      currentLongitude: currentLocation.longitude!,
     );
 
     pixels = [
-      for(var pixel in individualPixelList)
+      for (var pixel in individualPixelList)
         Pixel(
-            x: pixel.x,
-            y: pixel.y,
-            pixelId: pixel.pixelId,
-            polygonId: pixel.pixelId.toString(),
-            points: _getRectangleFromLatLng(topLeftPoint: LatLng(pixel.latitude, pixel.longitude)),
-            fillColor: (pixel.userId == defaultUserId) ? Colors.blue.withOpacity(0.3) : Colors.red.withOpacity(0.3),
-            strokeColor: (pixel.userId == defaultUserId) ? Colors.blue : Colors.red,
-            strokeWidth: 1,
+          x: pixel.x,
+          y: pixel.y,
+          pixelId: pixel.pixelId,
+          polygonId: pixel.pixelId.toString(),
+          points: _getRectangleFromLatLng(
+              topLeftPoint: LatLng(pixel.latitude, pixel.longitude)),
+          fillColor: (pixel.userId == defaultUserId)
+              ? Colors.blue.withOpacity(0.3)
+              : Colors.red.withOpacity(0.3),
+          strokeColor:
+              (pixel.userId == defaultUserId) ? Colors.blue : Colors.red,
+          strokeWidth: 1,
         ),
     ].obs;
   }
@@ -103,7 +110,8 @@ class MapController extends GetxController {
     return List<LatLng>.of({
       LatLng(topLeftPoint.latitude, topLeftPoint.longitude),
       LatLng(topLeftPoint.latitude, topLeftPoint.longitude + lonPerPixel),
-      LatLng(topLeftPoint.latitude - latPerPixel, topLeftPoint.longitude + lonPerPixel),
+      LatLng(topLeftPoint.latitude - latPerPixel,
+          topLeftPoint.longitude + lonPerPixel),
       LatLng(topLeftPoint.latitude - latPerPixel, topLeftPoint.longitude),
     });
   }
@@ -112,5 +120,13 @@ class MapController extends GetxController {
     Timer.periodic(const Duration(seconds: 30), (timer) {
       _updateIndividualPixel();
     });
+  }
+
+  Future<void> occupyPixel() async {
+    await pixelService.occupyPixel(
+      userId: defaultUserId,
+      currentLatitude: currentLocation.latitude!,
+      currentLongitude: currentLocation.longitude!,
+    );
   }
 }
