@@ -42,8 +42,7 @@ class PixelService {
     required double currentLongitude,
     int? communityId,
   }) async {
-    Map<String, int> relativeCoordinate =
-        _computeRelativeCoordinateByCoordinate(
+    Map<String, int> relativeCoordinate = computeRelativeCoordinateByCoordinate(
       currentLatitude,
       currentLongitude,
     );
@@ -56,7 +55,7 @@ class PixelService {
     await dio.post('/pixels', data: pixelRequest.toJson());
   }
 
-  Map<String, int> _computeRelativeCoordinateByCoordinate(
+  Map<String, int> computeRelativeCoordinateByCoordinate(
     double latitude,
     double longitude,
   ) {
@@ -64,5 +63,4 @@ class PixelService {
     int y = ((longitude - upperLeftLongitude) / longitudePerPixel).floor();
     return {'x': x, 'y': y};
   }
-
 }
