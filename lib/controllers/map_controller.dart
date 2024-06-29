@@ -106,15 +106,6 @@ class MapController extends GetxController {
     ].obs;
   }
 
-  List<LatLng> _getRectangleFromLatLng({required LatLng topLeftPoint}) {
-    return List<LatLng>.of({
-      LatLng(topLeftPoint.latitude, topLeftPoint.longitude),
-      LatLng(topLeftPoint.latitude, topLeftPoint.longitude + lonPerPixel),
-      LatLng(topLeftPoint.latitude - latPerPixel, topLeftPoint.longitude + lonPerPixel),
-      LatLng(topLeftPoint.latitude - latPerPixel, topLeftPoint.longitude),
-    });
-  }
-
   void _trackPixels() {
     Timer.periodic(const Duration(seconds: 30), (timer) {
       switch (pixelMode) {
