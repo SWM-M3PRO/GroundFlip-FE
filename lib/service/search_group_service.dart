@@ -14,8 +14,9 @@ class SearchGroupService {
 
   final Dio dio = DioService().getDio();
 
-  Future<List<SearchGroupResult>> getSearchGroups(
-      {required String searchKeyword}) async {
+  Future<List<SearchGroupResult>> getSearchGroups({
+    required String searchKeyword,
+  }) async {
     var response = await dio.get(
       '/groups',
       queryParameters: {'searchKeyword': searchKeyword},

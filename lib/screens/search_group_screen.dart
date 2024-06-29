@@ -27,7 +27,8 @@ class SearchGroupScreen extends StatelessWidget {
                   onSubmitted: (value) {
                     if (groupSearchController.searchController.text != '') {
                       groupSearchController.getSearchedGroup(
-                          groupSearchController.searchController.text);
+                        groupSearchController.searchController.text,
+                      );
                     }
                   },
                   controller: groupSearchController.searchController,
@@ -71,7 +72,7 @@ class SearchGroupScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return ListTile(
                           title: Text(
-                              groupSearchController.searchResult[index].name),
+                              groupSearchController.searchResult[index].name,),
                         );
                       },
                     );
