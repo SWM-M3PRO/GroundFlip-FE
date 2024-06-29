@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
+import '../enum/pixel_mode.dart';
 import '../models/individual_mode_pixel.dart';
 import '../service/pixel_service.dart';
 import '../widgets/pixel.dart';
@@ -24,6 +25,7 @@ class MapController extends GetxController {
   Completer<GoogleMapController> completer = Completer();
 
   late LocationData currentLocation;
+  PixelMode pixelMode = PixelMode.individualHistory;
 
   RxList<Pixel> pixels = <Pixel>[].obs;
   RxList<Marker> markers = <Marker>[].obs;
@@ -34,7 +36,7 @@ class MapController extends GetxController {
     super.onInit();
     await _loadMapStyle();
     await updateCurrentLocation();
-    await _updateIndividualPixel();
+    await _updateIndividualHistoryPixels();
     _createUserMarker();
     _trackUserLocation();
     _trackPixels();
@@ -78,7 +80,7 @@ class MapController extends GetxController {
     _addMarker(LatLng(newLocation.latitude!, newLocation.longitude!), markerId);
   }
 
-  Future<void> _updateIndividualPixel() async {
+  Future<void> _updateIndividualHistoryPixels() async {
     List<IndividualModePixel> individualModePixelList = await individualPixelService.getIndividualModePixels(
         currentLatitude: currentLocation.latitude!,
         currentLongitude: currentLocation.longitude!,
@@ -92,9 +94,30 @@ class MapController extends GetxController {
             pixelId: pixel.pixelId,
             polygonId: pixel.pixelId.toString(),
             points: _getRectangleFromLatLng(topLeftPoint: LatLng(pixel.latitude, pixel.longitude)),
-            fillColor: (pixel.userId == defaultUserId) ? Colors.blue.withOpacity(0.3) : Colors.red.withOpacity(0.3),
-            strokeColor: (pixel.userId == defaultUserId) ? Colors.blue : Colors.red,
+            fillColor: Colors.blue.withOpacity(0.3),
+            strokeColor: Colors.blue,
             strokeWidth: 1,
+        ),
+    ].obs;
+  }
+
+  Future<void> _updateIndividualModePixel() async {
+    List<IndividualModePixel> individualModePixelList = await individualPixelService.getIndividualModePixels(
+      currentLatitude: currentLocation.latitude!,
+      currentLongitude: currentLocation.longitude!,
+    );
+
+    pixels = [
+      for(var pixel in individualModePixelList)
+        Pixel(
+          x: pixel.x,
+          y: pixel.y,
+          pixelId: pixel.pixelId,
+          polygonId: pixel.pixelId.toString(),
+          points: _getRectangleFromLatLng(topLeftPoint: LatLng(pixel.latitude, pixel.longitude)),
+          fillColor: (pixel.userId == defaultUserId) ? Colors.blue.withOpacity(0.3) : Colors.red.withOpacity(0.3),
+          strokeColor: (pixel.userId == defaultUserId) ? Colors.blue : Colors.red,
+          strokeWidth: 1,
         ),
     ].obs;
   }
@@ -110,7 +133,16 @@ class MapController extends GetxController {
 
   void _trackPixels() {
     Timer.periodic(const Duration(seconds: 30), (timer) {
-      _updateIndividualPixel();
+      switch (pixelMode) {
+        case PixelMode.individualMode:
+          _updateIndividualModePixel();
+          break;
+        case PixelMode.individualHistory:
+          _updateIndividualHistoryPixels();
+          break;
+        case PixelMode.groupMode:
+          break;
+      }
     });
   }
 }
