@@ -90,16 +90,7 @@ class MapController extends GetxController {
 
     pixels = [
       for(var pixel in individualHistoryPixels)
-        Pixel(
-            x: pixel.x,
-            y: pixel.y,
-            pixelId: pixel.pixelId,
-            polygonId: pixel.pixelId.toString(),
-            points: _getRectangleFromLatLng(topLeftPoint: LatLng(pixel.latitude, pixel.longitude)),
-            fillColor: Colors.blue.withOpacity(0.3),
-            strokeColor: Colors.blue,
-            strokeWidth: 1,
-        ),
+        Pixel.fromIndividualHistoryPixel(pixel: pixel),
     ].obs;
   }
 
@@ -111,16 +102,7 @@ class MapController extends GetxController {
 
     pixels = [
       for(var pixel in individualModePixels)
-        Pixel(
-          x: pixel.x,
-          y: pixel.y,
-          pixelId: pixel.pixelId,
-          polygonId: pixel.pixelId.toString(),
-          points: _getRectangleFromLatLng(topLeftPoint: LatLng(pixel.latitude, pixel.longitude)),
-          fillColor: (pixel.userId == defaultUserId) ? Colors.blue.withOpacity(0.3) : Colors.red.withOpacity(0.3),
-          strokeColor: (pixel.userId == defaultUserId) ? Colors.blue : Colors.red,
-          strokeWidth: 1,
-        ),
+        Pixel.fromIndividualModePixel(pixel: pixel, isMyPixel: (pixel.userId == defaultUserId)),
     ].obs;
   }
 
