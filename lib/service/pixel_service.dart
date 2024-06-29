@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../models/individual_pixel.dart';
+import '../models/individual_mode_pixel.dart';
 import '../models/pixel_occupy_request.dart';
 import '../utils/dio_service.dart';
 
@@ -19,7 +19,7 @@ class PixelService {
     return _instance;
   }
 
-  Future<List<IndividualPixel>> getIndividualPixels({
+  Future<List<IndividualModePixel>> getIndividualPixels({
     required double currentLatitude,
     required double currentLongitude,
     int radius = 1000,
@@ -33,7 +33,7 @@ class PixelService {
       },
     );
 
-    return IndividualPixel.listFromJson(response.data['data']);
+    return IndividualModePixel.listFromJson(response.data['data']);
   }
 
   Future<void> occupyPixel({

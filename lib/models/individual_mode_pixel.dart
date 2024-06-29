@@ -1,4 +1,4 @@
-class IndividualPixel {
+class IndividualModePixel {
   final int pixelId;
   final double latitude;
   final double longitude;
@@ -6,7 +6,7 @@ class IndividualPixel {
   final int x;
   final int y;
 
-  IndividualPixel({
+  IndividualModePixel({
       required this.pixelId,
       required this.latitude,
       required this.longitude,
@@ -15,7 +15,7 @@ class IndividualPixel {
       required this.y,
   });
 
-  factory IndividualPixel.fromJson(Map<String, dynamic> json) {
+  factory IndividualModePixel.fromJson(Map<String, dynamic> json) {
       return switch (json) {
         {
           'pixelId' : var pixelId,
@@ -25,7 +25,7 @@ class IndividualPixel {
           'x' : var x,
           'y' : var y,
       } =>
-            IndividualPixel(
+            IndividualModePixel(
                 pixelId: pixelId,
                 latitude: latitude,
                 longitude: longitude,
@@ -36,10 +36,10 @@ class IndividualPixel {
       };
   }
 
-  static List<IndividualPixel> listFromJson(List<dynamic> jsonList) {
+  static List<IndividualModePixel> listFromJson(List<dynamic> jsonList) {
     return [
       for(var element in jsonList)
-        IndividualPixel.fromJson(element),
+        IndividualModePixel.fromJson(element),
     ];
   }
 }
