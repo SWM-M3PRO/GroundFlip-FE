@@ -73,7 +73,7 @@ class MapController extends GetxController {
 
   void _createUserMarker() {
     _addMarker(LatLng(currentLocation.latitude!, currentLocation.longitude!),
-        userMarkerId);
+        userMarkerId,);
   }
 
   void _addMarker(LatLng position, String markerId) {
@@ -108,7 +108,7 @@ class MapController extends GetxController {
           pixelId: pixel.pixelId,
           polygonId: pixel.pixelId.toString(),
           points: _getRectangleFromLatLng(
-              topLeftPoint: LatLng(pixel.latitude, pixel.longitude)),
+              topLeftPoint: LatLng(pixel.latitude, pixel.longitude),),
           fillColor: (pixel.userId == defaultUserId)
               ? Colors.blue.withOpacity(0.3)
               : Colors.red.withOpacity(0.3),
@@ -124,7 +124,7 @@ class MapController extends GetxController {
       LatLng(topLeftPoint.latitude, topLeftPoint.longitude),
       LatLng(topLeftPoint.latitude, topLeftPoint.longitude + lonPerPixel),
       LatLng(topLeftPoint.latitude - latPerPixel,
-          topLeftPoint.longitude + lonPerPixel),
+          topLeftPoint.longitude + lonPerPixel,),
       LatLng(topLeftPoint.latitude - latPerPixel, topLeftPoint.longitude),
     });
   }
@@ -147,7 +147,7 @@ class MapController extends GetxController {
   isPixelChanged() {
     Map<String, int> currentPixel =
         pixelService.computeRelativeCoordinateByCoordinate(
-            currentLocation.latitude!, currentLocation.longitude!);
+            currentLocation.latitude!, currentLocation.longitude!,);
     return latestPixel['x'] != currentPixel['x'] ||
         latestPixel['y'] != currentPixel['y'];
   }
