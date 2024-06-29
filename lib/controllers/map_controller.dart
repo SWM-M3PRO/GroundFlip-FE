@@ -79,13 +79,13 @@ class MapController extends GetxController {
   }
 
   Future<void> _updateIndividualPixel() async {
-    List<IndividualModePixel> individualPixelList = await individualPixelService.getIndividualPixels(
+    List<IndividualModePixel> individualModePixelList = await individualPixelService.getIndividualModePixels(
         currentLatitude: currentLocation.latitude!,
         currentLongitude: currentLocation.longitude!,
     );
 
     pixels = [
-      for(var pixel in individualPixelList)
+      for(var pixel in individualModePixelList)
         Pixel(
             x: pixel.x,
             y: pixel.y,
