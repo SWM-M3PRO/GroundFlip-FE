@@ -13,13 +13,13 @@ import '../service/pixel_service.dart';
 import '../widgets/pixel.dart';
 
 class MapController extends GetxController {
-  final PixelService individualPixelService = PixelService();
+  final PixelService pixelService = PixelService();
 
   static const String darkMapStylePath = 'assets/map_style/dark_map_style.txt';
   static const String userMarkerId = 'USER';
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
-  static const int defaultUserId = 1;
+  static const int defaultUserId = 2;
 
   final Location location = Location();
   late final String mapStyle;
@@ -40,8 +40,7 @@ class MapController extends GetxController {
     await updateCurrentLocation();
     _updateLatestPixel();
     await occupyPixel();
-    await _updateIndividualPixel();
-    await _updateIndividualHistoryPixels();
+    _updatePixels();
     _createUserMarker();
     _trackUserLocation();
     _trackPixels();
@@ -98,7 +97,7 @@ class MapController extends GetxController {
   }
 
   Future<void> _updateIndividualHistoryPixels() async {
-    List<IndividualHistoryPixel> individualHistoryPixels = await individualPixelService.getIndividualHistoryPixels(
+    List<IndividualHistoryPixel> individualHistoryPixels = await pixelService.getIndividualHistoryPixels(
         currentLatitude: currentLocation.latitude!,
         currentLongitude: currentLocation.longitude!,
         userId: defaultUserId,
@@ -111,7 +110,7 @@ class MapController extends GetxController {
   }
 
   Future<void> _updateIndividualModePixel() async {
-    List<IndividualModePixel> individualModePixels = await individualPixelService.getIndividualModePixels(
+    List<IndividualModePixel> individualModePixels = await pixelService.getIndividualModePixels(
       currentLatitude: currentLocation.latitude!,
       currentLongitude: currentLocation.longitude!,
     );
@@ -124,17 +123,21 @@ class MapController extends GetxController {
 
   void _trackPixels() {
     Timer.periodic(const Duration(seconds: 30), (timer) {
-      switch (pixelMode) {
-        case PixelMode.individualMode:
-          _updateIndividualModePixel();
-          break;
-        case PixelMode.individualHistory:
-          _updateIndividualHistoryPixels();
-          break;
-        case PixelMode.groupMode:
-          break;
-      }
+      _updatePixels();
     });
+  }
+
+  void _updatePixels() {
+    switch (pixelMode) {
+      case PixelMode.individualMode:
+        _updateIndividualModePixel();
+        break;
+      case PixelMode.individualHistory:
+        _updateIndividualHistoryPixels();
+        break;
+      case PixelMode.groupMode:
+        break;
+    }
   }
 
   Future<void> occupyPixel() async {
@@ -143,7 +146,7 @@ class MapController extends GetxController {
       currentLatitude: currentLocation.latitude!,
       currentLongitude: currentLocation.longitude!,
     );
-    await _updateIndividualPixel();
+    _updatePixels();
   }
 
   isPixelChanged() {
