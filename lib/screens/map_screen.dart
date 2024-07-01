@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../controllers/map_controller.dart';
-import '../controllers/my_page_controller.dart';
 import '../controllers/permission_controller.dart';
+import '../controllers/walking_controller.dart';
 import '../widgets/map/step_stats.dart';
 
 class MapScreen extends StatelessWidget {
@@ -14,7 +14,7 @@ class MapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(PermissionController());
     final MapController mapController = Get.put(MapController());
-    Get.put(MyPageController());
+    Get.put(WalkingController());
 
     return Scaffold(
       body: Obx(() {

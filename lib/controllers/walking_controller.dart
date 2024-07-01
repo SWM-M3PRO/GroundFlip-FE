@@ -6,7 +6,7 @@ import '../utils/date_utils.dart';
 import '../utils/walking_service.dart';
 import '../utils/walking_service_factory.dart';
 
-class MyPageController extends GetxController {
+class WalkingController extends GetxController {
   final RxInt currentStep = 0.obs;
   final RxList<int> selectedWeeklySteps = <int>[0, 0, 0, 0, 0, 0, 0].obs;
   final RxString selectedWeekInfo = "".obs;
