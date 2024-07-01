@@ -24,10 +24,11 @@ class StepStats extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
               decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(20.0)),
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(20.0),
+              ),
               child: Text(
-                '140 kcal | ${walkController.getCurrentTravelDistance()}km',
+                '${walkController.getCurrentCalorie()} kcal | ${walkController.getCurrentTravelDistance()}km',
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),

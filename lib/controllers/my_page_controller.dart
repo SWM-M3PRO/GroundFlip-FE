@@ -15,6 +15,7 @@ class MyPageController extends GetxController {
 
   static double averageStride = 0.6;
   static int metersPerKilometer = 1000;
+  static double averageCalorie = 0.04;
 
   @override
   void onInit() {
@@ -71,6 +72,12 @@ class MyPageController extends GetxController {
         (currentStep.value * averageStride) / metersPerKilometer;
 
     return currentTravelDistance.toStringAsFixed(2);
+  }
+
+  getCurrentCalorie() {
+    var calorie = currentStep.value * averageCalorie;
+
+    return calorie.toStringAsFixed(0);
   }
 
   getIsNextButtonEnabled() {
