@@ -14,7 +14,7 @@ class MapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(PermissionController());
     final MapController mapController = Get.put(MapController());
-    final MyPageController walkController = Get.put(MyPageController());
+    Get.put(MyPageController());
 
     return Scaffold(
       body: Obx(() {
