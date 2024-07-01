@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../controllers/my_page_controller.dart';
 import '../widgets/step_bar_chart.dart';
+import '../widgets/step_stats.dart';
 
 class MyPageScreen extends StatelessWidget {
   const MyPageScreen({super.key});
@@ -22,6 +23,7 @@ class MyPageScreen extends StatelessWidget {
           child: const Text('업데이트'),
         ),
         StepBarChart(),
+        StepStats()
       ],
     );
   }

@@ -13,6 +13,9 @@ class MyPageController extends GetxController {
   late DateTime selectedWeekEndDate;
   late WalkingService walkingService;
 
+  static double averageStride = 0.6;
+  static int metersPerKilometer = 1000;
+
   @override
   void onInit() {
     super.onInit();
@@ -61,6 +64,13 @@ class MyPageController extends GetxController {
 
   String getSelectedWeekInfo() {
     return selectedWeekInfo.value;
+  }
+
+  getCurrentTravelDistance() {
+    var currentTravelDistance =
+        (currentStep.value * averageStride) / metersPerKilometer;
+
+    return currentTravelDistance.toStringAsFixed(2);
   }
 
   getIsNextButtonEnabled() {
