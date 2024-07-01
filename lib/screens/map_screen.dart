@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../controllers/map_controller.dart';
+import '../controllers/my_page_controller.dart';
 import '../controllers/permission_controller.dart';
+import '../widgets/step_stats.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -12,6 +14,7 @@ class MapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(PermissionController());
     final MapController mapController = Get.put(MapController());
+    final MyPageController walkController = Get.put(MyPageController());
 
     return Scaffold(
       body: Obx(() {
@@ -43,7 +46,10 @@ class MapScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 16.0, top: 60.0, ),
+                  padding: const EdgeInsets.only(
+                    right: 16.0,
+                    top: 60.0,
+                  ),
                   child: Container(
                     width: 100.0,
                     decoration: BoxDecoration(
@@ -57,14 +63,14 @@ class MapScreen extends StatelessWidget {
                       child: DropdownButton<String>(
                         isExpanded: true,
                         value: '개인전',
-                        onChanged: (String? newValue) {
-                        },
+                        onChanged: (String? newValue) {},
                         items: <String>['개인전', '그룹전', '개인 기록']
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Center(
-                              child: Text(value,
+                              child: Text(
+                                value,
                                 style: TextStyle(
                                   color: Colors.blue,
                                 ),
@@ -77,6 +83,19 @@ class MapScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
+              Column(
+                children: [
+                  const Expanded(
+                    child: Center(
+                      child: null,
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 32),
+                    child: StepStats(),
+                  ),
+                ],
               ),
             ],
           );
