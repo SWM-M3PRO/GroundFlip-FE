@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../controllers/map_controller.dart';
 import '../controllers/my_page_controller.dart';
 import '../controllers/permission_controller.dart';
-import '../widgets/step_stats.dart';
+import '../widgets/map/step_stats.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});

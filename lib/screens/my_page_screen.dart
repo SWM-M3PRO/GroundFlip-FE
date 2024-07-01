@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/my_page_controller.dart';
-import '../widgets/step_bar_chart.dart';
-import '../widgets/step_stats.dart';
+import '../widgets/map/step_stats.dart';
+import '../widgets/my_page/step_bar_chart.dart';
 
 class MyPageScreen extends StatelessWidget {
   const MyPageScreen({super.key});

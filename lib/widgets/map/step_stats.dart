@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/my_page_controller.dart';
+import '../../controllers/my_page_controller.dart';
 
 class StepStats extends StatelessWidget {
   const StepStats({super.key});

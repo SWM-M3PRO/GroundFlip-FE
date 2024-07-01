@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/my_page_controller.dart';
+import '../../controllers/my_page_controller.dart';
 
 class StepBarChart extends StatelessWidget {
   StepBarChart({super.key});

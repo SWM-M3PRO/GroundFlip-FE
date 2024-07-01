@@ -5,7 +5,7 @@ import '../screens/group_screen.dart';
 import '../screens/map_screen.dart';
 import '../screens/my_page_screen.dart';
 import '../screens/ranking_screen.dart';
-import '../widgets/app_bar.dart';
+import '../widgets/common/app_bar.dart';
 
 class NavigationController extends GetxController {
   final RxInt selectedIndex = 0.obs;
