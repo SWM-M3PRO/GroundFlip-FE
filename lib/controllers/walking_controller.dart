@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 
 import '../utils/date_utils.dart';
@@ -23,6 +25,10 @@ class MyPageController extends GetxController {
     walkingService = WalkingServiceFactory.getWalkingService();
     _initializeWeeklySteps();
     _initializeCurrentStep();
+
+    Timer.periodic(Duration(seconds: 30), (timer) {
+      updateCurrentStep();
+    });
   }
 
   void _initializeCurrentStep() async {
