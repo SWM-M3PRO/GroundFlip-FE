@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/map_controller.dart';
-import '../../enum/pixel_mode.dart';
+import '../../enums/pixel_mode.dart';
 
 class ModeChangeButton extends StatelessWidget {
   const ModeChangeButton({super.key});

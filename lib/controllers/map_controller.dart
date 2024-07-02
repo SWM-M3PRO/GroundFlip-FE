@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
-import '../enum/pixel_mode.dart';
+import '../enums/pixel_mode.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
 import '../service/pixel_service.dart';

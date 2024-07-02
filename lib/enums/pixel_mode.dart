@@ -9,6 +9,7 @@ enum PixelMode {
 
   static PixelMode fromKrName(String krName) {
     return PixelMode.values.firstWhere((mode) => mode.krName == krName,
-        orElse: () => throw ArgumentError('No enum value with krName $krName'));
+        orElse: () => throw ArgumentError('No enum value with krName $krName'),
+    );
   }
 }
