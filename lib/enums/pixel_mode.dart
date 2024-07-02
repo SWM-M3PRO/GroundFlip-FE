@@ -1,14 +1,14 @@
 enum PixelMode {
-  individualMode(krName : '개인전'),
-  individualHistory(krName : '개인 기록'),
-  groupMode(krName : '그룹전');
+  individualMode(koreanName : '개인전'),
+  individualHistory(koreanName : '개인 기록'),
+  groupMode(koreanName : '그룹전');
 
-  const PixelMode({required this.krName});
+  const PixelMode({required this.koreanName});
 
-  final String krName;
+  final String koreanName;
 
   static PixelMode fromKrName(String krName) {
-    return PixelMode.values.firstWhere((mode) => mode.krName == krName,
+    return PixelMode.values.firstWhere((mode) => mode.koreanName == krName,
         orElse: () => throw ArgumentError('No enum value with krName $krName'),
     );
   }

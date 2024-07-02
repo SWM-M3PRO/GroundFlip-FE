@@ -22,9 +22,9 @@ class ModeChangeButton extends StatelessWidget {
             items: PixelMode.values
                 .map(
                   (PixelMode pixelMode) => DropdownMenuItem<String>(
-                    value: pixelMode.krName,
+                    value: pixelMode.koreanName,
                     child: Text(
-                      pixelMode.krName,
+                      pixelMode.koreanName,
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.white,
@@ -36,7 +36,7 @@ class ModeChangeButton extends StatelessWidget {
             onChanged: (pixelModeKrName) {
               mapController.changePixelMode(pixelModeKrName!);
             },
-            value: mapController.currentPixelMode.value.krName,
+            value: mapController.currentPixelMode.value.koreanName,
             buttonStyleData: ButtonStyleData(
               padding: EdgeInsets.symmetric(horizontal: 16),
               height: 40,
