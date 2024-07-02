@@ -26,8 +26,8 @@ class MapController extends GetxController {
 
   late LocationData currentLocation;
   late Map<String, int> latestPixel;
-  PixelMode pixelMode = PixelMode.individualHistory;
 
+  Rx<PixelMode> currentPixelMode = PixelMode.individualHistory.obs;
   RxList<Pixel> pixels = <Pixel>[].obs;
   RxList<Marker> markers = <Marker>[].obs;
   RxBool isLoading = true.obs;
@@ -102,10 +102,10 @@ class MapController extends GetxController {
         userId: defaultUserId,
     );
 
-    pixels = [
+    pixels.assignAll([
       for(var pixel in individualHistoryPixels)
         Pixel.fromIndividualHistoryPixel(pixel: pixel),
-    ].obs;
+    ]);
   }
 
   Future<void> _updateIndividualModePixel() async {
@@ -114,10 +114,10 @@ class MapController extends GetxController {
       currentLongitude: currentLocation.longitude!,
     );
 
-    pixels = [
+    pixels.assignAll([
       for(var pixel in individualModePixels)
         Pixel.fromIndividualModePixel(pixel: pixel, isMyPixel: (pixel.userId == defaultUserId)),
-    ].obs;
+    ]);
   }
 
   void _trackPixels() {
@@ -127,7 +127,7 @@ class MapController extends GetxController {
   }
 
   void _updatePixels() {
-    switch (pixelMode) {
+    switch (currentPixelMode.value) {
       case PixelMode.individualMode:
         _updateIndividualModePixel();
         break;
@@ -154,5 +154,10 @@ class MapController extends GetxController {
             currentLocation.latitude!, currentLocation.longitude!,);
     return latestPixel['x'] != currentPixel['x'] ||
         latestPixel['y'] != currentPixel['y'];
+  }
+
+  void changePixelMode(String pixelModeKrName) {
+    currentPixelMode.value = PixelMode.fromKrName(pixelModeKrName);
+    _updatePixels();
   }
 }
