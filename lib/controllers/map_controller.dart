@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -114,10 +115,45 @@ class MapController extends GetxController {
       currentLongitude: currentLocation.longitude!,
     );
 
+    print('픽셀 만들어짐');
     pixels.assignAll([
       for(var pixel in individualModePixels)
-        Pixel.fromIndividualModePixel(pixel: pixel, isMyPixel: (pixel.userId == defaultUserId)),
+        Pixel.fromIndividualModePixel(
+            pixel: pixel,
+            isMyPixel: (pixel.userId == defaultUserId),
+            onTap: showIndividualPixelInfo,
+        ),
     ]);
+  }
+
+  void showIndividualPixelInfo() {
+    print('바텀시트 올라옴.');
+    Get.bottomSheet(
+        SizedBox(
+          height: 400,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'bottom sheet',
+                style: TextStyle(fontSize: 30),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: Get.back,
+                child: const Text('닫기'),
+              )
+            ],
+          ),
+        ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20),
+            topLeft: Radius.circular(20),
+          ),
+        ),
+        clipBehavior: Clip.hardEdge,
+        backgroundColor: Colors.white);
   }
 
   void _trackPixels() {
@@ -160,4 +196,5 @@ class MapController extends GetxController {
     currentPixelMode.value = PixelMode.fromKrName(pixelModeKrName);
     _updatePixels();
   }
+
 }

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -17,6 +19,7 @@ class Pixel extends Polygon {
     required this.y,
     required this.pixelId,
     required String polygonId,
+    super.onTap,
     super.points,
     super.geodesic,
     super.visible,
@@ -24,13 +27,12 @@ class Pixel extends Polygon {
     super.strokeColor = const Color(0x00000000),
     super.strokeWidth = 0,
     List<PatternItem> patterns = const <PatternItem>[],
-    super.consumeTapEvents,
-    super.onTap,
+    super.consumeTapEvents = true,
   }) : super(
     polygonId: PolygonId(polygonId),
   );
 
-  static Pixel fromIndividualModePixel({required IndividualModePixel pixel, required bool isMyPixel}) {
+  static Pixel fromIndividualModePixel({required IndividualModePixel pixel, required bool isMyPixel, required VoidCallback onTap,}) {
     return Pixel(
       x: pixel.x,
       y: pixel.y,
@@ -40,6 +42,7 @@ class Pixel extends Polygon {
       fillColor: isMyPixel ? Colors.blue.withOpacity(0.3) : Colors.red.withOpacity(0.3),
       strokeColor: isMyPixel ? Colors.blue : Colors.red,
       strokeWidth: 1,
+      onTap: onTap,
     );
   }
 
@@ -64,4 +67,6 @@ class Pixel extends Polygon {
       LatLng(topLeftPoint.latitude - latPerPixel, topLeftPoint.longitude),
     });
   }
+
+
 }
