@@ -5,6 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../controllers/map_controller.dart';
 import '../controllers/permission_controller.dart';
 import '../controllers/walking_controller.dart';
+import '../widgets/map/mode_change_button.dart';
+import '../widgets/map/step_stats.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -42,46 +44,17 @@ class MapScreen extends StatelessWidget {
                 markers: Set<Marker>.of(mapController.markers),
                 polygons: Set<Polygon>.of(mapController.pixels),
               ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    right: 16.0,
-                    top: 60.0,
+              Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 65.0),
                   ),
-                  child: Container(
-                    width: 100.0,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      color: Colors.black54,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: '개인전',
-                        onChanged: (String? newValue) {},
-                        items: <String>['개인전', '그룹전', '개인 기록']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Center(
-                              child: Text(
-                                value,
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
+                  ModeChangeButton(),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 32),
+                    child: StepStats(),
                   ),
-                ),
+                ],
               ),
             ],
           );
