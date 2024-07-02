@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -10,7 +7,6 @@ import '../controllers/permission_controller.dart';
 import '../controllers/walking_controller.dart';
 import '../widgets/map/mode_change_button.dart';
 import '../widgets/map/step_stats.dart';
-import '../enum/pixel_mode.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
