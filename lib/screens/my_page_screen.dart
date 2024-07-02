@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/my_page_controller.dart';
-import '../widgets/step_bar_chart.dart';
+import '../controllers/walking_controller.dart';
+import '../widgets/my_page/step_bar_chart.dart';
 
 class MyPageScreen extends StatelessWidget {
   const MyPageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final MyPageController walkController = Get.put(MyPageController());
+    final WalkingController walkController = Get.put(WalkingController());
 
     return Column(
       children: [

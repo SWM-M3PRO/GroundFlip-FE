@@ -2,12 +2,12 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/my_page_controller.dart';
+import '../../controllers/walking_controller.dart';
 
 class StepBarChart extends StatelessWidget {
   StepBarChart({super.key});
 
-  final MyPageController walkController = Get.find<MyPageController>();
+  final WalkingController walkController = Get.find<WalkingController>();
 
   @override
   Widget build(BuildContext context) {

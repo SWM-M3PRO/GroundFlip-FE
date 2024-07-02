@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/navigation_controller.dart';
+import '../../controllers/navigation_controller.dart';
 
 class CustomBottomNavigationBar extends GetView<NavigationController> {
   const CustomBottomNavigationBar({super.key});

@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 
 import '../utils/date_utils.dart';
 import '../utils/walking_service.dart';
 import '../utils/walking_service_factory.dart';
 
-class MyPageController extends GetxController {
+class WalkingController extends GetxController {
   final RxInt currentStep = 0.obs;
   final RxList<int> selectedWeeklySteps = <int>[0, 0, 0, 0, 0, 0, 0].obs;
   final RxString selectedWeekInfo = "".obs;
@@ -13,12 +15,20 @@ class MyPageController extends GetxController {
   late DateTime selectedWeekEndDate;
   late WalkingService walkingService;
 
+  static double averageStride = 0.6;
+  static int metersPerKilometer = 1000;
+  static double averageCalorie = 0.04;
+
   @override
   void onInit() {
     super.onInit();
     walkingService = WalkingServiceFactory.getWalkingService();
     _initializeWeeklySteps();
     _initializeCurrentStep();
+
+    Timer.periodic(Duration(seconds: 30), (timer) {
+      updateCurrentStep();
+    });
   }
 
   void _initializeCurrentStep() async {
@@ -61,6 +71,19 @@ class MyPageController extends GetxController {
 
   String getSelectedWeekInfo() {
     return selectedWeekInfo.value;
+  }
+
+  getCurrentTravelDistance() {
+    var currentTravelDistance =
+        (currentStep.value * averageStride) / metersPerKilometer;
+
+    return currentTravelDistance.toStringAsFixed(2);
+  }
+
+  getCurrentCalorie() {
+    var calorie = currentStep.value * averageCalorie;
+
+    return calorie.toStringAsFixed(0);
   }
 
   getIsNextButtonEnabled() {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/navigation_controller.dart';
-import '../widgets/naviagtion_bar.dart';
+import '../widgets/common/naviagtion_bar.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});

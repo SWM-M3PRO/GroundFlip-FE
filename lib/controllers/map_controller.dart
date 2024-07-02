@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
-import '../models/individual_pixel.dart';
+import '../enum/pixel_mode.dart';
+import '../models/individual_history_pixel.dart';
+import '../models/individual_mode_pixel.dart';
 import '../service/pixel_service.dart';
 import '../widgets/pixel.dart';
 
@@ -17,7 +18,7 @@ class MapController extends GetxController {
   static const String userMarkerId = 'USER';
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
-  static const int defaultUserId = 1;
+  static const int defaultUserId = 2;
 
   final Location location = Location();
   late final String mapStyle;
@@ -25,6 +26,7 @@ class MapController extends GetxController {
 
   late LocationData currentLocation;
   late Map<String, int> latestPixel;
+  PixelMode pixelMode = PixelMode.individualHistory;
 
   RxList<Pixel> pixels = <Pixel>[].obs;
   RxList<Marker> markers = <Marker>[].obs;
@@ -37,7 +39,7 @@ class MapController extends GetxController {
     await updateCurrentLocation();
     _updateLatestPixel();
     await occupyPixel();
-    await _updateIndividualPixel();
+    _updatePixels();
     _createUserMarker();
     _trackUserLocation();
     _trackPixels();
@@ -93,46 +95,48 @@ class MapController extends GetxController {
     _addMarker(LatLng(newLocation.latitude!, newLocation.longitude!), markerId);
   }
 
-  Future<void> _updateIndividualPixel() async {
-    List<IndividualPixel> individualPixelList =
-        await pixelService.getIndividualPixels(
+  Future<void> _updateIndividualHistoryPixels() async {
+    List<IndividualHistoryPixel> individualHistoryPixels = await pixelService.getIndividualHistoryPixels(
+        currentLatitude: currentLocation.latitude!,
+        currentLongitude: currentLocation.longitude!,
+        userId: defaultUserId,
+    );
+
+    pixels = [
+      for(var pixel in individualHistoryPixels)
+        Pixel.fromIndividualHistoryPixel(pixel: pixel),
+    ].obs;
+  }
+
+  Future<void> _updateIndividualModePixel() async {
+    List<IndividualModePixel> individualModePixels = await pixelService.getIndividualModePixels(
       currentLatitude: currentLocation.latitude!,
       currentLongitude: currentLocation.longitude!,
     );
 
     pixels = [
-      for (var pixel in individualPixelList)
-        Pixel(
-          x: pixel.x,
-          y: pixel.y,
-          pixelId: pixel.pixelId,
-          polygonId: pixel.pixelId.toString(),
-          points: _getRectangleFromLatLng(
-              topLeftPoint: LatLng(pixel.latitude, pixel.longitude),),
-          fillColor: (pixel.userId == defaultUserId)
-              ? Colors.blue.withOpacity(0.3)
-              : Colors.red.withOpacity(0.3),
-          strokeColor:
-              (pixel.userId == defaultUserId) ? Colors.blue : Colors.red,
-          strokeWidth: 1,
-        ),
+      for(var pixel in individualModePixels)
+        Pixel.fromIndividualModePixel(pixel: pixel, isMyPixel: (pixel.userId == defaultUserId)),
     ].obs;
-  }
-
-  List<LatLng> _getRectangleFromLatLng({required LatLng topLeftPoint}) {
-    return List<LatLng>.of({
-      LatLng(topLeftPoint.latitude, topLeftPoint.longitude),
-      LatLng(topLeftPoint.latitude, topLeftPoint.longitude + lonPerPixel),
-      LatLng(topLeftPoint.latitude - latPerPixel,
-          topLeftPoint.longitude + lonPerPixel,),
-      LatLng(topLeftPoint.latitude - latPerPixel, topLeftPoint.longitude),
-    });
   }
 
   void _trackPixels() {
     Timer.periodic(const Duration(seconds: 30), (timer) {
-      _updateIndividualPixel();
+      _updatePixels();
     });
+  }
+
+  void _updatePixels() {
+    switch (pixelMode) {
+      case PixelMode.individualMode:
+        _updateIndividualModePixel();
+        break;
+      case PixelMode.individualHistory:
+        _updateIndividualHistoryPixels();
+        break;
+      case PixelMode.groupMode:
+        break;
+    }
   }
 
   Future<void> occupyPixel() async {
@@ -141,7 +145,7 @@ class MapController extends GetxController {
       currentLatitude: currentLocation.latitude!,
       currentLongitude: currentLocation.longitude!,
     );
-    await _updateIndividualPixel();
+    _updatePixels();
   }
 
   isPixelChanged() {
