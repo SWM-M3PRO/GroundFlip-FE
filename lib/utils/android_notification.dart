@@ -28,7 +28,7 @@ void initForegroundTask() {
       playSound: false,
     ),
     foregroundTaskOptions: const ForegroundTaskOptions(
-      interval: 5000,
+      interval: 1000,
       isOnceEvent: false,
       autoRunOnBoot: true,
       allowWakeLock: true,

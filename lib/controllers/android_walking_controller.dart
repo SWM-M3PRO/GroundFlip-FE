@@ -38,10 +38,10 @@ class AndroidWalkingController extends GetxController {
     initPlatformState();
     init();
 
-    Timer.periodic(Duration(seconds: 10), (t) {
-      if (checkDay != DateTime.now().minute) {
+    Timer.periodic(Duration(minutes: 5), (t) {
+      if (checkDay != DateTime.now().day) {
         resetStepTimer();
-        checkDay = DateTime.now().minute;
+        checkDay = DateTime.now().day;
       }
     });
   }
