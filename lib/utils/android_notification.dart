@@ -1,14 +1,17 @@
 import 'dart:isolate';
 
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
-import 'package:get/get.dart';
 
-import '../controllers/android_walking_controller.dart';
+import '../service/android_walking_service.dart';
 
-AndroidWalkingController androidWalkingController =
-    Get.put(AndroidWalkingController());
+// AndroidWalkingController androidWalkingController =
+//     Get.put(AndroidWalkingController());
+
+// print(androidWalkingService);
 
 void initForegroundTask() {
+  AndroidWalkingService androidWalkingService = AndroidWalkingService();
+  print('initForeGround 생성 ${androidWalkingService.hashCode}');
   FlutterForegroundTask.init(
     androidNotificationOptions: AndroidNotificationOptions(
       channelId: 'ground-flip',
@@ -37,7 +40,7 @@ void initForegroundTask() {
   );
   FlutterForegroundTask.startService(
     notificationTitle: "걸음수",
-    notificationText: androidWalkingController.currentSteps.value.toString(),
+    notificationText: androidWalkingService.currentSteps.toString(),
     callback: startCallback,
   );
 }
@@ -48,12 +51,15 @@ void startCallback() {
 }
 
 class FirstTaskHandler extends TaskHandler {
+  AndroidWalkingService androidWalkingService = AndroidWalkingService();
+
+  // print('initForeGround 생성 ${androidWalkingService.hashCode}');
   @override
   void onStart(DateTime timestamp, SendPort? sendPort) async {}
 
   @override
   void onRepeatEvent(DateTime timestamp, SendPort? sendPort) async {
-    int updateStep = androidWalkingController.currentSteps.value;
+    int updateStep = androidWalkingService.currentSteps;
     FlutterForegroundTask.updateService(
       notificationTitle: "걸음수",
       notificationText: updateStep.toString(),
