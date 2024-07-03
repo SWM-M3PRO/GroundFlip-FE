@@ -5,8 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../controllers/map_controller.dart';
 import '../controllers/permission_controller.dart';
 import '../controllers/walking_controller.dart';
-import '../widgets/map/android_step_stats.dart';
 import '../widgets/map/mode_change_button.dart';
+import '../widgets/map/step_stats.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -52,7 +52,7 @@ class MapScreen extends StatelessWidget {
                   ModeChangeButton(),
                   const Padding(
                     padding: EdgeInsets.only(bottom: 32),
-                    child: AndroidStepStats(),
+                    child: StepStats(),
                   ),
                 ],
               ),
