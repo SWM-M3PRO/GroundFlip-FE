@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,7 @@ import '../enums/pixel_mode.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
 import '../service/pixel_service.dart';
+import '../widgets/map/pixel_info_bottom_sheet.dart';
 import '../widgets/pixel.dart';
 
 class MapController extends GetxController {
@@ -115,7 +117,6 @@ class MapController extends GetxController {
       currentLongitude: currentLocation.longitude!,
     );
 
-    print('픽셀 만들어짐');
     pixels.assignAll([
       for(var pixel in individualModePixels)
         Pixel.fromIndividualModePixel(
@@ -126,34 +127,14 @@ class MapController extends GetxController {
     ]);
   }
 
-  void showIndividualPixelInfo() {
-    print('바텀시트 올라옴.');
+  void showIndividualPixelInfo(int pixelId) {
     Get.bottomSheet(
-        SizedBox(
-          height: 400,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'bottom sheet',
-                style: TextStyle(fontSize: 30),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: Get.back,
-                child: const Text('닫기'),
-              )
-            ],
-          ),
-        ),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20),
-            topLeft: Radius.circular(20),
-          ),
-        ),
+        PixelInfoBottomSheet(),
         clipBehavior: Clip.hardEdge,
-        backgroundColor: Colors.white);
+        backgroundColor: Colors.white,
+        enterBottomSheetDuration: Duration(milliseconds: 100),
+        exitBottomSheetDuration: Duration(milliseconds: 100),
+    );
   }
 
   void _trackPixels() {
