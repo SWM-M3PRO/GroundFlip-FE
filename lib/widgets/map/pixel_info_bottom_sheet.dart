@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ground_flip/widgets/map/pixel_owner_info.dart';
+import 'package:ground_flip/widgets/map/visited_user_list_view.dart';
 
 import '../../controllers/map_controller.dart';
 
@@ -52,6 +53,10 @@ class PixelInfoBottomSheet extends StatelessWidget {
                       color: Colors.white),
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
+              VisitedUserListView(),
             ],
           ),
         ),
