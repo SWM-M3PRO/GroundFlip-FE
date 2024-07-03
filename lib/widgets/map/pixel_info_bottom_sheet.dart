@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class PixelInfoBottomSheet extends StatelessWidget {
-  const PixelInfoBottomSheet({super.key, required this.pixelInfo});
+import '../../controllers/map_controller.dart';
 
-  final Widget pixelInfo;
+class PixelInfoBottomSheet extends StatelessWidget {
+  PixelInfoBottomSheet({super.key, required this.pixelId});
+
+  final int pixelId;
+  final MapController mapController = Get.find<MapController>();
 
   @override
   Widget build(BuildContext context) {

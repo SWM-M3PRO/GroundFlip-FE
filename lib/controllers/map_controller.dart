@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -11,7 +9,6 @@ import '../enums/pixel_mode.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
 import '../service/pixel_service.dart';
-import '../widgets/map/pixel_info_bottom_sheet.dart';
 import '../widgets/pixel.dart';
 
 class MapController extends GetxController {
@@ -126,34 +123,8 @@ class MapController extends GetxController {
         Pixel.fromIndividualModePixel(
           pixel: pixel,
           isMyPixel: (pixel.userId == defaultUserId),
-          onTap: showIndividualPixelInfo,
         ),
     ]);
-  }
-
-  void showIndividualPixelInfo(int pixelId) {
-    Get.bottomSheet(
-      PixelInfoBottomSheet(
-          pixelInfo: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            'bottom sheet',
-            style: TextStyle(fontSize: 30),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: Get.back,
-            child: const Text('닫기'),
-          ),
-        ],
-          ),
-      ),
-      clipBehavior: Clip.hardEdge,
-      backgroundColor: Colors.white,
-      enterBottomSheetDuration: Duration(milliseconds: 100),
-      exitBottomSheetDuration: Duration(milliseconds: 100),
-    );
   }
 
   void _trackPixels() {

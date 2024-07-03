@@ -9,8 +9,8 @@ class PixelService {
   static final PixelService _instance = PixelService._internal();
   static const double latitudePerPixel = 0.000724;
   static const double longitudePerPixel = 0.000909;
-  static const double upperLeftLatitude = 37.666508;
-  static const double upperLeftLongitude = 126.85411700000002;
+  static const double upperLeftLatitude = 37.667516;
+  static const double upperLeftLongitude = 126.853603;
 
   final Dio dio = DioService().getDio();
 
