@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ground_flip/widgets/map/pixel_owner_info.dart';
 
 import '../../controllers/map_controller.dart';
 
@@ -13,7 +14,7 @@ class PixelInfoBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: Color(0xFF374957),
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(20),
           topLeft: Radius.circular(20),
@@ -22,19 +23,37 @@ class PixelInfoBottomSheet extends StatelessWidget {
       child: SizedBox(
         height: 400,
         width: 380,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'bottom sheet',
-              style: TextStyle(fontSize: 30),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: Get.back,
-              child: const Text('닫기'),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  '은평구 n번째 픽셀',
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              PixelOwnerInfo(),
+              const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  '오늘 17명이 차지했었어요!',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

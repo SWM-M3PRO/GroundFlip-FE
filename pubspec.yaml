@@ -32,6 +32,7 @@ dev_dependencies:
 
 flutter:
   assets:
+    - assets/profile_image.png
     - .env
     - assets/map_style/
   uses-material-design: true
