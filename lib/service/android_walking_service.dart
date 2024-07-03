@@ -13,6 +13,7 @@ class AndroidWalkingService implements WalkingService {
 
   late Stream<StepCount> _stepCountStream;
 
+  bool isInit = false;
   int currentSteps = 0;
   int totalSteps = 0;
   int pastSteps = 0;
@@ -21,10 +22,12 @@ class AndroidWalkingService implements WalkingService {
       AndroidWalkingService._internal();
 
   AndroidWalkingService._internal() {
-    print('생성');
-    initPlatformState();
-    init();
+    // print('생성');
+    print('AndroidWalkingService instance created: ${identityHashCode(this)}');
+    // initPlatformState();
+    // // init();
     Timer.periodic(Duration(minutes: 5), (t) {
+      print('---------------day init------------');
       if (checkDay != DateTime.now().day) {
         resetStepTimer();
         checkDay = DateTime.now().day;
@@ -33,16 +36,25 @@ class AndroidWalkingService implements WalkingService {
   }
 
   factory AndroidWalkingService() {
+    // initPlatformState();
+    // // init();
+    // Timer.periodic(Duration(minutes: 5), (t) {
+    //   if (checkDay != DateTime.now().day) {
+    //     resetStepTimer();
+    //     checkDay = DateTime.now().day;
+    //   }
+    // });
     return _instance;
   }
 
-  void init() async {
+  Future<void> init() async {
     await GetStorage.init();
   }
 
   void initPlatformState() {
     _stepCountStream = Pedometer.stepCountStream.asBroadcastStream();
     _stepCountStream.listen(updateStep).onError(onStepCountError);
+    isInit = true;
   }
 
   void onStepCountError(error) {

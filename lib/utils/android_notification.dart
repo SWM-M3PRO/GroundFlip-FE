@@ -7,9 +7,11 @@ import '../service/android_walking_service.dart';
 // AndroidWalkingController androidWalkingController =
 //     Get.put(AndroidWalkingController());
 
-AndroidWalkingService androidWalkingService = AndroidWalkingService();
+// print(androidWalkingService);
 
 void initForegroundTask() {
+  AndroidWalkingService androidWalkingService = AndroidWalkingService();
+  print('initForeGround 생성 ${androidWalkingService.hashCode}');
   FlutterForegroundTask.init(
     androidNotificationOptions: AndroidNotificationOptions(
       channelId: 'ground-flip',
@@ -49,6 +51,9 @@ void startCallback() {
 }
 
 class FirstTaskHandler extends TaskHandler {
+  AndroidWalkingService androidWalkingService = AndroidWalkingService();
+
+  // print('initForeGround 생성 ${androidWalkingService.hashCode}');
   @override
   void onStart(DateTime timestamp, SendPort? sendPort) async {}
 
