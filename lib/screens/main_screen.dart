@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:workmanager/workmanager.dart';
 
 import '../controllers/navigation_controller.dart';
 import '../widgets/common/naviagtion_bar.dart';
+
+
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -13,7 +16,7 @@ class MainScreen extends StatelessWidget {
         Get.put(NavigationController());
 
     return Scaffold(
-      appBar: PreferredSize(
+        appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Obx(() => navigationController.getCurrentAppBar()),
       ),
