@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
+import '../models/individual_mode_pixel_info.dart';
 import '../models/pixel_occupy_request.dart';
 import '../utils/dio_service.dart';
 
@@ -54,6 +55,16 @@ class PixelService {
     );
 
     return IndividualHistoryPixel.listFromJson(response.data['data']);
+  }
+
+  Future<IndividualModePixelInfo> getIndividualModePixelInfo({
+    required int pixelId,
+  }) async {
+    var response = await dio.get(
+      '/pixels/individual-mode/$pixelId',
+    );
+
+    return IndividualModePixelInfo.fromJson(response.data['data']);
   }
 
   Future<void> occupyPixel({
