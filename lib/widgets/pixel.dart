@@ -36,7 +36,7 @@ class Pixel extends Polygon {
               backgroundColor: Colors.white,
               enterBottomSheetDuration: Duration(milliseconds: 100),
               exitBottomSheetDuration: Duration(milliseconds: 100),
-            )
+            ),
           },
         );
 
@@ -50,7 +50,7 @@ class Pixel extends Polygon {
       pixelId: pixel.pixelId,
       polygonId: pixel.pixelId.toString(),
       points: _getRectangleFromLatLng(
-          topLeftPoint: LatLng(pixel.latitude, pixel.longitude)),
+          topLeftPoint: LatLng(pixel.latitude, pixel.longitude),),
       fillColor: isMyPixel
           ? Colors.blue.withOpacity(0.3)
           : Colors.red.withOpacity(0.3),
@@ -60,14 +60,14 @@ class Pixel extends Polygon {
   }
 
   static Pixel fromIndividualHistoryPixel(
-      {required IndividualHistoryPixel pixel}) {
+      {required IndividualHistoryPixel pixel,}) {
     return Pixel(
       x: pixel.x,
       y: pixel.y,
       pixelId: pixel.pixelId,
       polygonId: pixel.pixelId.toString(),
       points: _getRectangleFromLatLng(
-          topLeftPoint: LatLng(pixel.latitude, pixel.longitude)),
+          topLeftPoint: LatLng(pixel.latitude, pixel.longitude),),
       fillColor: Colors.blue.withOpacity(0.3),
       strokeColor: Colors.blue,
       strokeWidth: 1,
@@ -79,7 +79,7 @@ class Pixel extends Polygon {
       LatLng(topLeftPoint.latitude, topLeftPoint.longitude),
       LatLng(topLeftPoint.latitude, topLeftPoint.longitude + lonPerPixel),
       LatLng(topLeftPoint.latitude - latPerPixel,
-          topLeftPoint.longitude + lonPerPixel),
+          topLeftPoint.longitude + lonPerPixel,),
       LatLng(topLeftPoint.latitude - latPerPixel, topLeftPoint.longitude),
     });
   }

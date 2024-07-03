@@ -10,33 +10,33 @@ class IndividualModePixelInfo {
       this.addressNumber,
       this.visitCount,
       this.pixelOwnerUser,
-      this.visitList});
+      this.visitList,});
 
   IndividualModePixelInfo.fromJson(Map<String, dynamic> json) {
     address = json['address'];
     addressNumber = json['addressNumber'];
     visitCount = json['visitCount'];
     pixelOwnerUser = json['pixelOwnerUser'] != null
-        ? new PixelOwnerUser.fromJson(json['pixelOwnerUser'])
+        ? PixelOwnerUser.fromJson(json['pixelOwnerUser'])
         : null;
     if (json['visitList'] != null) {
       visitList = <VisitList>[];
       json['visitList'].forEach((v) {
-        visitList!.add(new VisitList.fromJson(v));
+        visitList!.add(VisitList.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['address'] = this.address;
-    data['addressNumber'] = this.addressNumber;
-    data['visitCount'] = this.visitCount;
-    if (this.pixelOwnerUser != null) {
-      data['pixelOwnerUser'] = this.pixelOwnerUser!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['address'] = address;
+    data['addressNumber'] = addressNumber;
+    data['visitCount'] = visitCount;
+    if (pixelOwnerUser != null) {
+      data['pixelOwnerUser'] = pixelOwnerUser!.toJson();
     }
-    if (this.visitList != null) {
-      data['visitList'] = this.visitList!.map((v) => v.toJson()).toList();
+    if (visitList != null) {
+      data['visitList'] = visitList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -54,7 +54,7 @@ class PixelOwnerUser {
       this.nickname,
       this.profileImageUrl,
       this.currentPixelCount,
-      this.accumulatePixelCount});
+      this.accumulatePixelCount,});
 
   PixelOwnerUser.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
@@ -65,12 +65,12 @@ class PixelOwnerUser {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userId'] = this.userId;
-    data['nickname'] = this.nickname;
-    data['profileImageUrl'] = this.profileImageUrl;
-    data['currentPixelCount'] = this.currentPixelCount;
-    data['accumulatePixelCount'] = this.accumulatePixelCount;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['nickname'] = nickname;
+    data['profileImageUrl'] = profileImageUrl;
+    data['currentPixelCount'] = currentPixelCount;
+    data['accumulatePixelCount'] = accumulatePixelCount;
     return data;
   }
 }
@@ -87,9 +87,9 @@ class VisitList {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['nickname'] = this.nickname;
-    data['profileImageUrl'] = this.profileImageUrl;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['nickname'] = nickname;
+    data['profileImageUrl'] = profileImageUrl;
     return data;
   }
 }

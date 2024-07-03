@@ -28,7 +28,7 @@ class DioService {
         logResponse(response);
         return handler.next(response);
       },
-    ));
+    ),);
   }
 
   Dio getDio() {
