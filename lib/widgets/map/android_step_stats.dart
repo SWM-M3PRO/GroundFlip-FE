@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/android_walking_controller.dart';
-import '../../controllers/walking_controller.dart';
 
 class AndroidStepStats extends StatelessWidget {
   const AndroidStepStats({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var androidWalkingController = Get.find<AndroidWalkingController>();
+    var androidWalkingController = Get.put(AndroidWalkingController());
     return Obx(
           () => Column(
         children: [

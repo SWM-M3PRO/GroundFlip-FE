@@ -61,8 +61,6 @@ class AndroidWalkingController extends GetxController {
       pastSteps.value = value;
     }
     currentSteps.value = totalSteps.value - pastSteps.value;
-    print(
-        'current current ${currentSteps.value}, ${pastSteps.value}, ${totalSteps.value}');
   }
 
   void resetStepTimer() async {
@@ -76,7 +74,7 @@ class AndroidWalkingController extends GetxController {
   }
 
   void initPlatformState() {
-    _stepCountStream = Pedometer.stepCountStream;
+    _stepCountStream = Pedometer.stepCountStream.asBroadcastStream();
     _stepCountStream.listen(updateStep).onError(onStepCountError);
   }
 
