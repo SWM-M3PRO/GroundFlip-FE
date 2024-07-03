@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:ffi';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:get_storage/get_storage.dart';
@@ -22,7 +20,6 @@ class AndroidWalkingController extends GetxController {
   final GetStorage box = GetStorage();
 
   late Stream<StepCount> _stepCountStream;
-
 
   AndroidWalkingController._privateConstructor();
 
@@ -57,7 +54,6 @@ class AndroidWalkingController extends GetxController {
     totalSteps.value = event.steps;
 
     int? value = box.read(LOCAL_STORE_STEP_KEY);
-    print('value value $value');
     if (value == null || value == 0) {
       pastSteps.value = totalSteps.value;
       box.write(LOCAL_STORE_STEP_KEY, totalSteps.value);
@@ -65,7 +61,8 @@ class AndroidWalkingController extends GetxController {
       pastSteps.value = value;
     }
     currentSteps.value = totalSteps.value - pastSteps.value;
-    print('current current ${currentSteps.value}, ${pastSteps.value}, ${totalSteps.value}');
+    print(
+        'current current ${currentSteps.value}, ${pastSteps.value}, ${totalSteps.value}');
   }
 
   void resetStepTimer() async {
