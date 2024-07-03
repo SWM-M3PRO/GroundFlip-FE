@@ -19,7 +19,7 @@ class Pixel extends Polygon {
     required this.y,
     required this.pixelId,
     required String polygonId,
-    super.onTap,
+    required void Function(int pixelId) onTap,
     super.points,
     super.geodesic,
     super.visible,
@@ -30,9 +30,14 @@ class Pixel extends Polygon {
     super.consumeTapEvents = true,
   }) : super(
     polygonId: PolygonId(polygonId),
+    onTap: () => onTap(pixelId),
   );
 
-  static Pixel fromIndividualModePixel({required IndividualModePixel pixel, required bool isMyPixel, required VoidCallback onTap,}) {
+  static Pixel fromIndividualModePixel({
+    required IndividualModePixel pixel,
+    required bool isMyPixel,
+    required void Function(int pixelId) onTap,}) {
+
     return Pixel(
       x: pixel.x,
       y: pixel.y,
@@ -56,6 +61,7 @@ class Pixel extends Polygon {
       fillColor: Colors.blue.withOpacity(0.3),
       strokeColor: Colors.blue,
       strokeWidth: 1,
+      onTap: (pixelId) {},
     );
   }
 
