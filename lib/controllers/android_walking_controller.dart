@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:pedometer/pedometer.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pedometer/pedometer.dart';
 
-final String LOCAL_STORE_STEP_KEY = 'pastSteps';
+
+const String LOCAL_STORE_STEP_KEY = 'pastSteps';
 
 class AndroidWalkingController extends GetxController {
   static double averageStride = 0.6;

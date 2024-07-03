@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:workmanager/workmanager.dart';
 
 import '../controllers/navigation_controller.dart';
 import '../widgets/common/naviagtion_bar.dart';

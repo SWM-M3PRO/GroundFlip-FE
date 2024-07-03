@@ -23,8 +23,6 @@ dependencies:
   health: ^10.2.0
   fl_chart: ^0.68.0
   dropdown_button2: ^2.3.9
-  flutter_local_notifications: ^17.2.1
-  workmanager: ^0.5.2
   pedometer: ^4.0.1
   get_storage: ^2.1.1
   flutter_foreground_task: ^6.5.0

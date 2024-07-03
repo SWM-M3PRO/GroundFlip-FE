@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:get/get.dart';
-import 'package:ground_flip/utils/android_notification.dart';
 
+import '../utils/android_notification.dart';
 import 'screens/main_screen.dart';
 
 Future<void> main() async {
