@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-class VisitedUserListView extends StatelessWidget {
-  final List<String> test = ['김민욱', '뿌직형', '구민', '나루토', '사스케'];
+import '../../models/individual_mode_pixel_info.dart';
 
-  VisitedUserListView({super.key});
+class VisitedUserListView extends StatelessWidget {
+  final List<VisitList> visitList;
+
+  VisitedUserListView({super.key, required this.visitList});
 
   @override
   Widget build(BuildContext context) {
@@ -19,28 +21,35 @@ class VisitedUserListView extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
           child: ListView.builder(
-            itemCount: 5,
+            itemCount: visitList.length,
             itemBuilder: (context, int index) {
               return Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Row(
                   children: [
                     ClipOval(
-                      child: Image.asset(
-                        'assets/profile_image.png',
-                        width: 50,
-                        height: 50,
-                      ),
+                      child: visitList[index].profileImageUrl != null
+                          ? Image.network(
+                              visitList[index].profileImageUrl!,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              'assets/default_profile_image.png',
+                              width: 50,
+                              height: 50,
+                            ),
                     ),
                     SizedBox(
                       width: 20,
                     ),
                     Text(
-                      test[index].toString(),
+                      visitList[index].nickname!,
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                          color: Colors.white,),
                     ),
                   ],
                 ),

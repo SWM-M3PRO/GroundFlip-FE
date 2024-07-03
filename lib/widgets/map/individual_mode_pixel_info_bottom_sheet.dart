@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:ground_flip/widgets/map/pixel_owner_info.dart';
-import 'package:ground_flip/widgets/map/visited_user_list_view.dart';
 
-import '../../controllers/map_controller.dart';
+import '../../models/individual_mode_pixel_info.dart';
+import 'pixel_owner_info.dart';
+import 'visited_user_list_view.dart';
 
-class PixelInfoBottomSheet extends StatelessWidget {
-  PixelInfoBottomSheet({super.key, required this.pixelId});
+class IndividualModePixelInfoBottomSheet extends StatelessWidget {
+  IndividualModePixelInfoBottomSheet({super.key, required this.pixelInfo});
 
-  final int pixelId;
-  final MapController mapController = Get.find<MapController>();
+  final IndividualModePixelInfo pixelInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -31,32 +29,32 @@ class PixelInfoBottomSheet extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  '은평구 n번째 픽셀',
+                  '${pixelInfo.address ?? '대한민국'} ${pixelInfo.addressNumber ?? 'n'}번째 픽셀',
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                      color: Colors.white,),
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
-              PixelOwnerInfo(),
+              PixelOwnerInfo(pixelOwnerUser: pixelInfo.pixelOwnerUser!),
               const SizedBox(height: 10),
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  '오늘 17명이 차지했었어요!',
+                  '오늘 ${pixelInfo.visitCount}명이 차지했었어요!',
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                      color: Colors.white,),
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
-              VisitedUserListView(),
+              VisitedUserListView(visitList: pixelInfo.visitList!),
             ],
           ),
         ),
