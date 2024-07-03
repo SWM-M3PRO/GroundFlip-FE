@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PixelInfoBottomSheet extends StatelessWidget {
-  const PixelInfoBottomSheet({super.key});
+  const PixelInfoBottomSheet({super.key, required this.pixelInfo});
+
+  final Widget pixelInfo;
 
   @override
   Widget build(BuildContext context) {

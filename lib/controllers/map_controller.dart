@@ -77,8 +77,10 @@ class MapController extends GetxController {
   }
 
   void _createUserMarker() {
-    _addMarker(LatLng(currentLocation.latitude!, currentLocation.longitude!),
-        userMarkerId,);
+    _addMarker(
+      LatLng(currentLocation.latitude!, currentLocation.longitude!),
+      userMarkerId,
+    );
   }
 
   void _addMarker(LatLng position, String markerId) {
@@ -99,41 +101,58 @@ class MapController extends GetxController {
   }
 
   Future<void> _updateIndividualHistoryPixels() async {
-    List<IndividualHistoryPixel> individualHistoryPixels = await pixelService.getIndividualHistoryPixels(
-        currentLatitude: currentLocation.latitude!,
-        currentLongitude: currentLocation.longitude!,
-        userId: defaultUserId,
+    List<IndividualHistoryPixel> individualHistoryPixels =
+        await pixelService.getIndividualHistoryPixels(
+      currentLatitude: currentLocation.latitude!,
+      currentLongitude: currentLocation.longitude!,
+      userId: defaultUserId,
     );
 
     pixels.assignAll([
-      for(var pixel in individualHistoryPixels)
+      for (var pixel in individualHistoryPixels)
         Pixel.fromIndividualHistoryPixel(pixel: pixel),
     ]);
   }
 
   Future<void> _updateIndividualModePixel() async {
-    List<IndividualModePixel> individualModePixels = await pixelService.getIndividualModePixels(
+    List<IndividualModePixel> individualModePixels =
+        await pixelService.getIndividualModePixels(
       currentLatitude: currentLocation.latitude!,
       currentLongitude: currentLocation.longitude!,
     );
 
     pixels.assignAll([
-      for(var pixel in individualModePixels)
+      for (var pixel in individualModePixels)
         Pixel.fromIndividualModePixel(
-            pixel: pixel,
-            isMyPixel: (pixel.userId == defaultUserId),
-            onTap: showIndividualPixelInfo,
+          pixel: pixel,
+          isMyPixel: (pixel.userId == defaultUserId),
+          onTap: showIndividualPixelInfo,
         ),
     ]);
   }
 
   void showIndividualPixelInfo(int pixelId) {
     Get.bottomSheet(
-        PixelInfoBottomSheet(),
-        clipBehavior: Clip.hardEdge,
-        backgroundColor: Colors.white,
-        enterBottomSheetDuration: Duration(milliseconds: 100),
-        exitBottomSheetDuration: Duration(milliseconds: 100),
+      PixelInfoBottomSheet(
+          pixelInfo: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            'bottom sheet',
+            style: TextStyle(fontSize: 30),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: Get.back,
+            child: const Text('닫기'),
+          ),
+        ],
+          ),
+      ),
+      clipBehavior: Clip.hardEdge,
+      backgroundColor: Colors.white,
+      enterBottomSheetDuration: Duration(milliseconds: 100),
+      exitBottomSheetDuration: Duration(milliseconds: 100),
     );
   }
 
@@ -168,7 +187,9 @@ class MapController extends GetxController {
   isPixelChanged() {
     Map<String, int> currentPixel =
         pixelService.computeRelativeCoordinateByCoordinate(
-            currentLocation.latitude!, currentLocation.longitude!,);
+      currentLocation.latitude!,
+      currentLocation.longitude!,
+    );
     return latestPixel['x'] != currentPixel['x'] ||
         latestPixel['y'] != currentPixel['y'];
   }
@@ -177,5 +198,4 @@ class MapController extends GetxController {
     currentPixelMode.value = PixelMode.fromKrName(pixelModeKrName);
     _updatePixels();
   }
-
 }
