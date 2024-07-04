@@ -5,7 +5,7 @@ import 'pixel_owner_info.dart';
 import 'visited_user_list_view.dart';
 
 class IndividualModePixelInfoBottomSheet extends StatelessWidget {
-  IndividualModePixelInfoBottomSheet({super.key, required this.pixelInfo});
+  IndividualModePixelInfoBottomSheet({super.key, required this.pixelInfo,});
 
   final IndividualModePixelInfo pixelInfo;
 
@@ -33,13 +33,14 @@ class IndividualModePixelInfoBottomSheet extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,),
+                      color: Colors.white,
+                  ),
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
-              PixelOwnerInfo(pixelOwnerUser: pixelInfo.pixelOwnerUser!),
+              PixelOwnerInfo(pixelOwnerUser: pixelInfo.pixelOwnerUser!,),
               const SizedBox(height: 10),
               Align(
                 alignment: Alignment.topLeft,
@@ -48,13 +49,14 @@ class IndividualModePixelInfoBottomSheet extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,),
+                      color: Colors.white,
+                  ),
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
-              VisitedUserListView(visitList: pixelInfo.visitList!),
+              VisitedUserListView(visitList: pixelInfo.visitList!,),
             ],
           ),
         ),
