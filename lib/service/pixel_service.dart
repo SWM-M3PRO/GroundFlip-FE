@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../models/individual_history_pixel.dart';
+import '../models/individual_history_pixel_info.dart';
 import '../models/individual_mode_pixel.dart';
 import '../models/individual_mode_pixel_info.dart';
 import '../models/pixel_occupy_request.dart';
@@ -10,8 +11,8 @@ class PixelService {
   static final PixelService _instance = PixelService._internal();
   static const double latitudePerPixel = 0.000724;
   static const double longitudePerPixel = 0.000909;
-  static const double upperLeftLatitude = 37.667516;
-  static const double upperLeftLongitude = 126.853603;
+  static const double upperLeftLatitude = 38.240675;
+  static const double upperLeftLongitude = 125.905952;
 
   final Dio dio = DioService().getDio();
 
@@ -65,6 +66,21 @@ class PixelService {
     );
 
     return IndividualModePixelInfo.fromJson(response.data['data']);
+  }
+
+
+  Future<IndividualHistoryPixelInfo> getIndividualHistoryPixelInfo({
+    required int pixelId,
+    required int userId,
+  }) async {
+    var response = await dio.get(
+      '/pixels/individual-history/$pixelId',
+      queryParameters: {
+        'user-id' : userId,
+      },
+    );
+
+    return IndividualHistoryPixelInfo.fromJson(response.data['data']);
   }
 
   Future<void> occupyPixel({

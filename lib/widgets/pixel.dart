@@ -83,7 +83,9 @@ class Pixel extends Polygon {
       fillColor: Colors.blue.withOpacity(0.3),
       strokeColor: Colors.blue,
       strokeWidth: 1,
-      onTap: (int pixelId) {},
+      onTap: (int pixelId) async {
+
+      },
     );
   }
 
