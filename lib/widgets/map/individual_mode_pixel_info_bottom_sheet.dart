@@ -5,7 +5,7 @@ import 'pixel_owner_info.dart';
 import 'visited_user_list_view.dart';
 
 class IndividualModePixelInfoBottomSheet extends StatelessWidget {
-  IndividualModePixelInfoBottomSheet({super.key, required this.pixelInfo});
+  IndividualModePixelInfoBottomSheet({super.key, required this.pixelInfo,});
 
   final IndividualModePixelInfo pixelInfo;
 
