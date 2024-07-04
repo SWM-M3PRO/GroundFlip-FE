@@ -4,13 +4,17 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../controllers/pixel_info_controller.dart';
 import '../models/individual_history_pixel.dart';
+import '../models/individual_history_pixel_info.dart';
 import '../models/individual_mode_pixel.dart';
 import '../models/individual_mode_pixel_info.dart';
+import 'map/individual_history_pixel_info_bottom_sheet.dart';
 import 'map/individual_mode_pixel_info_bottom_sheet.dart';
 
 class Pixel extends Polygon {
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
+
+  static const int defaultUserId = 2;
 
   final int x;
   final int y;
@@ -83,7 +87,19 @@ class Pixel extends Polygon {
       fillColor: Colors.blue.withOpacity(0.3),
       strokeColor: Colors.blue,
       strokeWidth: 1,
-      onTap: (int pixelId) {},
+      onTap: (int pixelId) async {
+        IndividualHistoryPixelInfo pixelInfo =
+        await Get.find<PixelInfoController>()
+            .getIndividualHistoryPixelInfo(pixelId, defaultUserId);
+
+        Get.bottomSheet(
+          IndividualHistoryPixelInfoBottomSheet(pixelInfo: pixelInfo),
+          clipBehavior: Clip.hardEdge,
+          backgroundColor: Colors.white,
+          enterBottomSheetDuration: Duration(milliseconds: 100),
+          exitBottomSheetDuration: Duration(milliseconds: 100),
+        );
+      },
     );
   }
 

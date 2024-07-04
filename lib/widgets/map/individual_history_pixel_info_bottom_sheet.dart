@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../models/individual_mode_pixel_info.dart';
-import 'pixel_owner_info.dart';
-import 'visited_user_list_view.dart';
+import '../../models/individual_history_pixel_info.dart';
+import 'individual_visit_history_list_view.dart';
 
-class IndividualModePixelInfoBottomSheet extends StatelessWidget {
-  IndividualModePixelInfoBottomSheet({super.key, required this.pixelInfo,});
+class IndividualHistoryPixelInfoBottomSheet extends StatelessWidget {
+  const IndividualHistoryPixelInfoBottomSheet(
+      {super.key, required this.pixelInfo,});
 
-  final IndividualModePixelInfo pixelInfo;
+  final IndividualHistoryPixelInfo pixelInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -31,32 +31,26 @@ class IndividualModePixelInfoBottomSheet extends StatelessWidget {
                 child: Text(
                   '${pixelInfo.address ?? '대한민국'} ${pixelInfo.addressNumber ?? 'n'}번째 픽셀',
                   style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              PixelOwnerInfo(pixelOwnerUser: pixelInfo.pixelOwnerUser!,),
-              const SizedBox(height: 10),
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  '오늘 ${pixelInfo.visitCount}명이 차지했었어요!',
+                  '${pixelInfo.visitCount}번 방문했어요!',
                   style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                  ),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,),
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
-              VisitedUserListView(visitList: pixelInfo.visitList!,),
+              IndividualVisitHistoryListView(visitList: pixelInfo.visitList!),
             ],
           ),
         ),
