@@ -5,7 +5,7 @@ import 'individual_visit_history_list_view.dart';
 
 class IndividualHistoryPixelInfoBottomSheet extends StatelessWidget {
   const IndividualHistoryPixelInfoBottomSheet(
-      {super.key, required this.pixelInfo});
+      {super.key, required this.pixelInfo,});
 
   final IndividualHistoryPixelInfo pixelInfo;
 
