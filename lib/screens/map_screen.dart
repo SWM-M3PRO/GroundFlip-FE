@@ -39,6 +39,8 @@ class MapScreen extends StatelessWidget {
                   ),
                   zoom: 16.0,
                 ),
+                onCameraMove: mapController.updateCameraPosition,
+                onCameraIdle: mapController.onCameraIdle,
                 onMapCreated: (GoogleMapController ctrl) {
                   mapController.completer.complete(ctrl);
                 },

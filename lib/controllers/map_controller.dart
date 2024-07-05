@@ -25,12 +25,15 @@ class MapController extends GetxController {
   Completer<GoogleMapController> completer = Completer();
 
   late LocationData currentLocation;
+  late LatLng currentCameraPosition;
   late Map<String, int> latestPixel;
 
   Rx<PixelMode> currentPixelMode = PixelMode.individualHistory.obs;
   RxList<Pixel> pixels = <Pixel>[].obs;
   RxList<Marker> markers = <Marker>[].obs;
   RxBool isLoading = true.obs;
+
+  Timer _cameraIdleTimer = Timer(Duration(seconds: 0), () {});
 
   @override
   void onInit() async {
@@ -39,10 +42,19 @@ class MapController extends GetxController {
     await updateCurrentLocation();
     _updateLatestPixel();
     await occupyPixel();
-    _updatePixels();
+    updatePixels();
     _createUserMarker();
     _trackUserLocation();
     _trackPixels();
+  }
+
+  void onCameraIdle() {
+    _cameraIdleTimer = Timer(Duration(milliseconds: 800), updatePixels);
+  }
+
+  void updateCameraPosition(CameraPosition newCameraPosition) {
+    currentCameraPosition = LatLng(newCameraPosition.target.latitude, newCameraPosition.target.longitude);
+    _cameraIdleTimer.cancel();
   }
 
   void _trackUserLocation() {
@@ -59,6 +71,7 @@ class MapController extends GetxController {
   Future<void> updateCurrentLocation() async {
     try {
       currentLocation = await location.getLocation();
+      currentCameraPosition = LatLng(currentLocation.latitude!, currentLocation.longitude!);
     } catch (e) {
       throw Error();
     } finally {
@@ -100,8 +113,8 @@ class MapController extends GetxController {
   Future<void> _updateIndividualHistoryPixels() async {
     List<IndividualHistoryPixel> individualHistoryPixels =
         await pixelService.getIndividualHistoryPixels(
-      currentLatitude: currentLocation.latitude!,
-      currentLongitude: currentLocation.longitude!,
+      currentLatitude: currentCameraPosition.latitude,
+      currentLongitude: currentCameraPosition.longitude,
       userId: defaultUserId,
     );
 
@@ -114,8 +127,8 @@ class MapController extends GetxController {
   Future<void> _updateIndividualModePixel() async {
     List<IndividualModePixel> individualModePixels =
         await pixelService.getIndividualModePixels(
-      currentLatitude: currentLocation.latitude!,
-      currentLongitude: currentLocation.longitude!,
+      currentLatitude: currentCameraPosition.latitude,
+      currentLongitude: currentCameraPosition.longitude,
     );
 
     pixels.assignAll([
@@ -129,11 +142,11 @@ class MapController extends GetxController {
 
   void _trackPixels() {
     Timer.periodic(const Duration(seconds: 30), (timer) {
-      _updatePixels();
+      updatePixels();
     });
   }
 
-  void _updatePixels() {
+  void updatePixels() {
     switch (currentPixelMode.value) {
       case PixelMode.individualMode:
         _updateIndividualModePixel();
@@ -152,7 +165,7 @@ class MapController extends GetxController {
       currentLatitude: currentLocation.latitude!,
       currentLongitude: currentLocation.longitude!,
     );
-    _updatePixels();
+    updatePixels();
   }
 
   isPixelChanged() {
@@ -167,6 +180,6 @@ class MapController extends GetxController {
 
   void changePixelMode(String pixelModeKrName) {
     currentPixelMode.value = PixelMode.fromKrName(pixelModeKrName);
-    _updatePixels();
+    updatePixels();
   }
 }
