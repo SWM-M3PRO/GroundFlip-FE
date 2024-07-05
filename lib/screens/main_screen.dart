@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controllers/my_page_controller.dart';
 import '../controllers/navigation_controller.dart';
 import '../widgets/common/naviagtion_bar.dart';
 
@@ -11,6 +12,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final NavigationController navigationController =
         Get.put(NavigationController());
+    Get.put(MyPageController());
 
     return Scaffold(
       appBar: PreferredSize(
