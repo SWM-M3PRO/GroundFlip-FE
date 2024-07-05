@@ -50,7 +50,7 @@ class UserInfo extends StatelessWidget {
                         style: TextStyle(fontSize: 25),
                       ),
                       Text(myPageController.getCurrentUserCommunityName(),
-                          style: TextStyle(fontSize: 20)),
+                          style: TextStyle(fontSize: 20),),
                     ],
                   ),
                   Spacer(),
@@ -58,7 +58,7 @@ class UserInfo extends StatelessWidget {
                 ],
               ),
             ),
-          )),
+          ),),
     );
   }
 }

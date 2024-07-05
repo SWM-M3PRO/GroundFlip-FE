@@ -14,7 +14,7 @@ class User {
       this.communityId,
       this.communityName,
       this.birthYear,
-      this.gender});
+      this.gender,});
 
   User.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
