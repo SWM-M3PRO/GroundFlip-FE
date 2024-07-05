@@ -33,7 +33,7 @@ class MapController extends GetxController {
   RxList<Marker> markers = <Marker>[].obs;
   RxBool isLoading = true.obs;
 
-  Timer _cameraIdleTimer = Timer(Duration(seconds: 0), () {});
+  Timer? _cameraIdleTimer;
 
   @override
   void onInit() async {
@@ -49,12 +49,12 @@ class MapController extends GetxController {
   }
 
   void onCameraIdle() {
-    _cameraIdleTimer = Timer(Duration(milliseconds: 800), updatePixels);
+    _cameraIdleTimer = Timer(Duration(milliseconds: 500), updatePixels);
   }
 
   void updateCameraPosition(CameraPosition newCameraPosition) {
     currentCameraPosition = LatLng(newCameraPosition.target.latitude, newCameraPosition.target.longitude);
-    _cameraIdleTimer.cancel();
+    _cameraIdleTimer?.cancel();
   }
 
   void _trackUserLocation() {
