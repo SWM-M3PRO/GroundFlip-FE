@@ -39,7 +39,7 @@ class MapController extends GetxController {
   void onInit() async {
     super.onInit();
     await _loadMapStyle();
-    await updateCurrentLocation();
+    await initCurrentLocation();
     _updateLatestPixel();
     await occupyPixel();
     updatePixels();
@@ -68,7 +68,7 @@ class MapController extends GetxController {
     });
   }
 
-  Future<void> updateCurrentLocation() async {
+  Future<void> initCurrentLocation() async {
     try {
       currentLocation = await location.getLocation();
       currentCameraPosition = LatLng(currentLocation.latitude!, currentLocation.longitude!);
