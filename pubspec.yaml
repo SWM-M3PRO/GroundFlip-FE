@@ -33,6 +33,9 @@ dev_dependencies:
 flutter:
   assets:
     - assets/default_profile_image.png
+    - assets/allTile.png
+    - assets/currentTile.png
+    - assets/stepIcon.png
     - .env
     - assets/map_style/
   uses-material-design: true

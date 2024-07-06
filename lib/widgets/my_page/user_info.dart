@@ -46,10 +46,10 @@ class UserInfo extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        myPageController.getCurrentUserNickname(),
+                        '그룹명',// myPageController.getCurrentUserNickname(),
                         style: TextStyle(fontSize: 25),
                       ),
-                      Text(myPageController.getCurrentUserCommunityName(),
+                      Text('닉네임',//myPageController.getCurrentUserCommunityName(),
                           style: TextStyle(fontSize: 20),),
                     ],
                   ),
