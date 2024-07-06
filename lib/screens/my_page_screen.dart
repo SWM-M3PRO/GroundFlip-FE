@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 
 import '../controllers/walking_controller.dart';
 import '../widgets/my_page/step_bar_chart.dart';
+import '../widgets/my_page/step_window.dart';
+import '../widgets/my_page/today_goal_chart.dart';
 import '../widgets/my_page/user_info.dart';
 
 class MyPageScreen extends StatelessWidget {
@@ -17,8 +19,14 @@ class MyPageScreen extends StatelessWidget {
       child: Column(
         children: [
           UserInfo(),
-          const Text('마이페이지'),
-          Obx(() => Text(walkController.getCurrentStep())),
+          Container(
+            height: 10,
+          ),
+          StepWindow(),
+          Container(
+            height: 10,
+          ),
+          TodayGoalChart(),
           TextButton(
             onPressed: () {
               walkController.updateCurrentStep();
