@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/search_group_controller.dart';
+import '../service/pixel_service.dart';
 
 class SearchGroupScreen extends StatelessWidget {
   const SearchGroupScreen({super.key});
@@ -10,6 +11,8 @@ class SearchGroupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final GroupSearchController groupSearchController =
         Get.put(GroupSearchController());
+
+    PixelService pixelService = PixelService();
 
     return GestureDetector(
       onTap: () {
@@ -72,7 +75,8 @@ class SearchGroupScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return ListTile(
                           title: Text(
-                              groupSearchController.searchResult[index].name,),
+                            groupSearchController.searchResult[index].name,
+                          ),
                         );
                       },
                     );

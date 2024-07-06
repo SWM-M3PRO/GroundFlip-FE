@@ -10,6 +10,7 @@ class PixelInfoController extends GetxController {
   getIndividualModePixelInfo(int pixelId) async {
     IndividualModePixelInfo individualModePixelInfo =
         await pixelService.getIndividualModePixelInfo(pixelId: pixelId);
+
     return individualModePixelInfo;
   }
 
