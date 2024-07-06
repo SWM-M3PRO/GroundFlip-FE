@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'search_group_screen.dart';
+import '../service/pixel_service.dart';
 
 class GroupScreen extends StatelessWidget {
   const GroupScreen({super.key});
