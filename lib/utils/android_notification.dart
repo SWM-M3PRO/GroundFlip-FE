@@ -45,10 +45,10 @@ Future<void> initForegroundTask() async {
 
 @pragma('vm:entry-point')
 void startCallback() {
-  FlutterForegroundTask.setTaskHandler(FirstTaskHandler());
+  FlutterForegroundTask.setTaskHandler(AndroidWalkingHandler());
 }
 
-class FirstTaskHandler extends TaskHandler {
+class AndroidWalkingHandler extends TaskHandler {
   SendPort? _sendPort;
   late Stream<StepCount> _stepCountStream;
   final GetStorage _localStorage = GetStorage();
@@ -60,7 +60,7 @@ class FirstTaskHandler extends TaskHandler {
   @override
   void onStart(DateTime timestamp, SendPort? sendPort) async {
     _sendPort = sendPort;
-    currentSteps = (await _localStorage.read(todayStepKey)) ?? 0;
+    currentSteps = _localStorage.read(todayStepKey) ?? 0;
     _stepCountStream = Pedometer.stepCountStream.asBroadcastStream();
     _stepCountStream.listen(updateStep).onError(onStepCountError);
     _initializeMidnightReset();
@@ -74,9 +74,10 @@ class FirstTaskHandler extends TaskHandler {
     DateTime now = DateTime.now();
     DateTime midnight = DateTime(now.year, now.month, now.day + 1);
     Duration timeUntilMidnight = midnight.difference(now);
-
+    _midnightTimer?.cancel();
     _midnightTimer = Timer(timeUntilMidnight, () {
       _resetStepsAtMidnight();
+      _midnightTimer?.cancel();
       _midnightTimer = Timer.periodic(Duration(days: 1), (timer) {
         _resetStepsAtMidnight();
       });
@@ -84,6 +85,7 @@ class FirstTaskHandler extends TaskHandler {
   }
 
   void _resetStepsAtMidnight() {
+    // TODO : 서버에 걸음수 저장하는 로직 추가
     currentSteps = 0;
     _localStorage.write(todayStepKey, 0);
 
@@ -97,8 +99,8 @@ class FirstTaskHandler extends TaskHandler {
   updateStep(StepCount event) async {
     int currentTotalStep = event.steps;
 
-    int lastSavedStepCount = await _localStorage.read(lastSavedStepKey);
-    int todaySteps = await _localStorage.read(todayStepKey) ?? 0;
+    int? lastSavedStepCount = _localStorage.read(lastSavedStepKey);
+    int todaySteps = _localStorage.read(todayStepKey) ?? 0;
 
     if (lastSavedStepCount == null) {
       _localStorage.write(lastSavedStepKey, currentTotalStep);
