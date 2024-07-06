@@ -26,8 +26,7 @@ class WalkingController extends GetxController {
     _initializeWeeklySteps();
     _initializeCurrentStep();
 
-    Timer.periodic(Duration(seconds: 10), (timer) {
-      print('--------------walk update---------------');
+    Timer.periodic(Duration(seconds: 1), (timer) {
       updateCurrentStep();
     });
   }

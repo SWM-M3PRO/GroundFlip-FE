@@ -1,84 +1,25 @@
 import 'dart:async';
+import 'dart:isolate';
 
-import 'package:get_storage/get_storage.dart';
-import 'package:pedometer/pedometer.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 
+import '../utils/android_notification.dart';
 import '../utils/walking_service.dart';
 
 class AndroidWalkingService implements WalkingService {
-  final GetStorage localStorage = GetStorage();
-
-  static String LOCAL_STORE_STEP_KEY = 'pastSteps';
-  static int checkDay = 0;
-
-  late Stream<StepCount> _stepCountStream;
-
-  bool isInit = false;
+  ReceivePort? _receivePort;
   int currentSteps = 0;
-  int totalSteps = 0;
-  int pastSteps = 0;
 
   static final AndroidWalkingService _instance =
       AndroidWalkingService._internal();
 
   AndroidWalkingService._internal() {
-    // print('생성');
-    print('AndroidWalkingService instance created: ${identityHashCode(this)}');
-    // initPlatformState();
-    // // init();
-    Timer.periodic(Duration(minutes: 5), (t) {
-      print('---------------day init------------');
-      if (checkDay != DateTime.now().day) {
-        resetStepTimer();
-        checkDay = DateTime.now().day;
-      }
-    });
+    _initForegroundWalkingTask();
   }
 
   factory AndroidWalkingService() {
-    // initPlatformState();
-    // // init();
-    // Timer.periodic(Duration(minutes: 5), (t) {
-    //   if (checkDay != DateTime.now().day) {
-    //     resetStepTimer();
-    //     checkDay = DateTime.now().day;
-    //   }
-    // });
     return _instance;
-  }
-
-  Future<void> init() async {
-    await GetStorage.init();
-  }
-
-  void initPlatformState() {
-    _stepCountStream = Pedometer.stepCountStream.asBroadcastStream();
-    _stepCountStream.listen(updateStep).onError(onStepCountError);
-    isInit = true;
-  }
-
-  void onStepCountError(error) {
-    currentSteps = 0;
-  }
-
-  void updateStep(StepCount event) async {
-    totalSteps = event.steps;
-
-    int? value = localStorage.read(LOCAL_STORE_STEP_KEY);
-    if (value == null || value == 0) {
-      pastSteps = totalSteps;
-      localStorage.write(LOCAL_STORE_STEP_KEY, totalSteps);
-    } else {
-      pastSteps = value;
-    }
-    currentSteps = totalSteps - pastSteps;
-    print(currentSteps);
-  }
-
-  void resetStepTimer() async {
-    pastSteps = totalSteps;
-    currentSteps = 0;
-    localStorage.write(LOCAL_STORE_STEP_KEY, totalSteps);
   }
 
   @override
@@ -92,5 +33,32 @@ class AndroidWalkingService implements WalkingService {
     DateTime endDate,
   ) {
     return Future.value([1500, 2500, 3500, 4500, 5500, 6500, 7500]);
+  }
+
+  Future<void> _initForegroundWalkingTask() async {
+    initForegroundTask();
+    final newReceivePort = FlutterForegroundTask.receivePort;
+    _registerReceivePort(newReceivePort);
+  }
+
+  bool _registerReceivePort(ReceivePort? newReceivePort) {
+    if (newReceivePort == null) {
+      return false;
+    }
+
+    _closeReceivePort();
+
+    _receivePort = newReceivePort;
+    _receivePort?.listen((data) {
+      currentSteps = data;
+      debugPrint('current walk: $data');
+    });
+
+    return _receivePort != null;
+  }
+
+  void _closeReceivePort() {
+    _receivePort?.close();
+    _receivePort = null;
   }
 }
