@@ -7,6 +7,7 @@ import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import '../utils/android_notification.dart';
 import '../utils/walking_service.dart';
 
+//ToDo : 안드로이드 서비스 실제로 구현하기
 class AndroidWalkingService implements WalkingService {
   ReceivePort? _receivePort;
   int currentSteps = 0;
@@ -51,7 +52,6 @@ class AndroidWalkingService implements WalkingService {
     _receivePort = newReceivePort;
     _receivePort?.listen((data) {
       currentSteps = data;
-      debugPrint('current walk: $data');
     });
 
     return _receivePort != null;
