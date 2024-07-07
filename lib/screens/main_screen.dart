@@ -5,6 +5,8 @@ import '../controllers/my_page_controller.dart';
 import '../controllers/navigation_controller.dart';
 import '../widgets/common/naviagtion_bar.dart';
 
+
+
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
@@ -15,7 +17,7 @@ class MainScreen extends StatelessWidget {
     Get.put(MyPageController());
 
     return Scaffold(
-      appBar: PreferredSize(
+        appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Obx(() => navigationController.getCurrentAppBar()),
       ),

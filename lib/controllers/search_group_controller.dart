@@ -26,7 +26,6 @@ class GroupSearchController extends GetxController {
   @override
   void onClose() {
     searchFocusnode.dispose();
-    searchFocusnode.dispose();
     super.onClose();
   }
 

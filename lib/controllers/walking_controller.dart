@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:get/get.dart';
 
@@ -25,8 +26,12 @@ class WalkingController extends GetxController {
     walkingService = WalkingServiceFactory.getWalkingService();
     _initializeWeeklySteps();
     _initializeCurrentStep();
+    _initializeUpdateTimer();
+  }
 
-    Timer.periodic(Duration(seconds: 30), (timer) {
+  void _initializeUpdateTimer() {
+    int updateInterval = Platform.isIOS ? 60 : 1;
+    Timer.periodic(Duration(seconds: updateInterval), (timer) {
       updateCurrentStep();
     });
   }

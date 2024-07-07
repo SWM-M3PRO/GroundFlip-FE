@@ -23,6 +23,9 @@ dependencies:
   health: ^10.2.0
   fl_chart: ^0.68.0
   dropdown_button2: ^2.3.9
+  pedometer: ^4.0.1
+  get_storage: ^2.1.1
+  flutter_foreground_task: ^6.5.0
 
 dev_dependencies:
   flutter_test:
