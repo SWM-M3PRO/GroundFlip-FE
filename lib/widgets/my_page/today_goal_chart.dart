@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../controllers/walking_controller.dart';
 
 class TodayGoalChart extends StatelessWidget {
   const TodayGoalChart({super.key});
 
   @override
   Widget build(BuildContext context) {
-    int todayStep = 6666;
+    final WalkingController walkingController = Get.put(
+      WalkingController(),
+    );
 
     return Column(
       children: [
@@ -15,21 +20,33 @@ class TodayGoalChart extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               height: 30,
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
             ),
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              height: 30,
-              width:
-                  (MediaQuery.of(context).size.width - 20) / 10000 * todayStep,
-              decoration: BoxDecoration(
+            Obx(
+              () => Container(
+                padding: const EdgeInsets.all(10.0),
+                height: 30,
+                width: (MediaQuery.of(context).size.width - 20) /
+                    10000 *
+                    walkingController.currentStep.value,
+                decoration: BoxDecoration(
                   color: Colors.greenAccent,
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
-        Text('목표 걸음의 ${todayStep / 10000 * 100} % 달성!'),
+        Obx(
+          () => Text(
+              '목표 걸음의 ${(walkingController.currentStep.value / 10000 * 100).toStringAsFixed(2)} % 달성!'),
+        ),
       ],
     );
   }

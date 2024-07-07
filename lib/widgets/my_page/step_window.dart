@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../controllers/walking_controller.dart';
 
 class StepWindow extends StatelessWidget {
   const StepWindow({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final WalkingController walkController = Get.put(WalkingController());
+
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -75,7 +80,7 @@ class StepWindow extends StatelessWidget {
                     width : 80,
                     height: 80,
                   ),
-                  Text('123')
+                  Obx(() => Text('${walkController.currentStep.value}'))
                 ],
               ),
             ),
