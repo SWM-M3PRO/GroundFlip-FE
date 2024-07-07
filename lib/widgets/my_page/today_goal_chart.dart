@@ -45,7 +45,7 @@ class TodayGoalChart extends StatelessWidget {
         ),
         Obx(
           () => Text(
-              '목표 걸음의 ${(walkingController.currentStep.value / 10000 * 100).toStringAsFixed(2)} % 달성!'),
+              '목표 걸음의 ${(walkingController.currentStep.value / 10000 * 100).toStringAsFixed(2)} % 달성!!'),
         ),
       ],
     );
