@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/my_page_controller.dart';
 import '../../controllers/walking_controller.dart';
 
 class StepWindow extends StatelessWidget {
@@ -9,6 +10,7 @@ class StepWindow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final WalkingController walkController = Get.put(WalkingController());
+    final MyPageController myPageController = Get.put(MyPageController());
 
     return Stack(
       alignment: Alignment.center,
@@ -25,8 +27,8 @@ class StepWindow extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
-              width : 120,
-              height : 130,
+              width: 120,
+              height: 130,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -37,16 +39,20 @@ class StepWindow extends StatelessWidget {
                   Text('현재 픽셀수'),
                   Image.asset(
                     'assets/currentTile.png',
-                    width : 80,
+                    width: 80,
                     height: 80,
                   ),
-                  Text('123')
+                  Obx(
+                    () => Text(
+                      myPageController.getCurrentUserPixel().toString(),
+                    ),
+                  ),
                 ],
               ),
             ),
             Container(
-              width : 120,
-              height : 130,
+              width: 120,
+              height: 130,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -57,16 +63,20 @@ class StepWindow extends StatelessWidget {
                   Text('누적 픽셀수'),
                   Image.asset(
                     'assets/allTile.png',
-                    width : 80,
+                    width: 80,
                     height: 80,
                   ),
-                  Text('123')
+                  Obx(
+                    () => Text(
+                      myPageController.getAccumulateUserPixel().toString(),
+                    ),
+                  ),
                 ],
               ),
             ),
             Container(
-              width : 120,
-              height : 130,
+              width: 120,
+              height: 130,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -77,7 +87,7 @@ class StepWindow extends StatelessWidget {
                   Text('걸음 수'),
                   Image.asset(
                     'assets/stepIcon.png',
-                    width : 80,
+                    width: 80,
                     height: 80,
                   ),
                   Obx(() => Text('${walkController.currentStep.value}'))
