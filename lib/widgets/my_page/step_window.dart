@@ -90,12 +90,14 @@ class StepWindow extends StatelessWidget {
                     width: 80,
                     height: 80,
                   ),
-                  Obx(() => Text('${walkController.currentStep.value}'))
+                  Obx(
+                    () => Text('${walkController.currentStep.value}'),
+                  ),
                 ],
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }
