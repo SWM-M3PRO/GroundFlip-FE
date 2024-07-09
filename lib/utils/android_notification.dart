@@ -34,13 +34,12 @@ Future<void> initForegroundTask() async {
         allowWifiLock: true,
       ),
     );
+    FlutterForegroundTask.startService(
+      notificationTitle: "걸음수",
+      notificationText: "0",
+      callback: startCallback,
+    );
   }
-
-  FlutterForegroundTask.startService(
-    notificationTitle: "걸음수",
-    notificationText: "0",
-    callback: startCallback,
-  );
 }
 
 @pragma('vm:entry-point')
