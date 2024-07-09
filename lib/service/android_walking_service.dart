@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 
 import '../utils/android_notification.dart';
@@ -51,7 +50,6 @@ class AndroidWalkingService implements WalkingService {
     _receivePort = newReceivePort;
     _receivePort?.listen((data) {
       currentSteps = data;
-      debugPrint('current walk: $data');
     });
 
     return _receivePort != null;
