@@ -1,7 +1,7 @@
 class AuthResponse {
   String? accessToken;
   String? refreshToken;
-  String? isSignUp;
+  bool? isSignUp;
 
   AuthResponse({
     this.accessToken,

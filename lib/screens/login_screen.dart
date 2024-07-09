@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    LoginController loginController = Get.put(LoginController());
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -30,6 +35,9 @@ class LoginScreen extends StatelessWidget {
               height: 250,
             ),
             GestureDetector(
+              onTap: () {
+                loginController.loginWithKakao();
+              },
               child: Image.asset("assets/kakao_login_medium_narrow.png"),
             ),
             SizedBox(
