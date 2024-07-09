@@ -6,6 +6,8 @@ PODS:
     - Flutter
   - flutter_foreground_task (0.0.1):
     - Flutter
+  - flutter_secure_storage (6.0.0):
+    - Flutter
   - google_maps_flutter_ios (0.0.1):
     - Flutter
     - GoogleMaps (< 10.0, >= 8.4)
@@ -38,6 +40,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_config (from `.symlinks/plugins/flutter_config/ios`)
   - flutter_foreground_task (from `.symlinks/plugins/flutter_foreground_task/ios`)
+  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - health (from `.symlinks/plugins/health/ios`)
   - kakao_flutter_sdk_common (from `.symlinks/plugins/kakao_flutter_sdk_common/ios`)
@@ -61,6 +64,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_config/ios"
   flutter_foreground_task:
     :path: ".symlinks/plugins/flutter_foreground_task/ios"
+  flutter_secure_storage:
+    :path: ".symlinks/plugins/flutter_secure_storage/ios"
   google_maps_flutter_ios:
     :path: ".symlinks/plugins/google_maps_flutter_ios/ios"
   health:
@@ -85,6 +90,7 @@ SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_config: f48f0d47a284f1791aacce2687eabb3309ba7a41
   flutter_foreground_task: 21ef182ab0a29a3005cc72cd70e5f45cb7f7f817
+  flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
   google_maps_flutter_ios: 5bc2be60ad012e79b182ce0fb0ef5030a50fb03e
   GoogleMaps: 8939898920281c649150e0af74aa291c60f2e77d
   health: 5a380c0f6c4f619535845992993964293962e99e
