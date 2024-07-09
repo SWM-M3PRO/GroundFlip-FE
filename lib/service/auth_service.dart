@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
+import '../models/auth_response.dart';
 import '../utils/dio_service.dart';
 
 class AuthService {
@@ -13,6 +14,13 @@ class AuthService {
 
   factory AuthService() {
     return _instance;
+  }
+
+  postKakaoLogin(String accessToken) async {
+    var response =
+        await dio.post('/auth/kakao/login', data: {"accessToken": accessToken});
+
+    return AuthResponse.fromJson(response.data["data"]);
   }
 
   Future<String> getKakaoAccessToken() async {
