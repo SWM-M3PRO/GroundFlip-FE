@@ -68,7 +68,6 @@ class PixelService {
     return IndividualModePixelInfo.fromJson(response.data['data']);
   }
 
-
   Future<IndividualHistoryPixelInfo> getIndividualHistoryPixelInfo({
     required int pixelId,
     required int userId,
@@ -76,7 +75,7 @@ class PixelService {
     var response = await dio.get(
       '/pixels/individual-history/$pixelId',
       queryParameters: {
-        'user-id' : userId,
+        'user-id': userId,
       },
     );
 

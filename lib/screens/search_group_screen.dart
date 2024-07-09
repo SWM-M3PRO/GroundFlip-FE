@@ -72,7 +72,8 @@ class SearchGroupScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return ListTile(
                           title: Text(
-                              groupSearchController.searchResult[index].name,),
+                            groupSearchController.searchResult[index].name,
+                          ),
                         );
                       },
                     );

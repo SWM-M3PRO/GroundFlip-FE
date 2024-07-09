@@ -16,7 +16,7 @@ class GroupScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                Get.to(()=> SearchGroupScreen());
+                Get.to(() => SearchGroupScreen());
               },
               child: const Text('그룹검색'),
             ),
