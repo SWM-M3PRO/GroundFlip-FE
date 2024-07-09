@@ -16,6 +16,8 @@ PODS:
     - GoogleMaps/Base
   - health (1.0.4):
     - Flutter
+  - kakao_flutter_sdk_common (1.9.3):
+    - Flutter
   - location (0.0.1):
     - Flutter
   - path_provider_foundation (0.0.1):
@@ -28,6 +30,8 @@ PODS:
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
@@ -36,11 +40,13 @@ DEPENDENCIES:
   - flutter_foreground_task (from `.symlinks/plugins/flutter_foreground_task/ios`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - health (from `.symlinks/plugins/health/ios`)
+  - kakao_flutter_sdk_common (from `.symlinks/plugins/kakao_flutter_sdk_common/ios`)
   - location (from `.symlinks/plugins/location/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - pedometer (from `.symlinks/plugins/pedometer/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
   trunk:
@@ -59,6 +65,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_maps_flutter_ios/ios"
   health:
     :path: ".symlinks/plugins/health/ios"
+  kakao_flutter_sdk_common:
+    :path: ".symlinks/plugins/kakao_flutter_sdk_common/ios"
   location:
     :path: ".symlinks/plugins/location/ios"
   path_provider_foundation:
@@ -69,6 +77,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
   device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
@@ -78,11 +88,13 @@ SPEC CHECKSUMS:
   google_maps_flutter_ios: 5bc2be60ad012e79b182ce0fb0ef5030a50fb03e
   GoogleMaps: 8939898920281c649150e0af74aa291c60f2e77d
   health: 5a380c0f6c4f619535845992993964293962e99e
+  kakao_flutter_sdk_common: 80c3308f209f3d6cc74e338ffea3a51d17501d77
   location: d5cf8598915965547c3f36761ae9cc4f4e87d22e
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   pedometer: 381969883680ade42559782cc41a3bbd453d8234
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
+  webview_flutter_wkwebview: be0f0d33777f1bfd0c9fdcb594786704dbf65f36
 
 PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 

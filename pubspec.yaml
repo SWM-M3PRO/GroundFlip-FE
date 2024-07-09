@@ -26,6 +26,7 @@ dependencies:
   pedometer: ^4.0.1
   get_storage: ^2.1.1
   flutter_foreground_task: ^6.5.0
+  kakao_flutter_sdk: ^1.9.3
 
 dev_dependencies:
   flutter_test:
