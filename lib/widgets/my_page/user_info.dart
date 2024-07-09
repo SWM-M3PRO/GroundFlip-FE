@@ -14,51 +14,54 @@ class UserInfo extends StatelessWidget {
         // TODO: 개인정보 수정 페이지로 넘어가게 구현
       },
       child: Ink(
-          decoration: const BoxDecoration(
-            color: Color(0xFFD9D9D9),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Obx(
-              () => Row(
-                children: [
-                  ClipOval(
-                    child: myPageController.getProfileImageURL() != null
-                        ? Image.network(
-                            myPageController
-                                .getProfileImageURL()
-                                .profileImageUrl!,
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            'assets/default_profile_image.png',
-                            width: 80,
-                            height: 80,
-                          ),
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '그룹명',// myPageController.getCurrentUserNickname(),
-                        style: TextStyle(fontSize: 25),
-                      ),
-                      Text('닉네임',//myPageController.getCurrentUserCommunityName(),
-                          style: TextStyle(fontSize: 20),),
-                    ],
-                  ),
-                  Spacer(),
-                  Icon(Icons.arrow_forward_ios),
-                ],
-              ),
+        decoration: const BoxDecoration(
+          color: Color(0xFFD9D9D9),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Obx(
+            () => Row(
+              children: [
+                ClipOval(
+                  child: myPageController.getProfileImageURL() != null
+                      ? Image.network(
+                          myPageController
+                              .getProfileImageURL()
+                              .profileImageUrl!,
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          'assets/default_profile_image.png',
+                          width: 80,
+                          height: 80,
+                        ),
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      myPageController.getCurrentUserNickname(),
+                      style: TextStyle(fontSize: 25),
+                    ),
+                    Text(
+                      myPageController.getCurrentUserCommunityName(),
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                Icon(Icons.arrow_forward_ios),
+              ],
             ),
-          ),),
+          ),
+        ),
+      ),
     );
   }
 }

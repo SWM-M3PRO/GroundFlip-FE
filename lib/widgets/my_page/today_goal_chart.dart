@@ -8,10 +8,7 @@ class TodayGoalChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final WalkingController walkingController = Get.put(
-      WalkingController(),
-    );
-
+    WalkingController walkingController = Get.put(WalkingController());
     return Column(
       children: [
         Stack(

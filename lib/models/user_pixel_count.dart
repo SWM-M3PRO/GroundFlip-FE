@@ -1,13 +1,13 @@
-class UserPixelLog {
+class UserPixelCount {
   int? currentPixelCount;
   int? accumulatePixelCount;
 
-  UserPixelLog({
+  UserPixelCount({
     this.currentPixelCount,
     this.accumulatePixelCount,
   });
 
-  UserPixelLog.fromJson(Map<String, dynamic> json){
+  UserPixelCount.fromJson(Map<String, dynamic> json){
     currentPixelCount = json['currentPixelCount'];
     accumulatePixelCount = json['accumulatePixelCount'];
   }

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../models/user.dart';
-import '../models/user_pixel_log.dart';
+import '../models/user_pixel_count.dart';
 import '../utils/dio_service.dart';
 
 class UserService {
@@ -20,11 +20,11 @@ class UserService {
     return User.fromJson(response.data['data']);
   }
 
-  Future<UserPixelLog> getUserPixelLog() async {
+  Future<UserPixelCount> getUserPixelCount() async {
     var response = await dio.get(
-      '/count',
-      queryParameters: {'user-id': userId},
+      '/pixels/count',
+      queryParameters: {"user-id": userId},
     );
-    return UserPixelLog.fromJson(response.data['data']);
+    return UserPixelCount.fromJson(response.data['data']);
   }
 }
