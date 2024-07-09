@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 import '../models/auth_response.dart';
@@ -9,6 +10,7 @@ class AuthService {
   static final AuthService _instance = AuthService._internal();
 
   final Dio dio = DioService().getDio();
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
   AuthService._internal();
 
@@ -16,11 +18,32 @@ class AuthService {
     return _instance;
   }
 
-  postKakaoLogin(String accessToken) async {
-    var response =
-        await dio.post('/auth/kakao/login', data: {"accessToken": accessToken});
+  loginWithKakao() async {
+    String accessToken = await getKakaoAccessToken();
+    AuthResponse authResponse = await postKakaoLogin(accessToken);
+    await _saveTokens(authResponse);
+    return authResponse;
+  }
 
-    return AuthResponse.fromJson(response.data["data"]);
+  Future<void> _saveTokens(AuthResponse authResponse) async {
+    await secureStorage.write(
+      key: "accessToken",
+      value: authResponse.accessToken,
+    );
+    await secureStorage.write(
+      key: "refreshToken",
+      value: authResponse.refreshToken,
+    );
+  }
+
+  Future<AuthResponse> postKakaoLogin(String accessToken) async {
+    try {
+      var response = await dio
+          .post('/auth/kakao/login', data: {"accessToken": accessToken});
+      return AuthResponse.fromJson(response.data["data"]);
+    } catch (error) {
+      throw Exception("로그인 실패");
+    }
   }
 
   Future<String> getKakaoAccessToken() async {
