@@ -27,9 +27,11 @@ class TodayGoalChart extends StatelessWidget {
               () => Container(
                 padding: const EdgeInsets.all(10.0),
                 height: 30,
-                width: (MediaQuery.of(context).size.width - 20) /
-                    10000 *
-                    walkingController.currentStep.value,
+                width: walkingController.currentStep.value <= 10000
+                    ? (MediaQuery.of(context).size.width - 20) /
+                        10000 *
+                        walkingController.currentStep.value
+                    : 10000,
                 decoration: BoxDecoration(
                   color: Colors.greenAccent,
                   borderRadius: BorderRadius.all(

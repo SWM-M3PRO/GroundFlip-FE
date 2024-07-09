@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 
 import '../controllers/my_page_controller.dart';
 import '../controllers/walking_controller.dart';
-import '../widgets/my_page/step_bar_chart.dart';
 import '../widgets/my_page/dash_board.dart';
+import '../widgets/my_page/step_bar_chart.dart';
 import '../widgets/my_page/today_goal_chart.dart';
 import '../widgets/my_page/user_info.dart';
 

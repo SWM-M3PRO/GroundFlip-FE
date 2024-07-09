@@ -7,7 +7,7 @@ import '../../controllers/walking_controller.dart';
 class DashBoardWidget extends StatelessWidget {
   final String textValue;
   final String iconImageUrl;
-  RxInt countValue = 0.obs;
+  final RxInt countValue;
 
   DashBoardWidget({
     super.key,
@@ -15,12 +15,9 @@ class DashBoardWidget extends StatelessWidget {
     required this.iconImageUrl,
     required this.countValue,
   });
-  MyPageController myPageController = Get.find<MyPageController>();
-  WalkingController walkingController = Get.find<WalkingController>();
 
-  // RxString textValue = '-'.obs;
-  // RxInt countValue = 0.obs;
-  // RxString iconImageUrl = '-'.obs;
+  final MyPageController myPageController = Get.find<MyPageController>();
+  final WalkingController walkingController = Get.find<WalkingController>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +31,9 @@ class DashBoardWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('$textValue'),
+          Text(textValue),
           Image.asset(
-            'assets/${iconImageUrl}',
+            'assets/$iconImageUrl',
             width: 40,
             height: 40,
           ), // () => Text('$countValue'),

@@ -16,7 +16,6 @@ class MyPageController extends GetxController {
     UserPixelCount userPixelLogInfo = await userService.getUserPixelCount();
     currentUserInfo.value = userInfo;
     userPixelCount.value = userPixelLogInfo;
-    print('userinfo info ${userInfo}');
   }
 
   getProfileImageURL() {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../controllers/my_page_controller.dart';
 import '../../controllers/walking_controller.dart';
@@ -11,8 +10,8 @@ class DashBoard extends StatelessWidget {
     super.key,
   });
 
-  MyPageController myPageController = Get.find<MyPageController>();
-  WalkingController walkingController = Get.find<WalkingController>();
+  final MyPageController myPageController = Get.find<MyPageController>();
+  final WalkingController walkingController = Get.find<WalkingController>();
 
   @override
   Widget build(BuildContext context) {
