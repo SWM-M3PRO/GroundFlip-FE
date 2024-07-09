@@ -38,6 +38,8 @@ dev_dependencies:
 flutter:
   assets:
     - assets/default_profile_image.png
+    - assets/ground_flip_logo.png
+    - assets/kakao_login_medium_narrow.png
     - .env
     - assets/map_style/
   uses-material-design: true
