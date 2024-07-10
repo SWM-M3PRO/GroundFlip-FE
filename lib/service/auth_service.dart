@@ -19,6 +19,20 @@ class AuthService {
     return _instance;
   }
 
+  Future<bool> isLogin() async {
+    String? accessToken = await secureStorage.read(
+      key: "accessToken",
+    );
+    String? refreshToken = await secureStorage.read(
+      key: "refreshToken",
+    );
+    if (accessToken == null || refreshToken == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   loginWithKakao() async {
     String accessToken = await getKakaoAccessToken();
     AuthResponse authResponse = await postKakaoLogin(accessToken);
