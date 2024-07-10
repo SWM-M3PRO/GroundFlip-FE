@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
+import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
 
 Future<void> main() async {
@@ -27,9 +28,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: '/main',
+      initialRoute: '/login',
       getPages: [
         GetPage(name: '/main', page: () => const MainScreen()),
+        GetPage(name: '/login', page: () => const LoginScreen()),
       ],
     );
   }

@@ -17,7 +17,7 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Image.asset(
-              'assets/ground_flip_logo.png',
+              'assets/images/ground_flip_logo.png',
               width: 180,
               height: 180,
             ),
@@ -38,7 +38,7 @@ class LoginScreen extends StatelessWidget {
               onTap: () {
                 loginController.loginWithKakao();
               },
-              child: Image.asset("assets/kakao_login_medium_narrow.png"),
+              child: Image.asset("assets/images/kakao_login_medium_narrow.png"),
             ),
             SizedBox(
               height: 50,

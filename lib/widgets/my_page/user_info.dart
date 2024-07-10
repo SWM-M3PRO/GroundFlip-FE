@@ -34,7 +34,7 @@ class UserInfo extends StatelessWidget {
                           fit: BoxFit.cover,
                         )
                       : Image.asset(
-                          'assets/default_profile_image.png',
+                          'assets/images/default_profile_image.png',
                           width: 80,
                           height: 80,
                         ),
