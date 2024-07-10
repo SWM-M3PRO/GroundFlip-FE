@@ -8,6 +8,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import '../models/auth_response.dart';
 import '../utils/dio_service.dart';
 import '../utils/secure_storage.dart';
+import '../utils/user_manager.dart';
 
 class AuthService {
   static final AuthService _instance = AuthService._internal();
@@ -24,7 +25,7 @@ class AuthService {
   logout() {
     secureStorage.deleteAccessToken();
     secureStorage.deleteRefreshToken();
-    secureStorage.deleteUserId();
+    UserManager().init();
   }
 
   Future<bool> isLogin() async {
@@ -33,33 +34,22 @@ class AuthService {
     if (accessToken == null || refreshToken == null) {
       return false;
     } else {
+      UserManager().setUserId(_extractUserIdFromToken(accessToken));
       return true;
     }
   }
 
-  String _extractUserIdFromToken(String token) {
-    final parts = token.split('.');
-    if (parts.length != 3) {
-      throw Exception('invalid token');
-    }
-    final payload =
-        utf8.decode(base64Url.decode(base64Url.normalize(parts[1])));
-    final payloadMap = json.decode(payload);
-    return payloadMap['userId'].toString();
-  }
-
   loginWithKakao() async {
-    String accessToken = await getKakaoAccessToken();
+    String accessToken = await _getKakaoAccessToken();
     AuthResponse authResponse = await postKakaoLogin(accessToken);
     await _saveTokens(authResponse);
     return authResponse;
   }
 
   Future<void> _saveTokens(AuthResponse authResponse) async {
-    String userId = _extractUserIdFromToken(authResponse.accessToken!);
     await secureStorage.writeAccessToken(authResponse.accessToken);
     await secureStorage.writeRefreshToken(authResponse.refreshToken);
-    await secureStorage.writeUserId(userId);
+    UserManager().setUserId(_extractUserIdFromToken(authResponse.accessToken!));
   }
 
   Future<AuthResponse> postKakaoLogin(String accessToken) async {
@@ -72,7 +62,7 @@ class AuthService {
     }
   }
 
-  Future<String> getKakaoAccessToken() async {
+  Future<String> _getKakaoAccessToken() async {
     OAuthToken? token;
     if (await isKakaoTalkInstalled()) {
       token = await _loginWithKakaoTalkApp();
@@ -107,5 +97,16 @@ class AuthService {
       debugPrint('카카오계정으로 로그인 실패 $error');
       throw Exception("로그인 실패");
     }
+  }
+
+  String _extractUserIdFromToken(String token) {
+    final parts = token.split('.');
+    if (parts.length != 3) {
+      throw Exception('invalid token');
+    }
+    final payload =
+        utf8.decode(base64Url.decode(base64Url.normalize(parts[1])));
+    final payloadMap = json.decode(payload);
+    return payloadMap['userId'].toString();
   }
 }
