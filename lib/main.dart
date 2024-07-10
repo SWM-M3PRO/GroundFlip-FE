@@ -6,6 +6,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
+import 'service/auth_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,11 +15,17 @@ Future<void> main() async {
   KakaoSdk.init(
     nativeAppKey: dotenv.env['NATIVE_APP_KEY']!,
   );
-  runApp(const MyApp());
+
+  String initialRoute = await AuthService().isLogin() ? '/main' : '/login';
+  runApp(MyApp(
+    initialRoute: initialRoute,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.initialRoute});
+
+  final String initialRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +35,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: '/login',
+      initialRoute: initialRoute,
       getPages: [
         GetPage(name: '/main', page: () => const MainScreen()),
         GetPage(name: '/login', page: () => const LoginScreen()),
