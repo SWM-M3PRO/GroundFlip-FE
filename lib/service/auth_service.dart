@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +24,7 @@ class AuthService {
   logout() {
     secureStorage.deleteAccessToken();
     secureStorage.deleteRefreshToken();
+    secureStorage.deleteUserId();
   }
 
   Future<bool> isLogin() async {
@@ -34,6 +37,17 @@ class AuthService {
     }
   }
 
+  String _extractUserIdFromToken(String token) {
+    final parts = token.split('.');
+    if (parts.length != 3) {
+      throw Exception('invalid token');
+    }
+    final payload =
+        utf8.decode(base64Url.decode(base64Url.normalize(parts[1])));
+    final payloadMap = json.decode(payload);
+    return payloadMap['userId'].toString();
+  }
+
   loginWithKakao() async {
     String accessToken = await getKakaoAccessToken();
     AuthResponse authResponse = await postKakaoLogin(accessToken);
@@ -42,8 +56,10 @@ class AuthService {
   }
 
   Future<void> _saveTokens(AuthResponse authResponse) async {
+    String userId = _extractUserIdFromToken(authResponse.accessToken!);
     await secureStorage.writeAccessToken(authResponse.accessToken);
     await secureStorage.writeRefreshToken(authResponse.refreshToken);
+    await secureStorage.writeUserId(userId);
   }
 
   Future<AuthResponse> postKakaoLogin(String accessToken) async {
