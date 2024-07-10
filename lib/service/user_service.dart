@@ -16,13 +16,13 @@ class UserService {
   }
 
   Future<User> getCurrentUserInfo() async {
-    String? userId = UserManager().getUserId();
+    int? userId = UserManager().getUserId();
     var response = await dio.get('/users/$userId');
     return User.fromJson(response.data['data']);
   }
 
   Future<UserPixelCount> getUserPixelCount() async {
-    String? userId = UserManager().getUserId();
+    int? userId = UserManager().getUserId();
     var response = await dio.get(
       '/pixels/count',
       queryParameters: {"user-id": userId},

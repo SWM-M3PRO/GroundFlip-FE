@@ -7,17 +7,17 @@ class UserManager {
 
   UserManager._internal();
 
-  String? userId;
+  int? userId;
 
   void init() {
     userId = null;
   }
 
-  void setUserId(String id) {
+  void setUserId(int id) {
     userId = id;
   }
 
-  String? getUserId() {
+  int? getUserId() {
     return userId;
   }
 }

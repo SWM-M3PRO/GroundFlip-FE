@@ -9,6 +9,7 @@ import '../enums/pixel_mode.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
 import '../service/pixel_service.dart';
+import '../utils/user_manager.dart';
 import '../widgets/pixel.dart';
 
 class MapController extends GetxController {
@@ -18,7 +19,6 @@ class MapController extends GetxController {
   static const String userMarkerId = 'USER';
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
-  static const int defaultUserId = 2;
 
   final Location location = Location();
   late final String mapStyle;
@@ -53,7 +53,10 @@ class MapController extends GetxController {
   }
 
   void updateCameraPosition(CameraPosition newCameraPosition) {
-    currentCameraPosition = LatLng(newCameraPosition.target.latitude, newCameraPosition.target.longitude);
+    currentCameraPosition = LatLng(
+      newCameraPosition.target.latitude,
+      newCameraPosition.target.longitude,
+    );
     _cameraIdleTimer?.cancel();
   }
 
@@ -71,7 +74,8 @@ class MapController extends GetxController {
   Future<void> initCurrentLocation() async {
     try {
       currentLocation = await location.getLocation();
-      currentCameraPosition = LatLng(currentLocation.latitude!, currentLocation.longitude!);
+      currentCameraPosition =
+          LatLng(currentLocation.latitude!, currentLocation.longitude!);
     } catch (e) {
       throw Error();
     } finally {
@@ -115,7 +119,7 @@ class MapController extends GetxController {
         await pixelService.getIndividualHistoryPixels(
       currentLatitude: currentCameraPosition.latitude,
       currentLongitude: currentCameraPosition.longitude,
-      userId: defaultUserId,
+      userId: UserManager().getUserId()!,
     );
 
     pixels.assignAll([
@@ -135,7 +139,7 @@ class MapController extends GetxController {
       for (var pixel in individualModePixels)
         Pixel.fromIndividualModePixel(
           pixel: pixel,
-          isMyPixel: (pixel.userId == defaultUserId),
+          isMyPixel: (pixel.userId == UserManager().getUserId()),
         ),
     ]);
   }
@@ -161,7 +165,7 @@ class MapController extends GetxController {
 
   Future<void> occupyPixel() async {
     await pixelService.occupyPixel(
-      userId: defaultUserId,
+      userId: UserManager().getUserId()!,
       currentLatitude: currentLocation.latitude!,
       currentLongitude: currentLocation.longitude!,
     );

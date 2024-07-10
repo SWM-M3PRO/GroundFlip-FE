@@ -99,7 +99,7 @@ class AuthService {
     }
   }
 
-  String _extractUserIdFromToken(String token) {
+  int _extractUserIdFromToken(String token) {
     final parts = token.split('.');
     if (parts.length != 3) {
       throw Exception('invalid token');
@@ -107,6 +107,6 @@ class AuthService {
     final payload =
         utf8.decode(base64Url.decode(base64Url.normalize(parts[1])));
     final payloadMap = json.decode(payload);
-    return payloadMap['userId'].toString();
+    return payloadMap['userId'];
   }
 }
