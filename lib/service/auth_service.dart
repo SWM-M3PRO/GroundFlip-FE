@@ -1,17 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 import '../models/auth_response.dart';
 import '../utils/dio_service.dart';
+import '../utils/secure_storage.dart';
 
 class AuthService {
   static final AuthService _instance = AuthService._internal();
 
   final Dio dio = DioService().getDio();
-  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+  final SecureStorage secureStorage = SecureStorage();
 
   AuthService._internal();
 
@@ -19,13 +19,14 @@ class AuthService {
     return _instance;
   }
 
+  logout() {
+    secureStorage.deleteAccessToken();
+    secureStorage.deleteRefreshToken();
+  }
+
   Future<bool> isLogin() async {
-    String? accessToken = await secureStorage.read(
-      key: "accessToken",
-    );
-    String? refreshToken = await secureStorage.read(
-      key: "refreshToken",
-    );
+    String? accessToken = await secureStorage.readAccessToken();
+    String? refreshToken = await secureStorage.readRefreshToken();
     if (accessToken == null || refreshToken == null) {
       return false;
     } else {
@@ -41,14 +42,8 @@ class AuthService {
   }
 
   Future<void> _saveTokens(AuthResponse authResponse) async {
-    await secureStorage.write(
-      key: "accessToken",
-      value: authResponse.accessToken,
-    );
-    await secureStorage.write(
-      key: "refreshToken",
-      value: authResponse.refreshToken,
-    );
+    await secureStorage.writeAccessToken(authResponse.accessToken);
+    await secureStorage.writeRefreshToken(authResponse.refreshToken);
   }
 
   Future<AuthResponse> postKakaoLogin(String accessToken) async {
