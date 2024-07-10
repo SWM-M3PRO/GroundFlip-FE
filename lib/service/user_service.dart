@@ -3,11 +3,11 @@ import 'package:dio/dio.dart';
 import '../models/user.dart';
 import '../models/user_pixel_count.dart';
 import '../utils/dio_service.dart';
+import '../utils/user_manager.dart';
 
 class UserService {
   static final UserService _instance = UserService._internal();
   final Dio dio = DioService().getDio();
-  static const int userId = 2;
 
   UserService._internal();
 
@@ -16,11 +16,13 @@ class UserService {
   }
 
   Future<User> getCurrentUserInfo() async {
+    int? userId = UserManager().getUserId();
     var response = await dio.get('/users/$userId');
     return User.fromJson(response.data['data']);
   }
 
   Future<UserPixelCount> getUserPixelCount() async {
+    int? userId = UserManager().getUserId();
     var response = await dio.get(
       '/pixels/count',
       queryParameters: {"user-id": userId},

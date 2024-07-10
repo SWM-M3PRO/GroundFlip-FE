@@ -1,13 +1,19 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart' hide Response;
+
+import '../service/auth_service.dart';
+import 'secure_storage.dart';
 
 class DioService {
   static final DioService _dioServices = DioService._internal();
   static final String baseUrl = dotenv.env['BASE_URL']!;
+  final SecureStorage secureStorage = SecureStorage();
 
   factory DioService() => _dioServices;
-  Map<String, dynamic> dioInformation = {};
 
   static Dio _dio = Dio();
 
@@ -22,6 +28,10 @@ class DioService {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
+          final accessToken = await secureStorage.readAccessToken();
+          options.headers.addAll({
+            'Authorization': 'Bearer $accessToken',
+          });
           logRequest(options);
           return handler.next(options);
         },
@@ -33,6 +43,10 @@ class DioService {
           DioException dioException,
           ErrorInterceptorHandler errorInterceptorHandler,
         ) {
+          if (dioException.response?.statusCode == HttpStatus.unauthorized) {
+            AuthService().logout();
+            Get.offAllNamed('/login');
+          }
           logError(dioException);
           return errorInterceptorHandler.next(dioException);
         },

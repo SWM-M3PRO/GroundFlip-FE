@@ -1,17 +1,20 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 import '../models/auth_response.dart';
 import '../utils/dio_service.dart';
+import '../utils/secure_storage.dart';
+import '../utils/user_manager.dart';
 
 class AuthService {
   static final AuthService _instance = AuthService._internal();
 
   final Dio dio = DioService().getDio();
-  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+  final SecureStorage secureStorage = SecureStorage();
 
   AuthService._internal();
 
@@ -19,22 +22,34 @@ class AuthService {
     return _instance;
   }
 
+  logout() {
+    secureStorage.deleteAccessToken();
+    secureStorage.deleteRefreshToken();
+    UserManager().init();
+  }
+
+  Future<bool> isLogin() async {
+    String? accessToken = await secureStorage.readAccessToken();
+    String? refreshToken = await secureStorage.readRefreshToken();
+    if (accessToken == null || refreshToken == null) {
+      return false;
+    } else {
+      UserManager().setUserId(_extractUserIdFromToken(accessToken));
+      return true;
+    }
+  }
+
   loginWithKakao() async {
-    String accessToken = await getKakaoAccessToken();
+    String accessToken = await _getKakaoAccessToken();
     AuthResponse authResponse = await postKakaoLogin(accessToken);
     await _saveTokens(authResponse);
     return authResponse;
   }
 
   Future<void> _saveTokens(AuthResponse authResponse) async {
-    await secureStorage.write(
-      key: "accessToken",
-      value: authResponse.accessToken,
-    );
-    await secureStorage.write(
-      key: "refreshToken",
-      value: authResponse.refreshToken,
-    );
+    await secureStorage.writeAccessToken(authResponse.accessToken);
+    await secureStorage.writeRefreshToken(authResponse.refreshToken);
+    UserManager().setUserId(_extractUserIdFromToken(authResponse.accessToken!));
   }
 
   Future<AuthResponse> postKakaoLogin(String accessToken) async {
@@ -47,7 +62,7 @@ class AuthService {
     }
   }
 
-  Future<String> getKakaoAccessToken() async {
+  Future<String> _getKakaoAccessToken() async {
     OAuthToken? token;
     if (await isKakaoTalkInstalled()) {
       token = await _loginWithKakaoTalkApp();
@@ -82,5 +97,16 @@ class AuthService {
       debugPrint('카카오계정으로 로그인 실패 $error');
       throw Exception("로그인 실패");
     }
+  }
+
+  int _extractUserIdFromToken(String token) {
+    final parts = token.split('.');
+    if (parts.length != 3) {
+      throw Exception('invalid token');
+    }
+    final payload =
+        utf8.decode(base64Url.decode(base64Url.normalize(parts[1])));
+    final payloadMap = json.decode(payload);
+    return payloadMap['userId'];
   }
 }

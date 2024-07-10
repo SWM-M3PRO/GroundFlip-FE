@@ -26,9 +26,7 @@ class UserInfo extends StatelessWidget {
                 ClipOval(
                   child: myPageController.getProfileImageURL() != null
                       ? Image.network(
-                          myPageController
-                              .getProfileImageURL()
-                              .profileImageUrl!,
+                          myPageController.getProfileImageURL(),
                           width: 80,
                           height: 80,
                           fit: BoxFit.cover,
