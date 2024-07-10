@@ -22,12 +22,6 @@ class SecureStorage {
     );
   }
 
-  readUserId() async {
-    return await secureStorage.read(
-      key: "userId",
-    );
-  }
-
   writeAccessToken(accessToken) async {
     await secureStorage.write(
       key: "accessToken",
@@ -42,22 +36,11 @@ class SecureStorage {
     );
   }
 
-  writeUserId(userId) async {
-    await secureStorage.write(
-      key: "userId",
-      value: userId,
-    );
-  }
-
   deleteAccessToken() async {
     await secureStorage.delete(key: "accessToken");
   }
 
   deleteRefreshToken() async {
     await secureStorage.delete(key: "refreshToken");
-  }
-
-  deleteUserId() async {
-    await secureStorage.delete(key: "userId");
   }
 }
