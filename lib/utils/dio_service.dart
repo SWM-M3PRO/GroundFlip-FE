@@ -19,16 +19,25 @@ class DioService {
       sendTimeout: const Duration(milliseconds: 10000),
     );
     _dio = Dio(options);
-    _dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) async {
-        logRequest(options);
-        return handler.next(options);
-      },
-      onResponse: (Response response, ResponseInterceptorHandler handler) {
-        logResponse(response);
-        return handler.next(response);
-      },
-    ),);
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          logRequest(options);
+          return handler.next(options);
+        },
+        onResponse: (Response response, ResponseInterceptorHandler handler) {
+          logResponse(response);
+          return handler.next(response);
+        },
+        onError: (
+          DioException dioException,
+          ErrorInterceptorHandler errorInterceptorHandler,
+        ) {
+          logError(dioException);
+          return errorInterceptorHandler.next(dioException);
+        },
+      ),
+    );
   }
 
   Dio getDio() {
@@ -63,5 +72,15 @@ class DioService {
         '----------------------------------------------\n',
       );
     }
+  }
+
+  void logError(DioException dioException) {
+    debugPrint(
+      '\n---------------[Response - ERROR]---------------\n'
+      '[Status Code] : ${dioException.response?.statusCode}\n'
+      '[Message]: ${dioException.message}'
+      '[Data] : ${dioException.response?.data}\n'
+      '----------------------------------------------\n',
+    );
   }
 }

@@ -30,17 +30,19 @@ class DashBoard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             DashBoardWidget(
-                textValue: "현재 픽셀수",
-                iconImageUrl: "currentTile.png",
-                countValue: myPageController.getCurrentUserPixel().obs,),
+              textValue: "현재 픽셀수",
+              iconImageUrl: "images/currentTile.png",
+              countValue: myPageController.getCurrentUserPixel().obs,
+            ),
             DashBoardWidget(
-                textValue: "누적 픽셀수",
-                iconImageUrl: "allTile.png",
-                countValue: myPageController.getAccumulateUserPixel().obs,),
+              textValue: "누적 픽셀수",
+              iconImageUrl: "images/allTile.png",
+              countValue: myPageController.getAccumulateUserPixel().obs,
+            ),
             DashBoardWidget(
-                textValue: "걸음수",
-                iconImageUrl: "stepIcon.png",
-                countValue: walkingController.currentStep,
+              textValue: "걸음수",
+              iconImageUrl: "images/stepIcon.png",
+              countValue: walkingController.currentStep,
             ),
           ],
         ),
