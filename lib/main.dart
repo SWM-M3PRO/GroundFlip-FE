@@ -17,9 +17,11 @@ Future<void> main() async {
   );
 
   String initialRoute = await AuthService().isLogin() ? '/main' : '/login';
-  runApp(MyApp(
-    initialRoute: initialRoute,
-  ));
+  runApp(
+    MyApp(
+      initialRoute: initialRoute,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
