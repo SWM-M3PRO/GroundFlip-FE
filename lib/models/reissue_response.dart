@@ -1,17 +1,14 @@
-class LoginResponse {
+class ReissueResponse {
   String? accessToken;
   String? refreshToken;
-  bool? isSignUp;
 
-  LoginResponse({
+  ReissueResponse({
     this.accessToken,
     this.refreshToken,
-    this.isSignUp,
   });
 
-  LoginResponse.fromJson(Map<String, dynamic> json) {
+  ReissueResponse.fromJson(Map<String, dynamic> json) {
     accessToken = json['accessToken'];
     refreshToken = json['refreshToken'];
-    isSignUp = json['isSignUp'];
   }
 }

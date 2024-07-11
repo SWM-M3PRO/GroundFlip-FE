@@ -51,22 +51,22 @@ class AuthService {
 
   loginWithKakao() async {
     String accessToken = await _getKakaoAccessToken();
-    AuthResponse authResponse = await postKakaoLogin(accessToken);
+    LoginResponse authResponse = await postKakaoLogin(accessToken);
     await _saveTokens(authResponse);
     return authResponse;
   }
 
-  Future<void> _saveTokens(AuthResponse authResponse) async {
+  Future<void> _saveTokens(LoginResponse authResponse) async {
     await secureStorage.writeAccessToken(authResponse.accessToken);
     await secureStorage.writeRefreshToken(authResponse.refreshToken);
     UserManager().setUserId(_extractUserIdFromToken(authResponse.accessToken!));
   }
 
-  Future<AuthResponse> postKakaoLogin(String accessToken) async {
+  Future<LoginResponse> postKakaoLogin(String accessToken) async {
     try {
       var response = await dio
           .post('/auth/kakao/login', data: {"accessToken": accessToken});
-      return AuthResponse.fromJson(response.data["data"]);
+      return LoginResponse.fromJson(response.data["data"]);
     } catch (error) {
       throw Exception("로그인 실패");
     }
