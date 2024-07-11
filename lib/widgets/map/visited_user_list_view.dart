@@ -36,7 +36,7 @@ class VisitedUserListView extends StatelessWidget {
                               fit: BoxFit.cover,
                             )
                           : Image.asset(
-                              'assets/default_profile_image.png',
+                              'assets/images/default_profile_image.png',
                               width: 50,
                               height: 50,
                             ),
@@ -47,9 +47,10 @@ class VisitedUserListView extends StatelessWidget {
                     Text(
                       visitList[index].nickname!,
                       style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
