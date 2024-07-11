@@ -69,7 +69,9 @@ class DioService {
   }
 
   Future<Response<dynamic>> resendRequest(
-      DioException dioException, ReissueResponse reissueResponse) async {
+    DioException dioException,
+    ReissueResponse reissueResponse,
+  ) async {
     final options = dioException.requestOptions;
     final dio = Dio();
     options.headers.addAll({

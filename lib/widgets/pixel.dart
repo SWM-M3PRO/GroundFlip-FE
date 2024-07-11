@@ -89,7 +89,9 @@ class Pixel extends Polygon {
       onTap: (int pixelId) async {
         IndividualHistoryPixelInfo pixelInfo =
             await Get.find<PixelInfoController>().getIndividualHistoryPixelInfo(
-                pixelId, UserManager().getUserId()!);
+          pixelId,
+          UserManager().getUserId()!,
+        );
 
         Get.bottomSheet(
           IndividualHistoryPixelInfoBottomSheet(pixelInfo: pixelInfo),
