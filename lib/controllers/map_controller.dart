@@ -17,6 +17,7 @@ class MapController extends GetxController {
 
   static const String darkMapStylePath = 'assets/map_style/dark_map_style.txt';
   static const String userMarkerId = 'USER';
+  static const double maxZoomOutLevel = 14.0;
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
 
@@ -25,7 +26,7 @@ class MapController extends GetxController {
   Completer<GoogleMapController> completer = Completer();
 
   late LocationData currentLocation;
-  late LatLng currentCameraPosition;
+  late CameraPosition currentCameraPosition;
   late Map<String, int> latestPixel;
 
   Rx<PixelMode> currentPixelMode = PixelMode.individualHistory.obs;
@@ -49,14 +50,11 @@ class MapController extends GetxController {
   }
 
   void onCameraIdle() {
-    _cameraIdleTimer = Timer(Duration(milliseconds: 500), updatePixels);
+    _cameraIdleTimer = Timer(Duration(milliseconds: 300), updatePixels);
   }
 
   void updateCameraPosition(CameraPosition newCameraPosition) {
-    currentCameraPosition = LatLng(
-      newCameraPosition.target.latitude,
-      newCameraPosition.target.longitude,
-    );
+    currentCameraPosition = newCameraPosition;
     _cameraIdleTimer?.cancel();
   }
 
@@ -74,8 +72,10 @@ class MapController extends GetxController {
   Future<void> initCurrentLocation() async {
     try {
       currentLocation = await location.getLocation();
-      currentCameraPosition =
-          LatLng(currentLocation.latitude!, currentLocation.longitude!);
+      currentCameraPosition = CameraPosition(
+        target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
+        zoom: 16.0,
+      );
     } catch (e) {
       throw Error();
     } finally {
@@ -117,8 +117,8 @@ class MapController extends GetxController {
   Future<void> _updateIndividualHistoryPixels() async {
     List<IndividualHistoryPixel> individualHistoryPixels =
         await pixelService.getIndividualHistoryPixels(
-      currentLatitude: currentCameraPosition.latitude,
-      currentLongitude: currentCameraPosition.longitude,
+      currentLatitude: currentCameraPosition.target.latitude,
+      currentLongitude: currentCameraPosition.target.longitude,
       userId: UserManager().getUserId()!,
     );
 
@@ -131,8 +131,8 @@ class MapController extends GetxController {
   Future<void> _updateIndividualModePixel() async {
     List<IndividualModePixel> individualModePixels =
         await pixelService.getIndividualModePixels(
-      currentLatitude: currentCameraPosition.latitude,
-      currentLongitude: currentCameraPosition.longitude,
+      currentLatitude: currentCameraPosition.target.latitude,
+      currentLongitude: currentCameraPosition.target.longitude,
     );
 
     pixels.assignAll([
@@ -151,6 +151,11 @@ class MapController extends GetxController {
   }
 
   void updatePixels() {
+    if (_isMapOverZoomedOut()) {
+      pixels.value = [];
+      return;
+    }
+
     switch (currentPixelMode.value) {
       case PixelMode.individualMode:
         _updateIndividualModePixel();
@@ -162,6 +167,8 @@ class MapController extends GetxController {
         break;
     }
   }
+
+  bool _isMapOverZoomedOut() => currentCameraPosition.zoom < maxZoomOutLevel;
 
   Future<void> occupyPixel() async {
     await pixelService.occupyPixel(
