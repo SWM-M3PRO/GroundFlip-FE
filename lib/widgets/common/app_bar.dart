@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MapAppBar extends StatelessWidget {
   const MapAppBar({super.key});
@@ -44,6 +45,14 @@ class MyPageAppBar extends StatelessWidget {
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       title: const Text('마이페이지'),
+      actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.settings),
+          onPressed: () {
+            Get.toNamed('/setting');
+          },
+        ),
+      ],
     );
   }
 }
