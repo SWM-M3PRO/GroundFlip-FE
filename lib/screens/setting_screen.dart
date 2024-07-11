@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../controllers/setting_controller.dart';
 import '../widgets/setting/setting_item.dart';
 import '../widgets/setting/setting_section.dart';
 
@@ -8,6 +10,8 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SettingController settingController = Get.put(SettingController());
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -40,6 +44,9 @@ class SettingScreen extends StatelessWidget {
               SettingsItem(title: '서비스이용약관'),
               SettingsItem(
                 title: '로그아웃',
+                onTap: () {
+                  settingController.logout();
+                },
               ),
             ],
           ),
