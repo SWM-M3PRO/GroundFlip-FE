@@ -16,7 +16,7 @@ import '../widgets/pixel.dart';
 class MapController extends GetxController {
   final PixelService pixelService = PixelService();
 
-  static const String darkMapStylePath = 'assets/map_style/dark_map_style.txt';
+  static const String darkMapStylePath = 'assets/map_style/dark_map_style_with_landmarks.txt';
   static const String userMarkerId = 'USER';
   static const double maxZoomOutLevel = 14.0;
   static const double latPerPixel = 0.000724;
