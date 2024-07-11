@@ -22,10 +22,20 @@ class AuthService {
     return _instance;
   }
 
-  logout() {
-    secureStorage.deleteAccessToken();
-    secureStorage.deleteRefreshToken();
-    UserManager().init();
+  logout() async {
+    try {
+      await postLogout();
+    } catch (e) {
+      debugPrint('Error during logout: $e');
+    } finally {
+      await secureStorage.deleteAccessToken();
+      await secureStorage.deleteRefreshToken();
+      UserManager().init();
+    }
+  }
+
+  postLogout() async {
+    await dio.post('/auth/logout');
   }
 
   Future<bool> isLogin() async {
