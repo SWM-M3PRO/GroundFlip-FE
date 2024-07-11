@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -53,7 +54,7 @@ class MapController extends GetxController {
     _cameraIdleTimer = Timer(Duration(milliseconds: 300), updatePixels);
   }
 
-  void updateCameraPosition(CameraPosition newCameraPosition) {
+  void updateCameraPosition(CameraPosition newCameraPosition) async {
     currentCameraPosition = newCameraPosition;
     _cameraIdleTimer?.cancel();
   }
@@ -114,11 +115,12 @@ class MapController extends GetxController {
     _addMarker(LatLng(newLocation.latitude!, newLocation.longitude!), markerId);
   }
 
-  Future<void> _updateIndividualHistoryPixels() async {
+  Future<void> _updateIndividualHistoryPixels(int radius) async {
     List<IndividualHistoryPixel> individualHistoryPixels =
         await pixelService.getIndividualHistoryPixels(
       currentLatitude: currentCameraPosition.target.latitude,
       currentLongitude: currentCameraPosition.target.longitude,
+      radius: radius,
       userId: UserManager().getUserId()!,
     );
 
@@ -128,11 +130,12 @@ class MapController extends GetxController {
     ]);
   }
 
-  Future<void> _updateIndividualModePixel() async {
+  Future<void> _updateIndividualModePixel(int radius) async {
     List<IndividualModePixel> individualModePixels =
         await pixelService.getIndividualModePixels(
       currentLatitude: currentCameraPosition.target.latitude,
       currentLongitude: currentCameraPosition.target.longitude,
+      radius: radius,
     );
 
     pixels.assignAll([
@@ -150,18 +153,19 @@ class MapController extends GetxController {
     });
   }
 
-  void updatePixels() {
+  void updatePixels() async {
     if (_isMapOverZoomedOut()) {
       pixels.value = [];
       return;
     }
 
+    int radius = await _getCurrentRadiusOfMap();
     switch (currentPixelMode.value) {
       case PixelMode.individualMode:
-        _updateIndividualModePixel();
+        _updateIndividualModePixel(radius);
         break;
       case PixelMode.individualHistory:
-        _updateIndividualHistoryPixels();
+        _updateIndividualHistoryPixels(radius);
         break;
       case PixelMode.groupMode:
         break;
@@ -192,5 +196,42 @@ class MapController extends GetxController {
   void changePixelMode(String pixelModeKrName) {
     currentPixelMode.value = PixelMode.fromKrName(pixelModeKrName);
     updatePixels();
+  }
+
+  Future<int> _getCurrentRadiusOfMap() async {
+    GoogleMapController googleMapController = await completer.future;
+    LatLngBounds visibleRegion = await googleMapController.getVisibleRegion();
+
+    final LatLng topLeft = LatLng(
+      visibleRegion.northeast.latitude,
+      visibleRegion.southwest.longitude,
+    );
+    final LatLng bottomRight = LatLng(
+      visibleRegion.southwest.latitude,
+      visibleRegion.northeast.longitude,
+    );
+
+    return (_calculateDistance(topLeft, bottomRight) / 2).round();
+  }
+
+  double _calculateDistance(LatLng start, LatLng end) {
+    const double earthRadius = 6371000;
+
+    final double dLat = _toRadians(end.latitude - start.latitude);
+    final double dLng = _toRadians(end.longitude - start.longitude);
+
+    final double a = math.sin(dLat / 2) * math.sin(dLat / 2) +
+        math.cos(_toRadians(start.latitude)) *
+            math.cos(_toRadians(end.latitude)) *
+            math.sin(dLng / 2) *
+            math.sin(dLng / 2);
+
+    final double c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+
+    return earthRadius * c;
+  }
+
+  double _toRadians(double degree) {
+    return degree * math.pi / 180;
   }
 }
