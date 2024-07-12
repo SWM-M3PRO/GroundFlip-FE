@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart' hide Response;
 
+import '../models/reissue_response.dart';
 import '../service/auth_service.dart';
 import 'secure_storage.dart';
 
@@ -42,16 +43,52 @@ class DioService {
         onError: (
           DioException dioException,
           ErrorInterceptorHandler errorInterceptorHandler,
-        ) {
+        ) async {
           if (dioException.response?.statusCode == HttpStatus.unauthorized) {
-            AuthService().logout();
-            Get.offAllNamed('/login');
+            try {
+              ReissueResponse reissueResponse = await reissueToken();
+              await secureStorage.writeAccessToken(reissueResponse.accessToken);
+              await secureStorage
+                  .writeRefreshToken(reissueResponse.refreshToken);
+
+              Response<dynamic> resendResponse =
+                  await resendRequest(dioException, reissueResponse);
+              errorInterceptorHandler.resolve(resendResponse);
+              debugPrint('-------------refresh---------------');
+            } catch (err) {
+              AuthService().logout();
+              Get.offAllNamed('/login');
+            }
+          } else {
+            logError(dioException);
+            return errorInterceptorHandler.next(dioException);
           }
-          logError(dioException);
-          return errorInterceptorHandler.next(dioException);
         },
       ),
     );
+  }
+
+  Future<Response<dynamic>> resendRequest(
+    DioException dioException,
+    ReissueResponse reissueResponse,
+  ) async {
+    final options = dioException.requestOptions;
+    final dio = Dio();
+    options.headers.addAll({
+      'Authorization': 'Bearer ${reissueResponse.accessToken}',
+    });
+    var response = await dio.fetch(options);
+    return response;
+  }
+
+  Future<ReissueResponse> reissueToken() async {
+    final refreshToken = await secureStorage.readRefreshToken();
+    final dio = Dio();
+    var response = await dio
+        .post("$baseUrl/auth/reissue", data: {"refreshToken": refreshToken});
+    ReissueResponse reissueResponse =
+        ReissueResponse.fromJson(response.data["data"]);
+    return reissueResponse;
   }
 
   Dio getDio() {

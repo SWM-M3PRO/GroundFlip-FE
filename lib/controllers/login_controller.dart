@@ -9,7 +9,7 @@ class LoginController extends GetxController {
 
   loginWithKakao() async {
     try {
-      AuthResponse authResponse = await authService.loginWithKakao();
+      LoginResponse authResponse = await authService.loginWithKakao();
       if (authResponse.isSignUp!) {
         Get.toNamed('/signup');
       } else {

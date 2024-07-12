@@ -21,7 +21,7 @@ class PixelOwnerInfo extends StatelessWidget {
                   fit: BoxFit.cover,
                 )
               : Image.asset(
-                  'assets/default_profile_image.png',
+                  'assets/images/default_profile_image.png',
                   width: 50,
                   height: 50,
                 ),

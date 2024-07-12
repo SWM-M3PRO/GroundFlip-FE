@@ -30,11 +30,11 @@ class MyPageController extends GetxController {
     return currentUserInfo.value.communityName ?? "-";
   }
 
-  int getCurrentUserPixel(){
+  int getCurrentUserPixel() {
     return userPixelCount.value.currentPixelCount ?? 0;
   }
 
-  int getAccumulateUserPixel(){
+  int getAccumulateUserPixel() {
     return userPixelCount.value.accumulatePixelCount ?? 0;
   }
 }

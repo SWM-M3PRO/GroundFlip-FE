@@ -7,14 +7,13 @@ import '../models/individual_history_pixel.dart';
 import '../models/individual_history_pixel_info.dart';
 import '../models/individual_mode_pixel.dart';
 import '../models/individual_mode_pixel_info.dart';
+import '../utils/user_manager.dart';
 import 'map/individual_history_pixel_info_bottom_sheet.dart';
 import 'map/individual_mode_pixel_info_bottom_sheet.dart';
 
 class Pixel extends Polygon {
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
-
-  static const int defaultUserId = 2;
 
   final int x;
   final int y;
@@ -89,8 +88,10 @@ class Pixel extends Polygon {
       strokeWidth: 1,
       onTap: (int pixelId) async {
         IndividualHistoryPixelInfo pixelInfo =
-        await Get.find<PixelInfoController>()
-            .getIndividualHistoryPixelInfo(pixelId, defaultUserId);
+            await Get.find<PixelInfoController>().getIndividualHistoryPixelInfo(
+          pixelId,
+          UserManager().getUserId()!,
+        );
 
         Get.bottomSheet(
           IndividualHistoryPixelInfoBottomSheet(pixelInfo: pixelInfo),
