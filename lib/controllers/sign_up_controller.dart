@@ -46,7 +46,7 @@ class SignUpController extends GetxController {
     }
   }
 
-  void compltetRegistration() async {
+  void completeRegistration() async {
     await userService.putUserInfo(gender.value, birthYear.value, nickname.value);
     Get.offAllNamed('/main');
   }

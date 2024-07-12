@@ -32,7 +32,7 @@ class SignUpScreen extends StatelessWidget {
                   AssetImage('assets/images/default_profile_image.png'),
               child: Align(
                 alignment: Alignment.bottomRight,
-                child: Icon(Icons.photo_camera_back),
+                child: IconButton(onPressed: () {  }, icon: Icon(Icons.add)),
               ),
             ),
             SizedBox(height: 48.0),
@@ -156,7 +156,7 @@ class SignUpScreen extends StatelessWidget {
                 SizedBox(height: 16),
                 Obx(
                   () => ElevatedButton(
-                    onPressed: controller.isNicknameTyped.value ? controller.compltetRegistration : null,
+                    onPressed: controller.isNicknameTyped.value ? controller.completeRegistration : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.purpleAccent,
                       disabledBackgroundColor: Colors.grey,
