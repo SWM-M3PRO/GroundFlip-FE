@@ -2,11 +2,15 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/state_manager.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../service/user_service.dart';
 
 class SignUpController extends GetxController {
   final UserService userService = UserService();
+  final ImagePicker picker = ImagePicker();
+
+  var profileImage = Rxn<XFile>();
 
   late RxList<bool> toggleSelection;
   bool isMale = true;
@@ -21,6 +25,13 @@ class SignUpController extends GetxController {
   void onInit() {
     toggleSelection = [isMale, isFemale].obs;
     super.onInit();
+  }
+
+  Future getImage() async {
+    XFile? pickedImage  = await picker.pickImage(source: ImageSource.gallery);
+    if(pickedImage != null) {
+      profileImage.value = pickedImage;
+    }
   }
 
   void updateSelectedValue(int index) {

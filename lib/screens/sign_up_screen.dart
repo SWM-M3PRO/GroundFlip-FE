@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,13 +28,28 @@ class SignUpScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            CircleAvatar(
-              radius: 80.0,
-              backgroundImage:
-                  AssetImage('assets/images/default_profile_image.png'),
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: IconButton(onPressed: () {  }, icon: Icon(Icons.add)),
+            Obx(
+              () => CircleAvatar(
+                radius: 80.0,
+                backgroundImage: controller.profileImage.value != null
+                    ? FileImage(File(controller.profileImage.value!.path))
+                        as ImageProvider
+                    : AssetImage('assets/images/default_profile_image.png')
+                        as ImageProvider,
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: IconButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStatePropertyAll(Color(0xffD9D9D9)),
+                    ),
+                    onPressed: controller.getImage,
+                    icon: Icon(
+                      Icons.add,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 48.0),
@@ -156,7 +173,9 @@ class SignUpScreen extends StatelessWidget {
                 SizedBox(height: 16),
                 Obx(
                   () => ElevatedButton(
-                    onPressed: controller.isNicknameTyped.value ? controller.completeRegistration : null,
+                    onPressed: controller.isNicknameTyped.value
+                        ? controller.completeRegistration
+                        : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.purpleAccent,
                       disabledBackgroundColor: Colors.grey,
