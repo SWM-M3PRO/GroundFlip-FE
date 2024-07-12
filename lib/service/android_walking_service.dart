@@ -48,7 +48,7 @@ class AndroidWalkingService implements WalkingService {
       },
     );
     List<int>? result =
-        UserStepResponse.fromJson(response.data['data']).userId ?? [];
+        UserStepResponse.fromJson(response.data['data']).steps ?? [];
     if (result.isEmpty) {
       return [0, 0, 0, 0, 0, 0, 0];
     } else {

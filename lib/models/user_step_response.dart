@@ -1,15 +1,11 @@
 class UserStepResponse {
-  List<int>? userId = [0,0,0,0,0,0,0];
+  List<int>? steps;
 
-  UserStepResponse({this.userId});
-
-  List<int>? getUserId(){
-    return userId;
-  }
+  UserStepResponse({this.steps});
 
   factory UserStepResponse.fromJson(dynamic json) {
     if (json is List) {
-      return UserStepResponse(userId: List<int>.from(json));
+      return UserStepResponse(steps: List<int>.from(json));
     } else {
       throw Exception("Invalid JSON format for UserStepResponse");
     }
