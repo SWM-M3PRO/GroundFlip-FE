@@ -1,9 +1,15 @@
 import 'dart:async';
 import 'dart:isolate';
+import 'dart:math';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pedometer/pedometer.dart';
+
+import '../service/android_walking_service.dart';
+import '../service/auth_service.dart';
+import 'secure_storage.dart';
 
 Future<void> initForegroundTask() async {
   if (!await FlutterForegroundTask.isRunningService) {
@@ -43,13 +49,18 @@ Future<void> initForegroundTask() async {
 }
 
 @pragma('vm:entry-point')
-void startCallback() {
+Future<void> startCallback() async {
+  await dotenv.load(fileName: ".env");
   FlutterForegroundTask.setTaskHandler(AndroidWalkingHandler());
 }
 
 class AndroidWalkingHandler extends TaskHandler {
   SendPort? _sendPort;
   late Stream<StepCount> _stepCountStream;
+  final SecureStorage secureStorage = SecureStorage();
+  final AndroidWalkingService androidWalkingService = AndroidWalkingService();
+  AuthService authService = AuthService();
+
   final GetStorage _localStorage = GetStorage();
   static String todayStepKey = 'currentSteps';
   static String lastSavedStepKey = 'lastSteps';
@@ -63,6 +74,9 @@ class AndroidWalkingHandler extends TaskHandler {
     _stepCountStream = Pedometer.stepCountStream.asBroadcastStream();
     _stepCountStream.listen(updateStep).onError(onStepCountError);
     _initializeMidnightReset();
+    Timer.periodic(Duration(seconds: 5), (t) {
+      _resetStepsAtMidnight();
+    });
   }
 
   void onStepCountError(error) {
@@ -84,6 +98,10 @@ class AndroidWalkingHandler extends TaskHandler {
   }
 
   void _resetStepsAtMidnight() {
+    final String token = secureStorage.readAccessToken();
+    int userId = authService.extractUserIdFromToken(token);
+    print('reset reset');
+    androidWalkingService.postUserStep(userId, DateTime.now(), currentSteps);
     // TODO : 서버에 걸음수 저장하는 로직 추가
     currentSteps = 0;
     _localStorage.write(todayStepKey, 0);

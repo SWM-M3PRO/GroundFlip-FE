@@ -1,14 +1,21 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
+import 'package:intl/intl.dart';
 
+import '../models/user_step_response.dart';
 import '../utils/android_notification.dart';
+import '../utils/dio_service.dart';
+import '../utils/user_manager.dart';
 import '../utils/walking_service.dart';
 
 class AndroidWalkingService implements WalkingService {
   ReceivePort? _receivePort;
   int currentSteps = 0;
+  UserManager userManager = UserManager();
+  final Dio dio = DioService().getDio();
 
   static final AndroidWalkingService _instance =
       AndroidWalkingService._internal();
@@ -30,8 +37,22 @@ class AndroidWalkingService implements WalkingService {
   Future<List<int>> getDailyStepsInInterval(
     DateTime startDate,
     DateTime endDate,
-  ) {
-    return Future.value([1500, 2500, 3500, 4500, 5500, 6500, 7500]);
+  ) async {
+    int? userId = UserManager().getUserId();
+    var response = await dio.get('/steps', queryParameters: {
+      "user-id": userId,
+      "start-date": startDate,
+      "end-date": endDate
+    });
+    print('steps steps ${ UserStepResponse.fromJson(response.data['data']).userId}');
+    return Future.value(
+        UserStepResponse.fromJson(response.data['data']).userId);
+  }
+
+  Future<int?> postUserStep(userId, date, steps) async {
+    String format = DateFormat('yyyy-MM-dd').format(date);
+    var response = await dio.post('/steps', data: {"userId": userId, "date": format, "steps": steps});
+    return response.statusCode;
   }
 
   Future<void> _initForegroundWalkingTask() async {
