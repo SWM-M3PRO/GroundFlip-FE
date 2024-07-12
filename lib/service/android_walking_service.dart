@@ -56,13 +56,12 @@ class AndroidWalkingService implements WalkingService {
     }
   }
 
-  Future<int?> postUserStep(userId, date, steps) async {
-    String format = DateFormat('yyyy-MM-dd').format(date);
-    var response = await dio.post(
+  Future<void> postUserStep(userId, date, steps) async {
+    String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+    await dio.post(
       '/steps',
-      data: {"userId": userId, "date": format, "steps": steps},
+      data: {"userId": userId, "date": formattedDate, "steps": steps},
     );
-    return response.statusCode;
   }
 
   Future<void> _initForegroundWalkingTask() async {

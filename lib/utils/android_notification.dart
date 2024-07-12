@@ -98,7 +98,7 @@ class AndroidWalkingHandler extends TaskHandler {
     String token = await secureStorage.readAccessToken();
     int userId = authService.extractUserIdFromToken(token);
     DateTime previousDay = DateTime.now().subtract(Duration(days: 1));
-    androidWalkingService.postUserStep(userId, previousDay, currentSteps);
+    await androidWalkingService.postUserStep(userId, previousDay, currentSteps);
 
     currentSteps = 0;
     _localStorage.write(todayStepKey, 0);
