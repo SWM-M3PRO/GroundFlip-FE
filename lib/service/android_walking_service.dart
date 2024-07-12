@@ -44,9 +44,13 @@ class AndroidWalkingService implements WalkingService {
       "start-date": startDate,
       "end-date": endDate
     });
-    print('steps steps ${ UserStepResponse.fromJson(response.data['data']).userId}');
-    return Future.value(
-        UserStepResponse.fromJson(response.data['data']).userId);
+    List<int>? result = UserStepResponse.fromJson(response.data['data']).userId ?? [];
+    print('result ${result}');
+    if(result.isEmpty){
+      return [0,0,0,0,0,0,0];
+    }else{
+      return result;
+    }
   }
 
   Future<int?> postUserStep(userId, date, steps) async {

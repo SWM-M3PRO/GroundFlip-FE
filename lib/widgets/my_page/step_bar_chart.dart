@@ -18,11 +18,15 @@ class StepBarChart extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                onPressed: () async {
-                  await walkController.loadPreviousWeekSteps();
-                },
-                icon: Icon(Icons.arrow_back_ios_new_outlined),
+              Obx(
+                () => IconButton(
+                  onPressed: walkController.getIsPreviousButtonEnabled()
+                      ? () {
+                          walkController.loadPreviousWeekSteps();
+                        }
+                      : null,
+                  icon: Icon(Icons.arrow_back_ios_new_outlined),
+                ),
               ),
               Obx(() => Text(walkController.getSelectedWeekInfo())),
               Obx(
