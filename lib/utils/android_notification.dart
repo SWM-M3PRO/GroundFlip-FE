@@ -85,7 +85,8 @@ class AndroidWalkingHandler extends TaskHandler {
 
   void _initializeMidnightReset() {
     DateTime now = DateTime.now();
-    DateTime midnight = DateTime(now.year, now.month, now.day + 1);
+    DateTime midnight =
+        DateTime(now.year, now.month, now.day + 1, now.minute + 1);
     Duration timeUntilMidnight = midnight.difference(now);
     _midnightTimer?.cancel();
     _midnightTimer = Timer(timeUntilMidnight, () {
@@ -97,12 +98,12 @@ class AndroidWalkingHandler extends TaskHandler {
     });
   }
 
-  void _resetStepsAtMidnight() {
-    final String token = secureStorage.readAccessToken();
+  void _resetStepsAtMidnight() async {
+    String token = await secureStorage.readAccessToken();
     int userId = authService.extractUserIdFromToken(token);
-    print('reset reset');
-    androidWalkingService.postUserStep(userId, DateTime.now(), currentSteps);
-    // TODO : 서버에 걸음수 저장하는 로직 추가
+    DateTime previousDay = DateTime.now().subtract(Duration(days: 1));
+    androidWalkingService.postUserStep(userId, previousDay, currentSteps);
+
     currentSteps = 0;
     _localStorage.write(todayStepKey, 0);
 
