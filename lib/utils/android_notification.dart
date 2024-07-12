@@ -74,9 +74,6 @@ class AndroidWalkingHandler extends TaskHandler {
     _stepCountStream = Pedometer.stepCountStream.asBroadcastStream();
     _stepCountStream.listen(updateStep).onError(onStepCountError);
     _initializeMidnightReset();
-    // Timer.periodic(Duration(seconds: 5), (t) {
-    //   _resetStepsAtMidnight();
-    // });
   }
 
   void onStepCountError(error) {
