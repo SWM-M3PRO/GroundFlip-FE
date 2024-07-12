@@ -39,23 +39,29 @@ class AndroidWalkingService implements WalkingService {
     DateTime endDate,
   ) async {
     int? userId = UserManager().getUserId();
-    var response = await dio.get('/steps', queryParameters: {
-      "user-id": userId,
-      "start-date": startDate,
-      "end-date": endDate
-    });
-    List<int>? result = UserStepResponse.fromJson(response.data['data']).userId ?? [];
-    print('result ${result}');
-    if(result.isEmpty){
-      return [0,0,0,0,0,0,0];
-    }else{
+    var response = await dio.get(
+      '/steps',
+      queryParameters: {
+        "user-id": userId,
+        "start-date": startDate,
+        "end-date": endDate,
+      },
+    );
+    List<int>? result =
+        UserStepResponse.fromJson(response.data['data']).userId ?? [];
+    if (result.isEmpty) {
+      return [0, 0, 0, 0, 0, 0, 0];
+    } else {
       return result;
     }
   }
 
   Future<int?> postUserStep(userId, date, steps) async {
     String format = DateFormat('yyyy-MM-dd').format(date);
-    var response = await dio.post('/steps', data: {"userId": userId, "date": format, "steps": steps});
+    var response = await dio.post(
+      '/steps',
+      data: {"userId": userId, "date": format, "steps": steps},
+    );
     return response.statusCode;
   }
 
