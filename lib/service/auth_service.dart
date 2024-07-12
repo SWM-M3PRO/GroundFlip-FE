@@ -44,7 +44,7 @@ class AuthService {
     if (accessToken == null || refreshToken == null) {
       return false;
     } else {
-      UserManager().setUserId(_extractUserIdFromToken(accessToken));
+      UserManager().setUserId(extractUserIdFromToken(accessToken));
       return true;
     }
   }
@@ -59,7 +59,7 @@ class AuthService {
   Future<void> _saveTokens(LoginResponse authResponse) async {
     await secureStorage.writeAccessToken(authResponse.accessToken);
     await secureStorage.writeRefreshToken(authResponse.refreshToken);
-    UserManager().setUserId(_extractUserIdFromToken(authResponse.accessToken!));
+    UserManager().setUserId(extractUserIdFromToken(authResponse.accessToken!));
   }
 
   Future<LoginResponse> postKakaoLogin(String accessToken) async {
@@ -109,7 +109,7 @@ class AuthService {
     }
   }
 
-  int _extractUserIdFromToken(String token) {
+  int extractUserIdFromToken(String token) {
     final parts = token.split('.');
     if (parts.length != 3) {
       throw Exception('invalid token');

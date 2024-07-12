@@ -12,6 +12,7 @@ class WalkingController extends GetxController {
   final RxList<int> selectedWeeklySteps = <int>[0, 0, 0, 0, 0, 0, 0].obs;
   final RxString selectedWeekInfo = "".obs;
   final RxBool isNextButtonEnabled = false.obs;
+  final RxBool isPreviousButtonEnabled = true.obs;
   late DateTime selectedWeekStartDate;
   late DateTime selectedWeekEndDate;
   late WalkingService walkingService;
@@ -19,6 +20,7 @@ class WalkingController extends GetxController {
   static double averageStride = 0.6;
   static int metersPerKilometer = 1000;
   static double averageCalorie = 0.04;
+  static DateTime checkFirstDate = DateTime.parse('2024-06-01');
 
   @override
   void onInit() {
@@ -95,6 +97,10 @@ class WalkingController extends GetxController {
     return isNextButtonEnabled.value;
   }
 
+  getIsPreviousButtonEnabled() {
+    return isPreviousButtonEnabled.value;
+  }
+
   Future<void> updateCurrentStep() async {
     currentStep.value = (await walkingService.getCurrentStep());
   }
@@ -120,6 +126,14 @@ class WalkingController extends GetxController {
     }
   }
 
+  _updatePreviousButtonStatus() {
+    if (checkFirstDate.isAfter(selectedWeekStartDate)) {
+      isPreviousButtonEnabled.value = false;
+    }else{
+      isPreviousButtonEnabled.value = true;
+    }
+  }
+
   Future<void> loadPreviousWeekSteps() async {
     selectedWeekStartDate = selectedWeekStartDate.subtract(Duration(days: 7));
     selectedWeekEndDate = selectedWeekEndDate.subtract(Duration(days: 7));
@@ -136,5 +150,6 @@ class WalkingController extends GetxController {
     _updateSelectedWeekSteps();
     _updateSelectedWeekInfo();
     _updateNextButtonStatus();
+    _updatePreviousButtonStatus();
   }
 }
