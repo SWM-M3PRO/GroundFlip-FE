@@ -2,9 +2,12 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/state_manager.dart';
-import 'package:get_storage/get_storage.dart';
+
+import '../service/user_service.dart';
 
 class SignUpController extends GetxController {
+  final UserService userService = UserService();
+
   late RxList<bool> toggleSelection;
   bool isMale = true;
   bool isFemale = false;
@@ -43,11 +46,8 @@ class SignUpController extends GetxController {
     }
   }
 
-  void compltetRegistration() {
-    print('--------------------');
-    print(gender.value);
-    print(birthYear.value);
-    print(nickname.value);
-    print('--------------------');
+  void compltetRegistration() async {
+    await userService.putUserInfo(gender.value, birthYear.value, nickname.value);
+    Get.offAllNamed('/main');
   }
 }
