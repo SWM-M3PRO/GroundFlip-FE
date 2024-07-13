@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
 
 import '../models/user.dart';
 import '../models/user_pixel_count.dart';
@@ -31,20 +32,30 @@ class UserService {
     return UserPixelCount.fromJson(response.data['data']);
   }
 
-  Future<void> putUserInfo(
-      String gender, int birthYear, String nickname) async {
+  Future<int?> putUserInfo({
+    required String gender,
+    required int birthYear,
+    required String nickname,
+    String? profileImagePath,
+  }) async {
     int? userId = UserManager().getUserId();
-    var response = await dio.put(
-      '/users/$userId',
-      data: {
+    var formData = FormData.fromMap(
+      {
         'gender': gender,
         'birthYear': birthYear,
         'nickname': nickname,
       },
     );
-
-    if (response.statusCode == 400) {
-      throw Error();
+    if (profileImagePath != null) {
+      formData.fields.add(MapEntry('profileImage', profileImagePath));
     }
+    print(formData.fields.toString());
+    var response = await dio.put(
+      '/users/$userId',
+      data: formData,
+      options: Options(contentType: 'multipart/form-data'),
+    );
+
+    return response.statusCode;
   }
 }

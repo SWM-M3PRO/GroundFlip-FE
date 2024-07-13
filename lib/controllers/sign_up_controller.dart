@@ -1,7 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../service/user_service.dart';
@@ -28,8 +25,13 @@ class SignUpController extends GetxController {
   }
 
   Future getImage() async {
-    XFile? pickedImage  = await picker.pickImage(source: ImageSource.gallery);
-    if(pickedImage != null) {
+    XFile? pickedImage = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 75,
+      maxHeight: 75,
+      imageQuality: 30,
+    );
+    if (pickedImage != null) {
       profileImage.value = pickedImage;
     }
   }
@@ -58,7 +60,14 @@ class SignUpController extends GetxController {
   }
 
   void completeRegistration() async {
-    await userService.putUserInfo(gender.value, birthYear.value, nickname.value);
-    Get.offAllNamed('/main');
+    int? statusCode = await userService.putUserInfo(
+      gender: gender.value,
+      birthYear: birthYear.value,
+      nickname: nickname.value,
+      profileImagePath: profileImage.value?.path,
+    );
+    if (statusCode == 200) {
+      Get.offAllNamed('/main');
+    }
   }
 }
