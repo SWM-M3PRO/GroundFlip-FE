@@ -46,10 +46,11 @@ class UserService {
         'nickname': nickname,
       },
     );
+
     if (profileImagePath != null) {
       formData.fields.add(MapEntry('profileImage', profileImagePath));
     }
-    print(formData.fields.toString());
+
     var response = await dio.put(
       '/users/$userId',
       data: formData,

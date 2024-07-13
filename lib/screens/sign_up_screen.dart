@@ -182,7 +182,6 @@ class SignUpScreen extends StatelessWidget {
                   backgroundColor: Colors.purpleAccent,
                   disabledBackgroundColor: Colors.grey,
                 ),
-                // onPressed: controller.isFormValid.value.
                 child: Text('완료'),
               ),
             ),
