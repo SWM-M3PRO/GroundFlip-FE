@@ -35,7 +35,15 @@ class AuthService {
   }
 
   postLogout() async {
-    await dio.post('/auth/logout');
+    String? accessToken = await secureStorage.readAccessToken();
+    String? refreshToken = await secureStorage.readRefreshToken();
+    await dio.post(
+      '/auth/logout',
+      data: {
+        "accessToken": accessToken,
+        "refreshToken": refreshToken,
+      },
+    );
   }
 
   Future<bool> isLogin() async {
