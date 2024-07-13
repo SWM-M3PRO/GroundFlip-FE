@@ -12,8 +12,8 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SignUpController controller = Get.put(SignUpController());
-    final int lowBoundYear = 1900;
-    final int upperBoundYear = 2024;
+    const int lowBoundYear = 1900;
+    const int upperBoundYear = 2024;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

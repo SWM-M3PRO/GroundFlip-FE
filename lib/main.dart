@@ -6,8 +6,8 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
-import 'screens/sign_up_screen.dart';
 import 'screens/setting_screen.dart';
+import 'screens/sign_up_screen.dart';
 import 'service/auth_service.dart';
 
 Future<void> main() async {
