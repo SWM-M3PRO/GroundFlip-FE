@@ -1,9 +1,14 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pedometer/pedometer.dart';
+
+import '../service/android_walking_service.dart';
+import '../service/auth_service.dart';
+import 'secure_storage.dart';
 
 Future<void> initForegroundTask() async {
   if (!await FlutterForegroundTask.isRunningService) {
@@ -43,13 +48,18 @@ Future<void> initForegroundTask() async {
 }
 
 @pragma('vm:entry-point')
-void startCallback() {
+Future<void> startCallback() async {
+  await dotenv.load(fileName: ".env");
   FlutterForegroundTask.setTaskHandler(AndroidWalkingHandler());
 }
 
 class AndroidWalkingHandler extends TaskHandler {
   SendPort? _sendPort;
   late Stream<StepCount> _stepCountStream;
+  final SecureStorage secureStorage = SecureStorage();
+  final AndroidWalkingService androidWalkingService = AndroidWalkingService();
+  AuthService authService = AuthService();
+
   final GetStorage _localStorage = GetStorage();
   static String todayStepKey = 'currentSteps';
   static String lastSavedStepKey = 'lastSteps';
@@ -71,7 +81,8 @@ class AndroidWalkingHandler extends TaskHandler {
 
   void _initializeMidnightReset() {
     DateTime now = DateTime.now();
-    DateTime midnight = DateTime(now.year, now.month, now.day + 1);
+    DateTime midnight =
+        DateTime(now.year, now.month, now.day + 1, now.minute + 1);
     Duration timeUntilMidnight = midnight.difference(now);
     _midnightTimer?.cancel();
     _midnightTimer = Timer(timeUntilMidnight, () {
@@ -83,8 +94,12 @@ class AndroidWalkingHandler extends TaskHandler {
     });
   }
 
-  void _resetStepsAtMidnight() {
-    // TODO : 서버에 걸음수 저장하는 로직 추가
+  void _resetStepsAtMidnight() async {
+    String token = await secureStorage.readAccessToken();
+    int userId = authService.extractUserIdFromToken(token);
+    DateTime previousDay = DateTime.now().subtract(Duration(days: 1));
+    await androidWalkingService.postUserStep(userId, previousDay, currentSteps);
+
     currentSteps = 0;
     _localStorage.write(todayStepKey, 0);
 
