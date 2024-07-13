@@ -12,6 +12,8 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SignUpController controller = Get.put(SignUpController());
+    final int lowBoundYear = 1900;
+    final int upperBoundYear = 2024;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -110,7 +112,7 @@ class SignUpScreen extends StatelessWidget {
                     onChanged: (birthYear) =>
                         controller.updateBirthYear(birthYear!),
                     items: List.generate(
-                      2024 - 1900 + 1,
+                      upperBoundYear - lowBoundYear + 1,
                       (index) {
                         int year = 1900 + index;
                         return DropdownMenuItem(
