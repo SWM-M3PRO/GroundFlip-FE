@@ -25,14 +25,14 @@ class SignUpController extends GetxController {
   }
 
   Future getImage() async {
-    XFile? pickedImage = await picker.pickImage(
+    XFile? selectedImage = await picker.pickImage(
       source: ImageSource.gallery,
       maxWidth: 75,
       maxHeight: 75,
       imageQuality: 30,
     );
-    if (pickedImage != null) {
-      profileImage.value = pickedImage;
+    if (selectedImage != null) {
+      profileImage.value = selectedImage;
     }
   }
 
