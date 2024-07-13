@@ -157,7 +157,7 @@ class SignUpScreen extends StatelessWidget {
                         width:
                             (MediaQuery.of(context).size.width - 100) / 2), //
                     isSelected: controller.toggleSelection,
-                    onPressed: controller.updateSelectedValue,
+                    onPressed: controller.updateSelectedGender,
                     children: [
                       Text(
                         '남성',

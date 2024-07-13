@@ -36,7 +36,7 @@ class SignUpController extends GetxController {
     }
   }
 
-  void updateSelectedValue(int index) {
+  void updateSelectedGender(int index) {
     if (index == 0) {
       toggleSelection.assignAll([true, false]);
       gender.value = 'MALE';
