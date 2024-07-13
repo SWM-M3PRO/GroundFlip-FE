@@ -155,7 +155,7 @@ class SignUpScreen extends StatelessWidget {
                   () => ToggleButtons(
                     constraints: BoxConstraints.expand(
                         width:
-                            (MediaQuery.of(context).size.width - 100) / 2), //
+                            (MediaQuery.of(context).size.width - 100) / 2,), //
                     isSelected: controller.toggleSelection,
                     onPressed: controller.updateSelectedGender,
                     children: [
@@ -170,21 +170,21 @@ class SignUpScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 16),
-                Obx(
-                  () => ElevatedButton(
-                    onPressed: controller.isNicknameTyped.value
-                        ? controller.completeRegistration
-                        : null,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.purpleAccent,
-                      disabledBackgroundColor: Colors.grey,
-                    ),
-                    // onPressed: controller.isFormValid.value.
-                    child: Text('완료'),
-                  ),
-                ),
               ],
+            ),
+            SizedBox(height: 16),
+            Obx(
+              () => ElevatedButton(
+                onPressed: controller.isNicknameTyped.value
+                    ? controller.completeRegistration
+                    : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.purpleAccent,
+                  disabledBackgroundColor: Colors.grey,
+                ),
+                // onPressed: controller.isFormValid.value.
+                child: Text('완료'),
+              ),
             ),
           ],
         ),
