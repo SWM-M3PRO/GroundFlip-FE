@@ -7,6 +7,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
 import 'screens/setting_screen.dart';
+import 'screens/sign_up_screen.dart';
 import 'service/auth_service.dart';
 
 Future<void> main() async {
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/main', page: () => const MainScreen()),
         GetPage(name: '/login', page: () => const LoginScreen()),
         GetPage(name: '/setting', page: () => const SettingScreen()),
+        GetPage(name: '/signup', page: () => const SignUpScreen()),
       ],
     );
   }
