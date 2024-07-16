@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionController extends GetxController {
-
   @override
   void onInit() async {
     super.onInit();
@@ -36,11 +35,11 @@ class PermissionController extends GetxController {
       Permission.notification,
     ].request();
 
-    androidPermissionStatus.values.forEach((element) async {
-      if (element.isDenied || element.isPermanentlyDenied) {
+    for (PermissionStatus status in androidPermissionStatus.values) {
+      if (status.isDenied || status.isPermanentlyDenied) {
         exitApp();
       }
-    });
+    }
   }
 
   Future<void> requestIosPermissions() async {
@@ -49,10 +48,10 @@ class PermissionController extends GetxController {
       Permission.sensors,
     ].request();
 
-    iosPermissionStatus.values.forEach((element) async {
-      if (element.isDenied || element.isPermanentlyDenied) {
+    for (PermissionStatus status in iosPermissionStatus.values) {
+      if (status.isDenied || status.isPermanentlyDenied) {
         exitApp();
       }
-    });
+    }
   }
 }
