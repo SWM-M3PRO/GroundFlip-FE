@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
+import 'controllers/permission_controller.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
 import 'screens/setting_screen.dart';
@@ -33,6 +34,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(PermissionController());
+
     return GetMaterialApp(
       title: 'Ground Flip',
       theme: ThemeData(

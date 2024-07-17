@@ -1,28 +1,57 @@
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:location/location.dart';
+
+import 'package:permission_handler/permission_handler.dart';
 
 class PermissionController extends GetxController {
-  var gpsEnabled = false.obs;
-  Location location = Location();
-  PermissionStatus gpsPermissionStatus = PermissionStatus.denied;
-
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    checkPermissions();
+    await checkPermissions();
   }
 
   Future<void> checkPermissions() async {
-    gpsPermissionStatus = await location.hasPermission();
-    if (gpsPermissionStatus == PermissionStatus.denied) {
-      await requestGpsPermission();
+    if (Platform.isAndroid) {
+      await requestAndroidPermissions();
+    } else if (Platform.isIOS) {
+      await requestIosPermissions();
     }
   }
 
-  Future<void> requestGpsPermission() async {
-    gpsPermissionStatus = await location.requestPermission();
-    if(gpsPermissionStatus == PermissionStatus.denied) {
-      return;
+  void exitApp() {
+    if (Platform.isIOS) {
+      exit(0);
+    } else {
+      SystemNavigator.pop();
+    }
+  }
+
+  Future<void> requestAndroidPermissions() async {
+    Map<Permission, PermissionStatus> androidPermissionStatus = await [
+      Permission.location,
+      Permission.activityRecognition,
+      Permission.notification,
+    ].request();
+
+    for (PermissionStatus status in androidPermissionStatus.values) {
+      if (status.isDenied || status.isPermanentlyDenied) {
+        exitApp();
+      }
+    }
+  }
+
+  Future<void> requestIosPermissions() async {
+    Map<Permission, PermissionStatus> iosPermissionStatus = await [
+      Permission.location,
+      Permission.sensors,
+    ].request();
+
+    for (PermissionStatus status in iosPermissionStatus.values) {
+      if (status.isDenied || status.isPermanentlyDenied) {
+        exitApp();
+      }
     }
   }
 }
