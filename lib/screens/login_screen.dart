@@ -41,6 +41,15 @@ class LoginScreen extends StatelessWidget {
               child: Image.asset("assets/images/kakao_login_medium_narrow.png"),
             ),
             SizedBox(
+              height: 25,
+            ),
+            GestureDetector(
+              onTap: () {
+                loginController.loginWithApple();
+              },
+              child: Image.asset("assets/images/apple_login_button.png"),
+            ),
+            SizedBox(
               height: 50,
             ),
           ],
