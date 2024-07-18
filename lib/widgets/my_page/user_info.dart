@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/my_page_controller.dart';
-import '../../screens/user_update_screen.dart';
+import '../../screens/user_info_update_screen.dart';
 
 class UserInfo extends StatelessWidget {
   const UserInfo({super.key});
@@ -12,7 +12,7 @@ class UserInfo extends StatelessWidget {
     final MyPageController myPageController = Get.find<MyPageController>();
     return InkWell(
       onTap: () {
-        // TODO: 개인정보 수정 페이지로 넘어가게 구현
+        Get.to(() => UserInfoUpdateScreen());
       },
       child: Ink(
         decoration: const BoxDecoration(
@@ -55,12 +55,7 @@ class UserInfo extends StatelessWidget {
                   ],
                 ),
                 Spacer(),
-                IconButton(
-                  icon:  Icon(Icons.arrow_forward_ios),
-                  onPressed: (){
-                    Get.to(UserUpdateScreen());
-                  },
-                ),
+                Icon(Icons.arrow_forward_ios),
               ],
             ),
           ),

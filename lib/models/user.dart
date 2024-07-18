@@ -4,7 +4,7 @@ class User {
   String? profileImageUrl;
   int? communityId;
   String? communityName;
-  String? birthYear;
+  int? birthYear;
   String? gender;
 
   User(

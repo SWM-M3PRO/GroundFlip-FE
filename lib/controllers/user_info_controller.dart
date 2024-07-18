@@ -1,13 +1,14 @@
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../models/user.dart';
 import '../service/user_service.dart';
-import '../utils/secure_storage.dart';
 
-class SignUpController extends GetxController {
+class UserInfoController extends GetxController {
   final UserService userService = UserService();
   final ImagePicker picker = ImagePicker();
-  final SecureStorage secureStorage = SecureStorage();
+
+  late User user;
 
   var profileImage = Rxn<XFile>();
 
@@ -15,15 +16,27 @@ class SignUpController extends GetxController {
   bool isMale = true;
   bool isFemale = false;
 
-  RxString nickname = ''.obs;
+  RxString nickname = "-".obs;
   RxInt birthYear = 2000.obs;
-  RxString gender = 'MALE'.obs;
+  RxString gender = "MALE".obs;
   RxBool isNicknameTyped = false.obs;
+  RxBool isUserInfoInit = false.obs;
 
   @override
-  void onInit() {
-    toggleSelection = [isMale, isFemale].obs;
+  void onInit() async{
+    await userInfoInit();
     super.onInit();
+    toggleSelection = [isMale, isFemale].obs;
+    isUserInfoInit.value = true;
+    update();
+  }
+
+  Future<void> userInfoInit() async{
+    user = await userService.getCurrentUserInfo();
+    print('useruser init ${user.profileImageUrl}, ${user.birthYear}, ${user.gender}');
+    nickname.value = user.nickname ?? "-";
+    birthYear.value = user.birthYear ?? 2000;
+    gender.value = user.gender ?? "MALE";
   }
 
   Future getImage() async {
@@ -47,7 +60,6 @@ class SignUpController extends GetxController {
   }
 
   void updateBirthYear(int inputBirthYear) {
-    print('updateupdate $inputBirthYear ${birthYear.value}');
     birthYear.value = inputBirthYear;
   }
 
@@ -68,7 +80,6 @@ class SignUpController extends GetxController {
       profileImagePath: profileImage.value?.path,
     );
     if (statusCode == 200) {
-      await secureStorage.writeSignupStatus("true");
       Get.offAllNamed('/main');
     }
   }
