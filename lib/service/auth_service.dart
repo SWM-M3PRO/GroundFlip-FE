@@ -66,8 +66,8 @@ class AuthService {
   }
 
   loginWithApple() async {
-    String authorizationCode = await _getAppleToken();
-    LoginResponse loginResponse = await postAppleLogin(authorizationCode);
+    String identityToken = await _getAppleToken();
+    LoginResponse loginResponse = await postAppleLogin(identityToken);
     await _saveTokens(loginResponse);
     return loginResponse;
   }
@@ -115,7 +115,7 @@ class AuthService {
         AppleIDAuthorizationScopes.fullName,
       ],
     );
-    return credential.authorizationCode;
+    return credential.identityToken;
   }
 
   Future<OAuthToken> _loginWithKakaoTalkApp() async {
