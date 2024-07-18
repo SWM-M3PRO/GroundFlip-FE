@@ -47,7 +47,6 @@ class SignUpController extends GetxController {
   }
 
   void updateBirthYear(int inputBirthYear) {
-    print('updateupdate $inputBirthYear ${birthYear.value}');
     birthYear.value = inputBirthYear;
   }
 

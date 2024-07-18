@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/user_info_controller.dart';
-import '../models/user.dart';
-import '../service/user_service.dart';
 
 class UserInfoUpdateScreen extends StatelessWidget {
   const UserInfoUpdateScreen({super.key});
@@ -46,8 +44,8 @@ class UserInfoUpdateScreen extends StatelessWidget {
                             ) as ImageProvider
                           : controller.imageS3Url.value == ""
                               ? AssetImage(
-                                      'assets/images/default_profile_image.png')
-                                  as ImageProvider
+                                  'assets/images/default_profile_image.png',
+                                ) as ImageProvider
                               : NetworkImage(controller.imageS3Url.value)
                                   as ImageProvider,
                       child: Align(
@@ -98,7 +96,9 @@ class UserInfoUpdateScreen extends StatelessWidget {
                             hintText: controller.nickname.value,
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 12.0),
+                              horizontal: 8.0,
+                              vertical: 12.0,
+                            ),
                           ),
                           style: TextStyle(fontSize: 16.0),
                           onChanged: controller.updateNickname,

@@ -39,8 +39,6 @@ class UserInfoController extends GetxController {
 
   Future<void> userInfoInit() async {
     user = await userService.getCurrentUserInfo();
-    print(
-        'useruser init ${user.profileImageUrl}, ${user.birthYear}, ${user.gender}');
     nickname.value = user.nickname ?? "-";
     birthYear.value = user.birthYear ?? 2000;
     gender.value = user.gender ?? "MALE";
