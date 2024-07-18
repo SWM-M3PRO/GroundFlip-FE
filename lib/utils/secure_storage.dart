@@ -22,6 +22,12 @@ class SecureStorage {
     );
   }
 
+  readSignupStatus() async {
+    return await secureStorage.read(
+      key: "signupStatus",
+    );
+  }
+
   writeAccessToken(accessToken) async {
     await secureStorage.write(
       key: "accessToken",
@@ -33,6 +39,13 @@ class SecureStorage {
     await secureStorage.write(
       key: "refreshToken",
       value: refreshToken,
+    );
+  }
+
+  writeSignupStatus(String status) async {
+    await secureStorage.write(
+      key: "signupStatus",
+      value: status,
     );
   }
 

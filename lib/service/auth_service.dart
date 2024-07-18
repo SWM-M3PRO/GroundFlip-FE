@@ -50,7 +50,8 @@ class AuthService {
   Future<bool> isLogin() async {
     String? accessToken = await secureStorage.readAccessToken();
     String? refreshToken = await secureStorage.readRefreshToken();
-    if (accessToken == null || refreshToken == null) {
+    String? signupStatus = await secureStorage.readSignupStatus();
+    if (accessToken == null || refreshToken == null || signupStatus != "true") {
       return false;
     } else {
       UserManager().setUserId(extractUserIdFromToken(accessToken));
@@ -73,6 +74,11 @@ class AuthService {
   }
 
   Future<void> _saveTokens(LoginResponse authResponse) async {
+    if (authResponse.isSignUp == false) {
+      await secureStorage.writeSignupStatus("true");
+    } else {
+      await secureStorage.writeSignupStatus("false");
+    }
     await secureStorage.writeAccessToken(authResponse.accessToken);
     await secureStorage.writeRefreshToken(authResponse.refreshToken);
     UserManager().setUserId(extractUserIdFromToken(authResponse.accessToken!));
