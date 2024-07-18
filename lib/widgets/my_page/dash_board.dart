@@ -32,12 +32,12 @@ class DashBoard extends StatelessWidget {
             DashBoardWidget(
               textValue: "현재 픽셀수",
               iconImageUrl: "images/currentTile.png",
-              countValue: myPageController.getCurrentUserPixel().obs,
+              countValue: myPageController.currentPixelCount,
             ),
             DashBoardWidget(
               textValue: "누적 픽셀수",
               iconImageUrl: "images/allTile.png",
-              countValue: myPageController.getAccumulateUserPixel().obs,
+              countValue: myPageController.accumulatePixelCount,
             ),
             DashBoardWidget(
               textValue: "걸음수",
