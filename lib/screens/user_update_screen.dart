@@ -16,7 +16,7 @@ class UserUpdateScreen extends StatelessWidget {
     const int upperBoundYear = 2024;
 
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
@@ -35,19 +35,20 @@ class UserUpdateScreen extends StatelessWidget {
           child: Column(
             children: [
               Obx(
-                    () => CircleAvatar(
+                () => CircleAvatar(
                   radius: 80.0,
                   backgroundImage: controller.profileImage.value != null
-                      ? FileImage(File(controller.profileImage.value!.path))
-                  as ImageProvider
+                      ? FileImage(
+                          File(controller.profileImage.value!.path),
+                        ) as ImageProvider
                       : AssetImage('assets/images/default_profile_image.png')
-                  as ImageProvider,
+                          as ImageProvider,
                   child: Align(
                     alignment: Alignment.bottomRight,
                     child: IconButton(
                       style: ButtonStyle(
                         backgroundColor:
-                        WidgetStatePropertyAll(Color(0xffD9D9D9)),
+                            WidgetStatePropertyAll(Color(0xffD9D9D9)),
                       ),
                       onPressed: controller.getImage,
                       icon: Icon(
@@ -88,8 +89,8 @@ class UserUpdateScreen extends StatelessWidget {
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        contentPadding:
-                        EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 12.0),
                       ),
                       style: TextStyle(fontSize: 16.0),
                       onChanged: controller.updateNickname,
@@ -117,7 +118,7 @@ class UserUpdateScreen extends StatelessWidget {
                           controller.updateBirthYear(birthYear!),
                       items: List.generate(
                         upperBoundYear - lowBoundYear + 1,
-                            (index) {
+                        (index) {
                           int year = 1900 + index;
                           return DropdownMenuItem(
                             value: year,
@@ -158,10 +159,10 @@ class UserUpdateScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 4.0),
                   Obx(
-                        () => ToggleButtons(
+                    () => ToggleButtons(
                       constraints: BoxConstraints.expand(
-                        width:
-                        (MediaQuery.of(context).size.width - 100) / 2,), //
+                        width: (MediaQuery.of(context).size.width - 100) / 2,
+                      ), //
                       isSelected: controller.toggleSelection,
                       onPressed: controller.updateSelectedGender,
                       children: [
@@ -180,7 +181,7 @@ class UserUpdateScreen extends StatelessWidget {
               ),
               SizedBox(height: 16),
               Obx(
-                    () => ElevatedButton(
+                () => ElevatedButton(
                   onPressed: controller.isNicknameTyped.value
                       ? controller.completeRegistration
                       : null,
