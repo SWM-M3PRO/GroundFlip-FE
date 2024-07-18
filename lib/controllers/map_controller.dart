@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -16,7 +17,8 @@ import '../widgets/pixel.dart';
 class MapController extends GetxController {
   final PixelService pixelService = PixelService();
 
-  static const String darkMapStylePath = 'assets/map_style/dark_map_style_with_landmarks.txt';
+  static const String darkMapStylePath =
+      'assets/map_style/dark_map_style_with_landmarks.txt';
   static const String userMarkerId = 'USER';
   static const double maxZoomOutLevel = 14.0;
   static const double latPerPixel = 0.000724;
@@ -24,8 +26,8 @@ class MapController extends GetxController {
 
   final Location location = Location();
   late final String mapStyle;
-  Completer<GoogleMapController> completer = Completer();
 
+  GoogleMapController? googleMapController;
   late LocationData currentLocation;
   late CameraPosition currentCameraPosition;
   late Map<String, int> latestPixel;
@@ -199,8 +201,7 @@ class MapController extends GetxController {
   }
 
   Future<int> _getCurrentRadiusOfMap() async {
-    GoogleMapController googleMapController = await completer.future;
-    LatLngBounds visibleRegion = await googleMapController.getVisibleRegion();
+    LatLngBounds visibleRegion = await googleMapController!.getVisibleRegion();
 
     final LatLng topLeft = LatLng(
       visibleRegion.northeast.latitude,
