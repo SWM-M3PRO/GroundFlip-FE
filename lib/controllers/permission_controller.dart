@@ -43,10 +43,10 @@ class PermissionController extends GetxController {
   }
 
   Future<void> requestIosPermissions() async {
-    Map<Permission, PermissionStatus> iosPermissionStatus = await [
+    await [
       Permission.location,
     ].request();
     final types = [HealthDataType.STEPS];
-    bool requested = await Health().requestAuthorization(types);
+    await Health().requestAuthorization(types);
   }
 }
