@@ -36,8 +36,8 @@ class DashBoardWidget extends StatelessWidget {
             'assets/$iconImageUrl',
             width: 40,
             height: 40,
-          ), // () => Text('$countValue'),
-          Obx(() =>Text('${countValue.value}')),
+          ),
+          Obx(() => Text('${countValue.value}')),
         ],
       ),
     );

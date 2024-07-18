@@ -26,26 +26,28 @@ class MapScreen extends StatelessWidget {
         } else {
           return Stack(
             children: [
-              GoogleMap(
-                mapType: MapType.normal,
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(
-                    mapController.currentLocation.latitude!,
-                    mapController.currentLocation.longitude!,
+              Obx(() {
+                return GoogleMap(
+                  mapType: MapType.normal,
+                  myLocationButtonEnabled: true,
+                  myLocationEnabled: true,
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(
+                      mapController.currentLocation.latitude!,
+                      mapController.currentLocation.longitude!,
+                    ),
+                    zoom: 16.0,
                   ),
-                  zoom: 16.0,
-                ),
-                onCameraMove: mapController.updateCameraPosition,
-                onCameraIdle: mapController.onCameraIdle,
-                onMapCreated: (GoogleMapController ctrl) {
-                  mapController.completer.complete(ctrl);
-                },
-                style: mapController.mapStyle,
-                markers: Set<Marker>.of(mapController.markers),
-                polygons: Set<Polygon>.of(mapController.pixels),
-              ),
+                  onCameraMove: mapController.updateCameraPosition,
+                  onCameraIdle: mapController.onCameraIdle,
+                  onMapCreated: (GoogleMapController ctrl) {
+                    mapController.googleMapController = ctrl;
+                  },
+                  style: mapController.mapStyle,
+                  markers: Set<Marker>.of(mapController.markers),
+                  polygons: Set<Polygon>.of(mapController.pixels),
+                );
+              }),
               Column(
                 children: [
                   const Padding(
