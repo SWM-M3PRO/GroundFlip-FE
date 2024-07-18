@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/my_page_controller.dart';
+import '../../screens/user_update_screen.dart';
 
 class UserInfo extends StatelessWidget {
   const UserInfo({super.key});
@@ -54,7 +55,12 @@ class UserInfo extends StatelessWidget {
                   ],
                 ),
                 Spacer(),
-                Icon(Icons.arrow_forward_ios),
+                IconButton(
+                  icon:  Icon(Icons.arrow_forward_ios),
+                  onPressed: (){
+                    Get.to(UserUpdateScreen());
+                  },
+                ),
               ],
             ),
           ),

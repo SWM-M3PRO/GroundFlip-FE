@@ -1,3 +1,4 @@
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
@@ -38,7 +39,9 @@ class UserService {
     String? profileImagePath,
   }) async {
     int? userId = UserManager().getUserId();
-    var formData = FormData.fromMap(
+    late String fileName;
+
+    var userInfoJson = jsonEncode(
       {
         'gender': gender,
         'birthYear': birthYear,
@@ -46,8 +49,26 @@ class UserService {
       },
     );
 
+    var formData = FormData();
+
+    formData.files.add(
+      MapEntry(
+        'userInfoRequest',
+        MultipartFile.fromString(
+          userInfoJson,
+          contentType: DioMediaType.parse('application/json'),
+        ),
+      ),
+    );
+
     if (profileImagePath != null) {
-      formData.fields.add(MapEntry('profileImage', profileImagePath));
+      fileName = profileImagePath.split('/').last;
+      formData.files.add(
+        MapEntry(
+          'profileImage',
+          await MultipartFile.fromFile(profileImagePath, filename: fileName),
+        ),
+      );
     }
 
     var response = await dio.put(
