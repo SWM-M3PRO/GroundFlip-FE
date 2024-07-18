@@ -19,24 +19,33 @@ class UserInfoController extends GetxController {
   RxString nickname = "-".obs;
   RxInt birthYear = 2000.obs;
   RxString gender = "MALE".obs;
+  RxString imageS3Url = "".obs;
   RxBool isNicknameTyped = false.obs;
   RxBool isUserInfoInit = false.obs;
+  RxBool isInitImageUrl = false.obs;
 
   @override
-  void onInit() async{
+  void onInit() async {
     await userInfoInit();
     super.onInit();
-    toggleSelection = [isMale, isFemale].obs;
+    if (gender.value == "MALE") {
+      toggleSelection = [true, false].obs;
+    } else {
+      toggleSelection = [false, true].obs;
+    }
     isUserInfoInit.value = true;
     update();
   }
 
-  Future<void> userInfoInit() async{
+  Future<void> userInfoInit() async {
     user = await userService.getCurrentUserInfo();
-    print('useruser init ${user.profileImageUrl}, ${user.birthYear}, ${user.gender}');
+    print(
+        'useruser init ${user.profileImageUrl}, ${user.birthYear}, ${user.gender}');
     nickname.value = user.nickname ?? "-";
     birthYear.value = user.birthYear ?? 2000;
     gender.value = user.gender ?? "MALE";
+    imageS3Url.value = user.profileImageUrl ?? "";
+    isInitImageUrl.value = true;
   }
 
   Future getImage() async {

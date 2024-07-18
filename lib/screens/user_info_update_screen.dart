@@ -44,9 +44,12 @@ class UserInfoUpdateScreen extends StatelessWidget {
                           ? FileImage(
                               File(controller.profileImage.value!.path),
                             ) as ImageProvider
-                          : AssetImage(
-                                  'assets/images/default_profile_image.png')
-                              as ImageProvider,
+                          : controller.imageS3Url.value == ""
+                              ? AssetImage(
+                                      'assets/images/default_profile_image.png')
+                                  as ImageProvider
+                              : NetworkImage(controller.imageS3Url.value)
+                                  as ImageProvider,
                       child: Align(
                         alignment: Alignment.bottomRight,
                         child: IconButton(
