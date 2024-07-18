@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
+import 'package:health/health.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionController extends GetxController {
@@ -45,13 +45,8 @@ class PermissionController extends GetxController {
   Future<void> requestIosPermissions() async {
     Map<Permission, PermissionStatus> iosPermissionStatus = await [
       Permission.location,
-      Permission.sensors,
     ].request();
-
-    for (PermissionStatus status in iosPermissionStatus.values) {
-      if (status.isDenied || status.isPermanentlyDenied) {
-        exitApp();
-      }
-    }
+    final types = [HealthDataType.STEPS];
+    bool requested = await Health().requestAuthorization(types);
   }
 }
