@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../constants/text_styles.dart';
+
 class WeekSelector extends StatelessWidget {
   const WeekSelector({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: Colors.black),
+    return SizedBox(
       height: 44,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
@@ -16,10 +17,7 @@ class WeekSelector extends StatelessWidget {
             children: [
               Text(
                 '2024년 07월 12일 ~ 19일',
-                style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white),
+                style: TextStyles.title2,
               ),
               SizedBox(
                 width: 5,
