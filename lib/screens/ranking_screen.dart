@@ -1,4 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../widgets/ranking/week_selector.dart';
 
 class RankingScreen extends StatelessWidget {
   const RankingScreen({super.key});
@@ -7,7 +9,7 @@ class RankingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
-        Text('랭킹'),
+        WeekSelector(),
       ],
     );
   }
