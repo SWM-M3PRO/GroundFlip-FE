@@ -12,6 +12,7 @@ class UserInfoUpdateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserInfoController controller = Get.put(UserInfoController());
+    final TextEditingController _controller = TextEditingController();
     const int lowBoundYear = 1900;
     const int upperBoundYear = 2024;
 
@@ -33,6 +34,7 @@ class UserInfoUpdateScreen extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               }
+              _controller.text = controller.nickname.value;
               return Column(
                 children: [
                   Obx(
@@ -92,8 +94,8 @@ class UserInfoUpdateScreen extends StatelessWidget {
                       Container(
                         color: Color(0xffD9D9D9),
                         child: TextField(
+                          controller: _controller,
                           decoration: InputDecoration(
-                            hintText: controller.nickname.value,
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
                               horizontal: 8.0,
@@ -189,17 +191,13 @@ class UserInfoUpdateScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 16),
-                  Obx(
-                    () => ElevatedButton(
-                      onPressed: controller.isNicknameTyped.value
-                          ? controller.completeRegistration
-                          : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.purpleAccent,
-                        disabledBackgroundColor: Colors.grey,
-                      ),
-                      child: Text('완료'),
+                  ElevatedButton(
+                    onPressed: controller.completeUserInfoUpdate,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.purpleAccent,
+                      disabledBackgroundColor: Colors.grey,
                     ),
+                    child: Text('완료'),
                   ),
                 ],
               );

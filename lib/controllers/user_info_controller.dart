@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -79,15 +81,41 @@ class UserInfoController extends GetxController {
     }
   }
 
-  void completeRegistration() async {
-    int? statusCode = await userService.putUserInfo(
-      gender: gender.value,
-      birthYear: birthYear.value,
-      nickname: nickname.value,
-      profileImagePath: profileImage.value?.path,
+  void showErrorDialog() {
+    Get.dialog(
+      AlertDialog(
+        title: Text('중복된 닉네임입니다!'),
+        actions: [
+          TextButton(
+            child: Text('확인'),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+        ],
+      ),
     );
-    if (statusCode == 200) {
-      Get.offAllNamed('/main');
+  }
+
+  void completeUserInfoUpdate() async {
+    try {
+      int? statusCode = await userService.putUserInfo(
+        gender: gender.value,
+        birthYear: birthYear.value,
+        nickname: nickname.value,
+        profileImagePath: profileImage.value?.path,
+      );
+      print('$statusCode');
+      if (statusCode == 200) {
+        Get.offAllNamed('/main');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        final response = e.response;
+        if (response != null && response.statusCode == 400) {
+          showErrorDialog();
+        }
+      }
     }
   }
 }
