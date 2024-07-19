@@ -3,32 +3,52 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../models/user.dart';
 import '../service/user_service.dart';
-import '../utils/secure_storage.dart';
 
-class SignUpController extends GetxController {
+class UserInfoController extends GetxController {
   final UserService userService = UserService();
   final ImagePicker picker = ImagePicker();
-  final SecureStorage secureStorage = SecureStorage();
 
-  var profileImage = Rxn<XFile>();
+  late User user;
 
   final RegExp regExp = RegExp(r'^[A-Za-z가-힣0-9]{3,10}$');
+
+  var profileImage = Rxn<XFile>();
 
   late RxList<bool> toggleSelection;
   bool isMale = true;
   bool isFemale = false;
 
-  RxString nickname = ''.obs;
+  RxString nickname = "-".obs;
   RxInt birthYear = 2000.obs;
-  RxString gender = 'MALE'.obs;
+  RxString gender = "MALE".obs;
+  RxString imageS3Url = "".obs;
   RxString nicknameValidation = "".obs;
   RxBool isNicknameTyped = false.obs;
+  RxBool isUserInfoInit = false.obs;
+  RxBool isInitImageUrl = false.obs;
 
   @override
-  void onInit() {
-    toggleSelection = [isMale, isFemale].obs;
+  void onInit() async {
+    await userInfoInit();
     super.onInit();
+    if (gender.value == "MALE") {
+      toggleSelection = [true, false].obs;
+    } else {
+      toggleSelection = [false, true].obs;
+    }
+    isUserInfoInit.value = true;
+    update();
+  }
+
+  Future<void> userInfoInit() async {
+    user = await userService.getCurrentUserInfo();
+    nickname.value = user.nickname ?? "-";
+    birthYear.value = user.birthYear ?? 2000;
+    gender.value = user.gender ?? "MALE";
+    imageS3Url.value = user.profileImageUrl ?? "";
+    isInitImageUrl.value = true;
   }
 
   Future getImage() async {
@@ -80,7 +100,7 @@ class SignUpController extends GetxController {
     );
   }
 
-  void completeRegistration() async {
+  void completeUserInfoUpdate() async {
     try {
       int? statusCode = await userService.putUserInfo(
         gender: gender.value,
@@ -89,11 +109,10 @@ class SignUpController extends GetxController {
         profileImagePath: profileImage.value?.path,
       );
       if (statusCode == 200) {
-        await secureStorage.writeSignupStatus("true");
         Get.offAllNamed('/main');
       }
     } catch (e) {
-      if (!regExp.hasMatch(nickname.value)) {
+      if (!regExp.hasMatch(nickname.value)){
         showErrorDialog('닉네임 형식이 맞지 않습니다!');
       }
       if (e is DioException) {
