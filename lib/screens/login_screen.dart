@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,13 +38,15 @@ class LoginScreen extends StatelessWidget {
             SizedBox(
               height: 250,
             ),
-            SocialLoginButton(
-              socialLoginButtonStyle: SocialLoginButtonStyles.apple,
-              onTap: () => loginController.loginWithApple(),
-            ),
-            SizedBox(
-              height: 10,
-            ),
+            if (!Platform.isAndroid)
+              SocialLoginButton(
+                socialLoginButtonStyle: SocialLoginButtonStyles.apple,
+                onTap: () => loginController.loginWithApple(),
+              ),
+            if (!Platform.isAndroid)
+              SizedBox(
+                height: 10,
+              ),
             SocialLoginButton(
               socialLoginButtonStyle: SocialLoginButtonStyles.kakao,
               onTap: () => loginController.loginWithKakao(),
