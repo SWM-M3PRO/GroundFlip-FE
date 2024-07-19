@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../constants/social_login_button_style.dart';
 import '../controllers/login_controller.dart';
+import '../widgets/login/social_login_button.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -34,11 +38,18 @@ class LoginScreen extends StatelessWidget {
             SizedBox(
               height: 250,
             ),
-            GestureDetector(
-              onTap: () {
-                loginController.loginWithKakao();
-              },
-              child: Image.asset("assets/images/kakao_login_medium_narrow.png"),
+            if (!Platform.isAndroid)
+              SocialLoginButton(
+                socialLoginButtonStyle: SocialLoginButtonStyles.apple,
+                onTap: () => loginController.loginWithApple(),
+              ),
+            if (!Platform.isAndroid)
+              SizedBox(
+                height: 10,
+              ),
+            SocialLoginButton(
+              socialLoginButtonStyle: SocialLoginButtonStyles.kakao,
+              onTap: () => loginController.loginWithKakao(),
             ),
             SizedBox(
               height: 50,

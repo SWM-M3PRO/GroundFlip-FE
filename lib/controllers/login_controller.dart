@@ -7,32 +7,29 @@ import '../service/auth_service.dart';
 class LoginController extends GetxController {
   final AuthService authService = AuthService();
 
-  loginWithKakao() async {
+  loginWithApple() async {
     try {
-      LoginResponse authResponse = await authService.loginWithKakao();
-      if (authResponse.isSignUp!) {
-        Get.toNamed('/signup');
-      } else {
-        Get.offAllNamed('/main');
-      }
+      LoginResponse loginResponse = await authService.loginWithApple();
+      _navigateAfterLogin(loginResponse);
     } catch (err) {
-      showErrorDialog("실패");
+      debugPrint(err.toString());
     }
   }
 
-  void showErrorDialog(String message) {
-    Get.dialog(
-      AlertDialog(
-        title: Text('로그인을 실패하였습니다.'),
-        actions: [
-          TextButton(
-            child: Text('확인'),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-        ],
-      ),
-    );
+  loginWithKakao() async {
+    try {
+      LoginResponse loginResponse = await authService.loginWithKakao();
+      _navigateAfterLogin(loginResponse);
+    } catch (err) {
+      debugPrint(err.toString());
+    }
+  }
+
+  _navigateAfterLogin(LoginResponse loginResponse) {
+    if (loginResponse.isSignUp!) {
+      Get.toNamed('/signup');
+    } else {
+      Get.offAllNamed('/main');
+    }
   }
 }

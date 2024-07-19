@@ -2,10 +2,12 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../service/user_service.dart';
+import '../utils/secure_storage.dart';
 
 class SignUpController extends GetxController {
   final UserService userService = UserService();
   final ImagePicker picker = ImagePicker();
+  final SecureStorage secureStorage = SecureStorage();
 
   var profileImage = Rxn<XFile>();
 
@@ -67,6 +69,7 @@ class SignUpController extends GetxController {
       profileImagePath: profileImage.value?.path,
     );
     if (statusCode == 200) {
+      await secureStorage.writeSignupStatus("true");
       Get.offAllNamed('/main');
     }
   }

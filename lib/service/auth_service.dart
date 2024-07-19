@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../models/auth_response.dart';
 import '../utils/dio_service.dart';
@@ -49,7 +50,8 @@ class AuthService {
   Future<bool> isLogin() async {
     String? accessToken = await secureStorage.readAccessToken();
     String? refreshToken = await secureStorage.readRefreshToken();
-    if (accessToken == null || refreshToken == null) {
+    String? signupStatus = await secureStorage.readSignupStatus();
+    if (accessToken == null || refreshToken == null || signupStatus != "true") {
       return false;
     } else {
       UserManager().setUserId(extractUserIdFromToken(accessToken));
@@ -59,12 +61,24 @@ class AuthService {
 
   loginWithKakao() async {
     String accessToken = await _getKakaoAccessToken();
-    LoginResponse authResponse = await postKakaoLogin(accessToken);
-    await _saveTokens(authResponse);
-    return authResponse;
+    LoginResponse loginResponse = await postKakaoLogin(accessToken);
+    await _saveTokens(loginResponse);
+    return loginResponse;
+  }
+
+  loginWithApple() async {
+    String identityToken = await _getAppleToken();
+    LoginResponse loginResponse = await postAppleLogin(identityToken);
+    await _saveTokens(loginResponse);
+    return loginResponse;
   }
 
   Future<void> _saveTokens(LoginResponse authResponse) async {
+    if (authResponse.isSignUp == false) {
+      await secureStorage.writeSignupStatus("true");
+    } else {
+      await secureStorage.writeSignupStatus("false");
+    }
     await secureStorage.writeAccessToken(authResponse.accessToken);
     await secureStorage.writeRefreshToken(authResponse.refreshToken);
     UserManager().setUserId(extractUserIdFromToken(authResponse.accessToken!));
@@ -80,6 +94,16 @@ class AuthService {
     }
   }
 
+  Future<LoginResponse> postAppleLogin(String authorizationCode) async {
+    try {
+      var response = await dio
+          .post('/auth/kakao/apple', data: {"accessToken": authorizationCode});
+      return LoginResponse.fromJson(response.data["data"]);
+    } catch (error) {
+      throw Exception("로그인 실패");
+    }
+  }
+
   Future<String> _getKakaoAccessToken() async {
     OAuthToken? token;
     if (await isKakaoTalkInstalled()) {
@@ -88,6 +112,16 @@ class AuthService {
       token = await _loginWithKakaoAccount();
     }
     return token.accessToken;
+  }
+
+  _getAppleToken() async {
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+    return credential.identityToken;
   }
 
   Future<OAuthToken> _loginWithKakaoTalkApp() async {
