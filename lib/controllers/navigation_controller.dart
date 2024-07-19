@@ -11,7 +11,7 @@ class NavigationController extends GetxController {
   final RxInt selectedIndex = 0.obs;
   static List<Widget> tabPages = <Widget>[
     const MapScreen(),
-    const RankigScreen(),
+    const RankingScreen(),
     const GroupScreen(),
     const MyPageScreen(),
   ];

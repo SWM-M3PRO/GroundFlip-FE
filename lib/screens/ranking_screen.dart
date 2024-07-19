@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class RankigScreen extends StatelessWidget {
-  const RankigScreen({super.key});
+class RankingScreen extends StatelessWidget {
+  const RankingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
