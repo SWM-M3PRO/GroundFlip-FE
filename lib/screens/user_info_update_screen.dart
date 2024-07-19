@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../controllers/user_info_controller.dart';
@@ -108,9 +107,9 @@ class UserInfoUpdateScreen extends StatelessWidget {
                           onChanged: (value) {
                             controller.nickname.value = value;
                             if (!regExp.hasMatch(value)) {
-                              controller.nicknameValidation.value = "형식에 맞지 않습니다!";
-                              print("missmiss match! ${value}");
-                            }else{
+                              controller.nicknameValidation.value =
+                                  "형식에 맞지 않습니다!";
+                            } else {
                               controller.nicknameValidation.value = "";
                             }
                           },
@@ -119,9 +118,9 @@ class UserInfoUpdateScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Obx(
-                          () => Text('${controller.nicknameValidation.value}'),
+                          () => Text(controller.nicknameValidation.value),
                         ),
-                      )
+                      ),
                     ],
                   ),
                   SizedBox(height: 16),

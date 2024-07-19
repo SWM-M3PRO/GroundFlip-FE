@@ -12,11 +12,12 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SignUpController controller = Get.put(SignUpController());
+    final RegExp regExp = RegExp(r'^[A-Za-z가-힣0-9]{3,10}$');
     const int lowBoundYear = 1900;
     const int upperBoundYear = 2024;
 
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
@@ -86,13 +87,28 @@ class SignUpScreen extends StatelessWidget {
                   Container(
                     color: Color(0xffD9D9D9),
                     child: TextField(
-      decoration: InputDecoration(
+                      decoration: InputDecoration(
                         border: InputBorder.none,
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 12.0,
+                        ),
                       ),
                       style: TextStyle(fontSize: 16.0),
-                      onChanged: controller.updateNickname,
+                      onChanged: (value) {
+                        controller.updateNickname(value);
+                        if (!regExp.hasMatch(value)) {
+                          controller.nicknameValidation.value = "형식에 맞지 않습니다!";
+                        } else {
+                          controller.nicknameValidation.value = "";
+                        }
+                      },
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Obx(
+                      () => Text(controller.nicknameValidation.value),
                     ),
                   ),
                 ],
@@ -160,8 +176,8 @@ class SignUpScreen extends StatelessWidget {
                   Obx(
                     () => ToggleButtons(
                       constraints: BoxConstraints.expand(
-                          width:
-                              (MediaQuery.of(context).size.width - 100) / 2,), //
+                        width: (MediaQuery.of(context).size.width - 100) / 2,
+                      ), //
                       isSelected: controller.toggleSelection,
                       onPressed: controller.updateSelectedGender,
                       children: [

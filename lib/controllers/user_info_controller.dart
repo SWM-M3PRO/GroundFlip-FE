@@ -87,7 +87,7 @@ class UserInfoController extends GetxController {
   void showErrorDialog(String message) {
     Get.dialog(
       AlertDialog(
-        title: Text('$message'),
+        title: Text(message),
         actions: [
           TextButton(
             child: Text('확인'),
@@ -108,7 +108,6 @@ class UserInfoController extends GetxController {
         nickname: nickname.value,
         profileImagePath: profileImage.value?.path,
       );
-
       if (statusCode == 200) {
         Get.offAllNamed('/main');
       }

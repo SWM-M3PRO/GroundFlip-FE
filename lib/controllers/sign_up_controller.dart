@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -11,6 +13,8 @@ class SignUpController extends GetxController {
 
   var profileImage = Rxn<XFile>();
 
+  final RegExp regExp = RegExp(r'^[A-Za-z가-힣0-9]{3,10}$');
+
   late RxList<bool> toggleSelection;
   bool isMale = true;
   bool isFemale = false;
@@ -18,6 +22,7 @@ class SignUpController extends GetxController {
   RxString nickname = ''.obs;
   RxInt birthYear = 2000.obs;
   RxString gender = 'MALE'.obs;
+  RxString nicknameValidation = "".obs;
   RxBool isNicknameTyped = false.obs;
 
   @override
@@ -59,16 +64,44 @@ class SignUpController extends GetxController {
     }
   }
 
-  void completeRegistration() async {
-    int? statusCode = await userService.putUserInfo(
-      gender: gender.value,
-      birthYear: birthYear.value,
-      nickname: nickname.value,
-      profileImagePath: profileImage.value?.path,
+  void showErrorDialog(String message) {
+    Get.dialog(
+      AlertDialog(
+        title: Text(message),
+        actions: [
+          TextButton(
+            child: Text('확인'),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+        ],
+      ),
     );
-    if (statusCode == 200) {
-      await secureStorage.writeSignupStatus("true");
-      Get.offAllNamed('/main');
+  }
+
+  void completeRegistration() async {
+    try {
+      int? statusCode = await userService.putUserInfo(
+        gender: gender.value,
+        birthYear: birthYear.value,
+        nickname: nickname.value,
+        profileImagePath: profileImage.value?.path,
+      );
+      if (statusCode == 200) {
+        await secureStorage.writeSignupStatus("true");
+        Get.offAllNamed('/main');
+      }
+    } catch (e) {
+      if (!regExp.hasMatch(nickname.value)) {
+        showErrorDialog('닉네임 형식이 맞지 않습니다!');
+      }
+      if (e is DioException) {
+        final response = e.response;
+        if (response != null && response.statusCode == 400) {
+          showErrorDialog('중복된 닉네임입니다!');
+        }
+      }
     }
   }
 }
