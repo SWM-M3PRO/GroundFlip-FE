@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../controllers/user_info_controller.dart';
@@ -13,6 +14,7 @@ class UserInfoUpdateScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserInfoController controller = Get.put(UserInfoController());
     final TextEditingController _controller = TextEditingController();
+    final RegExp regExp = RegExp(r'^[A-Za-z가-힣0-9]{3,10}$');
     const int lowBoundYear = 1900;
     const int upperBoundYear = 2024;
 
@@ -103,9 +105,23 @@ class UserInfoUpdateScreen extends StatelessWidget {
                             ),
                           ),
                           style: TextStyle(fontSize: 16.0),
-                          onChanged: controller.updateNickname,
+                          onChanged: (value) {
+                            controller.nickname.value = value;
+                            if (!regExp.hasMatch(value)) {
+                              controller.nicknameValidation.value = "형식에 맞지 않습니다!";
+                              print("missmiss match! ${value}");
+                            }else{
+                              controller.nicknameValidation.value = "";
+                            }
+                          },
                         ),
                       ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Obx(
+                          () => Text('${controller.nicknameValidation.value}'),
+                        ),
+                      )
                     ],
                   ),
                   SizedBox(height: 16),
