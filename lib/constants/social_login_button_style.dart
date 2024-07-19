@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ground_flip/utils/social_login_button_style.dart';
+import '../utils/social_login_button_style.dart';
 
 class SocialLoginButtonStyles {
   static SocialLoginButtonStyle apple = SocialLoginButtonStyle(

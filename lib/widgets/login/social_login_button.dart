@@ -6,12 +6,14 @@ class SocialLoginButton extends StatelessWidget {
   final VoidCallback onTap;
   final SocialLoginButtonStyle socialLoginButtonStyle;
 
-  const SocialLoginButton(
-      {super.key, required this.onTap, required this.socialLoginButtonStyle});
+  const SocialLoginButton({
+    super.key,
+    required this.onTap,
+    required this.socialLoginButtonStyle,
+  });
 
   @override
   Widget build(BuildContext context) {
-    print(socialLoginButtonStyle.logoAsset);
     return GestureDetector(
       onTap: onTap,
       child: Container(

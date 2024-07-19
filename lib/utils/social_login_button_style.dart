@@ -7,5 +7,5 @@ class SocialLoginButtonStyle {
   final Color textColor;
 
   SocialLoginButtonStyle(
-      this.backgroundColor, this.logoAsset, this.buttonText, this.textColor);
+      this.backgroundColor, this.logoAsset, this.buttonText, this.textColor,);
 }
