@@ -17,7 +17,13 @@ class Ranking {
     userId = json['userId'];
     nickname = json['nickname'];
     profileImageUrl = json['profileImageUrl'];
-    rank = json['rank'];
+    rank = json['communityId'];
     currentPixelCount = json['currentPixelCount'];
+  }
+
+  static List<Ranking> listFromJson(List<dynamic> jsonList) {
+    return [
+      for (var element in jsonList) Ranking.fromJson(element),
+    ];
   }
 }
