@@ -1,47 +1,61 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/colors.dart';
+import '../../models/ranking.dart';
 import 'ranking_list_element.dart';
 
 class RankingList extends StatelessWidget {
-  const RankingList({super.key});
+  RankingList({super.key, required this.rankings});
+
+  final List<Ranking> rankings;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.backgroundSecondary,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
+    return Expanded(
+      child: ListView(
+        children: [
+          RankingSection(
+            rankings: rankings,
           ),
-          child: Column(
-            children: [
-              RankingListElement(
-                nickname: "구미니",
-                profileImageUrl: null,
-                currentPixelCount: 3708,
-                rank: 1,
-                isLast: false,
-              ),
-              RankingListElement(
-                nickname: "상미니",
-                profileImageUrl: null,
-                currentPixelCount: 3483,
-                rank: 2,
-                isLast: false,
-              ),
-              RankingListElement(
-                nickname: "민우기",
-                profileImageUrl: null,
-                currentPixelCount: 3115,
-                rank: 3,
-                isLast: true,
-              ),
-            ],
+          SizedBox(
+            height: 20,
           ),
-        ),
-      ],
+          RankingSection(
+            rankings: rankings,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class RankingSection extends StatelessWidget {
+  RankingSection({
+    super.key,
+    required this.rankings,
+  });
+
+  final List<Ranking> rankings;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.backgroundSecondary,
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+      ),
+      child: Column(
+        children: [
+          for (int i = 0; i < rankings.length; i++)
+            RankingListElement(
+              nickname: rankings[i].nickname!,
+              profileImageUrl: rankings[i].profileImageUrl,
+              currentPixelCount: rankings[i].currentPixelCount!,
+              rank: rankings[i].rank!,
+              isLast: false,
+            ),
+        ],
+      ),
     );
   }
 }
