@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../constants/colors.dart';
+import '../../constants/app_colors.dart';
 import '../../controllers/ranking_controller.dart';
 import 'ranking_list_element.dart';
 

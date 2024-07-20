@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'colors.dart';
+import 'app_colors.dart';
 
 class TextStyles {
   static TextStyle fs17w600cTextPrimary = TextStyle(

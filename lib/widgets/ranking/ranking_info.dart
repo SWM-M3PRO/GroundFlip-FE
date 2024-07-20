@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
-import '../../constants/colors.dart';
+import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 import '../../models/ranking.dart';
 

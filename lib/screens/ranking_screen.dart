@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../constants/colors.dart';
+import '../constants/app_colors.dart';
 import '../controllers/ranking_controller.dart';
 import '../widgets/ranking/my_ranking_info.dart';
 import '../widgets/ranking/ranking_list.dart';
@@ -31,9 +31,10 @@ class RankingScreen extends StatelessWidget {
         Obx(() {
           if (rankingController.isLoading.value) {
             return Center(
-                child: CircularProgressIndicator(
-              color: AppColors.primary,
-            ),);
+              child: CircularProgressIndicator(
+                color: AppColors.primary,
+              ),
+            );
           } else {
             return SizedBox();
           }

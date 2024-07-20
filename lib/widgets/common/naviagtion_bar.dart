@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../constants/colors.dart';
+import '../../constants/app_colors.dart';
 import '../../controllers/navigation_controller.dart';
 
 class CustomBottomNavigationBar extends GetView<NavigationController> {

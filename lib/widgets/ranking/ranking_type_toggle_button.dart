@@ -2,7 +2,7 @@ import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../constants/colors.dart';
+import '../../constants/app_colors.dart';
 import '../../controllers/ranking_controller.dart';
 
 class RankingTypeToggleButton extends StatelessWidget {

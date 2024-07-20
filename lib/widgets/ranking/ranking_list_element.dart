@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../constants/colors.dart';
+import '../../constants/app_colors.dart';
 import '../../models/ranking.dart';
 import 'ranking_info.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../constants/colors.dart';
+import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 import '../../controllers/ranking_controller.dart';
 import '../../utils/date_handler.dart';
