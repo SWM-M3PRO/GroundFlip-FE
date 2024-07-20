@@ -7,10 +7,13 @@ import '../../constants/text_styles.dart';
 import '../../controllers/ranking_controller.dart';
 import '../../utils/date_handler.dart';
 
+// ignore: must_be_immutable
 class WeekWheelPicker extends StatelessWidget {
   WeekWheelPicker({
     super.key,
   });
+
+  int selectedNumber = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +21,7 @@ class WeekWheelPicker extends StatelessWidget {
     final FixedExtentScrollController controller = FixedExtentScrollController(
       initialItem: rankingController.selectedWeekNumber,
     );
+    selectedNumber = rankingController.selectedWeekNumber;
     final List<DateTime> weekOptions =
         DateHandler.getDatesFromStartToThisWeek();
 
@@ -53,7 +57,13 @@ class WeekWheelPicker extends StatelessWidget {
             SizedBox(height: 20),
             Expanded(
               child: GestureDetector(
-                onTap: () => Get.back(),
+                onTap: () {
+                  Get.back();
+                  rankingController.selectWeek(
+                    selectedNumber,
+                    weekOptions[selectedNumber],
+                  );
+                },
                 child: CupertinoPicker(
                   itemExtent: 60,
                   magnification: 1.22,
@@ -61,10 +71,7 @@ class WeekWheelPicker extends StatelessWidget {
                     background: AppColors.secondary,
                   ),
                   onSelectedItemChanged: (selectedWeekNumber) {
-                    rankingController.selectWeek(
-                      selectedWeekNumber,
-                      weekOptions[selectedWeekNumber],
-                    );
+                    selectedNumber = selectedWeekNumber;
                   },
                   scrollController: controller,
                   children: [

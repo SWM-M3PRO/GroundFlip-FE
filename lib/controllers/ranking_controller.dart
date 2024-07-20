@@ -9,6 +9,9 @@ import '../utils/user_manager.dart';
 class RankingController extends GetxController {
   final RankingService rankingService = RankingService();
   final ScrollController scrollController = ScrollController();
+
+  final RxBool isLoading = true.obs;
+
   late final Rx<Ranking> myRanking;
   final RxInt selectedType = 0.obs;
   final RxList rankings = [].obs;
@@ -30,19 +33,28 @@ class RankingController extends GetxController {
   }
 
   _initRanking() async {
+    isLoading.value = true;
     List<Ranking> rankings = await rankingService.getAllUserRanking();
     Ranking myRanking =
         await rankingService.getUserRanking(UserManager().getUserId()!);
     this.rankings.assignAll(rankings);
     this.myRanking = myRanking.obs;
+    isLoading.value = false;
   }
 
   updateRanking() async {
     List<Ranking> rankings = await rankingService.getAllUserRanking();
     Ranking myRanking =
         await rankingService.getUserRanking(UserManager().getUserId()!);
+    await Future.delayed(Duration(seconds: 1));
     this.rankings.assignAll(rankings);
     this.myRanking.value = myRanking;
+  }
+
+  _updateRankingWithProgressIndicator() async {
+    isLoading.value = true;
+    await updateRanking();
+    isLoading.value = false;
   }
 
   Ranking getMyRanking() {
@@ -66,6 +78,7 @@ class RankingController extends GetxController {
     this.selectedWeekNumber = selectedWeekNumber;
     selectedWeekString.value =
         DateHandler.convertDateToWeekFormat(selectedWeek);
+    _updateRankingWithProgressIndicator();
   }
 
   getSelectedType() {
