@@ -31,7 +31,7 @@ class WeekSelector extends StatelessWidget {
               Obx(() {
                 return Text(
                   rankingController.selectedWeekString.value,
-                  style: TextStyles.title2,
+                  style: TextStyles.fs17w700cTextPrimary,
                 );
               }),
               SizedBox(

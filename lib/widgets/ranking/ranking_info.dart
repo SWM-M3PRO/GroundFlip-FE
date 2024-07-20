@@ -37,10 +37,10 @@ class RankingInfo extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(ranking.nickname, style: TextStyles.title1),
+              Text(ranking.nickname, style: TextStyles.fs17w600cTextPrimary),
               Text(
                 '${NumberFormat('###,###,###').format(ranking.currentPixelCount)}px',
-                style: TextStyles.body1,
+                style: TextStyles.fs14w500cPrimary,
               ),
             ],
           ),
@@ -78,7 +78,7 @@ class Rank extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(22)),
         ),
         child: Center(
-          child: Text(rank.toString(), style: TextStyles.rank),
+          child: Text(rank.toString(), style: TextStyles.fs20w800cTextPrimary),
         ),
       );
     }

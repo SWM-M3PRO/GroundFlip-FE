@@ -3,37 +3,37 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 
 class TextStyles {
-  static TextStyle title1 = TextStyle(
+  static TextStyle fs17w600cTextPrimary = TextStyle(
     color: AppColors.textPrimary,
     fontSize: 17,
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle title2 = TextStyle(
+  static TextStyle fs17w700cTextPrimary = TextStyle(
     fontSize: 17,
     fontWeight: FontWeight.w700,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle title3 = TextStyle(
+  static TextStyle fs20w700cTextPrimary = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w700,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle title4 = TextStyle(
+  static TextStyle fs20w700cPrimary = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w700,
     color: AppColors.primary,
   );
 
-  static TextStyle body1 = TextStyle(
+  static TextStyle fs14w500cPrimary = TextStyle(
     color: AppColors.primary,
     fontSize: 14,
     fontWeight: FontWeight.w500,
   );
 
-  static TextStyle rank = TextStyle(
+  static TextStyle fs20w800cTextPrimary = TextStyle(
     color: AppColors.textPrimary,
     fontSize: 20,
     fontWeight: FontWeight.w800,

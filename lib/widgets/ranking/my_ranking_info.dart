@@ -42,7 +42,8 @@ class MyRankingInfo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('3px 더 먹으면 순위 상승!', style: TextStyles.body1),
+                    Text('3px 더 먹으면 순위 상승!',
+                        style: TextStyles.fs14w500cPrimary),
                   ],
                 ),
               ),

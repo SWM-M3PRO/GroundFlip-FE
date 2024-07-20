@@ -36,7 +36,7 @@ class WeekWheelPicker extends StatelessWidget {
                 Expanded(
                   child: Text(
                     "랭킹 주차 선택",
-                    style: TextStyles.title3,
+                    style: TextStyles.fs20w700cTextPrimary,
                   ),
                 ),
                 ElevatedButton(
@@ -79,7 +79,7 @@ class WeekWheelPicker extends StatelessWidget {
                       Center(
                         child: Text(
                           DateHandler.convertDateToWeekFormat(weekOptions[i]),
-                          style: TextStyles.title4,
+                          style: TextStyles.fs20w700cPrimary,
                         ),
                       ),
                   ],
