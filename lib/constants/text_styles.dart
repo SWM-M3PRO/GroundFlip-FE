@@ -15,6 +15,18 @@ class TextStyles {
     color: AppColors.textPrimary,
   );
 
+  static TextStyle title3 = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: AppColors.textPrimary,
+  );
+
+  static TextStyle title4 = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: AppColors.primary,
+  );
+
   static TextStyle body1 = TextStyle(
     color: AppColors.primary,
     fontSize: 14,
