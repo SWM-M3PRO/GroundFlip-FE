@@ -17,7 +17,7 @@ class Ranking {
     userId = json['userId'];
     nickname = json['nickname'];
     profileImageUrl = json['profileImageUrl'];
-    rank = json['communityId'];
+    rank = json['rank'];
     currentPixelCount = json['currentPixelCount'];
   }
 
