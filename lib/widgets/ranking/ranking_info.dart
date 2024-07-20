@@ -42,8 +42,10 @@ class RankingInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(nickname, style: TextStyles.title1),
-              Text('${NumberFormat('###,###,###').format(currentPixelCount)}px',
-                  style: TextStyles.body1),
+              Text(
+                '${NumberFormat('###,###,###').format(currentPixelCount)}px',
+                style: TextStyles.body1,
+              ),
             ],
           ),
         ),
