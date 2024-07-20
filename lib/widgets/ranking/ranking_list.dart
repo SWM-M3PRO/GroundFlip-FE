@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../constants/colors.dart';
-import '../../models/ranking.dart';
+import '../../controllers/ranking_controller.dart';
 import 'ranking_list_element.dart';
 
 class RankingList extends StatelessWidget {
-  RankingList({super.key, required this.rankings});
-
-  final List<Ranking> rankings;
+  RankingList({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final RankingController rankingController = Get.find<RankingController>();
+
     return Expanded(
       child: ListView(
         children: [
-          RankingSection(
-            rankings: rankings,
-          ),
+          Obx(() {
+            return RankingSection(
+              rankings: rankingController.getRankingsTop3(),
+            );
+          }),
           SizedBox(
             height: 20,
           ),
-          RankingSection(
-            rankings: rankings,
-          ),
+          Obx(() {
+            return RankingSection(
+              rankings: rankingController.getRankingsAll(),
+            );
+          }),
         ],
       ),
     );
@@ -35,7 +40,7 @@ class RankingSection extends StatelessWidget {
     required this.rankings,
   });
 
-  final List<Ranking> rankings;
+  final List rankings;
 
   @override
   Widget build(BuildContext context) {

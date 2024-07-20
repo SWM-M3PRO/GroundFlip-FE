@@ -10,7 +10,7 @@ class RankingTypeToggleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final RankingController rankingController = Get.put(RankingController());
+    final RankingController rankingController = Get.find<RankingController>();
     return Obx(() {
       return AnimatedToggleSwitch<int>.size(
         current: rankingController.getSelectedType(),
