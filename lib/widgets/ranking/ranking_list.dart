@@ -13,22 +13,27 @@ class RankingList extends StatelessWidget {
     final RankingController rankingController = Get.find<RankingController>();
 
     return Expanded(
-      child: ListView(
-        children: [
-          Obx(() {
-            return RankingSection(
-              rankings: rankingController.getRankingsTop3(),
-            );
-          }),
-          SizedBox(
-            height: 20,
-          ),
-          Obx(() {
-            return RankingSection(
-              rankings: rankingController.getRankingsAll(),
-            );
-          }),
-        ],
+      child: RefreshIndicator(
+        onRefresh: () async {
+          await rankingController.updateRanking();
+        },
+        child: ListView(
+          children: [
+            Obx(() {
+              return RankingSection(
+                rankings: rankingController.getRankingsTop3(),
+              );
+            }),
+            SizedBox(
+              height: 20,
+            ),
+            Obx(() {
+              return RankingSection(
+                rankings: rankingController.getRankingsAll(),
+              );
+            }),
+          ],
+        ),
       ),
     );
   }

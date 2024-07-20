@@ -13,6 +13,10 @@ class RankingController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    _initRanking();
+  }
+
+  _initRanking() async {
     List<Ranking> rankings = await rankingService.getAllUserRanking();
     Ranking myRanking =
         await rankingService.getUserRanking(UserManager().getUserId()!);
@@ -20,8 +24,16 @@ class RankingController extends GetxController {
     this.myRanking = myRanking.obs;
   }
 
+  updateRanking() async {
+    List<Ranking> rankings = await rankingService.getAllUserRanking();
+    Ranking myRanking =
+        await rankingService.getUserRanking(UserManager().getUserId()!);
+    this.rankings.assignAll(rankings);
+    this.rankings.add(Ranking(userId: 9, nickname: "test", rank: rankings.length, currentPixelCount: 5));
+    this.myRanking.value = myRanking;
+  }
+
   Ranking getMyRanking() {
-    print(myRanking.value.profileImageUrl);
     return myRanking.value;
   }
 
