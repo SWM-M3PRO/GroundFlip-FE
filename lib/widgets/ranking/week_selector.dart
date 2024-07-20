@@ -10,7 +10,7 @@ class WeekSelector extends StatelessWidget {
     return SizedBox(
       height: 44,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 0),
         child: GestureDetector(
           onTap: () {},
           child: Row(

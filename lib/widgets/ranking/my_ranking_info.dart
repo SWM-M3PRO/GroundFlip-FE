@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ground_flip/widgets/ranking/ranking_info.dart';
 
 import '../../constants/colors.dart';
 import '../../constants/text_styles.dart';
@@ -17,37 +18,11 @@ class MyRankingInfo extends StatelessWidget {
         padding: EdgeInsets.all(20),
         child: Column(
           children: [
-            Row(
-              children: [
-                ClipOval(
-                  child: Image.asset(
-                    "assets/images/default_profile_image.png",
-                    width: 44,
-                    height: 44,
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('김치치즈스마일', style: TextStyles.title1),
-                      Text('256px', style: TextStyles.body1),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: AppColors.backgroundThird,
-                    borderRadius: BorderRadius.all(Radius.circular(22)),
-                  ),
-                  child: Center(
-                    child: Text('10', style: TextStyles.rank),
-                  ),
-                ),
-              ],
+            RankingInfo(
+              nickname: "김치치즈스마일",
+              profileImageUrl: null,
+              currentPixelCount: 2560,
+              rank: 10,
             ),
             SizedBox(height: 16),
             Container(
