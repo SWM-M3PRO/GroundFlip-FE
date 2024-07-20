@@ -14,13 +14,13 @@ class RankingService {
   }
 
   getAllUserRanking() async {
-    var response = await dio.get('ranking/user');
+    var response = await dio.get('/ranking/user');
 
     return Ranking.listFromJson(response.data['data']);
   }
 
   getUserRanking(int userId) async {
-    var response = await dio.get('ranking/user/${userId.toString()}');
+    var response = await dio.get('/ranking/user/${userId.toString()}');
 
     return Ranking.fromJson(response.data['data']);
   }
