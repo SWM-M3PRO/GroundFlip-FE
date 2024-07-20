@@ -20,10 +20,10 @@ class RankingController extends GetxController {
   final RxDouble myRankingInfoHeight = 40.0.obs;
   final RxDouble myRankingInfoPadding = 20.0.obs;
 
-  DateTime selectedWeek = DateHandler.getStartOfThisWeek();
-  int selectedWeekNumber = 0;
   final RxString selectedWeekString =
       DateHandler.convertDateToWeekFormat(DateHandler.getStartOfThisWeek()).obs;
+  DateTime selectedWeek = DateHandler.getStartOfThisWeek();
+  int selectedWeekNumber = 0;
 
   @override
   void onInit() async {
@@ -87,6 +87,7 @@ class RankingController extends GetxController {
 
   updateSelectedType(int type) {
     selectedType.value = type;
+    _updateRankingWithProgressIndicator();
   }
 
   void _onScroll() {

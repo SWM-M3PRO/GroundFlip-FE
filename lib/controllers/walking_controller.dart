@@ -120,7 +120,7 @@ class WalkingController extends GetxController {
 
   _updateNextButtonStatus() {
     if (DateHandler.isTodayInRange(
-        selectedWeekStartDate, selectedWeekEndDate)) {
+        selectedWeekStartDate, selectedWeekEndDate,)) {
       isNextButtonEnabled.value = false;
     } else {
       isNextButtonEnabled.value = true;

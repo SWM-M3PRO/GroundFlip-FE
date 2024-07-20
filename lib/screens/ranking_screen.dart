@@ -29,13 +29,14 @@ class RankingScreen extends StatelessWidget {
           ),
         ),
         Obx(() {
-          if (rankingController.isLoading.value)
+          if (rankingController.isLoading.value) {
             return Center(
                 child: CircularProgressIndicator(
               color: AppColors.primary,
-            ));
-          else
+            ),);
+          } else {
             return SizedBox();
+          }
         }),
       ],
     );

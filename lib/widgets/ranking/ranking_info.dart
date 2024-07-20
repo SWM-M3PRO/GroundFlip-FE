@@ -55,7 +55,7 @@ class Rank extends StatelessWidget {
   static List<String> medalImages = [
     "assets/images/1st_place_medal.png",
     "assets/images/2nd_place_medal.png",
-    "assets/images/3rd_place_medal.png"
+    "assets/images/3rd_place_medal.png",
   ];
   final int rank;
 
