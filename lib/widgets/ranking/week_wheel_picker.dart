@@ -23,7 +23,6 @@ class WeekWheelPicker extends StatelessWidget {
 
     return SizedBox(
       width: 600,
-      height: 1200,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -52,8 +51,7 @@ class WeekWheelPicker extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20),
-            SizedBox(
-              height: 400,
+            Expanded(
               child: GestureDetector(
                 onTap: () => Get.back(),
                 child: CupertinoPicker(
@@ -74,7 +72,7 @@ class WeekWheelPicker extends StatelessWidget {
                       Center(
                         child: Text(
                           DateHandler.convertDateToWeekFormat(weekOptions[i]),
-                          style: TextStyles.title3,
+                          style: TextStyles.title4,
                         ),
                       ),
                   ],
