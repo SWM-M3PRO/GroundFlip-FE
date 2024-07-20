@@ -3,29 +3,24 @@ import 'package:intl/intl.dart';
 
 import '../../constants/colors.dart';
 import '../../constants/text_styles.dart';
+import '../../models/ranking.dart';
 
 class RankingInfo extends StatelessWidget {
   const RankingInfo({
     super.key,
-    required this.nickname,
-    required this.profileImageUrl,
-    required this.currentPixelCount,
-    required this.rank,
+    required this.ranking,
   });
 
-  final String nickname;
-  final String? profileImageUrl;
-  final int currentPixelCount;
-  final int rank;
+  final Ranking ranking;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         ClipOval(
-          child: profileImageUrl != null
+          child: ranking.profileImageUrl != null
               ? Image.network(
-                  profileImageUrl!,
+                  ranking.profileImageUrl!,
                   cacheWidth: 44,
                   width: 44,
                   height: 44,
@@ -42,15 +37,15 @@ class RankingInfo extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(nickname, style: TextStyles.title1),
+              Text(ranking.nickname, style: TextStyles.title1),
               Text(
-                '${NumberFormat('###,###,###').format(currentPixelCount)}px',
+                '${NumberFormat('###,###,###').format(ranking.currentPixelCount)}px',
                 style: TextStyles.body1,
               ),
             ],
           ),
         ),
-        Rank(rank: rank),
+        Rank(rank: ranking.rank),
       ],
     );
   }

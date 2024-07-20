@@ -53,10 +53,7 @@ class RankingSection extends StatelessWidget {
         children: [
           for (int i = 0; i < rankings.length; i++)
             RankingListElement(
-              nickname: rankings[i].nickname!,
-              profileImageUrl: rankings[i].profileImageUrl,
-              currentPixelCount: rankings[i].currentPixelCount!,
-              rank: rankings[i].rank!,
+              ranking: rankings[i],
               isLast: false,
             ),
         ],

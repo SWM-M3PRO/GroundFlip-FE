@@ -1,25 +1,45 @@
 class Ranking {
-  int? userId;
-  String? nickname;
+  int userId;
+  String nickname;
   String? profileImageUrl;
-  int? rank;
-  int? currentPixelCount;
+  int rank;
+  int currentPixelCount;
 
   Ranking({
-    this.userId,
-    this.nickname,
+    required this.userId,
+    required this.nickname,
     this.profileImageUrl,
-    this.rank,
-    this.currentPixelCount,
+    required this.rank,
+    required this.currentPixelCount,
   });
 
-  Ranking.fromJson(Map<String, dynamic> json) {
-    userId = json['userId'];
-    nickname = json['nickname'];
-    profileImageUrl = json['profileImageUrl'];
-    rank = json['rank'];
-    currentPixelCount = json['currentPixelCount'];
+  factory Ranking.fromJson(Map<String, dynamic> json) {
+    return switch (json) {
+      {
+        'userId': var userId,
+        'nickname': var nickname,
+        'profileImageUrl': var profileImageUrl,
+        'rank': var rank,
+        'currentPixelCount': var currentPixelCount,
+      } =>
+        Ranking(
+          userId: userId,
+          nickname: nickname,
+          profileImageUrl: profileImageUrl,
+          rank: rank,
+          currentPixelCount: currentPixelCount,
+        ),
+      _ => throw const FormatException('Failed to load Ranking')
+    };
   }
+
+  // Ranking.fromJson(Map<String, dynamic> json) {
+  //   userId = json['userId'];
+  //   nickname = json['nickname'];
+  //   profileImageUrl = json['profileImageUrl'];
+  //   rank = json['rank'];
+  //   currentPixelCount = json['currentPixelCount'];
+  // }
 
   static List<Ranking> listFromJson(List<dynamic> jsonList) {
     return [

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../constants/colors.dart';
 import '../../constants/text_styles.dart';
+import '../../controllers/ranking_controller.dart';
 import 'ranking_info.dart';
 
 class MyRankingInfo extends StatelessWidget {
@@ -9,6 +11,8 @@ class MyRankingInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final RankingController rankingController = Get.find<RankingController>();
+
     return Container(
       decoration: BoxDecoration(
         color: AppColors.backgroundSecondary,
@@ -19,10 +23,7 @@ class MyRankingInfo extends StatelessWidget {
         child: Column(
           children: [
             RankingInfo(
-              nickname: "김치치즈스마일",
-              profileImageUrl: null,
-              currentPixelCount: 2560,
-              rank: 10,
+              ranking: rankingController.getMyRanking(),
             ),
             SizedBox(height: 16),
             Container(

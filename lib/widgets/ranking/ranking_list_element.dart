@@ -1,22 +1,17 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../constants/colors.dart';
+import '../../models/ranking.dart';
 import 'ranking_info.dart';
 
 class RankingListElement extends StatelessWidget {
   const RankingListElement({
     super.key,
-    required this.nickname,
-    this.profileImageUrl,
-    required this.currentPixelCount,
-    required this.rank,
     required this.isLast,
+    required this.ranking,
   });
 
-  final String nickname;
-  final String? profileImageUrl;
-  final int currentPixelCount;
-  final int rank;
+  final Ranking ranking;
   final bool isLast;
 
   @override
@@ -37,10 +32,7 @@ class RankingListElement extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
           child: RankingInfo(
-            nickname: nickname,
-            profileImageUrl: profileImageUrl,
-            currentPixelCount: currentPixelCount,
-            rank: rank,
+            ranking: ranking,
           ),
         ),
       ),
