@@ -49,18 +49,42 @@ class RankingInfo extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            color: AppColors.backgroundThird,
-            borderRadius: BorderRadius.all(Radius.circular(22)),
-          ),
-          child: Center(
-            child: Text(rank.toString(), style: TextStyles.rank),
-          ),
-        ),
+        Rank(rank: rank),
       ],
     );
+  }
+}
+
+class Rank extends StatelessWidget {
+  static List<String> medalImages = [
+    "assets/images/1st_place_medal.png",
+    "assets/images/2nd_place_medal.png",
+    "assets/images/3rd_place_medal.png"
+  ];
+  final int rank;
+
+  const Rank({super.key, required this.rank});
+
+  @override
+  Widget build(BuildContext context) {
+    if (rank <= 3 && rank >= 1) {
+      return Image.asset(
+        medalImages[rank - 1],
+        width: 44,
+        height: 44,
+      );
+    } else {
+      return Container(
+        width: 44,
+        height: 44,
+        decoration: BoxDecoration(
+          color: AppColors.backgroundThird,
+          borderRadius: BorderRadius.all(Radius.circular(22)),
+        ),
+        child: Center(
+          child: Text(rank.toString(), style: TextStyles.rank),
+        ),
+      );
+    }
   }
 }
