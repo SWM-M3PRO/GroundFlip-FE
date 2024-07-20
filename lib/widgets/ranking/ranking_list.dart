@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +16,10 @@ class RankingList extends StatelessWidget {
 
     return Expanded(
       child: RefreshIndicator(
+        color: AppColors.primary,
+        backgroundColor: AppColors.backgroundThird,
         onRefresh: () async {
+          await Future.delayed(Duration(seconds: 1));
           await rankingController.updateRanking();
         },
         child: ListView(
