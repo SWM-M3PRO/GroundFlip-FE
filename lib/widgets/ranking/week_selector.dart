@@ -1,24 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ground_flip/widgets/ranking/week_wheel_picker.dart';
 
+import '../../constants/colors.dart';
 import '../../constants/text_styles.dart';
+import '../../controllers/ranking_controller.dart';
 
 class WeekSelector extends StatelessWidget {
   const WeekSelector({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final RankingController rankingController = Get.find<RankingController>();
+
     return SizedBox(
       height: 44,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 0),
         child: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Get.bottomSheet(
+              WeekWheelPicker(),
+              backgroundColor: AppColors.backgroundSecondary,
+              enterBottomSheetDuration: Duration(milliseconds: 100),
+              exitBottomSheetDuration: Duration(milliseconds: 100),
+            );
+          },
           child: Row(
             children: [
-              Text(
-                '2024년 07월 12일 ~ 19일',
-                style: TextStyles.title2,
-              ),
+              Obx(() {
+                return Text(
+                  rankingController.selectedWeekString.value,
+                  style: TextStyles.title2,
+                );
+              }),
               SizedBox(
                 width: 5,
               ),

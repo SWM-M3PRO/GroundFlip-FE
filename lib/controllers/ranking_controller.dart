@@ -17,6 +17,11 @@ class RankingController extends GetxController {
   final RxDouble myRankingInfoHeight = 40.0.obs;
   final RxDouble myRankingInfoPadding = 20.0.obs;
 
+  DateTime selectedWeek = DateHandler.getStartOfThisWeek();
+  int selectedWeekNumber = 0;
+  final RxString selectedWeekString =
+      DateHandler.convertDateToWeekFormat(DateHandler.getStartOfThisWeek()).obs;
+
   @override
   void onInit() async {
     super.onInit();
@@ -54,6 +59,13 @@ class RankingController extends GetxController {
 
   getRankingsAll() {
     return rankings.sublist(3);
+  }
+
+  selectWeek(int selectedWeekNumber, DateTime selectedWeek) {
+    this.selectedWeek = selectedWeek;
+    this.selectedWeekNumber = selectedWeekNumber;
+    selectedWeekString.value =
+        DateHandler.convertDateToWeekFormat(selectedWeek);
   }
 
   getSelectedType() {
