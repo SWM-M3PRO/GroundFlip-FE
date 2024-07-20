@@ -21,7 +21,7 @@ class RankingInfo extends StatelessWidget {
           child: ranking.profileImageUrl != null
               ? Image.network(
                   ranking.profileImageUrl!,
-                  cacheWidth: 44,
+                  cacheWidth: 100,
                   width: 44,
                   height: 44,
                   fit: BoxFit.cover,

@@ -18,6 +18,7 @@ class RankingList extends StatelessWidget {
           await rankingController.updateRanking();
         },
         child: ListView(
+          controller: rankingController.scrollController,
           children: [
             Obx(() {
               return RankingSection(

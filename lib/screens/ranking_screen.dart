@@ -5,7 +5,7 @@ import '../widgets/ranking/ranking_list.dart';
 import '../widgets/ranking/week_selector.dart';
 
 class RankingScreen extends StatelessWidget {
-  RankingScreen({super.key});
+  const RankingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
