@@ -198,7 +198,7 @@ class UserInfoUpdateScreen extends StatelessWidget {
                                 disabledBackgroundColor: Colors.redAccent,
                               ),
                               child: Text('여성'),
-                            )
+                            ),
                           ],
                         ),
                       ),

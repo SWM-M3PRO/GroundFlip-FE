@@ -40,7 +40,7 @@ class SignUpController extends GetxController {
       () {
         if (textFocusNode.hasFocus) {
           textEditingController.selection = TextSelection(
-              baseOffset: 0, extentOffset: textEditingController.text.length);
+              baseOffset: 0, extentOffset: textEditingController.text.length,);
         }
         if (!textFocusNode.hasFocus) {
           onSubmitted(textEditingController.text);
