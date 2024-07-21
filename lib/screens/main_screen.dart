@@ -11,10 +11,10 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NavigationController navigationController =
-        Get.put(NavigationController());
     Get.put(MyPageController());
     Get.put(RankingController());
+    final NavigationController navigationController =
+        Get.put(NavigationController());
 
     return Scaffold(
       appBar: PreferredSize(

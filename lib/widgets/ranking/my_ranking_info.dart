@@ -16,6 +16,14 @@ class MyRankingInfo extends StatelessWidget {
     return Obx(() {
       return Container(
         decoration: BoxDecoration(
+          border: Border.all(
+            color: Color.lerp(
+              AppColors.primary,
+              AppColors.background,
+              rankingController.t.value,
+            )!, // 경계선 색상
+            width: 1,
+          ),
           color: Color.lerp(
             AppColors.backgroundSecondary,
             AppColors.background,
@@ -42,8 +50,10 @@ class MyRankingInfo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('3px 더 먹으면 순위 상승!',
-                        style: TextStyles.fs14w500cPrimary,),
+                    Text(
+                      '3px 더 먹으면 순위 상승!',
+                      style: TextStyles.fs14w500cPrimary,
+                    ),
                   ],
                 ),
               ),
