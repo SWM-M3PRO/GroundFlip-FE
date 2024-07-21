@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:ground_flip/controllers/ranking_controller.dart';
 
 import '../screens/group_screen.dart';
 import '../screens/map_screen.dart';
