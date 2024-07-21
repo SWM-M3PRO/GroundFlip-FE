@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../ranking/ranking_type_toggle_button.dart';
+import '../../constants/app_colors.dart';
 
 class MapAppBar extends StatelessWidget {
   const MapAppBar({super.key});
@@ -22,7 +22,11 @@ class RankingAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.black,
-      title: RankingTypeToggleButton(),
+      title: const Text(
+        "주간 랭킹",
+        style: TextStyle(color: AppColors.textPrimary),
+      ),
+      // title: RankingTypeToggleButton(),
     );
   }
 }
