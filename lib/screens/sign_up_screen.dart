@@ -24,12 +24,6 @@ class SignUpScreen extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text('프로필 입력'),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Get.previousRoute;
-            },
-          ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
