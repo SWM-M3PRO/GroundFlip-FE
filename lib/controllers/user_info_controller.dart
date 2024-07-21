@@ -9,10 +9,12 @@ import '../service/user_service.dart';
 class UserInfoController extends GetxController {
   final UserService userService = UserService();
   final ImagePicker picker = ImagePicker();
+  late final TextEditingController textEditingController;
+  final FocusNode textFocusNode = FocusNode();
 
   late User user;
 
-  final RegExp regExp = RegExp(r'^[A-Za-z가-힣0-9]{3,10}$');
+  final RegExp regExp = RegExp(r'^[A-Za-z가-힣0-9ㄱ-ㅎㅏ-ㅣ]{3,10}$');
 
   var profileImage = Rxn<XFile>();
 
@@ -39,6 +41,15 @@ class UserInfoController extends GetxController {
       toggleSelection = [false, true].obs;
     }
     isUserInfoInit.value = true;
+    textFocusNode.addListener(() {
+      if (textFocusNode.hasFocus) {
+        textEditingController.selection = TextSelection(
+            baseOffset: 0, extentOffset: textEditingController.text.length);
+      }
+      if (!textFocusNode.hasFocus){
+        onSubmitted(textEditingController.text);
+      }
+    },);
     update();
   }
 
@@ -49,6 +60,7 @@ class UserInfoController extends GetxController {
     gender.value = user.gender ?? "MALE";
     imageS3Url.value = user.profileImageUrl ?? "";
     isInitImageUrl.value = true;
+    textEditingController = TextEditingController(text: nickname.value);
   }
 
   Future getImage() async {
@@ -112,7 +124,7 @@ class UserInfoController extends GetxController {
         Get.offAllNamed('/main');
       }
     } catch (e) {
-      if (!regExp.hasMatch(nickname.value)){
+      if (!regExp.hasMatch(nickname.value)) {
         showErrorDialog('닉네임 형식이 맞지 않습니다!');
       }
       if (e is DioException) {
@@ -121,6 +133,16 @@ class UserInfoController extends GetxController {
           showErrorDialog('중복된 닉네임입니다!');
         }
       }
+    }
+  }
+
+  void onSubmitted(String value){
+    nickname.value = value;
+    if (!regExp.hasMatch(value)) {
+      nicknameValidation.value =
+      "형식에 맞지 않습니다!";
+    } else {
+      nicknameValidation.value = "";
     }
   }
 }

@@ -12,8 +12,6 @@ class UserInfoUpdateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserInfoController controller = Get.put(UserInfoController());
-    final TextEditingController textEditingController = TextEditingController();
-    final RegExp regExp = RegExp(r'^[A-Za-z가-힣0-9]{3,10}$');
     const int lowBoundYear = 1900;
     const int upperBoundYear = 2024;
 
@@ -35,7 +33,7 @@ class UserInfoUpdateScreen extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               }
-              textEditingController.text = controller.nickname.value;
+              //controller.textEditingController.text = controller.nickname.value;
               return Column(
                 children: [
                   Obx(
@@ -95,7 +93,10 @@ class UserInfoUpdateScreen extends StatelessWidget {
                       Container(
                         color: Color(0xffD9D9D9),
                         child: TextField(
-                          controller: textEditingController,
+                          controller: controller.textEditingController,
+                          autofocus: true,
+                          focusNode: controller.textFocusNode,
+                          onSubmitted: controller.onSubmitted,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
@@ -104,15 +105,6 @@ class UserInfoUpdateScreen extends StatelessWidget {
                             ),
                           ),
                           style: TextStyle(fontSize: 16.0),
-                          onChanged: (value) {
-                            controller.nickname.value = value;
-                            if (!regExp.hasMatch(value)) {
-                              controller.nicknameValidation.value =
-                                  "형식에 맞지 않습니다!";
-                            } else {
-                              controller.nicknameValidation.value = "";
-                            }
-                          },
                         ),
                       ),
                       Align(
