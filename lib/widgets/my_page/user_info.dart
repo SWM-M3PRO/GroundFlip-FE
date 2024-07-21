@@ -13,8 +13,7 @@ class UserInfo extends StatelessWidget {
     final MyPageController myPageController = Get.find<MyPageController>();
     return InkWell(
       onTap: () {
-        //Get.to(() => UserInfoUpdateScreen());
-        Get.to(() => SignUpScreen());
+        Get.to(() => UserInfoUpdateScreen());
       },
       child: Ink(
         decoration: const BoxDecoration(
