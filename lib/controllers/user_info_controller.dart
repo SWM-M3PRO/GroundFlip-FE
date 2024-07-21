@@ -35,22 +35,32 @@ class UserInfoController extends GetxController {
   void onInit() async {
     await userInfoInit();
     super.onInit();
+    checkGender();
+    isUserInfoInit.value = true;
+    initTextFocusNode();
+    update();
+  }
+
+  void checkGender(){
     if (gender.value == "MALE") {
       toggleSelection = [true, false].obs;
     } else {
       toggleSelection = [false, true].obs;
     }
-    isUserInfoInit.value = true;
-    textFocusNode.addListener(() {
-      if (textFocusNode.hasFocus) {
-        textEditingController.selection = TextSelection(
-            baseOffset: 0, extentOffset: textEditingController.text.length);
-      }
-      if (!textFocusNode.hasFocus){
-        onSubmitted(textEditingController.text);
-      }
-    },);
-    update();
+  }
+
+  void initTextFocusNode(){
+    textFocusNode.addListener(
+          () {
+        if (textFocusNode.hasFocus) {
+          textEditingController.selection = TextSelection(
+              baseOffset: 0, extentOffset: textEditingController.text.length);
+        }
+        if (!textFocusNode.hasFocus) {
+          onSubmitted(textEditingController.text);
+        }
+      },
+    );
   }
 
   Future<void> userInfoInit() async {
@@ -136,11 +146,10 @@ class UserInfoController extends GetxController {
     }
   }
 
-  void onSubmitted(String value){
+  void onSubmitted(String value) {
     nickname.value = value;
     if (!regExp.hasMatch(value)) {
-      nicknameValidation.value =
-      "형식에 맞지 않습니다!";
+      nicknameValidation.value = "형식에 맞지 않습니다!";
     } else {
       nicknameValidation.value = "";
     }

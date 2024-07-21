@@ -10,10 +10,12 @@ class SignUpController extends GetxController {
   final UserService userService = UserService();
   final ImagePicker picker = ImagePicker();
   final SecureStorage secureStorage = SecureStorage();
+  late final TextEditingController textEditingController;
+  final FocusNode textFocusNode = FocusNode();
 
   var profileImage = Rxn<XFile>();
 
-  final RegExp regExp = RegExp(r'^[A-Za-z가-힣0-9]{3,10}$');
+  final RegExp regExp = RegExp(r'^[A-Za-z가-힣0-9ㄱ-ㅎㅏ-ㅣ]{3,10}$');
 
   late RxList<bool> toggleSelection;
   bool isMale = true;
@@ -27,8 +29,24 @@ class SignUpController extends GetxController {
 
   @override
   void onInit() {
+    textEditingController = TextEditingController();
+    initTextFocusNode();
     toggleSelection = [isMale, isFemale].obs;
     super.onInit();
+  }
+
+  void initTextFocusNode(){
+    textFocusNode.addListener(
+          () {
+        if (textFocusNode.hasFocus) {
+          textEditingController.selection = TextSelection(
+              baseOffset: 0, extentOffset: textEditingController.text.length);
+        }
+        if (!textFocusNode.hasFocus) {
+          onSubmitted(textEditingController.text);
+        }
+      },
+    );
   }
 
   Future getImage() async {
@@ -102,6 +120,15 @@ class SignUpController extends GetxController {
           showErrorDialog('중복된 닉네임입니다!');
         }
       }
+    }
+  }
+
+  void onSubmitted(String value) {
+    updateNickname(value);
+    if (!regExp.hasMatch(value)) {
+      nicknameValidation.value = "형식에 맞지 않습니다!";
+    } else {
+      nicknameValidation.value = "";
     }
   }
 }

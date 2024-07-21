@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/my_page_controller.dart';
+import '../../screens/sign_up_screen.dart';
 import '../../screens/user_info_update_screen.dart';
 
 class UserInfo extends StatelessWidget {
@@ -12,7 +13,8 @@ class UserInfo extends StatelessWidget {
     final MyPageController myPageController = Get.find<MyPageController>();
     return InkWell(
       onTap: () {
-        Get.to(() => UserInfoUpdateScreen());
+        //Get.to(() => UserInfoUpdateScreen());
+        Get.to(() => SignUpScreen());
       },
       child: Ink(
         decoration: const BoxDecoration(

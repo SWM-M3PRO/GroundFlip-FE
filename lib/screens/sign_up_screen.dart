@@ -81,6 +81,10 @@ class SignUpScreen extends StatelessWidget {
                   Container(
                     color: Color(0xffD9D9D9),
                     child: TextField(
+                      controller: controller.textEditingController,
+                      autofocus: true,
+                      focusNode: controller.textFocusNode,
+                      onSubmitted: controller.onSubmitted,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(
@@ -89,14 +93,6 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       ),
                       style: TextStyle(fontSize: 16.0),
-                      onChanged: (value) {
-                        controller.updateNickname(value);
-                        if (!regExp.hasMatch(value)) {
-                          controller.nicknameValidation.value = "형식에 맞지 않습니다!";
-                        } else {
-                          controller.nicknameValidation.value = "";
-                        }
-                      },
                     ),
                   ),
                   Align(
