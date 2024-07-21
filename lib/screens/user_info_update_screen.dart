@@ -176,22 +176,29 @@ class UserInfoUpdateScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 4.0),
                       Obx(
-                        () => ToggleButtons(
-                          constraints: BoxConstraints.expand(
-                            width:
-                                (MediaQuery.of(context).size.width - 100) / 2,
-                          ), //
-                          isSelected: controller.toggleSelection,
-                          onPressed: controller.updateSelectedGender,
+                        () => Row(
                           children: [
-                            Text(
-                              '남성',
-                              style: TextStyle(fontSize: 16.0),
+                            ElevatedButton(
+                              onPressed: controller.isGender.value == 1
+                                  ? controller.updateSelectedGender
+                                  : null,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.grey,
+                                disabledBackgroundColor: Colors.redAccent,
+                              ),
+                              child: Text('남성'),
                             ),
-                            Text(
-                              '여성',
-                              style: TextStyle(fontSize: 16.0),
-                            ),
+                            SizedBox(width: 15),
+                            ElevatedButton(
+                              onPressed: controller.isGender.value == 0
+                                  ? controller.updateSelectedGender
+                                  : null,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.grey,
+                                disabledBackgroundColor: Colors.redAccent,
+                              ),
+                              child: Text('여성'),
+                            )
                           ],
                         ),
                       ),

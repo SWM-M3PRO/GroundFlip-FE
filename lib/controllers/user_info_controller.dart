@@ -30,6 +30,7 @@ class UserInfoController extends GetxController {
   RxBool isNicknameTyped = false.obs;
   RxBool isUserInfoInit = false.obs;
   RxBool isInitImageUrl = false.obs;
+  RxInt isGender = 0.obs;
 
   @override
   void onInit() async {
@@ -41,17 +42,17 @@ class UserInfoController extends GetxController {
     update();
   }
 
-  void checkGender(){
+  void checkGender() {
     if (gender.value == "MALE") {
-      toggleSelection = [true, false].obs;
+      isGender.value = 0;
     } else {
-      toggleSelection = [false, true].obs;
+      isGender.value = 1;
     }
   }
 
-  void initTextFocusNode(){
+  void initTextFocusNode() {
     textFocusNode.addListener(
-          () {
+      () {
         if (textFocusNode.hasFocus) {
           textEditingController.selection = TextSelection(
               baseOffset: 0, extentOffset: textEditingController.text.length);
@@ -61,6 +62,16 @@ class UserInfoController extends GetxController {
         }
       },
     );
+  }
+
+  void updateSelectedGender() {
+    if (isGender.value == 0) {
+      isGender.value = 1;
+      gender.value = 'FEMALE';
+    } else {
+      isGender.value = 0;
+      gender.value = 'MALE';
+    }
   }
 
   Future<void> userInfoInit() async {
@@ -83,15 +94,15 @@ class UserInfoController extends GetxController {
     }
   }
 
-  void updateSelectedGender(int index) {
-    if (index == 0) {
-      toggleSelection.assignAll([true, false]);
-      gender.value = 'MALE';
-    } else {
-      toggleSelection.assignAll([false, true]);
-      gender.value = 'FEMALE';
-    }
-  }
+  // void updateSelectedGender(int index) {
+  //   if (index == 0) {
+  //     toggleSelection.assignAll([true, false]);
+  //     gender.value = 'MALE';
+  //   } else {
+  //     toggleSelection.assignAll([false, true]);
+  //     gender.value = 'FEMALE';
+  //   }
+  // }
 
   void updateBirthYear(int inputBirthYear) {
     birthYear.value = inputBirthYear;
