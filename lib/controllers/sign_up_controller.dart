@@ -26,18 +26,18 @@ class SignUpController extends GetxController {
   RxString gender = 'MALE'.obs;
   RxString nicknameValidation = "".obs;
   RxBool isNicknameTyped = false.obs;
+  RxInt isGender = 0.obs;
 
   @override
   void onInit() {
     textEditingController = TextEditingController();
     initTextFocusNode();
-    toggleSelection = [isMale, isFemale].obs;
     super.onInit();
   }
 
-  void initTextFocusNode(){
+  void initTextFocusNode() {
     textFocusNode.addListener(
-          () {
+      () {
         if (textFocusNode.hasFocus) {
           textEditingController.selection = TextSelection(
               baseOffset: 0, extentOffset: textEditingController.text.length);
@@ -59,14 +59,15 @@ class SignUpController extends GetxController {
     }
   }
 
-  void updateSelectedGender(int index) {
-    if (index == 0) {
-      toggleSelection.assignAll([true, false]);
-      gender.value = 'MALE';
-    } else {
-      toggleSelection.assignAll([false, true]);
+  void updateSelectedGender() {
+    if (isGender.value == 0) {
+      isGender.value = 1;
       gender.value = 'FEMALE';
+    } else {
+      isGender.value = 0;
+      gender.value = 'MALE';
     }
+    print('gendergender ${gender.value}');
   }
 
   void updateBirthYear(int inputBirthYear) {
