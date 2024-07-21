@@ -17,7 +17,7 @@ class RankingList extends StatelessWidget {
         color: AppColors.primary,
         backgroundColor: AppColors.backgroundThird,
         onRefresh: () async {
-          await rankingController.updateRanking();
+          await rankingController.updateRankingWithDelay(1);
         },
         child: ListView(
           controller: rankingController.scrollController,
