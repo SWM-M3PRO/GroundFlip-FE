@@ -12,7 +12,6 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SignUpController controller = Get.put(SignUpController());
-    final RegExp regExp = RegExp(r'^[A-Za-z가-힣0-9]{3,10}$');
     const int lowBoundYear = 1900;
     const int upperBoundYear = 2024;
 

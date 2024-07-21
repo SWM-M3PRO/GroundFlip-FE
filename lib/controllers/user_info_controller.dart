@@ -94,16 +94,6 @@ class UserInfoController extends GetxController {
     }
   }
 
-  // void updateSelectedGender(int index) {
-  //   if (index == 0) {
-  //     toggleSelection.assignAll([true, false]);
-  //     gender.value = 'MALE';
-  //   } else {
-  //     toggleSelection.assignAll([false, true]);
-  //     gender.value = 'FEMALE';
-  //   }
-  // }
-
   void updateBirthYear(int inputBirthYear) {
     birthYear.value = inputBirthYear;
   }
