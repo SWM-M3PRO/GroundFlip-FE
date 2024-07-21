@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 
-import '../utils/date_utils.dart';
+import '../utils/date_handler.dart';
 import '../utils/walking_service.dart';
 import '../utils/walking_service_factory.dart';
 
@@ -115,11 +115,12 @@ class WalkingController extends GetxController {
 
   void _updateSelectedWeekInfo() {
     selectedWeekInfo.value =
-        "${DateUtils.formatDate(selectedWeekStartDate)} ~ ${DateUtils.formatDate(selectedWeekEndDate)}";
+        "${DateHandler.formatDate(selectedWeekStartDate)} ~ ${DateHandler.formatDate(selectedWeekEndDate)}";
   }
 
   _updateNextButtonStatus() {
-    if (DateUtils.isTodayInRange(selectedWeekStartDate, selectedWeekEndDate)) {
+    if (DateHandler.isTodayInRange(
+        selectedWeekStartDate, selectedWeekEndDate,)) {
       isNextButtonEnabled.value = false;
     } else {
       isNextButtonEnabled.value = true;
@@ -129,7 +130,7 @@ class WalkingController extends GetxController {
   _updatePreviousButtonStatus() {
     if (checkFirstDate.isAfter(selectedWeekStartDate)) {
       isPreviousButtonEnabled.value = false;
-    }else{
+    } else {
       isPreviousButtonEnabled.value = true;
     }
   }

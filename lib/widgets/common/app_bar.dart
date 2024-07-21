@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../constants/app_colors.dart';
+
 class MapAppBar extends StatelessWidget {
   const MapAppBar({super.key});
 
@@ -19,8 +21,12 @@ class RankingAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      title: const Text('랭킹'),
+      backgroundColor: Colors.black,
+      title: const Text(
+        "주간 랭킹",
+        style: TextStyle(color: AppColors.textPrimary),
+      ),
+      // title: RankingTypeToggleButton(),
     );
   }
 }

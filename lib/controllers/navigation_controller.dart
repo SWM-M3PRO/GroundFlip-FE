@@ -6,12 +6,14 @@ import '../screens/map_screen.dart';
 import '../screens/my_page_screen.dart';
 import '../screens/ranking_screen.dart';
 import '../widgets/common/app_bar.dart';
+import 'ranking_controller.dart';
 
 class NavigationController extends GetxController {
+  final RankingController rankingController = Get.find<RankingController>();
   final RxInt selectedIndex = 0.obs;
   static List<Widget> tabPages = <Widget>[
     const MapScreen(),
-    const RankigScreen(),
+    const RankingScreen(),
     const GroupScreen(),
     const MyPageScreen(),
   ];
@@ -24,6 +26,9 @@ class NavigationController extends GetxController {
 
   void changeIndex(int index) {
     selectedIndex(index);
+    if (index == 1) {
+      rankingController.onVisible();
+    }
   }
 
   Widget getCurrentPage() {
