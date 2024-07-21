@@ -24,8 +24,8 @@ class RankingListElement extends StatelessWidget {
             bottom: isLast
                 ? BorderSide.none
                 : BorderSide(
-                    color: AppColors.backgroundThird, // 경계 색상
-                    width: 1.0, // 경계 두께
+                    color: AppColors.backgroundThird,
+                    width: 1.0,
                   ),
           ),
         ),

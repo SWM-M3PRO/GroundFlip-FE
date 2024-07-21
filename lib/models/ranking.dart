@@ -33,14 +33,6 @@ class Ranking {
     };
   }
 
-  // Ranking.fromJson(Map<String, dynamic> json) {
-  //   userId = json['userId'];
-  //   nickname = json['nickname'];
-  //   profileImageUrl = json['profileImageUrl'];
-  //   rank = json['rank'];
-  //   currentPixelCount = json['currentPixelCount'];
-  // }
-
   static List<Ranking> listFromJson(List<dynamic> jsonList) {
     return [
       for (var element in jsonList) Ranking.fromJson(element),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../constants/app_colors.dart';
 import '../controllers/my_page_controller.dart';
 import '../controllers/navigation_controller.dart';
 import '../controllers/ranking_controller.dart';
@@ -24,7 +25,7 @@ class MainScreen extends StatelessWidget {
       body: Obx(
         () => SafeArea(child: navigationController.getCurrentPage()),
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.background,
       bottomNavigationBar: const CustomBottomNavigationBar(),
     );
   }
