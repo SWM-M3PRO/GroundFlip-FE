@@ -1,31 +1,36 @@
 import 'package:flutter/material.dart';
 
+import '../../constants/app_colors.dart';
+import '../../constants/text_styles.dart';
 import 'setting_item.dart';
 
 class SettingsSection extends StatelessWidget {
-  final String title;
+  final String? title;
   final List<SettingsItem> items;
 
-  SettingsSection({required this.title, required this.items, super.key});
+  SettingsSection({this.title, required this.items, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
+        SizedBox(
+          height: 20,
         ),
-        Column(
-          children: items.map((item) => item).toList(),
+        if (title != null)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
+            child: Text(title!, style: TextStyles.fs14w400cTextSecondary),
+          ),
+        Container(
+          decoration: BoxDecoration(
+              color: AppColors.backgroundSecondary,
+              borderRadius: BorderRadius.all(Radius.circular(16))),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: items.map((item) => item).toList(),
+          ),
         ),
       ],
     );
