@@ -180,7 +180,7 @@ class StepBarChart extends StatelessWidget {
         tooltipMargin: -10,
         getTooltipItem: (group, groupIndex, rod, rodIndex) {
           return BarTooltipItem(
-            (rod.toY - 1).toInt().toString(),
+            (rod.toY).toInt().toString(),
             TextStyles.fs17w600cTextPrimary,
           );
         },
