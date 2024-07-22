@@ -68,4 +68,17 @@ class TextStyles {
     fontSize: 20,
     fontWeight: FontWeight.w800,
   );
+
+  static TextStyle fs32w400cTextSecondary = TextStyle(
+    color: AppColors.textSecondary,
+    fontSize: 32,
+    fontWeight: FontWeight.w400,
+    height: 1,
+  );
+
+  static TextStyle fs32w900cTextPrimary = TextStyle(
+    color: AppColors.textPrimary,
+    fontSize: 32,
+    fontWeight: FontWeight.w900,
+  );
 }

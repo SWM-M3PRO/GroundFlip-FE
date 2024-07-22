@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../constants/app_colors.dart';
 import '../constants/social_login_button_style.dart';
+import '../constants/text_styles.dart';
 import '../controllers/login_controller.dart';
 import '../widgets/login/social_login_button.dart';
 
@@ -15,28 +17,58 @@ class LoginScreen extends StatelessWidget {
     LoginController loginController = Get.put(LoginController());
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        title: Center(
+          child: Image.asset(
+            "assets/images/groundflip_logo.png",
+            height: 32,
+          ),
+        ),
+      ),
+      backgroundColor: AppColors.background,
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Image.asset(
-              'assets/images/ground_flip_logo.png',
-              width: 180,
-              height: 180,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                "내가 가는 길이, \n내 것이 되는 즐거움",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            Expanded(
+              child: Stack(
+                children: [
+                  Image.asset("assets/images/login_image.png"),
+                  Container(
+                    decoration: BoxDecoration(
+                      // color: Colors.yellow,
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xff000000),
+                          Color(0x0),
+                        ],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                      ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Text(
+                          "내가 가는 길이,",
+                          style: TextStyles.fs32w400cTextSecondary,
+                        ),
+                      ),
+                      Text(
+                        "내 것이 되는 즐거움",
+                        style: TextStyles.fs32w900cTextPrimary,
+                      ),
+                    ],
+                  )
+                ],
               ),
             ),
             SizedBox(
-              height: 250,
+              height: 40,
             ),
             if (!Platform.isAndroid)
               SocialLoginButton(
@@ -45,14 +77,18 @@ class LoginScreen extends StatelessWidget {
               ),
             if (!Platform.isAndroid)
               SizedBox(
-                height: 10,
+                height: 20,
+              ),
+            if (Platform.isAndroid)
+              SizedBox(
+                height: 100,
               ),
             SocialLoginButton(
               socialLoginButtonStyle: SocialLoginButtonStyles.kakao,
               onTap: () => loginController.loginWithKakao(),
             ),
             SizedBox(
-              height: 50,
+              height: 30,
             ),
           ],
         ),
