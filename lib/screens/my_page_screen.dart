@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 
 import '../controllers/my_page_controller.dart';
 import '../controllers/walking_controller.dart';
-import '../widgets/my_page/dash_board.dart';
+import '../widgets/my_page/pixel_dash_board.dart';
 import '../widgets/my_page/step_bar_chart.dart';
-import '../widgets/my_page/today_goal_chart.dart';
+import '../widgets/my_page/today_step_chart.dart';
 import '../widgets/my_page/user_info.dart';
 
 class MyPageScreen extends StatelessWidget {
@@ -17,18 +17,21 @@ class MyPageScreen extends StatelessWidget {
     Get.put(MyPageController());
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
       child: Column(
         children: [
           UserInfo(),
-          Container(
-            height: 10,
-          ),
-          DashBoard(),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
-          TodayGoalChart(),
+          PixelDashBoard(),
+          SizedBox(
+            height: 20,
+          ),
+          TodayStepChart(),
+          SizedBox(
+            height: 20,
+          ),
           StepBarChart(),
         ],
       ),
