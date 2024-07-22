@@ -23,11 +23,11 @@ class SettingsSection extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
             child: Text(title!, style: TextStyles.fs14w400cTextSecondary),
           ),
-        Container(
+        Ink(
           decoration: BoxDecoration(
-              color: AppColors.backgroundSecondary,
-              borderRadius: BorderRadius.all(Radius.circular(16))),
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+            color: AppColors.backgroundSecondary,
+          ),
           child: Column(
             children: items.map((item) => item).toList(),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/app_colors.dart';
 import '../controllers/setting_controller.dart';
@@ -38,22 +39,34 @@ class SettingScreen extends StatelessWidget {
           children: [
             SettingsSection(
               items: [
-                SettingsItem(title: 'App Store 리뷰 남기기', isLast: true),
+                SettingsItem(title: 'App Store 리뷰 남기기'),
               ],
             ),
             SettingsSection(
               title: '알림',
               items: [
                 SettingsItem(title: '알림 설정'),
-                SettingsItem(title: '고객 문의 및 개선 요청', isLast: true),
+                SettingsItem(title: '고객 문의 및 개선 요청'),
               ],
             ),
             SettingsSection(
               title: '가이드',
               items: [
-                SettingsItem(title: '공지사항'),
-                SettingsItem(title: '플레이 가이드'),
-                SettingsItem(title: '고객 문의 및 개선 요청', isLast: true),
+                SettingsItem(
+                  title: '공지사항',
+                  onTap: () async {
+                    final Uri url = Uri.parse('https://flutter.dev');
+                    await launchUrl(url);
+                  },
+                ),
+                SettingsItem(
+                  title: '플레이 가이드',
+                  onTap: () async {
+                    final Uri url = Uri.parse('https://flutter.dev');
+                    await launchUrl(url);
+                  },
+                ),
+                SettingsItem(title: '고객 문의 및 개선 요청'),
               ],
             ),
             SettingsSection(
@@ -65,7 +78,6 @@ class SettingScreen extends StatelessWidget {
                 SettingsItem(
                   title: '버전 정보',
                   subTitle: "1.0.0",
-                  isLast: true,
                 ),
               ],
             ),
@@ -80,7 +92,6 @@ class SettingScreen extends StatelessWidget {
                 SettingsItem(
                   title: '계정 탈퇴',
                   isAccent: true,
-                  isLast: true,
                 ),
               ],
             ),
