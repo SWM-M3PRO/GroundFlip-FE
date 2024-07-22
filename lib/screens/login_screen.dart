@@ -41,7 +41,7 @@ class LoginScreen extends StatelessWidget {
                       gradient: LinearGradient(
                         colors: [
                           Color(0xff000000),
-                          Color(0x0),
+                          Color(0x00000000),
                         ],
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
@@ -63,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                         style: TextStyles.fs32w900cTextPrimary,
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
