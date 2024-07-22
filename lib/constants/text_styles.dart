@@ -3,6 +3,18 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class TextStyles {
+  static TextStyle fs17w400cTextSecondary = TextStyle(
+    color: AppColors.textSecondary,
+    fontSize: 17,
+    fontWeight: FontWeight.w400,
+  );
+
+  static TextStyle fs17w700cPrimary = TextStyle(
+    color: AppColors.primary,
+    fontSize: 17,
+    fontWeight: FontWeight.w700,
+  );
+
   static TextStyle fs17w600cTextPrimary = TextStyle(
     color: AppColors.textPrimary,
     fontSize: 17,
