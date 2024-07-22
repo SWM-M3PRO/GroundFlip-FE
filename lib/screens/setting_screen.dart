@@ -46,7 +46,7 @@ class SettingScreen extends StatelessWidget {
               title: '알림',
               items: [
                 SettingsItem(title: '알림 설정'),
-                SettingsItem(title: '고객 문의 및 개선 요청'),
+                SettingsItem(title: '고객 문의 및 개선 요청', isLast: true),
               ],
             ),
             SettingsSection(
@@ -66,7 +66,7 @@ class SettingScreen extends StatelessWidget {
                     await launchUrl(url);
                   },
                 ),
-                SettingsItem(title: '고객 문의 및 개선 요청'),
+                SettingsItem(title: '고객 문의 및 개선 요청', isLast: true),
               ],
             ),
             SettingsSection(
@@ -78,6 +78,7 @@ class SettingScreen extends StatelessWidget {
                 SettingsItem(
                   title: '버전 정보',
                   subTitle: "1.0.0",
+                  isLast: true,
                 ),
               ],
             ),
@@ -92,6 +93,7 @@ class SettingScreen extends StatelessWidget {
                 SettingsItem(
                   title: '계정 탈퇴',
                   isAccent: true,
+                  isLast: true,
                 ),
               ],
             ),
