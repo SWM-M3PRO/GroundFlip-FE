@@ -3,11 +3,11 @@
 <plist version="1.0">
 	<dict>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string></string>
+		<string>프로필 사진을 고르기 위해 사진에 접근</string>
 		<key>NSCameraUsageDescription</key>
-		<string></string>
+		<string>프로필 사진을 찍기 위해 필요</string>
 		<key>NSMicrophoneUsageDescription</key>
-		<string></string>
+		<string>앱에 필요한 기능</string>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
 		<key>CFBundleDevelopmentRegion</key>
@@ -53,8 +53,10 @@
 		<string>We will sync your data with the Apple Health app to give you better insights</string>
 		<key>NSHealthUpdateUsageDescription</key>
 		<string>We will sync your data with the Apple Health app to give you better insights</string>
-		<key>NSLocationWhenInUseUsageDescription</key>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 		<string>This app needs GPS</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+        <string>This app needs GPS</string>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>UILaunchStoryboardName</key>
