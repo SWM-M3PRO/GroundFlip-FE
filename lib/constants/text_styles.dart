@@ -27,10 +27,22 @@ class TextStyles {
     color: AppColors.primary,
   );
 
+  static TextStyle fs20w600cTextPrimary = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textPrimary,
+  );
+
   static TextStyle fs14w500cPrimary = TextStyle(
     color: AppColors.primary,
     fontSize: 14,
     fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle fs14w400cTextSecondary = TextStyle(
+    color: AppColors.textSecondary,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
   );
 
   static TextStyle fs20w800cTextPrimary = TextStyle(
