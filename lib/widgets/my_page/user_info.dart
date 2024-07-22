@@ -43,19 +43,22 @@ class UserInfo extends StatelessWidget {
                 SizedBox(
                   width: 30,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      myPageController.getCurrentUserNickname(),
-                      style: TextStyles.fs20w600cTextPrimary,
-                    ),
-                    Text(
-                      // myPageController.getCurrentUserCommunityName(),
-                      "세종대학교",
-                      style: TextStyles.fs14w400cTextSecondary,
-                    ),
-                  ],
+                Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        myPageController.getCurrentUserNickname(),
+                        style: TextStyles.fs20w600cTextPrimary,
+                      ),
+                      if (myPageController.getCurrentUserCommunityName() !=
+                          null)
+                        Text(
+                          myPageController.getCurrentUserCommunityName()!,
+                          style: TextStyles.fs14w400cTextSecondary,
+                        ),
+                    ],
+                  ),
                 ),
                 Spacer(),
                 Icon(

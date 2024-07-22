@@ -41,7 +41,7 @@ class MyPageController extends GetxController {
     return currentUserInfo.value.nickname ?? "-";
   }
 
-  String getCurrentUserCommunityName() {
-    return currentUserInfo.value.communityName ?? "-";
+  String? getCurrentUserCommunityName() {
+    return currentUserInfo.value.communityName;
   }
 }
