@@ -12,7 +12,6 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SignUpController controller = Get.put(SignUpController());
-    final RegExp regExp = RegExp(r'^[A-Za-z가-힣0-9]{3,10}$');
     const int lowBoundYear = 1900;
     const int upperBoundYear = 2024;
 
@@ -24,12 +23,6 @@ class SignUpScreen extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text('프로필 입력'),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Get.previousRoute;
-            },
-          ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -87,6 +80,10 @@ class SignUpScreen extends StatelessWidget {
                   Container(
                     color: Color(0xffD9D9D9),
                     child: TextField(
+                      controller: controller.textEditingController,
+                      autofocus: true,
+                      focusNode: controller.textFocusNode,
+                      onSubmitted: controller.onSubmitted,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(
@@ -95,14 +92,6 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       ),
                       style: TextStyle(fontSize: 16.0),
-                      onChanged: (value) {
-                        controller.updateNickname(value);
-                        if (!regExp.hasMatch(value)) {
-                          controller.nicknameValidation.value = "형식에 맞지 않습니다!";
-                        } else {
-                          controller.nicknameValidation.value = "";
-                        }
-                      },
                     ),
                   ),
                   Align(
@@ -174,20 +163,28 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 4.0),
                   Obx(
-                    () => ToggleButtons(
-                      constraints: BoxConstraints.expand(
-                        width: (MediaQuery.of(context).size.width - 100) / 2,
-                      ), //
-                      isSelected: controller.toggleSelection,
-                      onPressed: controller.updateSelectedGender,
+                    () => Row(
                       children: [
-                        Text(
-                          '남성',
-                          style: TextStyle(fontSize: 16.0),
+                        ElevatedButton(
+                          onPressed: controller.isGender.value == 1
+                              ? controller.updateSelectedGender
+                              : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey,
+                            disabledBackgroundColor: Colors.redAccent,
+                          ),
+                          child: Text('남성'),
                         ),
-                        Text(
-                          '여성',
-                          style: TextStyle(fontSize: 16.0),
+                        SizedBox(width: 15),
+                        ElevatedButton(
+                          onPressed: controller.isGender.value == 0
+                              ? controller.updateSelectedGender
+                              : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey,
+                            disabledBackgroundColor: Colors.redAccent,
+                          ),
+                          child: Text('여성'),
                         ),
                       ],
                     ),

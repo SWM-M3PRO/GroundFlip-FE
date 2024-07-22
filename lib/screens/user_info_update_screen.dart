@@ -12,8 +12,6 @@ class UserInfoUpdateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserInfoController controller = Get.put(UserInfoController());
-    final TextEditingController controller0 = TextEditingController();
-    final RegExp regExp = RegExp(r'^[A-Za-z가-힣0-9]{3,10}$');
     const int lowBoundYear = 1900;
     const int upperBoundYear = 2024;
 
@@ -35,7 +33,7 @@ class UserInfoUpdateScreen extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               }
-              controller0.text = controller.nickname.value;
+              //controller.textEditingController.text = controller.nickname.value;
               return Column(
                 children: [
                   Obx(
@@ -95,7 +93,10 @@ class UserInfoUpdateScreen extends StatelessWidget {
                       Container(
                         color: Color(0xffD9D9D9),
                         child: TextField(
-                          controller: controller0,
+                          controller: controller.textEditingController,
+                          autofocus: true,
+                          focusNode: controller.textFocusNode,
+                          onSubmitted: controller.onSubmitted,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
@@ -104,15 +105,6 @@ class UserInfoUpdateScreen extends StatelessWidget {
                             ),
                           ),
                           style: TextStyle(fontSize: 16.0),
-                          onChanged: (value) {
-                            controller.nickname.value = value;
-                            if (!regExp.hasMatch(value)) {
-                              controller.nicknameValidation.value =
-                                  "형식에 맞지 않습니다!";
-                            } else {
-                              controller.nicknameValidation.value = "";
-                            }
-                          },
                         ),
                       ),
                       Align(
@@ -184,21 +176,28 @@ class UserInfoUpdateScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 4.0),
                       Obx(
-                        () => ToggleButtons(
-                          constraints: BoxConstraints.expand(
-                            width:
-                                (MediaQuery.of(context).size.width - 100) / 2,
-                          ), //
-                          isSelected: controller.toggleSelection,
-                          onPressed: controller.updateSelectedGender,
+                        () => Row(
                           children: [
-                            Text(
-                              '남성',
-                              style: TextStyle(fontSize: 16.0),
+                            ElevatedButton(
+                              onPressed: controller.isGender.value == 1
+                                  ? controller.updateSelectedGender
+                                  : null,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.grey,
+                                disabledBackgroundColor: Colors.redAccent,
+                              ),
+                              child: Text('남성'),
                             ),
-                            Text(
-                              '여성',
-                              style: TextStyle(fontSize: 16.0),
+                            SizedBox(width: 15),
+                            ElevatedButton(
+                              onPressed: controller.isGender.value == 0
+                                  ? controller.updateSelectedGender
+                                  : null,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.grey,
+                                disabledBackgroundColor: Colors.redAccent,
+                              ),
+                              child: Text('여성'),
                             ),
                           ],
                         ),
