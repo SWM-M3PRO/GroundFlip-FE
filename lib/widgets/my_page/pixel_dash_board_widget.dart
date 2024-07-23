@@ -44,10 +44,12 @@ class PixelDashBoardWidget extends StatelessWidget {
                 width: 48,
                 height: 48,
               ),
-              Obx(() => Text(
-                    NumberFormat('###,###,###').format(countValue.value),
-                    style: TextStyles.fs20w700cPrimary,
-                  )),
+              Obx(
+                () => Text(
+                  NumberFormat('###,###,###').format(countValue.value),
+                  style: TextStyles.fs20w700cPrimary,
+                ),
+              ),
             ],
           ),
         ),
