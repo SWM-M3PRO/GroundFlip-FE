@@ -115,12 +115,14 @@ class WalkingController extends GetxController {
 
   void _updateSelectedWeekInfo() {
     selectedWeekInfo.value =
-        "${DateHandler.formatDate(selectedWeekStartDate)} ~ ${DateHandler.formatDate(selectedWeekEndDate)}";
+        DateHandler.convertDateToWeekFormatWithoutYear(selectedWeekStartDate);
   }
 
   _updateNextButtonStatus() {
     if (DateHandler.isTodayInRange(
-        selectedWeekStartDate, selectedWeekEndDate,)) {
+      selectedWeekStartDate,
+      selectedWeekEndDate,
+    )) {
       isNextButtonEnabled.value = false;
     } else {
       isNextButtonEnabled.value = true;

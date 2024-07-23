@@ -16,7 +16,7 @@ class RankingScreen extends StatelessWidget {
     return Stack(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
           child: Column(
             children: [
               WeekSelector(),
