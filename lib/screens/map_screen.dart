@@ -31,7 +31,7 @@ class MapScreen extends StatelessWidget {
               Obx(() {
                 return GoogleMap(
                   mapType: MapType.normal,
-                  myLocationButtonEnabled: true,
+                  // myLocationButtonEnabled: true,
                   myLocationEnabled: true,
                   initialCameraPosition: CameraPosition(
                     target: LatLng(

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -52,9 +54,10 @@ class Pixel extends Polygon {
         topLeftPoint: LatLng(pixel.latitude, pixel.longitude),
       ),
       fillColor: isMyPixel
-          ? Colors.blue.withOpacity(0.3)
+          ? Color(0xFF0DF69E)
+              .withOpacity(0.3 + (Random().nextDouble() * (0.6 - 0.3)))
           : Colors.red.withOpacity(0.3),
-      strokeColor: isMyPixel ? Colors.blue : Colors.red,
+      strokeColor: isMyPixel ? Color(0xFF0DF69E) : Colors.red,
       strokeWidth: 1,
       onTap: (int pixelId) async {
         IndividualModePixelInfo pixelInfo =
@@ -77,9 +80,10 @@ class Pixel extends Polygon {
       points: _getRectangleFromLatLng(
         topLeftPoint: LatLng(pixel.latitude, pixel.longitude),
       ),
-      fillColor: Colors.blue.withOpacity(0.3),
-      strokeColor: Colors.blue,
-      strokeWidth: 1,
+      fillColor: Color(0xFF0DF69E)
+          .withOpacity(0.3 + (Random().nextDouble() * (0.6 - 0.3))),
+      strokeColor: Color(0xFF0DF69E),
+      strokeWidth: 2,
       onTap: (int pixelId) async {
         IndividualHistoryPixelInfo pixelInfo =
             await Get.find<PixelInfoController>().getIndividualHistoryPixelInfo(
