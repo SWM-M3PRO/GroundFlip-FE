@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../constants/app_colors.dart';
 import '../controllers/setting_controller.dart';
+import '../widgets/common/app_bar.dart';
 import '../widgets/setting/setting_item.dart';
 import '../widgets/setting/setting_section.dart';
 
@@ -13,44 +16,89 @@ class SettingScreen extends StatelessWidget {
     SettingController settingController = Get.put(SettingController());
 
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('설정'),
+        backgroundColor: AppColors.background,
+        title: AppBarTitle(
+          title: '설정',
+        ),
+        leadingWidth: 40,
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+        ),
       ),
-      body: ListView(
-        children: [
-          SettingsSection(
-            title: '설정',
-            items: [
-              SettingsItem(title: '수령 정보 설정'),
-              SettingsItem(title: '알림 설정'),
-              SettingsItem(title: '맵 설정'),
-              SettingsItem(title: '실험실'),
-              SettingsItem(title: '앱 최적화'),
-              SettingsItem(title: 'App Store 리뷰 남기기'),
-            ],
-          ),
-          SettingsSection(
-            title: '가이드',
-            items: [
-              SettingsItem(title: '공지사항'),
-              SettingsItem(title: '플레이 가이드'),
-              SettingsItem(title: '고객 문의 및 개선 요청'),
-            ],
-          ),
-          SettingsSection(
-            title: '기타',
-            items: [
-              SettingsItem(title: '서비스이용약관'),
-              SettingsItem(
-                title: '로그아웃',
-                onTap: () {
-                  settingController.logout();
-                },
-              ),
-            ],
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: ListView(
+          children: [
+            SettingsSection(
+              items: [
+                SettingsItem(title: 'App Store 리뷰 남기기'),
+              ],
+            ),
+            SettingsSection(
+              title: '알림',
+              items: [
+                SettingsItem(title: '알림 설정'),
+                SettingsItem(title: '고객 문의 및 개선 요청', isLast: true),
+              ],
+            ),
+            SettingsSection(
+              title: '가이드',
+              items: [
+                SettingsItem(
+                  title: '공지사항',
+                  onTap: () async {
+                    final Uri url = Uri.parse('https://flutter.dev');
+                    await launchUrl(url);
+                  },
+                ),
+                SettingsItem(
+                  title: '플레이 가이드',
+                  onTap: () async {
+                    final Uri url = Uri.parse('https://flutter.dev');
+                    await launchUrl(url);
+                  },
+                ),
+                SettingsItem(title: '고객 문의 및 개선 요청', isLast: true),
+              ],
+            ),
+            SettingsSection(
+              title: '기타',
+              items: [
+                SettingsItem(title: '서비스 이용약관'),
+                SettingsItem(title: '위치기반서비스 이용약관'),
+                SettingsItem(title: '개인정보 처리 방침'),
+                SettingsItem(
+                  title: '버전 정보',
+                  subTitle: "1.0.0",
+                  isLast: true,
+                ),
+              ],
+            ),
+            SettingsSection(
+              items: [
+                SettingsItem(
+                  title: '로그아웃',
+                  onTap: () {
+                    settingController.logout();
+                  },
+                ),
+                SettingsItem(
+                  title: '계정 탈퇴',
+                  isAccent: true,
+                  isLast: true,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

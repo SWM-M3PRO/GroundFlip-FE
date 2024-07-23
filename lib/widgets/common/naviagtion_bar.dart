@@ -17,7 +17,7 @@ class CustomBottomNavigationBar extends GetView<NavigationController> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.map), label: "지도"),
           BottomNavigationBarItem(icon: Icon(Icons.leaderboard), label: "랭킹"),
-          BottomNavigationBarItem(icon: Icon(Icons.group), label: "그룹"),
+          // BottomNavigationBarItem(icon: Icon(Icons.group), label: "그룹"),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: "마이",

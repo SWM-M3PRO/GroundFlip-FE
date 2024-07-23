@@ -110,7 +110,7 @@ class StepBarChart extends StatelessWidget {
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            // reservedSize: 30,
+            reservedSize: 30,
             getTitlesWidget: getTitles,
           ),
         ),
