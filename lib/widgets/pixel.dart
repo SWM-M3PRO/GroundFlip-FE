@@ -9,7 +9,6 @@ import '../models/individual_history_pixel_info.dart';
 import '../models/individual_mode_pixel.dart';
 import '../models/individual_mode_pixel_info.dart';
 import '../utils/user_manager.dart';
-import 'map/individual_mode_pixel_info_bottom_sheet.dart';
 
 class Pixel extends Polygon {
   static const double latPerPixel = 0.000724;
@@ -61,13 +60,8 @@ class Pixel extends Polygon {
         IndividualModePixelInfo pixelInfo =
             await Get.find<PixelInfoController>()
                 .getIndividualModePixelInfo(pixelId);
-        Get.bottomSheet(
-          IndividualModePixelInfoBottomSheet(pixelInfo: pixelInfo),
-          clipBehavior: Clip.hardEdge,
-          backgroundColor: Colors.white,
-          enterBottomSheetDuration: Duration(milliseconds: 100),
-          exitBottomSheetDuration: Duration(milliseconds: 100),
-        );
+        Get.find<BottomSheetController>()
+            .showIndividualModePixelInfo(pixelInfo);
       },
     );
   }
