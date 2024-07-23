@@ -15,11 +15,11 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
-  KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
+  KakaoSdk.init(
+    nativeAppKey: dotenv.env['NATIVE_APP_KEY']!,
+  );
 
   String initialRoute = await AuthService().isLogin() ? '/main' : '/login';
-
-  await Future.delayed(Duration(seconds: 2));
   runApp(
     MyApp(
       initialRoute: initialRoute,

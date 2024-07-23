@@ -18,6 +18,7 @@ class SettingController extends GetxController {
           TextButton(
             child: Text('아니오'),
             onPressed: () async {
+              await authService.logout();
               Get.back();
             },
           ),

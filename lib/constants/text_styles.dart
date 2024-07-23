@@ -15,12 +15,6 @@ class TextStyles {
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle fs17w400cTextPrimary = TextStyle(
-    color: AppColors.textPrimary,
-    fontSize: 17,
-    fontWeight: FontWeight.w400,
-  );
-
   static TextStyle fs17w600cTextPrimary = TextStyle(
     color: AppColors.textPrimary,
     fontSize: 17,
