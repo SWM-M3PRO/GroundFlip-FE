@@ -17,28 +17,31 @@ class SocialLoginButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 400,
-        height: 60,
+        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20),
+        height: 64,
         decoration: BoxDecoration(
           color: socialLoginButtonStyle.backgroundColor,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(16),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            Image.asset(
-              socialLoginButtonStyle.logoAsset,
-              width: 20,
-              height: 20,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Image.asset(
+                socialLoginButtonStyle.logoAsset,
+                width: 20,
+                height: 20,
+              ),
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              socialLoginButtonStyle.buttonText,
-              style: TextStyle(
-                color: socialLoginButtonStyle.textColor,
-                fontSize: 25,
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                socialLoginButtonStyle.buttonText,
+                style: TextStyle(
+                  color: socialLoginButtonStyle.textColor,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],
