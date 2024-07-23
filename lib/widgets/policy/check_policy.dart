@@ -37,6 +37,7 @@ class CheckPolicy extends StatelessWidget {
               ),
               onPressed: () {
                 policyController.changeValue(policyNum);
+                policyController.checkAllChecked();
               },
             ),
           ),

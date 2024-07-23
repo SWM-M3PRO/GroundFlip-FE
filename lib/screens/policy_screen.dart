@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ground_flip/screens/sign_up_screen.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
 import '../controllers/policy_controller.dart';
 import '../widgets/policy/check_policy.dart';
+import '../widgets/policy/next_button.dart';
 import '../widgets/policy/policy_all_check.dart';
 
 class PolicyScreen extends StatelessWidget {
@@ -48,16 +50,27 @@ class PolicyScreen extends StatelessWidget {
                   policyNum: 2,
                 ),
                 SizedBox(height: 40),
-                Container(
-                  height: 65,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: AppColors.boxColorSecond,
-                  ),
-                  child: Center(
-                    child: Text(
-                      '다음',
-                      style: TextStyles.fx17w700cTextThird,
+                Obx(
+                  () => InkWell(
+                    onTap: () {
+                      policyController.allPolicyChecked.value == 1
+                          ? Get.to(SignUpScreen())
+                          : null;
+                    },
+                    child: Container(
+                      height: 65,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: policyController.allPolicyChecked.value == 0
+                            ? AppColors.boxColorSecond
+                            : AppColors.primary,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '다음',
+                          style: TextStyles.fx17w700cTextThird,
+                        ),
+                      ),
                     ),
                   ),
                 ),
