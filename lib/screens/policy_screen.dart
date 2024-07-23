@@ -29,6 +29,9 @@ class PolicyScreen extends StatelessWidget {
                 Container(
                   height: 60,
                   color: AppColors.backgroundForth,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                 ),
               ],
             ),

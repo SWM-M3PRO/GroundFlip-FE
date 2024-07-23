@@ -88,6 +88,12 @@ class TextStyles {
     fontWeight: FontWeight.w900,
   );
 
+  static TextStyle fs28w800cTextPrimary = TextStyle(
+    color: AppColors.textPrimary,
+    fontSize: 28,
+    fontWeight: FontWeight.w800,
+  );
+
 
   static TextStyle fs28w700cTextPrimary = TextStyle(
     color: AppColors.textPrimary,
