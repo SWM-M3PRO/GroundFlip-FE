@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../controllers/bottom_sheet_controller.dart';
 import '../controllers/pixel_info_controller.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_history_pixel_info.dart';
 import '../models/individual_mode_pixel.dart';
 import '../models/individual_mode_pixel_info.dart';
 import '../utils/user_manager.dart';
-import 'map/individual_history_pixel_info_bottom_sheet.dart';
 import 'map/individual_mode_pixel_info_bottom_sheet.dart';
 
 class Pixel extends Polygon {
@@ -92,14 +92,8 @@ class Pixel extends Polygon {
           pixelId,
           UserManager().getUserId()!,
         );
-
-        Get.bottomSheet(
-          IndividualHistoryPixelInfoBottomSheet(pixelInfo: pixelInfo),
-          clipBehavior: Clip.hardEdge,
-          backgroundColor: Colors.white,
-          enterBottomSheetDuration: Duration(milliseconds: 100),
-          exitBottomSheetDuration: Duration(milliseconds: 100),
-        );
+        Get.find<BottomSheetController>()
+            .showIndividualHistoryPixelInfo(pixelInfo);
       },
     );
   }

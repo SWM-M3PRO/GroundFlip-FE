@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../controllers/bottom_sheet_controller.dart';
 import '../controllers/map_controller.dart';
 import '../controllers/pixel_info_controller.dart';
 import '../controllers/walking_controller.dart';
+import '../widgets/map/map_bottom_sheet.dart';
 import '../widgets/map/mode_change_button.dart';
-import '../widgets/map/step_stats.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -14,6 +15,7 @@ class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MapController mapController = Get.put(MapController());
+    Get.put(BottomSheetController());
     Get.put(PixelInfoController());
     Get.put(WalkingController());
 
@@ -54,12 +56,9 @@ class MapScreen extends StatelessWidget {
                     padding: EdgeInsets.only(top: 65.0),
                   ),
                   ModeChangeButton(),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 32),
-                    child: StepStats(),
-                  ),
                 ],
               ),
+              MapBottomSheet(),
             ],
           );
         }
