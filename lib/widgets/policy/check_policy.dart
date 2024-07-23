@@ -31,7 +31,7 @@ class CheckPolicy extends StatelessWidget {
             () => IconButton(
               icon: Icon(
                 Icons.check,
-                color: policyController.checkPolicy[policyNum] == 0
+                color: policyController.checkPolicyList[policyNum] == 0
                     ? AppColors.textPrimary
                     : AppColors.primary,
               ),
