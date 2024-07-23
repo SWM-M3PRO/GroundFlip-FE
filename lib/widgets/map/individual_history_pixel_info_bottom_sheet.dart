@@ -1,58 +1,81 @@
 import 'package:flutter/material.dart';
 
-import '../../models/individual_history_pixel_info.dart';
-import 'individual_visit_history_list_view.dart';
+import '../../constants/app_colors.dart';
+import '../../constants/text_styles.dart';
 
-class IndividualHistoryPixelInfoBottomSheet extends StatelessWidget {
-  const IndividualHistoryPixelInfoBottomSheet(
-      {super.key, required this.pixelInfo,});
+class IndividualHistoryHeader extends StatelessWidget {
+  const IndividualHistoryHeader(
+      {super.key, required this.address, required this.visitCount});
 
-  final IndividualHistoryPixelInfo pixelInfo;
+  final String? address;
+  final int visitCount;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF374957),
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(20),
-          topLeft: Radius.circular(20),
+    return Row(
+      children: [
+        Text(
+          address ?? "대한민국",
+          style: TextStyles.fs24w900cTextPrimary,
         ),
-      ),
-      child: SizedBox(
-        height: 400,
-        width: 380,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  '${pixelInfo.address ?? '대한민국'} ${pixelInfo.addressNumber ?? 'n'}번째 픽셀',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  '${pixelInfo.visitCount}번 방문했어요!',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              IndividualVisitHistoryListView(visitList: pixelInfo.visitList!),
-            ],
+        Spacer(),
+        Text(
+          "$visitCount번째 방문",
+          style: TextStyles.fs17w400cTextSecondary,
+        ),
+      ],
+    );
+  }
+}
+
+class IndividualHistoryList extends StatelessWidget {
+  const IndividualHistoryList({super.key, required this.visitList});
+
+  final List<DateTime> visitList;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverList.list(
+      children: [
+        SizedBox(height: 10),
+        for (int i = 0; i < visitList.length; i++)
+          IndividualHistoryListElement(
+            historyDate: visitList[i],
           ),
+      ],
+    );
+  }
+}
+
+class IndividualHistoryListElement extends StatelessWidget {
+  IndividualHistoryListElement({super.key, required this.historyDate});
+
+  final DateTime historyDate;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+        decoration: BoxDecoration(
+          color: AppColors.backgroundThird,
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              Icons.access_time_filled,
+              size: 16,
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Text(
+              '${historyDate.year}년 ${historyDate.month}월 ${historyDate.day}일',
+              style: TextStyles.fs17w400cTextPrimary,
+            )
+          ],
         ),
       ),
     );
