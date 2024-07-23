@@ -24,7 +24,12 @@ class DateHandler {
 
   static String convertDateToWeekFormat(DateTime weekStartDate) {
     DateTime weekEndDate = weekStartDate.add(Duration(days: 6));
-    return '${weekStartDate.year}년 ${weekStartDate.month}월 ${weekStartDate.day}일 ~ ${weekEndDate.day}일';
+    return '${weekStartDate.year}년 ${weekStartDate.month.toString().padLeft(2, '0')}월 ${weekStartDate.day.toString().padLeft(2, '0')}일 ~ ${weekEndDate.day.toString().padLeft(2, '0')}일';
+  }
+
+  static String convertDateToWeekFormatWithoutYear(DateTime weekStartDate) {
+    DateTime weekEndDate = weekStartDate.add(Duration(days: 6));
+    return '${weekStartDate.month.toString().padLeft(2, '0')}월 ${weekStartDate.day.toString().padLeft(2, '0')}일 ~ ${weekEndDate.day.toString().padLeft(2, '0')}일';
   }
 
   static DateTime getStartOfThisWeek() {
