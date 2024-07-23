@@ -7,7 +7,7 @@ import '../controllers/map_controller.dart';
 import '../controllers/pixel_info_controller.dart';
 import '../controllers/walking_controller.dart';
 import '../widgets/map/map_bottom_sheet.dart';
-import '../widgets/map/mode_change_button.dart';
+import '../widgets/map/mode_change_toggle.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -52,10 +52,8 @@ class MapScreen extends StatelessWidget {
               }),
               Column(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 65.0),
-                  ),
-                  ModeChangeButton(),
+                  SizedBox(height: 60),
+                  Center(child: ModeChangeToggle()),
                 ],
               ),
               MapBottomSheet(),

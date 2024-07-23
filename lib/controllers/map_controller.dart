@@ -35,6 +35,7 @@ class MapController extends GetxController {
   RxList<Pixel> pixels = <Pixel>[].obs;
   RxList<Marker> markers = <Marker>[].obs;
   RxBool isLoading = true.obs;
+  final RxInt selectedType = 0.obs;
 
   Timer? _cameraIdleTimer;
 
@@ -49,6 +50,10 @@ class MapController extends GetxController {
     _createUserMarker();
     _trackUserLocation();
     _trackPixels();
+  }
+
+  getSelectedType() {
+    return selectedType.value;
   }
 
   void onCameraIdle() {
@@ -194,9 +199,14 @@ class MapController extends GetxController {
         latestPixel['y'] != currentPixel['y'];
   }
 
-  void changePixelMode(String pixelModeKrName) {
-    currentPixelMode.value = PixelMode.fromKrName(pixelModeKrName);
+  void changePixelMode(int type) {
+    selectedType.value = type;
+    currentPixelMode.value = PixelMode.fromInt(type);
     updatePixels();
+  }
+
+  updateSelectedType(int type) {
+    selectedType.value = type;
   }
 
   Future<int> _getCurrentRadiusOfMap() async {
