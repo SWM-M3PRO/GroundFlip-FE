@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../enums/pixel_mode.dart';
 import '../models/individual_history_pixel_info.dart';
 import '../service/pixel_service.dart';
-import '../widgets/map/individual_history_pixel_info_bottom_sheet.dart';
+import '../widgets/map/individual_history_list.dart';
+import '../widgets/map/pixel_info_header.dart';
 import '../widgets/map/step_stats.dart';
 
 class BottomSheetController extends GetxController {
@@ -21,9 +23,10 @@ class BottomSheetController extends GetxController {
       duration: Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
-    currentHeader = IndividualHistoryHeader(
+    currentHeader = PixelInfoHeader(
       address: pixelInfo.address,
       visitCount: pixelInfo.visitCount!,
+      mode: PixelMode.individualHistory,
     );
     currentBody = IndividualHistoryList(
       visitList: pixelInfo.visitList ?? [],

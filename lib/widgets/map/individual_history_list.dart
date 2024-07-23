@@ -3,31 +3,6 @@ import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 
-class IndividualHistoryHeader extends StatelessWidget {
-  const IndividualHistoryHeader(
-      {super.key, required this.address, required this.visitCount});
-
-  final String? address;
-  final int visitCount;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          address ?? "대한민국",
-          style: TextStyles.fs24w900cTextPrimary,
-        ),
-        Spacer(),
-        Text(
-          "$visitCount번째 방문",
-          style: TextStyles.fs17w400cTextSecondary,
-        ),
-      ],
-    );
-  }
-}
-
 class IndividualHistoryList extends StatelessWidget {
   const IndividualHistoryList({super.key, required this.visitList});
 
