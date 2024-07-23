@@ -41,7 +41,8 @@ class PermissionRequestController extends GetxController {
   }
 
   bool allPermissionGranted(
-      Map<Permission, PermissionStatus> androidPermissionStatus) {
+    Map<Permission, PermissionStatus> androidPermissionStatus,
+  ) {
     for (PermissionStatus status in androidPermissionStatus.values) {
       if (status.isDenied || status.isPermanentlyDenied) {
         return false;
@@ -54,7 +55,10 @@ class PermissionRequestController extends GetxController {
     await [
       Permission.location,
     ].request();
+
     final types = [HealthDataType.STEPS];
     await Health().requestAuthorization(types);
+
+    Get.toNamed('/login');
   }
 }
