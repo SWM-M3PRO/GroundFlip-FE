@@ -7,9 +7,14 @@ import '../controllers/navigation_controller.dart';
 import '../controllers/ranking_controller.dart';
 import '../widgets/common/naviagtion_bar.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     Get.put(MyPageController());
@@ -18,15 +23,21 @@ class MainScreen extends StatelessWidget {
         Get.put(NavigationController());
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: Obx(() => navigationController.getCurrentAppBar()),
-      ),
+      appBar: navigationController.selectedIndex.value == 0
+          ? null
+          : PreferredSize(
+              preferredSize: const Size.fromHeight(kToolbarHeight),
+              child: Obx(() => navigationController.getCurrentAppBar()),
+            ),
       body: Obx(
-        () => SafeArea(child: navigationController.getCurrentPage()),
+        () => navigationController.getCurrentPage(),
       ),
       backgroundColor: AppColors.background,
-      bottomNavigationBar: const CustomBottomNavigationBar(),
+      bottomNavigationBar: CustomBottomNavigationBar((index) {
+        setState(() {
+          navigationController.changeIndex(index);
+        });
+      }),
     );
   }
 }

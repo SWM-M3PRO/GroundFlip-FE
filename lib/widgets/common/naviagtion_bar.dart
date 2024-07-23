@@ -5,7 +5,9 @@ import '../../constants/app_colors.dart';
 import '../../controllers/navigation_controller.dart';
 
 class CustomBottomNavigationBar extends GetView<NavigationController> {
-  const CustomBottomNavigationBar({super.key});
+  const CustomBottomNavigationBar(this.onTap, {super.key});
+
+  final Function(int) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class CustomBottomNavigationBar extends GetView<NavigationController> {
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: controller.selectedIndex.value,
-          onTap: controller.changeIndex,
+          onTap: onTap,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.map), label: "지도"),
             BottomNavigationBarItem(icon: Icon(Icons.leaderboard), label: "랭킹"),
