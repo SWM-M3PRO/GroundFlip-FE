@@ -93,4 +93,10 @@ class TextStyles {
     fontSize: 28,
     fontWeight: FontWeight.w800,
   );
+
+  static TextStyle fx17w700cTextThird = TextStyle(
+    color: AppColors.textThird,
+    fontSize: 17,
+    fontWeight: FontWeight.w700,
+  );
 }

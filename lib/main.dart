@@ -36,19 +36,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(PermissionController());
 
-    return GetMaterialApp(
-      title: 'Ground Flip',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+      child: GetMaterialApp(
+        title: 'Ground Flip',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        initialRoute: initialRoute,
+        getPages: [
+          GetPage(name: '/main', page: () => const MainScreen()),
+          GetPage(name: '/login', page: () => const LoginScreen()),
+          GetPage(name: '/setting', page: () => const SettingScreen()),
+          GetPage(name: '/signup', page: () => const SignUpScreen()),
+        ],
       ),
-      initialRoute: initialRoute,
-      getPages: [
-        GetPage(name: '/main', page: () => const MainScreen()),
-        GetPage(name: '/login', page: () => const LoginScreen()),
-        GetPage(name: '/setting', page: () => const SettingScreen()),
-        GetPage(name: '/signup', page: () => const SignUpScreen()),
-      ],
     );
   }
 }
