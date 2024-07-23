@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:health/health.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class PermissionController extends GetxController {
+class PermissionRequestController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
