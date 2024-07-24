@@ -18,8 +18,6 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SignUpController controller = Get.put(SignUpController());
-    const int lowBoundYear = 1900;
-    const int upperBoundYear = 2024;
 
     return GestureDetector(
       onTap: () {

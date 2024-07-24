@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,10 +5,8 @@ import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
 import '../controllers/user_info_controller.dart';
 import '../widgets/user_modify/select_birth_widget.dart';
-import '../widgets/user_modify/nickname_textfield.dart';
 import '../widgets/user_modify/profile_image.dart';
 import '../widgets/user_modify/select_gender_widget.dart';
-import 'my_page_screen.dart';
 
 class UserInfoModifyScreen extends StatelessWidget {
   const UserInfoModifyScreen({super.key});
