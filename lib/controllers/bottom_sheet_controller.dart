@@ -60,6 +60,15 @@ class BottomSheetController extends GetxController {
     mode.value = 2;
   }
 
+  minimize() {
+    print('mini');
+    draggableController.animateTo(
+      0.1,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
+
   void changeStepStatIfMinimized() {
     if (draggableController.size <= 0.111 && size > draggableController.size) {
       currentHeader = StepStats();
@@ -71,14 +80,14 @@ class BottomSheetController extends GetxController {
 
   getBody() {
     if (mode.value == 0 && changeVar.value) {
-      changeVar.value = changeVar.value ? false : true;
+      // changeVar.value = changeVar.value ? false : true;
     }
     return currentBody;
   }
 
   getHeader() {
     if (mode.value == 0 && changeVar.value) {
-      changeVar.value = changeVar.value ? false : true;
+      // changeVar.value = changeVar.value ? false : true;
     }
     return currentHeader;
   }

@@ -16,8 +16,8 @@ class MapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MapController mapController = Get.put(MapController());
     Get.put(BottomSheetController());
+    final MapController mapController = Get.put(MapController());
     Get.put(PixelInfoController());
     Get.put(WalkingController());
 

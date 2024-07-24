@@ -14,10 +14,13 @@ import '../service/pixel_service.dart';
 import '../service/user_service.dart';
 import '../utils/user_manager.dart';
 import '../widgets/pixel.dart';
+import 'bottom_sheet_controller.dart';
 
 class MapController extends GetxController {
   final PixelService pixelService = PixelService();
   final UserService userService = UserService();
+  final BottomSheetController bottomSheetController =
+      Get.find<BottomSheetController>();
 
   static const String darkMapStylePath =
       'assets/map_style/dark_map_style_with_landmarks.txt';
@@ -226,11 +229,8 @@ class MapController extends GetxController {
   void changePixelMode(int type) {
     selectedType.value = type;
     currentPixelMode.value = PixelMode.fromInt(type);
+    bottomSheetController.minimize();
     updatePixels();
-  }
-
-  updateSelectedType(int type) {
-    selectedType.value = type;
   }
 
   Future<int> _getCurrentRadiusOfMap() async {
