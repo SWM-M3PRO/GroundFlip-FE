@@ -10,6 +10,7 @@ import '../enums/pixel_mode.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
 import '../models/user_pixel_count.dart';
+import '../service/location_service.dart';
 import '../service/pixel_service.dart';
 import '../service/user_service.dart';
 import '../utils/user_manager.dart';
@@ -107,7 +108,7 @@ class MapController extends GetxController {
 
   Future<void> initCurrentLocation() async {
     try {
-      currentLocation = await location.getLocation();
+      currentLocation = LocationService().currentLocation!;
       currentCameraPosition = CameraPosition(
         target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
         zoom: 16.0,

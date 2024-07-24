@@ -56,7 +56,7 @@ class Pixel extends Polygon {
       fillColor: isMyPixel
           ? Color(0xFF0DF69E)
               .withOpacity(0.3 + (Random().nextDouble() * (0.6 - 0.3)))
-          : Colors.red.withOpacity(0.3),
+          : Colors.red.withOpacity(0.3 + (Random().nextDouble() * (0.6 - 0.3))),
       strokeColor: isMyPixel ? Color(0xFF0DF69E) : Colors.red,
       strokeWidth: 1,
       onTap: (int pixelId) async {

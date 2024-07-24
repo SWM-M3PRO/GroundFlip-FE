@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:location/location.dart';
 
 import '../models/user.dart';
 import '../models/user_pixel_count.dart';
@@ -17,13 +16,6 @@ class MyPageController extends GetxController {
     User userInfo = await userService.getCurrentUserInfo();
     currentUserInfo.value = userInfo;
     await _updatePixelCount();
-    _trackPixelCount();
-  }
-
-  _trackPixelCount() {
-    Location().onLocationChanged.listen((newLocation) async {
-      await _updatePixelCount();
-    });
   }
 
   _updatePixelCount() async {

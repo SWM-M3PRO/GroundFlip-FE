@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:ground_flip/service/location_service.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
 import 'controllers/permission_controller.dart';
@@ -18,8 +19,7 @@ Future<void> main() async {
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
 
   String initialRoute = await AuthService().isLogin() ? '/main' : '/login';
-
-  await Future.delayed(Duration(seconds: 2));
+  await LocationService().initCurrentLocation();
   runApp(
     MyApp(
       initialRoute: initialRoute,
