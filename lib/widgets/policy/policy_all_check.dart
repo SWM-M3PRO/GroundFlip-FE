@@ -12,6 +12,7 @@ class PolicyAllCheck extends StatelessWidget {
     PolicyController policyController = Get.find<PolicyController>();
 
     return InkWell(
+      borderRadius: BorderRadius.circular(16),
       onTap: () {
         policyController.allPolicyCheck();
       },
@@ -34,7 +35,6 @@ class PolicyAllCheck extends StatelessWidget {
                     ? Colors.white
                     : AppColors.primary,
                 size: 30,
-                weight: 0.1,
               ),
               SizedBox(
                 width: 13,
