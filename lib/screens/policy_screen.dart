@@ -32,7 +32,7 @@ class PolicyScreen extends StatelessWidget {
                       style: TextStyles.fs28w800cTextPrimary,
                     ),
                   ),
-                  SizedBox(height: 350),
+                  SizedBox(height: 300),
                   PolicyAllCheck(),
                   SizedBox(height: 20),
                   CheckPolicy(
@@ -49,6 +49,11 @@ class PolicyScreen extends StatelessWidget {
                     inputString: '위치 기반 서비스 이용 약관',
                     policyNum: 2,
                   ),
+                  SizedBox(height: 12),
+                  CheckPolicy(
+                    inputString: '만 14세 이상입니다',
+                    policyNum: 3,
+                  ),SizedBox(height: 12),
                   SizedBox(height: 40),
                   Obx(
                     () => InkWell(

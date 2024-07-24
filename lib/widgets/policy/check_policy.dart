@@ -50,7 +50,7 @@ class CheckPolicy extends StatelessWidget {
             ),
           ),
           SizedBox(width: 16),
-          GestureDetector(
+          InkWell(
             onTap: () {
               policyController.changeValue(policyNum);
               policyController.checkAllChecked();
@@ -64,7 +64,8 @@ class CheckPolicy extends StatelessWidget {
             ),
           ),
           Spacer(),
-          GestureDetector(
+          policyNum != 3
+          ? GestureDetector(
             onTap: () {
               switch (policyNum) {
                 case 0:
@@ -78,30 +79,31 @@ class CheckPolicy extends StatelessWidget {
                   break;
               }
             },
-            child: Container(
-              width: 10,
-            ),
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.arrow_forward_ios,
-              color: AppColors.textPrimary,
-              size: 18,
-            ),
-            onPressed: () {
-              switch (policyNum) {
-                case 0:
-                  launchUrl(Uri.parse(individualInfoPolicyUrl));
-                  break;
-                case 1:
-                  launchUrl(Uri.parse(serviceUsePolicyUrl));
-                  break;
-                case 2:
-                  launchUrl(Uri.parse(placeServicePolicyUrl));
-                  break;
-              }
-            },
-          ),
+            child: Container(width: 10),
+          )
+          : Container(),
+          policyNum != 3
+              ? IconButton(
+                  icon: Icon(
+                    Icons.arrow_forward_ios,
+                    color: AppColors.textPrimary,
+                    size: 18,
+                  ),
+                  onPressed: () {
+                    switch (policyNum) {
+                      case 0:
+                        launchUrl(Uri.parse(individualInfoPolicyUrl));
+                        break;
+                      case 1:
+                        launchUrl(Uri.parse(serviceUsePolicyUrl));
+                        break;
+                      case 2:
+                        launchUrl(Uri.parse(placeServicePolicyUrl));
+                        break;
+                    }
+                  },
+                )
+              : Container(),
           SizedBox(width: 20),
         ],
       ),
