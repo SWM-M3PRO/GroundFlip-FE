@@ -15,7 +15,6 @@ class UserInfo extends StatelessWidget {
     final MyPageController myPageController = Get.find<MyPageController>();
     return InkWell(
       onTap: () {
-        //Get.to(() => PolicyScreen());
         Get.to(() => UserInfoUpdateScreen());
       },
       child: Ink(
