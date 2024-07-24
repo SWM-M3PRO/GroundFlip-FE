@@ -3,14 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
+import '../../controllers/sign_up_controller.dart';
 import '../../controllers/user_info_controller.dart';
 
 class SelectBirthWidget extends StatelessWidget {
-  const SelectBirthWidget({super.key});
+  final int checkVersion;
+  late dynamic controller;
+
+  SelectBirthWidget({super.key, required this.checkVersion}){
+    if(checkVersion==0){
+      controller = Get.find<UserInfoController>();
+    }else{
+      controller = Get.find<SignUpController>();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    UserInfoController controller = Get.find<UserInfoController>();
     const int lowBoundYear = 1900;
     const int upperBoundYear = 2024;
 

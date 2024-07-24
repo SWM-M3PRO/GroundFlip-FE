@@ -2,14 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
+import '../../controllers/sign_up_controller.dart';
 import '../../controllers/user_info_controller.dart';
 
 class NicknameTextfield extends StatelessWidget {
-  const NicknameTextfield({super.key});
+  final int checkVersion;
+  late dynamic controller;
+
+  NicknameTextfield({super.key, required this.checkVersion}){
+    if(checkVersion==0){
+      controller = Get.find<UserInfoController>();
+    }else{
+      controller = Get.find<SignUpController>();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    UserInfoController controller = Get.find<UserInfoController>();
     return Column(
       children: [
         Align(
@@ -70,7 +79,7 @@ class NicknameTextfield extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Obx(
             () => Padding(
-              padding: const EdgeInsets.only(left: 10,top: 5),
+              padding: const EdgeInsets.only(left: 10, top: 5),
               child: Row(
                 children: [
                   Text(
@@ -81,9 +90,9 @@ class NicknameTextfield extends StatelessWidget {
                     ),
                   ),
                   Icon(
-                    controller.nicknameValidation.value == "3~10자 이내"?
-                        Icons.check:
-                        null,
+                    controller.nicknameValidation.value == "3~10자 이내"
+                        ? Icons.check
+                        : null,
                     color: AppColors.textForth,
                     size: 15,
                   ),

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
+import '../controllers/sign_up_controller.dart';
 import '../controllers/user_info_controller.dart';
 import '../widgets/user_modify/select_birth_widget.dart';
 import '../widgets/user_modify/nickname_textfield.dart';
@@ -13,12 +14,12 @@ import '../widgets/user_modify/profile_image.dart';
 import '../widgets/user_modify/select_gender_widget.dart';
 import 'my_page_screen.dart';
 
-class UserInfoModifyScreen extends StatelessWidget {
-  const UserInfoModifyScreen({super.key});
+class SignUpScreen2 extends StatelessWidget {
+  const SignUpScreen2({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final UserInfoController controller = Get.put(UserInfoController());
+    final SignUpController controller = Get.put(SignUpController());
 
     return GestureDetector(
       onTap: () {
@@ -39,7 +40,7 @@ class UserInfoModifyScreen extends StatelessWidget {
           ),
           backgroundColor: AppColors.background,
           title: Text(
-            '프로필 수정',
+            '회원가입',
             style: TextStyle(
               color: AppColors.textPrimary,
             ),
@@ -47,27 +48,80 @@ class UserInfoModifyScreen extends StatelessWidget {
         ),
         body: Padding(
           padding: EdgeInsets.all(20),
-          child: Obx(
-            () {
-              if (!controller.isUserInfoInit.value) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return Center(
+          child: Center(
                 child: Column(
                   children: [
-                    ProfileImage(checkVersion: 0,),
+                    Obx(
+                          () => Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 80.0,
+                            backgroundImage: controller.profileImage.value != null
+                                ? FileImage(File(controller.profileImage.value!.path))
+                            as ImageProvider
+                                : AssetImage('assets/images/default_profile_image.png')
+                            as ImageProvider,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: controller.getImage,
+                                  child: Container(
+                                    height: 44,
+                                    width: 104,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(24),
+                                      color: AppColors.boxColorThird,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '이미지 변경',
+                                        style: TextStyle(
+                                            color: AppColors.textPrimary,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 15),
+                                InkWell(
+                                  onTap: controller.deleteImage,
+                                  child: Container(
+                                    height: 44,
+                                    width: 44,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(24),
+                                      color: AppColors.boxColorThird,
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.close,
+                                        color: AppColors.buttonColor,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                       child: Column(
                         children: [
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Padding(
                               padding:
-                                  const EdgeInsets.only(left: 10, bottom: 5),
+                              const EdgeInsets.only(left: 10, bottom: 5),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.baseline,
                                 textBaseline: TextBaseline.alphabetic,
@@ -122,9 +176,9 @@ class UserInfoModifyScreen extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Obx(
-                              () => Padding(
+                                  () => Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 10, top: 5),
+                                const EdgeInsets.only(left: 10, top: 5),
                                 child: Row(
                                   children: [
                                     Text(
@@ -136,7 +190,7 @@ class UserInfoModifyScreen extends StatelessWidget {
                                     ),
                                     Icon(
                                       controller.nicknameValidation.value ==
-                                              "3~10자 이내"
+                                          "3~10자 이내"
                                           ? Icons.check
                                           : null,
                                       color: AppColors.textForth,
@@ -159,7 +213,7 @@ class UserInfoModifyScreen extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: Padding(
                               padding:
-                                  const EdgeInsets.only(left: 10, bottom: 8),
+                              const EdgeInsets.only(left: 10, bottom: 8),
                               child: Text(
                                 '출생년도',
                                 style: TextStyle(
@@ -169,14 +223,16 @@ class UserInfoModifyScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SelectBirthWidget(checkVersion: 0,),
-                          SelectGenderWidget(checkVersion: 0,),
+                          SelectBirthWidget(checkVersion: 1,),
+                          SelectGenderWidget(checkVersion: 1,),
                         ],
                       ),
                     ),
                     InkWell(
                       borderRadius: BorderRadius.circular(16),
-                      onTap: controller.completeUserInfoUpdate,
+                      onTap: controller.isNicknameTyped.value
+                          ? controller.completeRegistration
+                          : null,
                       child: Container(
                         height: 60,
                         decoration: BoxDecoration(
@@ -193,9 +249,7 @@ class UserInfoModifyScreen extends StatelessWidget {
                     )
                   ],
                 ),
-              );
-            },
-          ),
+              )
         ),
       ),
     );

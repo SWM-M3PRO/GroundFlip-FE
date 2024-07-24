@@ -2,14 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
+import '../../controllers/sign_up_controller.dart';
 import '../../controllers/user_info_controller.dart';
 
 class SelectGenderWidget extends StatelessWidget {
-  const SelectGenderWidget({super.key});
+  final int checkVersion;
+  late dynamic controller;
+
+  SelectGenderWidget({super.key, required this.checkVersion}){
+    if(checkVersion==0){
+      controller = Get.find<UserInfoController>();
+    }else{
+      controller = Get.find<SignUpController>();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    UserInfoController controller = Get.find<UserInfoController>();
+
     return Obx(
         () => Padding(
         padding: const EdgeInsets.only(top: 40, bottom: 40),
