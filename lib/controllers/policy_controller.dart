@@ -4,10 +4,10 @@ class PolicyController extends GetxController {
   late RxInt allPolicyChecked;
   late RxList<int> checkPolicyList;
 
+  @override
   void onInit() async{
     super.onInit();
     await init();
-    print(allPolicyChecked.value);
   }
 
   Future<void> init() async{

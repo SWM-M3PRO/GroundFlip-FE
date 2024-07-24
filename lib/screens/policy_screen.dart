@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ground_flip/screens/sign_up_screen.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
 import '../controllers/policy_controller.dart';
 import '../widgets/policy/check_policy.dart';
 import '../widgets/policy/policy_all_check.dart';
+import 'sign_up_screen.dart';
 
 class PolicyScreen extends StatelessWidget {
   const PolicyScreen({super.key});
