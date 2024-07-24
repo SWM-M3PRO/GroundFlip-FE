@@ -39,7 +39,7 @@ class ProfileImage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
-                vertical: 10, horizontal: 0),
+                vertical: 10, horizontal: 0,),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -58,7 +58,7 @@ class ProfileImage extends StatelessWidget {
                         style: TextStyle(
                             color: AppColors.textPrimary,
                             fontSize: 14,
-                            fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.w600,),
                       ),
                     ),
                   ),
@@ -80,7 +80,7 @@ class ProfileImage extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

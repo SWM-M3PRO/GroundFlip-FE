@@ -39,7 +39,7 @@ class SelectGenderWidget extends StatelessWidget {
                     AppColors.buttonColor,
                     shape: RoundedRectangleBorder(
                         borderRadius:
-                        BorderRadius.circular(16))),
+                        BorderRadius.circular(16),),),
                 child: Column(
                   children: [
                     Image.asset(
@@ -76,7 +76,7 @@ class SelectGenderWidget extends StatelessWidget {
                   AppColors.buttonColor,
                   shape: RoundedRectangleBorder(
                       borderRadius:
-                      BorderRadius.circular(16)),
+                      BorderRadius.circular(16),),
                 ),
                 child: Column(
                   children: [

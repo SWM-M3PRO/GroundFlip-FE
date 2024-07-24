@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,9 +10,7 @@ import '../widgets/user_modify/select_birth_widget.dart';
 import '../widgets/user_modify/select_gender_widget.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key}){
-
-  }
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +60,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 0),
+                                vertical: 10, horizontal: 0,),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -82,7 +79,7 @@ class SignUpScreen extends StatelessWidget {
                                         style: TextStyle(
                                             color: AppColors.textPrimary,
                                             fontSize: 14,
-                                            fontWeight: FontWeight.w600),
+                                            fontWeight: FontWeight.w600,),
                                       ),
                                     ),
                                   ),
@@ -104,7 +101,7 @@ class SignUpScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -154,7 +151,7 @@ class SignUpScreen extends StatelessWidget {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 0, horizontal: 15),
+                                  vertical: 0, horizontal: 15,),
                               child: Center(
                                 child: TextField(
                                   controller: controller.textEditingController,
@@ -205,7 +202,7 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 0),
+                          vertical: 10, horizontal: 0,),
                       child: Column(
                         children: [
                           Align(
@@ -245,10 +242,10 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
           ),
         ),
       ),

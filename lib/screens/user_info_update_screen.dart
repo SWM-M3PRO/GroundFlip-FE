@@ -1,10 +1,13 @@
-import 'dart:io';
 
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../constants/app_colors.dart';
+import '../constants/text_styles.dart';
 import '../controllers/user_info_controller.dart';
+import '../widgets/user_modify/profile_image.dart';
+import '../widgets/user_modify/select_birth_widget.dart';
+import '../widgets/user_modify/select_gender_widget.dart';
 
 class UserInfoUpdateScreen extends StatelessWidget {
   const UserInfoUpdateScreen({super.key});
@@ -20,200 +23,174 @@ class UserInfoUpdateScreen extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        backgroundColor: AppColors.background,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('프로필 입력'),
+          leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: AppColors.buttonColor,
+            ),
+          ),
+          backgroundColor: AppColors.background,
+          title: Text(
+            '프로필 수정',
+            style: TextStyle(
+              color: AppColors.textPrimary,
+            ),
+          ),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(20),
           child: Obx(
-            () {
+                () {
               if (!controller.isUserInfoInit.value) {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
               }
-              //controller.textEditingController.text = controller.nickname.value;
-              return Column(
-                children: [
-                  Obx(
-                    () => CircleAvatar(
-                      radius: 80.0,
-                      backgroundImage: controller.profileImage.value != null
-                          ? FileImage(
-                              File(controller.profileImage.value!.path),
-                            ) as ImageProvider
-                          : controller.imageS3Url.value == ""
-                              ? AssetImage(
-                                  'assets/images/default_profile_image.png',
-                                ) as ImageProvider
-                              : NetworkImage(controller.imageS3Url.value)
-                                  as ImageProvider,
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: IconButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(Color(0xffD9D9D9)),
-                          ),
-                          onPressed: controller.getImage,
-                          icon: Icon(
-                            Icons.add,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 48.0),
-                  Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          children: [
-                            Text(
-                              '닉네임',
-                              style: TextStyle(fontSize: 16.0),
-                            ),
-                            SizedBox(
-                              width: 5.0,
-                            ),
-                            Text(
-                              '영어,한글,숫자 조합으로 3자 이상 10자 이내',
-                              style: TextStyle(
-                                fontSize: 10.0,
-                                color: Colors.grey,
+              return Center(
+                child: Column(
+                  children: [
+                    ProfileImage(checkVersion: 0,),
+                    Padding(
+                      padding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding:
+                              const EdgeInsets.only(left: 10, bottom: 5),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.baseline,
+                                textBaseline: TextBaseline.alphabetic,
+                                children: [
+                                  Text(
+                                    '닉네임',
+                                    style: TextStyle(
+                                      fontSize: 17.0,
+                                      color: AppColors.textForth,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 7.0,
+                                  ),
+                                  Text(
+                                    '영어,한글,숫자 조합 3~10자',
+                                    style: TextStyle(
+                                      fontSize: 11.0,
+                                      color: AppColors.textForth,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 4.0),
-                      Container(
-                        color: Color(0xffD9D9D9),
-                        child: TextField(
-                          controller: controller.textEditingController,
-                          autofocus: true,
-                          focusNode: controller.textFocusNode,
-                          onSubmitted: controller.onSubmitted,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                              vertical: 12.0,
-                            ),
                           ),
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Obx(
-                          () => Text(controller.nicknameValidation.value),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16),
-                  Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '출생년도',
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                      ),
-                      SizedBox(height: 4.0),
-                      DropdownButtonHideUnderline(
-                        child: DropdownButton2<int>(
-                          value: controller.birthYear.value,
-                          alignment: Alignment.center,
-                          isExpanded: true,
-                          onChanged: (birthYear) =>
-                              controller.birthYear.value = birthYear!,
-                          items: List.generate(
-                            upperBoundYear - lowBoundYear + 1,
-                            (index) {
-                              int year = 1900 + index;
-                              return DropdownMenuItem(
-                                value: year,
-                                child: Text(
-                                  year.toString(),
-                                  style: const TextStyle(
-                                    fontSize: 14.0,
+                          Container(
+                            height: 56,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: AppColors.boxColor,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 15,),
+                              child: Center(
+                                child: TextField(
+                                  controller: controller.textEditingController,
+                                  autofocus: true,
+                                  focusNode: controller.textFocusNode,
+                                  onSubmitted: controller.onSubmitted,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
+                                  style: TextStyle(
+                                    fontSize: 17.0,
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
-                              );
-                            },
-                          ),
-                          buttonStyleData: ButtonStyleData(
-                            decoration: BoxDecoration(
-                              color: Color(0xffD9D9D9),
-                            ),
-                          ),
-                          dropdownStyleData: DropdownStyleData(
-                            maxHeight: 200,
-                            decoration: BoxDecoration(
-                              color: Color(0xffD9D9D9),
-                            ),
-                          ),
-                          menuItemStyleData: const MenuItemStyleData(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16),
-                  Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '성별',
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                      ),
-                      SizedBox(height: 4.0),
-                      Obx(
-                        () => Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: controller.isGender.value == 1
-                                  ? controller.updateSelectedGender
-                                  : null,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.grey,
-                                disabledBackgroundColor: Colors.redAccent,
                               ),
-                              child: Text('남성'),
                             ),
-                            SizedBox(width: 15),
-                            ElevatedButton(
-                              onPressed: controller.isGender.value == 0
-                                  ? controller.updateSelectedGender
-                                  : null,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.grey,
-                                disabledBackgroundColor: Colors.redAccent,
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Obx(
+                                  () => Padding(
+                                padding:
+                                const EdgeInsets.only(left: 10, top: 5),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      controller.nicknameValidation.value,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: AppColors.textForth,
+                                      ),
+                                    ),
+                                    Icon(
+                                      controller.nicknameValidation.value ==
+                                          "3~10자 이내"
+                                          ? Icons.check
+                                          : null,
+                                      color: AppColors.textForth,
+                                      size: 15,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              child: Text('여성'),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: controller.completeUserInfoUpdate,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.purpleAccent,
-                      disabledBackgroundColor: Colors.grey,
                     ),
-                    child: Text('완료'),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 0,),
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding:
+                              const EdgeInsets.only(left: 10, bottom: 8),
+                              child: Text(
+                                '출생년도',
+                                style: TextStyle(
+                                  fontSize: 17.0,
+                                  color: AppColors.textForth,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SelectBirthWidget(checkVersion: 0,),
+                          SelectGenderWidget(checkVersion: 0,),
+                        ],
+                      ),
+                    ),
+                    InkWell(
+                      borderRadius: BorderRadius.circular(16),
+                      onTap: controller.completeUserInfoUpdate,
+                      child: Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: AppColors.boxColorSecond,
+                        ),
+                        child: Center(
+                          child: Text(
+                            '완료',
+                            style: TextStyles.fx17w700cTextThird,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               );
             },
           ),

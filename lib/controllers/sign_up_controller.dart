@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../constants/app_colors.dart';
 import '../service/user_service.dart';
 import '../utils/secure_storage.dart';
 
@@ -86,15 +87,37 @@ class SignUpController extends GetxController {
   void showErrorDialog(String message) {
     Get.dialog(
       AlertDialog(
-        title: Text(message),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              message,
+              style: TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+        ),
         actions: [
           TextButton(
-            child: Text('확인'),
+            child: Text(
+              '확인',
+              style: TextStyle(
+                color: AppColors.textSecondary,
+              ),
+            ),
             onPressed: () {
               Get.back();
             },
           ),
         ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        backgroundColor: AppColors.boxColor,
       ),
     );
   }
