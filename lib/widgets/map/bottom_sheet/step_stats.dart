@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../constants/text_styles.dart';
-import '../../controllers/walking_controller.dart';
+import '../../../constants/text_styles.dart';
+import '../../../controllers/walking_controller.dart';
 
 class StepStats extends StatelessWidget {
   const StepStats({super.key});

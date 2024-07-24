@@ -5,10 +5,10 @@ import '../enums/pixel_mode.dart';
 import '../models/individual_history_pixel_info.dart';
 import '../models/individual_mode_pixel_info.dart';
 import '../service/pixel_service.dart';
-import '../widgets/map/individual_history_list.dart';
-import '../widgets/map/pixel_info_header.dart';
-import '../widgets/map/step_stats.dart';
-import '../widgets/map/visited_user_list.dart';
+import '../widgets/map/bottom_sheet/individual_history_list.dart';
+import '../widgets/map/bottom_sheet/pixel_info_header.dart';
+import '../widgets/map/bottom_sheet/step_stats.dart';
+import '../widgets/map/bottom_sheet/visited_user_list.dart';
 
 class BottomSheetController extends GetxController {
   final PixelService pixelService = PixelService();

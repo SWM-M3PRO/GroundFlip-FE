@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/app_colors.dart';
-import '../../constants/text_styles.dart';
+import '../../../constants/app_colors.dart';
+import '../../../constants/text_styles.dart';
 
 class IndividualHistoryList extends StatelessWidget {
   const IndividualHistoryList({super.key, required this.visitList});

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../constants/text_styles.dart';
-import '../../enums/pixel_mode.dart';
+import '../../../constants/text_styles.dart';
+import '../../../enums/pixel_mode.dart';
 
 class PixelInfoHeader extends StatelessWidget {
   const PixelInfoHeader({

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../constants/app_colors.dart';
-import '../../controllers/bottom_sheet_controller.dart';
+import '../../../constants/app_colors.dart';
+import '../../../controllers/bottom_sheet_controller.dart';
 
 class MapBottomSheet extends StatelessWidget {
   const MapBottomSheet({super.key});

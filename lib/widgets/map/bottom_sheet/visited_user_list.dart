@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
-import '../../constants/app_colors.dart';
-import '../../constants/text_styles.dart';
-import '../../models/individual_mode_pixel_info.dart';
+import '../../../constants/app_colors.dart';
+import '../../../constants/text_styles.dart';
+import '../../../models/individual_mode_pixel_info.dart';
 
 class VisitedUserList extends StatelessWidget {
   final PixelOwnerUser pixelOwnerUser;

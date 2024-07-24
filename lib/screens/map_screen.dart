@@ -6,8 +6,8 @@ import '../controllers/bottom_sheet_controller.dart';
 import '../controllers/map_controller.dart';
 import '../controllers/pixel_info_controller.dart';
 import '../controllers/walking_controller.dart';
+import '../widgets/map/bottom_sheet/map_bottom_sheet.dart';
 import '../widgets/map/current_location_button.dart';
-import '../widgets/map/map_bottom_sheet.dart';
 import '../widgets/map/mode_change_toggle.dart';
 import '../widgets/map/pixel_count_info.dart';
 
