@@ -17,10 +17,12 @@ class BottomSheetController extends GetxController {
   Widget currentBody = StepStatsBody();
   Widget currentHeader = StepStats();
   RxInt mode = 0.obs;
+  RxBool changeVar = true.obs;
   double size = 1.1;
 
   void showIndividualHistoryPixelInfo(IndividualHistoryPixelInfo pixelInfo) {
     mode.value = 1;
+    changeVar.value = changeVar.value ? false : true;
     draggableController.animateTo(
       0.6,
       duration: Duration(milliseconds: 500),
@@ -39,6 +41,8 @@ class BottomSheetController extends GetxController {
 
   void showIndividualModePixelInfo(IndividualModePixelInfo pixelInfo) {
     mode.value = 2;
+    changeVar.value = changeVar.value ? false : true;
+    print(changeVar.value);
     draggableController.animateTo(
       0.6,
       duration: Duration(milliseconds: 500),
@@ -57,7 +61,6 @@ class BottomSheetController extends GetxController {
   }
 
   void changeStepStatIfMinimized() {
-    // size = draggableController.size;
     if (draggableController.size <= 0.111 && size > draggableController.size) {
       currentHeader = StepStats();
       currentBody = StepStatsBody();
@@ -67,19 +70,15 @@ class BottomSheetController extends GetxController {
   }
 
   getBody() {
-    if (mode.value == 0) {
-      print("stepStat");
-    } else {
-      print("history");
+    if (mode.value == 0 && changeVar.value) {
+      changeVar.value = changeVar.value ? false : true;
     }
     return currentBody;
   }
 
   getHeader() {
-    if (mode.value == 0) {
-      print("stepStat");
-    } else {
-      print("history");
+    if (mode.value == 0 && changeVar.value) {
+      changeVar.value = changeVar.value ? false : true;
     }
     return currentHeader;
   }
