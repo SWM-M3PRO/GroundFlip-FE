@@ -15,8 +15,6 @@ class UserInfoUpdateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserInfoController controller = Get.put(UserInfoController());
-    const int lowBoundYear = 1900;
-    const int upperBoundYear = 2024;
 
     return GestureDetector(
       onTap: () {

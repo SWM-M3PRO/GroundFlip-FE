@@ -7,7 +7,7 @@ import '../../controllers/user_info_controller.dart';
 
 class SelectGenderWidget extends StatelessWidget {
   final int checkVersion;
-  late dynamic controller;
+  late final dynamic controller;
 
   SelectGenderWidget({super.key, required this.checkVersion}){
     if(checkVersion==0){

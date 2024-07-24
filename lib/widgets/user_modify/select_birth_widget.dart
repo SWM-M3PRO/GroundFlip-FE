@@ -8,7 +8,7 @@ import '../../controllers/user_info_controller.dart';
 
 class SelectBirthWidget extends StatelessWidget {
   final int checkVersion;
-  late dynamic controller;
+  late final dynamic controller;
 
   SelectBirthWidget({super.key, required this.checkVersion}){
     if(checkVersion==0){
