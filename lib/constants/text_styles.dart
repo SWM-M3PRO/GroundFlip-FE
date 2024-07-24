@@ -99,4 +99,28 @@ class TextStyles {
     fontSize: 32,
     fontWeight: FontWeight.w900,
   );
+
+  static TextStyle fs28w800cTextPrimary = TextStyle(
+    color: AppColors.textPrimary,
+    fontSize: 28,
+    fontWeight: FontWeight.w800,
+  );
+
+  static TextStyle fx17w700cTextThird = TextStyle(
+    color: AppColors.textThird,
+    fontSize: 17,
+    fontWeight: FontWeight.w700,
+  );
+
+  static TextStyle fs28w700cTextPrimary = TextStyle(
+    color: AppColors.textPrimary,
+    fontSize: 28,
+    fontWeight: FontWeight.w700,
+  );
+
+  static TextStyle fs17w700cTextBlack = TextStyle(
+    color: AppColors.textBlack,
+    fontSize: 17,
+    fontWeight: FontWeight.w700,
+  );
 }

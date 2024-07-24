@@ -5,9 +5,10 @@ import 'package:get_storage/get_storage.dart';
 import 'package:ground_flip/service/location_service.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
-import 'controllers/permission_controller.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
+import 'screens/permission_request_screen.dart';
+import 'screens/policy_screen.dart';
 import 'screens/setting_screen.dart';
 import 'screens/sign_up_screen.dart';
 import 'service/auth_service.dart';
@@ -17,9 +18,8 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
-
-  String initialRoute = await AuthService().isLogin() ? '/main' : '/login';
   await LocationService().initCurrentLocation();
+  String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
   runApp(
     MyApp(
       initialRoute: initialRoute,
@@ -34,21 +34,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(PermissionController());
 
-    return GetMaterialApp(
-      title: 'Ground Flip',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+      child: GetMaterialApp(
+        title: 'Ground Flip',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        initialRoute: initialRoute,
+        getPages: [
+          GetPage(name: '/main', page: () => const MainScreen()),
+          GetPage(name: '/login', page: () => const LoginScreen()),
+          GetPage(name: '/setting', page: () => const SettingScreen()),
+          GetPage(name: '/signup', page: () => const SignUpScreen()),
+          GetPage(name: '/policy', page: () => const PolicyScreen()),
+          GetPage(name: '/permission', page: () => const PermissionRequestScreen()),
+        ],
       ),
-      initialRoute: initialRoute,
-      getPages: [
-        GetPage(name: '/main', page: () => const MainScreen()),
-        GetPage(name: '/login', page: () => const LoginScreen()),
-        GetPage(name: '/setting', page: () => const SettingScreen()),
-        GetPage(name: '/signup', page: () => const SignUpScreen()),
-      ],
     );
   }
 }

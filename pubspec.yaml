@@ -48,6 +48,7 @@ flutter:
     - .env
     - assets/map_style/
     - assets/images/
+    - assets/images/permission/
   uses-material-design: true
 
 flutter_native_splash:
