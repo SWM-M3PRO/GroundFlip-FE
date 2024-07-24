@@ -102,7 +102,6 @@ class MapController extends GetxController {
         await occupyPixel();
       }
       _updateMarkerPosition(newLocation, userMarkerId);
-      focusOnCurrentLocation();
     });
   }
 
