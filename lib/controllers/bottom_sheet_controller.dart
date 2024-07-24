@@ -17,6 +17,7 @@ class BottomSheetController extends GetxController {
   Widget currentBody = StepStatsBody();
   Widget currentHeader = StepStats();
   RxInt mode = 0.obs;
+  double size = 1.1;
 
   void showIndividualHistoryPixelInfo(IndividualHistoryPixelInfo pixelInfo) {
     mode.value = 1;
@@ -56,12 +57,13 @@ class BottomSheetController extends GetxController {
   }
 
   void changeStepStatIfMinimized() {
-    if (draggableController.size <= 0.111) {
-      print('Bottom Sheet is minimized');
+    // size = draggableController.size;
+    if (draggableController.size <= 0.111 && size > draggableController.size) {
       currentHeader = StepStats();
       currentBody = StepStatsBody();
       mode.value = 0;
     }
+    size = draggableController.size;
   }
 
   getBody() {
