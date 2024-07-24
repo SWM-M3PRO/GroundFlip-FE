@@ -20,6 +20,7 @@ class VisitedUserList extends StatelessWidget {
         OwnerInfo(
           pixelOwnerUser: pixelOwnerUser,
         ),
+        if (visitList.length == 0) NoVisitedUserMessage(),
         for (int i = 0; i < visitList.length; i++)
           VisitedUserListElement(
             visitedUser: visitList[i],
@@ -147,6 +148,37 @@ class VisitedUserListElement extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class NoVisitedUserMessage extends StatelessWidget {
+  const NoVisitedUserMessage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Container(
+        padding: const EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+            color: AppColors.backgroundThird,
+            borderRadius: BorderRadius.all(Radius.circular(16))),
+        child: Center(
+          child: Column(
+            children: [
+              Text(
+                "오늘 방문한 사람이 없습니다.",
+                style: TextStyles.fs20w700cTextPrimary,
+              ),
+              Text(
+                "걸어서 픽셀을 차지 해보세요!",
+                style: TextStyles.fs17w700cPrimary,
+              ),
+            ],
+          ),
         ),
       ),
     );
