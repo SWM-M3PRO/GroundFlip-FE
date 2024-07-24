@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../constants/text_styles.dart';
 import '../../../controllers/walking_controller.dart';
@@ -9,13 +10,14 @@ class StepStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var walkController = Get.find<WalkingController>();
+    var walkingController = Get.find<WalkingController>();
     return Obx(
       () => Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            walkController.getCurrentStep(),
+            NumberFormat('###,###,###')
+                .format(walkingController.currentStep.value),
             style: TextStyles.fs24w900cTextPrimary,
           ),
           Text(
@@ -24,7 +26,7 @@ class StepStats extends StatelessWidget {
           ),
           Spacer(),
           Text(
-            '${walkController.getCurrentCalorie()} kcal · ${walkController.getCurrentTravelDistance()}km',
+            '${walkingController.getCurrentCalorie()} kcal · ${walkingController.getCurrentTravelDistance()}km',
             style: TextStyles.fs17w400cTextSecondary,
           ),
         ],
