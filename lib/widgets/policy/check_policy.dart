@@ -9,11 +9,11 @@ class CheckPolicy extends StatelessWidget {
   final String inputString;
   final int policyNum;
 
-  String individualInfoPolicyUrl =
+  final String individualInfoPolicyUrl =
       'https://autumn-blouse-355.notion.site/e338b4179e5248eebe4c5827b347307b?pvs=4';
-  String serviceUsePolicyUrl =
+  final String serviceUsePolicyUrl =
       'https://autumn-blouse-355.notion.site/58919803d41b40fba9ec0344625e94da?pvs=4';
-  String placeServicePolicyUrl =
+  final String placeServicePolicyUrl =
       'https://autumn-blouse-355.notion.site/ab3799e4818249daa3bfc32c7f44089d?pvs=4';
 
   CheckPolicy({
