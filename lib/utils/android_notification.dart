@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:isolate';
+import 'dart:math';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
@@ -81,8 +82,7 @@ class AndroidWalkingHandler extends TaskHandler {
 
   void _initializeMidnightReset() {
     DateTime now = DateTime.now();
-    DateTime midnight =
-        DateTime(now.year, now.month, now.day + 1, now.minute + 1);
+    DateTime midnight = DateTime(now.year, now.month, now.day + 1, 0, Random().nextInt(40) + 10);
     Duration timeUntilMidnight = midnight.difference(now);
     _midnightTimer?.cancel();
     _midnightTimer = Timer(timeUntilMidnight, () {
