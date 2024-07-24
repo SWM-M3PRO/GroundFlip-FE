@@ -66,8 +66,6 @@ class MapController extends GetxController {
   }
 
   focusOnCurrentLocation() {
-    print(currentLocation.latitude);
-    print(currentLocation.longitude);
     currentCameraPosition = CameraPosition(
       target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
       zoom: 16.0,
@@ -79,14 +77,13 @@ class MapController extends GetxController {
 
   void _trackUserLocation() {
     location.onLocationChanged.listen((newLocation) async {
-      print(newLocation.latitude);
-      print(newLocation.longitude);
       currentLocation = newLocation;
       if (isPixelChanged()) {
         _updateLatestPixel();
         await occupyPixel();
       }
       _updateMarkerPosition(newLocation, userMarkerId);
+      focusOnCurrentLocation();
     });
   }
 
