@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
+import '../../controllers/map_controller.dart';
+import '../../enums/pixel_mode.dart';
 
 class PixelCountInfo extends StatelessWidget {
   const PixelCountInfo({
@@ -13,6 +16,7 @@ class PixelCountInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MapController mapController = Get.find<MapController>();
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -21,17 +25,24 @@ class PixelCountInfo extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset(
-            "assets/images/current_pixel_icon.png",
-            width: 28,
-          ),
+          Obx(() {
+            return Image.asset(
+              mapController.currentPixelMode.value ==
+                      PixelMode.individualHistory
+                  ? "assets/images/accumulate_pixel_icon.png"
+                  : "assets/images/current_pixel_icon.png",
+              width: 28,
+            );
+          }),
           SizedBox(
             width: 10,
           ),
-          Text(
-            "$count",
-            style: TextStyles.fs17w600cTextPrimary,
-          ),
+          Obx(() {
+            return Text(
+              "${mapController.getPixelCount()}",
+              style: TextStyles.fs17w600cTextPrimary,
+            );
+          })
         ],
       ),
     );

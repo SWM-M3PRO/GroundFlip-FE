@@ -9,12 +9,15 @@ import 'package:location/location.dart';
 import '../enums/pixel_mode.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
+import '../models/user_pixel_count.dart';
 import '../service/pixel_service.dart';
+import '../service/user_service.dart';
 import '../utils/user_manager.dart';
 import '../widgets/pixel.dart';
 
 class MapController extends GetxController {
   final PixelService pixelService = PixelService();
+  final UserService userService = UserService();
 
   static const String darkMapStylePath =
       'assets/map_style/dark_map_style_with_landmarks.txt';
@@ -36,6 +39,8 @@ class MapController extends GetxController {
   RxList<Marker> markers = <Marker>[].obs;
   RxBool isLoading = true.obs;
   final RxInt selectedType = 0.obs;
+  final RxInt currentPixelCount = 0.obs;
+  final RxInt accumulatePixelCount = 0.obs;
 
   Timer? _cameraIdleTimer;
 
@@ -45,11 +50,18 @@ class MapController extends GetxController {
     await _loadMapStyle();
     await initCurrentLocation();
     _updateLatestPixel();
+    await updateCurrentPixel();
     await occupyPixel();
     updatePixels();
     _createUserMarker();
     _trackUserLocation();
     _trackPixels();
+  }
+
+  updateCurrentPixel() async {
+    UserPixelCount pixelCount = await userService.getUserPixelCount();
+    currentPixelCount.value = pixelCount.currentPixelCount!;
+    accumulatePixelCount.value = pixelCount.accumulatePixelCount!;
   }
 
   getSelectedType() {
@@ -198,6 +210,7 @@ class MapController extends GetxController {
       currentLongitude: currentLocation.longitude!,
     );
     updatePixels();
+    await updateCurrentPixel();
   }
 
   isPixelChanged() {
@@ -254,5 +267,13 @@ class MapController extends GetxController {
 
   double _toRadians(double degree) {
     return degree * math.pi / 180;
+  }
+
+  getPixelCount() {
+    if (currentPixelMode.value == PixelMode.individualHistory) {
+      return accumulatePixelCount.value;
+    } else {
+      return currentPixelCount.value;
+    }
   }
 }
