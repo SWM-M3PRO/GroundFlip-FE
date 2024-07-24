@@ -1,8 +1,19 @@
 import 'package:get/get.dart';
 
 class PolicyController extends GetxController {
-  RxInt allPolicyChecked = 0.obs;
-  RxList<int> checkPolicyList = [0, 0, 0,0].obs;
+  late RxInt allPolicyChecked;
+  late RxList<int> checkPolicyList;
+
+  void onInit() async{
+    super.onInit();
+    await init();
+    print(allPolicyChecked.value);
+  }
+
+  Future<void> init() async{
+    allPolicyChecked = 0.obs;
+    checkPolicyList = [0, 0, 0, 0].obs;
+  }
 
   void changeValue(int valueNum) {
     if (checkPolicyList[valueNum] == 0) {
@@ -27,12 +38,12 @@ class PolicyController extends GetxController {
   }
 
   void allPolicyCheck() {
-    if(allPolicyChecked.value == 0){
+    if (allPolicyChecked.value == 0) {
       allPolicyChecked.value = 1;
       for (int i = 0; i < 4; i++) {
         checkPolicyList[i] = 1;
       }
-    }else{
+    } else {
       allPolicyChecked.value = 0;
       for (int i = 0; i < 4; i++) {
         checkPolicyList[i] = 0;

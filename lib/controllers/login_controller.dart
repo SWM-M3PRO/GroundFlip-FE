@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../models/auth_response.dart';
+import '../screens/policy_screen.dart';
 import '../service/auth_service.dart';
 
 class LoginController extends GetxController {
@@ -27,7 +28,7 @@ class LoginController extends GetxController {
 
   _navigateAfterLogin(LoginResponse loginResponse) {
     if (loginResponse.isSignUp!) {
-      Get.toNamed('/signup');
+      Get.to(() => PolicyScreen());
     } else {
       Get.offAllNamed('/main');
     }
