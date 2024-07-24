@@ -36,7 +36,7 @@ class PixelInfoHeader extends StatelessWidget {
     if (mode == PixelMode.individualHistory) {
       return "$visitCount번째 방문";
     } else if (mode == PixelMode.individualMode) {
-      return "오늘 $visitCount번째 점령";
+      return "오늘 $visitCount명이 점령";
     }
   }
 }
