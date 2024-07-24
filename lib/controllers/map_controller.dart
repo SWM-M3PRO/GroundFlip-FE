@@ -61,6 +61,10 @@ class MapController extends GetxController {
     _trackPixels();
   }
 
+  onHidden() {
+    bottomSheetController.minimize();
+  }
+
   updateCurrentPixel() async {
     UserPixelCount pixelCount = await userService.getUserPixelCount();
     currentPixelCount.value = pixelCount.currentPixelCount!;

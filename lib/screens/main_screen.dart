@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
+import '../controllers/bottom_sheet_controller.dart';
+import '../controllers/map_controller.dart';
 import '../controllers/my_page_controller.dart';
 import '../controllers/navigation_controller.dart';
 import '../controllers/ranking_controller.dart';
@@ -19,6 +21,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     Get.put(MyPageController());
     Get.put(RankingController());
+    Get.put(BottomSheetController());
+    Get.put(MapController());
     final NavigationController navigationController =
         Get.put(NavigationController());
 

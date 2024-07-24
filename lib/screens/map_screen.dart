@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../controllers/bottom_sheet_controller.dart';
 import '../controllers/map_controller.dart';
 import '../controllers/pixel_info_controller.dart';
 import '../controllers/walking_controller.dart';
@@ -16,8 +15,7 @@ class MapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(BottomSheetController());
-    final MapController mapController = Get.put(MapController());
+    final MapController mapController = Get.find<MapController>();
     Get.put(PixelInfoController());
     Get.put(WalkingController());
 

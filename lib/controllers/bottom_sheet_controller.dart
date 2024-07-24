@@ -61,7 +61,9 @@ class BottomSheetController extends GetxController {
   }
 
   minimize() {
-    print('mini');
+    currentHeader = StepStats();
+    currentBody = StepStatsBody();
+    mode.value = 0;
     draggableController.animateTo(
       0.1,
       duration: Duration(milliseconds: 500),

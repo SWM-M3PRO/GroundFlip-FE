@@ -5,10 +5,12 @@ import '../screens/map_screen.dart';
 import '../screens/my_page_screen.dart';
 import '../screens/ranking_screen.dart';
 import '../widgets/common/app_bar.dart';
+import 'map_controller.dart';
 import 'ranking_controller.dart';
 
 class NavigationController extends GetxController {
   final RankingController rankingController = Get.find<RankingController>();
+  final MapController mapController = Get.find<MapController>();
   final RxInt selectedIndex = 0.obs;
   static List<Widget> tabPages = <Widget>[
     const MapScreen(),
@@ -24,10 +26,13 @@ class NavigationController extends GetxController {
   ];
 
   void changeIndex(int index) {
-    selectedIndex(index);
-    if (index == 1) {
+    if (selectedIndex.value != 1 && index == 1) {
       rankingController.onVisible();
     }
+    if (selectedIndex.value == 0 && index != 0) {
+      mapController.onHidden();
+    }
+    selectedIndex(index);
   }
 
   Widget getCurrentPage() {
