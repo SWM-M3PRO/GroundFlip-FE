@@ -11,6 +11,7 @@ import '../widgets/user_modify/select_birth_widget.dart';
 import '../widgets/user_modify/nickname_textfield.dart';
 import '../widgets/user_modify/profile_image.dart';
 import '../widgets/user_modify/select_gender_widget.dart';
+import 'my_page_screen.dart';
 
 class UserInfoModifyScreen extends StatelessWidget {
   const UserInfoModifyScreen({super.key});
@@ -27,6 +28,15 @@ class UserInfoModifyScreen extends StatelessWidget {
         backgroundColor: AppColors.background,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: AppColors.buttonColor,
+            ),
+          ),
           backgroundColor: AppColors.background,
           title: Text(
             '프로필 수정',

@@ -71,12 +71,23 @@ class NicknameTextfield extends StatelessWidget {
           child: Obx(
             () => Padding(
               padding: const EdgeInsets.only(left: 10,top: 5),
-              child: Text(
-                controller.nicknameValidation.value,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.textForth,
-                ),
+              child: Row(
+                children: [
+                  Text(
+                    controller.nicknameValidation.value,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textForth,
+                    ),
+                  ),
+                  Icon(
+                    controller.nicknameValidation.value == "3~10자 이내"?
+                        Icons.check:
+                        null,
+                    color: AppColors.textForth,
+                    size: 15,
+                  ),
+                ],
               ),
             ),
           ),

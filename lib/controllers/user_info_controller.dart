@@ -152,7 +152,12 @@ class UserInfoController extends GetxController {
     if (!regExp.hasMatch(value)) {
       nicknameValidation.value = "형식에 맞지 않습니다!";
     } else {
-      nicknameValidation.value = "";
+      nicknameValidation.value = "3~10자 이내";
     }
+  }
+
+  void deleteImage(){
+    profileImage.value = null;
+    update();
   }
 }
