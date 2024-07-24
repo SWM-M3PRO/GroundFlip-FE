@@ -56,7 +56,7 @@
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 		<string>This app needs GPS</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
-        <string>This app needs GPS</string>
+		<string>This app needs GPS</string>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>UILaunchStoryboardName</key>

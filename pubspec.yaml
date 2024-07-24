@@ -52,4 +52,4 @@ flutter:
 
 flutter_native_splash:
   color: "#000000"
-  image: assets/images/groundflip_logo.png
+  image: "assets/images/ground_flip_app_icon.png"
