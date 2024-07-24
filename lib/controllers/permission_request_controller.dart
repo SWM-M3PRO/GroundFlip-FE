@@ -5,13 +5,7 @@ import 'package:get/get.dart';
 import 'package:health/health.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class PermissionController extends GetxController {
-  @override
-  void onInit() async {
-    super.onInit();
-    await checkPermissions();
-  }
-
+class PermissionRequestController extends GetxController {
   Future<void> checkPermissions() async {
     if (Platform.isAndroid) {
       await requestAndroidPermissions();
@@ -37,16 +31,34 @@ class PermissionController extends GetxController {
 
     for (PermissionStatus status in androidPermissionStatus.values) {
       if (status.isDenied || status.isPermanentlyDenied) {
-        exitApp();
+        openAppSettings();
       }
     }
+
+    if (allPermissionGranted(androidPermissionStatus)) {
+      Get.toNamed('/login');
+    }
+  }
+
+  bool allPermissionGranted(
+    Map<Permission, PermissionStatus> androidPermissionStatus,
+  ) {
+    for (PermissionStatus status in androidPermissionStatus.values) {
+      if (status.isDenied || status.isPermanentlyDenied) {
+        return false;
+      }
+    }
+    return true;
   }
 
   Future<void> requestIosPermissions() async {
     await [
       Permission.location,
     ].request();
+
     final types = [HealthDataType.STEPS];
     await Health().requestAuthorization(types);
+
+    Get.toNamed('/login');
   }
 }
