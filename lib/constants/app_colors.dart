@@ -16,5 +16,5 @@ class AppColors {
   static const Color boxColor = Color(0xFF1F1F1F);
   static const Color boxColorSecond = Color(0xFF555555);
   static const Color buttonColor = Colors.white;
-  static const Color navigationBarColor = Color(0xA6212121);
+  static const Color navigationBarColor = Color(0xFF1D1D1D);
 }

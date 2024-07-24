@@ -9,10 +9,7 @@ class MapAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: AppColors.background,
-      title: AppBarTitle(title: "지도"),
-    );
+    return Container();
   }
 }
 

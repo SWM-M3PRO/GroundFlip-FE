@@ -11,16 +11,15 @@ import 'screens/policy_screen.dart';
 import 'screens/setting_screen.dart';
 import 'screens/sign_up_screen.dart';
 import 'service/auth_service.dart';
+import 'service/location_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
-
+  await LocationService().initCurrentLocation();
   String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
-
-  await Future.delayed(Duration(seconds: 2));
   runApp(
     MyApp(
       initialRoute: initialRoute,
@@ -35,7 +34,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
       child: GetMaterialApp(
@@ -51,7 +49,10 @@ class MyApp extends StatelessWidget {
           GetPage(name: '/setting', page: () => const SettingScreen()),
           GetPage(name: '/signup', page: () => const SignUpScreen()),
           GetPage(name: '/policy', page: () => const PolicyScreen()),
-          GetPage(name: '/permission', page: () => const PermissionRequestScreen()),
+          GetPage(
+            name: '/permission',
+            page: () => const PermissionRequestScreen(),
+          ),
         ],
       ),
     );
