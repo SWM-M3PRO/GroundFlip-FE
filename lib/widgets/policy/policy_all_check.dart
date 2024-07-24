@@ -23,7 +23,7 @@ class PolicyAllCheck extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             color: policyController.allPolicyChecked.value == 0
                 ? AppColors.boxColor
-                : AppColors.Third,
+                : AppColors.third,
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
