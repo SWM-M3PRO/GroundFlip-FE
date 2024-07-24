@@ -18,7 +18,8 @@ class PolicyAllCheck extends StatelessWidget {
       },
       child: Obx(
         () => Container(
-          height: 72,
+          // height: 72,
+          padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             color: policyController.allPolicyChecked.value == 0
@@ -28,7 +29,6 @@ class PolicyAllCheck extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(width: 20),
               Icon(
                 Icons.check_circle_rounded,
                 color: policyController.allPolicyChecked.value == 0

@@ -64,23 +64,23 @@ class CheckPolicy extends StatelessWidget {
           ),
           Spacer(),
           policyNum != 3
-          ? GestureDetector(
-            onTap: () {
-              switch (policyNum) {
-                case 0:
-                  launchUrl(Uri.parse(individualInfoPolicyUrl));
-                  break;
-                case 1:
-                  launchUrl(Uri.parse(serviceUsePolicyUrl));
-                  break;
-                case 2:
-                  launchUrl(Uri.parse(placeServicePolicyUrl));
-                  break;
-              }
-            },
-            child: Container(width: 10),
-          )
-          : Container(),
+              ? GestureDetector(
+                  onTap: () {
+                    switch (policyNum) {
+                      case 0:
+                        launchUrl(Uri.parse(individualInfoPolicyUrl));
+                        break;
+                      case 1:
+                        launchUrl(Uri.parse(serviceUsePolicyUrl));
+                        break;
+                      case 2:
+                        launchUrl(Uri.parse(placeServicePolicyUrl));
+                        break;
+                    }
+                  },
+                  child: Container(width: 10),
+                )
+              : Container(),
           policyNum != 3
               ? IconButton(
                   icon: Icon(
