@@ -28,7 +28,7 @@ class LoginController extends GetxController {
 
   _navigateAfterLogin(LoginResponse loginResponse) {
     if (loginResponse.isSignUp!) {
-      Get.to(() => PolicyScreen());
+      Get.toNamed('/policy');
     } else {
       Get.offAllNamed('/main');
     }
