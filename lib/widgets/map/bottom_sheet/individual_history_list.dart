@@ -50,7 +50,7 @@ class IndividualHistoryListElement extends StatelessWidget {
             Text(
               '${historyDate.year}년 ${historyDate.month}월 ${historyDate.day}일',
               style: TextStyles.fs17w400cTextPrimary,
-            )
+            ),
           ],
         ),
       ),

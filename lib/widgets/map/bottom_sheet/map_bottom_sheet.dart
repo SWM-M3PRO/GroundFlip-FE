@@ -58,7 +58,6 @@ class MapBottomSheet extends StatelessWidget {
                   ),
                 ),
                 Obx(() {
-                  print("rereender");
                   return bottomSheetController.getBody();
                 }),
               ],

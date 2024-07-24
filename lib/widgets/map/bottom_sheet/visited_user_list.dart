@@ -9,8 +9,11 @@ class VisitedUserList extends StatelessWidget {
   final PixelOwnerUser pixelOwnerUser;
   final List<VisitList> visitList;
 
-  const VisitedUserList(
-      {super.key, required this.visitList, required this.pixelOwnerUser});
+  const VisitedUserList({
+    super.key,
+    required this.visitList,
+    required this.pixelOwnerUser,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,7 @@ class VisitedUserList extends StatelessWidget {
         OwnerInfo(
           pixelOwnerUser: pixelOwnerUser,
         ),
-        if (visitList.length == 0) NoVisitedUserMessage(),
+        if (visitList.isEmpty) NoVisitedUserMessage(),
         for (int i = 0; i < visitList.length; i++)
           VisitedUserListElement(
             visitedUser: visitList[i],
@@ -164,8 +167,9 @@ class NoVisitedUserMessage extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(20.0),
         decoration: BoxDecoration(
-            color: AppColors.backgroundThird,
-            borderRadius: BorderRadius.all(Radius.circular(16))),
+          color: AppColors.backgroundThird,
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
         child: Center(
           child: Column(
             children: [

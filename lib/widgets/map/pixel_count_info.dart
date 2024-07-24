@@ -19,8 +19,9 @@ class PixelCountInfo extends StatelessWidget {
     final MapController mapController = Get.find<MapController>();
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          color: AppColors.backgroundSecondary),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        color: AppColors.backgroundSecondary,
+      ),
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -42,7 +43,7 @@ class PixelCountInfo extends StatelessWidget {
               "${mapController.getPixelCount()}",
               style: TextStyles.fs17w600cTextPrimary,
             );
-          })
+          }),
         ],
       ),
     );
