@@ -10,6 +10,7 @@ class AppColors {
   static const Color textSecondary = Color(0xFFB6BABA);
   static const Color textThird = Colors.black;
   static const Color background = Colors.black;
+  static const Color textBlack = Colors.black;
   static const Color backgroundSecondary = Color(0xFF1D1D1D);
   static const Color backgroundThird = Color(0xFF333333);
   static const Color boxColor = Color(0xFF1F1F1F);

@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
-import 'controllers/permission_controller.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
 import 'screens/policy_screen.dart';
+import 'screens/permission_request_screen.dart';
 import 'screens/setting_screen.dart';
 import 'screens/sign_up_screen.dart';
 import 'service/auth_service.dart';
@@ -18,7 +18,7 @@ Future<void> main() async {
   await GetStorage.init();
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
 
-  String initialRoute = await AuthService().isLogin() ? '/main' : '/login';
+  String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
 
   await Future.delayed(Duration(seconds: 2));
   runApp(
@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(PermissionController());
 
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
@@ -54,6 +53,14 @@ class MyApp extends StatelessWidget {
           GetPage(name: '/policy', page: () => const PolicyScreen()),
         ],
       ),
+      initialRoute: initialRoute,
+      getPages: [
+        GetPage(name: '/main', page: () => const MainScreen()),
+        GetPage(name: '/login', page: () => const LoginScreen()),
+        GetPage(name: '/setting', page: () => const SettingScreen()),
+        GetPage(name: '/signup', page: () => const SignUpScreen()),
+        GetPage(name: '/permission', page: () => const PermissionRequestScreen()),
+      ],
     );
   }
 }
