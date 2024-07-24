@@ -14,6 +14,12 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SettingController settingController = Get.put(SettingController());
+    String individualInfoPolicyUrl =
+        'https://autumn-blouse-355.notion.site/e338b4179e5248eebe4c5827b347307b?pvs=4';
+    String serviceUsePolicyUrl =
+        'https://autumn-blouse-355.notion.site/58919803d41b40fba9ec0344625e94da?pvs=4';
+    String placeServicePolicyUrl =
+        'https://autumn-blouse-355.notion.site/ab3799e4818249daa3bfc32c7f44089d?pvs=4';
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -39,7 +45,8 @@ class SettingScreen extends StatelessWidget {
           children: [
             SettingsSection(
               items: [
-                SettingsItem(title: 'App Store 리뷰 남기기'),
+                SettingsItem(title: 'App Store 리뷰 남기기',
+                  isLast: true,),
               ],
             ),
             SettingsSection(
@@ -72,9 +79,19 @@ class SettingScreen extends StatelessWidget {
             SettingsSection(
               title: '기타',
               items: [
-                SettingsItem(title: '서비스 이용약관'),
-                SettingsItem(title: '위치기반서비스 이용약관'),
-                SettingsItem(title: '개인정보 처리 방침'),
+                SettingsItem(title: '서비스 이용약관',
+                  onTap: (){
+                    launchUrl(Uri.parse(individualInfoPolicyUrl));
+                  },
+                ),
+                SettingsItem(title: '위치기반서비스 이용약관',
+                onTap: (){
+                  launchUrl(Uri.parse(serviceUsePolicyUrl));
+                },),
+                SettingsItem(title: '개인정보 처리 방침',
+                onTap: (){
+                  launchUrl(Uri.parse(placeServicePolicyUrl));
+                },),
                 SettingsItem(
                   title: '버전 정보',
                   subTitle: "1.0.0",
