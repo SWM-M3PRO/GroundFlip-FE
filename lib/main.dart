@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
-import 'controllers/permission_request_controller.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
 import 'screens/permission_request_screen.dart';

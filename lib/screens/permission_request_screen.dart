@@ -6,8 +6,6 @@ import 'package:get/get.dart';
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
 import '../controllers/permission_request_controller.dart';
-import '../utils/social_login_button_style.dart';
-import '../widgets/login/social_login_button.dart';
 import '../widgets/permission/permission_element.dart';
 import '../widgets/permission/permission_grant_button.dart';
 
@@ -16,8 +14,7 @@ class PermissionRequestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PermissionRequestController permissionController =
-        Get.put(PermissionRequestController());
+    Get.put(PermissionRequestController());
 
     return Scaffold(
       body: Container(
