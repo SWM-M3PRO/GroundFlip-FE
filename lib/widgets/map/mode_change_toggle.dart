@@ -16,14 +16,14 @@ class ModeChangeToggle extends StatelessWidget {
         child: AnimatedToggleSwitch<int>.size(
           current: mapController.getSelectedType(),
           style: ToggleStyle(
-            // backgroundColor: AppColors.backgroundSecondary,
             backgroundColor: Color(0xF21D1D1D),
             indicatorColor: AppColors.buttonColor,
             borderColor: Colors.transparent,
             borderRadius: BorderRadius.circular(24.0),
             indicatorBorderRadius: BorderRadius.circular(24.0),
           ),
-          values: const [0, 1, 2],
+          // values: const [0, 1, 2],
+          values: const [0, 1],
           iconOpacity: 1.0,
           selectedIconScale: 1.0,
           indicatorSize: Size.fromWidth(90),
@@ -32,7 +32,8 @@ class ModeChangeToggle extends StatelessWidget {
           styleAnimationType: AnimationType.onHover,
           spacing: 2.0,
           customIconBuilder: (context, local, global) {
-            final text = const ['개인 기록', '개인전', '그룹전'][local.index];
+            // final text = const ['개인 기록', '개인전', '그룹전'][local.index];
+            final text = const ['개인 기록', '개인전'][local.index];
             return Center(
               child: Text(
                 text,
