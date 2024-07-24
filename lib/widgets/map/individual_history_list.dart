@@ -42,6 +42,7 @@ class IndividualHistoryListElement extends StatelessWidget {
             Icon(
               Icons.access_time_filled,
               size: 16,
+              color: AppColors.textSecondary,
             ),
             SizedBox(
               width: 20,
