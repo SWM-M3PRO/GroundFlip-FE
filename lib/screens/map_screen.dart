@@ -6,8 +6,10 @@ import '../controllers/bottom_sheet_controller.dart';
 import '../controllers/map_controller.dart';
 import '../controllers/pixel_info_controller.dart';
 import '../controllers/walking_controller.dart';
+import '../widgets/map/current_location_button.dart';
 import '../widgets/map/map_bottom_sheet.dart';
 import '../widgets/map/mode_change_toggle.dart';
+import '../widgets/map/pixel_count_info.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -53,7 +55,19 @@ class MapScreen extends StatelessWidget {
               Column(
                 children: [
                   SizedBox(height: 60),
-                  Center(child: ModeChangeToggle()),
+                  ModeChangeToggle(),
+                  Spacer(),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        PixelCountInfo(count: 128),
+                        CurrentLocationButton(),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.11),
                 ],
               ),
               MapBottomSheet(),

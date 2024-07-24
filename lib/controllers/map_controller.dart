@@ -65,8 +65,22 @@ class MapController extends GetxController {
     _cameraIdleTimer?.cancel();
   }
 
+  focusOnCurrentLocation() {
+    print(currentLocation.latitude);
+    print(currentLocation.longitude);
+    currentCameraPosition = CameraPosition(
+      target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
+      zoom: 16.0,
+    );
+    googleMapController?.animateCamera(
+      CameraUpdate.newCameraPosition(currentCameraPosition),
+    );
+  }
+
   void _trackUserLocation() {
     location.onLocationChanged.listen((newLocation) async {
+      print(newLocation.latitude);
+      print(newLocation.longitude);
       currentLocation = newLocation;
       if (isPixelChanged()) {
         _updateLatestPixel();
