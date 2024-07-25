@@ -45,6 +45,12 @@ class TextStyles {
     color: AppColors.textPrimary,
   );
 
+  static TextStyle fs17w600cAccent = TextStyle(
+    fontSize: 17,
+    fontWeight: FontWeight.w600,
+    color: AppColors.accent,
+  );
+
   static TextStyle fs20w700cPrimary = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w700,

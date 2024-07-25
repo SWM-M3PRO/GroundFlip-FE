@@ -5,10 +5,12 @@ import 'package:dio/dio.dart';
 import '../models/user.dart';
 import '../models/user_pixel_count.dart';
 import '../utils/dio_service.dart';
+import '../utils/secure_storage.dart';
 import '../utils/user_manager.dart';
 
 class UserService {
   static final UserService _instance = UserService._internal();
+  final SecureStorage secureStorage = SecureStorage();
   final Dio dio = DioService().getDio();
 
   UserService._internal();
@@ -30,6 +32,18 @@ class UserService {
       queryParameters: {"user-id": userId},
     );
     return UserPixelCount.fromJson(response.data['data']);
+  }
+
+  deleteUser() async {
+    String? accessToken = await secureStorage.readAccessToken();
+    String? refreshToken = await secureStorage.readRefreshToken();
+    await dio.post(
+      '/users/${UserManager().userId}',
+      data: {
+        "accessToken": accessToken,
+        "refreshToken": refreshToken,
+      },
+    );
   }
 
   Future<int?> putUserInfo({
