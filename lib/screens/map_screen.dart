@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../controllers/map_controller.dart';
 import '../controllers/pixel_info_controller.dart';
 import '../controllers/walking_controller.dart';
+import '../service/location_service.dart';
 import '../widgets/map/bottom_sheet/map_bottom_sheet.dart';
 import '../widgets/map/current_location_button.dart';
 import '../widgets/map/mode_change_toggle.dart';
@@ -33,8 +34,8 @@ class MapScreen extends StatelessWidget {
                   mapType: MapType.normal,
                   initialCameraPosition: CameraPosition(
                     target: LatLng(
-                      mapController.currentLocation.latitude!,
-                      mapController.currentLocation.longitude!,
+                      LocationService().currentLocation!.latitude!,
+                      LocationService().currentLocation!.longitude!,
                     ),
                     zoom: 16.0,
                   ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,8 @@ import 'bottom_sheet_controller.dart';
 class MapController extends GetxController {
   final PixelService pixelService = PixelService();
   final UserService userService = UserService();
+  final LocationService _locationService = LocationService();
+
   final BottomSheetController bottomSheetController =
       Get.find<BottomSheetController>();
 
@@ -30,11 +33,10 @@ class MapController extends GetxController {
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
 
-  final Location location = Location();
   late final String mapStyle;
 
   GoogleMapController? googleMapController;
-  late LocationData currentLocation;
+
   late CameraPosition currentCameraPosition;
   late Map<String, int> latestPixel;
 
@@ -57,7 +59,7 @@ class MapController extends GetxController {
     await updateCurrentPixel();
     await occupyPixel();
     updatePixels();
-    _createUserMarker();
+    await _createUserMarker();
     _trackUserLocation();
     _trackPixels();
   }
@@ -87,7 +89,10 @@ class MapController extends GetxController {
 
   focusOnCurrentLocation() {
     currentCameraPosition = CameraPosition(
-      target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
+      target: LatLng(
+        _locationService.currentLocation!.latitude!,
+        _locationService.currentLocation!.longitude!,
+      ),
       zoom: 16.0,
     );
     googleMapController?.animateCamera(
@@ -96,8 +101,8 @@ class MapController extends GetxController {
   }
 
   void _trackUserLocation() {
-    location.onLocationChanged.listen((newLocation) async {
-      currentLocation = newLocation;
+    _locationService.location.onLocationChanged.listen((newLocation) async {
+      _locationService.currentLocation = newLocation;
       if (isPixelChanged()) {
         _updateLatestPixel();
         await occupyPixel();
@@ -108,9 +113,12 @@ class MapController extends GetxController {
 
   Future<void> initCurrentLocation() async {
     try {
-      currentLocation = LocationService().currentLocation!;
+      await LocationService().initCurrentLocation();
       currentCameraPosition = CameraPosition(
-        target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
+        target: LatLng(
+          _locationService.currentLocation!.latitude!,
+          _locationService.currentLocation!.longitude!,
+        ),
         zoom: 16.0,
       );
     } catch (e) {
@@ -122,22 +130,36 @@ class MapController extends GetxController {
 
   void _updateLatestPixel() {
     latestPixel = pixelService.computeRelativeCoordinateByCoordinate(
-      currentLocation.latitude!,
-      currentLocation.longitude!,
+      _locationService.currentLocation!.latitude!,
+      _locationService.currentLocation!.longitude!,
     );
   }
 
-  void _createUserMarker() {
+  Future<void> _createUserMarker() async {
+    final Uint8List userMarkerIcon = await getBytesFromAsset(
+      'assets/images/current_location_marker.png',
+      48,
+    );
+
     _addMarker(
-      LatLng(currentLocation.latitude!, currentLocation.longitude!),
+      LatLng(
+        _locationService.currentLocation!.latitude!,
+        _locationService.currentLocation!.longitude!,
+      ),
       userMarkerId,
+      BitmapDescriptor.bytes(userMarkerIcon),
     );
   }
 
-  void _addMarker(LatLng position, String markerId) {
+  void _addMarker(
+    LatLng position,
+    String markerId,
+    BitmapDescriptor icon,
+  ) {
     final marker = Marker(
       markerId: MarkerId(markerId),
       position: position,
+      icon: icon,
     );
     markers.add(marker);
   }
@@ -147,8 +169,15 @@ class MapController extends GetxController {
   }
 
   void _updateMarkerPosition(LocationData newLocation, String markerId) {
+    Marker marker =
+        markers.firstWhere((marker) => marker.markerId.value == markerId);
+
     markers.removeWhere((marker) => marker.markerId.value == markerId);
-    _addMarker(LatLng(newLocation.latitude!, newLocation.longitude!), markerId);
+    _addMarker(
+        LatLng(newLocation.latitude!, newLocation.longitude!),
+        markerId,
+        marker.icon,
+    );
   }
 
   Future<void> _updateIndividualHistoryPixels(int radius) async {
@@ -214,8 +243,8 @@ class MapController extends GetxController {
   Future<void> occupyPixel() async {
     await pixelService.occupyPixel(
       userId: UserManager().getUserId()!,
-      currentLatitude: currentLocation.latitude!,
-      currentLongitude: currentLocation.longitude!,
+      currentLatitude: _locationService.currentLocation!.latitude!,
+      currentLongitude: _locationService.currentLocation!.longitude!,
     );
     updatePixels();
     await updateCurrentPixel();
@@ -224,8 +253,8 @@ class MapController extends GetxController {
   isPixelChanged() {
     Map<String, int> currentPixel =
         pixelService.computeRelativeCoordinateByCoordinate(
-      currentLocation.latitude!,
-      currentLocation.longitude!,
+      _locationService.currentLocation!.latitude!,
+      _locationService.currentLocation!.longitude!,
     );
     return latestPixel['x'] != currentPixel['x'] ||
         latestPixel['y'] != currentPixel['y'];
@@ -280,5 +309,17 @@ class MapController extends GetxController {
     } else {
       return currentPixelCount.value;
     }
+  }
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(
+      data.buffer.asUint8List(),
+      targetWidth: width,
+    );
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
 }
