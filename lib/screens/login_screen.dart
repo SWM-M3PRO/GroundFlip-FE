@@ -19,6 +19,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.background,
+        automaticallyImplyLeading: false,
         title: Center(
           child: Image.asset(
             "assets/images/groundflip_logo.png",

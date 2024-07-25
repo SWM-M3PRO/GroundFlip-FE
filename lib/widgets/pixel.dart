@@ -64,7 +64,7 @@ class Pixel extends Polygon {
             await Get.find<PixelInfoController>()
                 .getIndividualModePixelInfo(pixelId);
         Get.find<BottomSheetController>()
-            .showIndividualModePixelInfo(pixelInfo);
+            .showIndividualModePixelInfo(pixelInfo, pixelId);
       },
     );
   }
@@ -91,7 +91,7 @@ class Pixel extends Polygon {
           UserManager().getUserId()!,
         );
         Get.find<BottomSheetController>()
-            .showIndividualHistoryPixelInfo(pixelInfo);
+            .showIndividualHistoryPixelInfo(pixelInfo, pixelId);
       },
     );
   }

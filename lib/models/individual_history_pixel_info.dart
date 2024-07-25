@@ -1,19 +1,20 @@
-
 class IndividualHistoryPixelInfo {
+  int? pixelId;
   String? address;
   int? addressNumber;
   int? visitCount;
   List<DateTime>? visitList;
 
-  IndividualHistoryPixelInfo(
-      {
-        this.address,
-        this.addressNumber,
-        this.visitCount,
-        this.visitList,
-      });
+  IndividualHistoryPixelInfo({
+    this.pixelId,
+    this.address,
+    this.addressNumber,
+    this.visitCount,
+    this.visitList,
+  });
 
   IndividualHistoryPixelInfo.fromJson(Map<String, dynamic> json) {
+    pixelId = json['pixelId'];
     address = json['address'];
     addressNumber = json['addressNumber'];
     visitCount = json['visitCount'];

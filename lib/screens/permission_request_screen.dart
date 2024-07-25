@@ -76,7 +76,7 @@ class PermissionRequestScreen extends StatelessWidget {
                     PermissionElement(
                       iconPath:
                           'assets/images/permission/activity_recognition_icon.png',
-                      permissionName: '애플 건강',
+                      permissionName: '신체 활동',
                       permissionDescription: '걸음 수를 가져오기 위해 필요해요!',
                     ),
                     SizedBox(

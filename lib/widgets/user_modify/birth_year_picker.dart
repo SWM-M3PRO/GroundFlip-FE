@@ -10,6 +10,7 @@ import '../../controllers/user_info_controller.dart';
 class BirthYearPicker extends StatelessWidget {
   final int checkVersion;
   late final dynamic controller;
+
   BirthYearPicker({super.key, required this.checkVersion}) {
     if (checkVersion == 0) {
       controller = Get.find<UserInfoController>();
@@ -78,11 +79,7 @@ class BirthYearPicker extends StatelessWidget {
                     return Center(
                       child: Text(
                         year.toString(),
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary,
-                        ),
+                        style: TextStyles.fs20w700cPrimary,
                       ),
                     );
                   }).toList(),

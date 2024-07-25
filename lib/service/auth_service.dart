@@ -67,8 +67,9 @@ class AuthService {
   }
 
   loginWithApple() async {
-    String identityToken = await _getAppleToken();
-    LoginResponse loginResponse = await postAppleLogin(identityToken);
+    AuthorizationCredentialAppleID credit = await _getAppleToken();
+    LoginResponse loginResponse =
+        await postAppleLogin(credit.identityToken!, credit.authorizationCode);
     await _saveTokens(loginResponse);
     return loginResponse;
   }
@@ -94,10 +95,18 @@ class AuthService {
     }
   }
 
-  Future<LoginResponse> postAppleLogin(String authorizationCode) async {
+  Future<LoginResponse> postAppleLogin(
+    String identityToken,
+    String authorizationCode,
+  ) async {
     try {
-      var response = await dio
-          .post('/auth/kakao/apple', data: {"accessToken": authorizationCode});
+      var response = await dio.post(
+        '/auth/kakao/apple',
+        data: {
+          "accessToken": identityToken,
+          "authorizationCode": authorizationCode,
+        },
+      );
       return LoginResponse.fromJson(response.data["data"]);
     } catch (error) {
       throw Exception("로그인 실패");
@@ -115,13 +124,14 @@ class AuthService {
   }
 
   _getAppleToken() async {
-    final credential = await SignInWithApple.getAppleIDCredential(
+    AuthorizationCredentialAppleID credential =
+        await SignInWithApple.getAppleIDCredential(
       scopes: [
         AppleIDAuthorizationScopes.email,
         AppleIDAuthorizationScopes.fullName,
       ],
     );
-    return credential.identityToken;
+    return credential;
   }
 
   Future<OAuthToken> _loginWithKakaoTalkApp() async {

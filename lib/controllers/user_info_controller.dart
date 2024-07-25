@@ -165,7 +165,7 @@ class UserInfoController extends GetxController {
         profileImagePath: profileImage.value?.path,
       );
       if (statusCode == 200) {
-        Get.offAllNamed('/main');
+        Get.back();
       }
     } catch (e) {
       if (!regExp1.hasMatch(nickname.value)) {
@@ -194,7 +194,7 @@ class UserInfoController extends GetxController {
     FocusScope.of(Get.context!).unfocus();
   }
 
-  void selectBirthYear(int year) async{
+  void selectBirthYear(int year) async {
     birthYear.value = year;
   }
 
