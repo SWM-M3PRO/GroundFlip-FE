@@ -38,18 +38,20 @@ class RankingController extends GetxController {
 
   _initRanking() async {
     isLoading.value = true;
-    List<Ranking> rankings = await rankingService.getAllUserRanking();
-    Ranking myRanking =
-        await rankingService.getUserRanking(UserManager().getUserId()!);
+    List<Ranking> rankings =
+        await rankingService.getAllUserRanking(selectedWeek);
+    Ranking myRanking = await rankingService.getUserRanking(
+        UserManager().getUserId()!, selectedWeek);
     this.rankings.assignAll(rankings);
     this.myRanking = myRanking.obs;
     isLoading.value = false;
   }
 
   updateRankingWithDelay(int seconds) async {
-    List<Ranking> rankings = await rankingService.getAllUserRanking();
-    Ranking myRanking =
-        await rankingService.getUserRanking(UserManager().getUserId()!);
+    List<Ranking> rankings =
+        await rankingService.getAllUserRanking(selectedWeek);
+    Ranking myRanking = await rankingService.getUserRanking(
+        UserManager().getUserId()!, selectedWeek);
     await Future.delayed(Duration(seconds: seconds));
     this.rankings.assignAll(rankings);
     this.myRanking.value = myRanking;
