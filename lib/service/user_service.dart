@@ -44,6 +44,8 @@ class UserService {
         "refreshToken": refreshToken,
       },
     );
+    await secureStorage.deleteAccessToken();
+    await secureStorage.deleteRefreshToken();
   }
 
   Future<int?> putUserInfo({
