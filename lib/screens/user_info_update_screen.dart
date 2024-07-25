@@ -104,7 +104,7 @@ class UserInfoUpdateScreen extends StatelessWidget {
                                   child: Center(
                                     child: TextField(
                                       controller: controller.textEditingController,
-                                      //autofocus: true,
+                                      autofocus: false,
                                       focusNode: controller.textFocusNode,
                                       onSubmitted: controller.onSubmitted,
                                       decoration: InputDecoration(
@@ -130,7 +130,8 @@ class UserInfoUpdateScreen extends StatelessWidget {
                                           controller.nicknameValidation.value,
                                           style: TextStyle(
                                             fontSize: 14,
-                                            color: AppColors.textForth,
+                                            color: controller.nicknameValidation.value ==
+                                                "3~10자 이내" ? AppColors.primary : AppColors.textForth,
                                           ),
                                         ),
                                         Icon(
@@ -138,7 +139,7 @@ class UserInfoUpdateScreen extends StatelessWidget {
                                               "3~10자 이내"
                                               ? Icons.check
                                               : null,
-                                          color: AppColors.textForth,
+                                          color: AppColors.primary,
                                           size: 15,
                                         ),
                                       ],
@@ -180,7 +181,7 @@ class UserInfoUpdateScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(vertical: 20),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
-                              color: AppColors.boxColorSecond,
+                              color: AppColors.primary,
                             ),
                             child: Center(
                               child: Text(

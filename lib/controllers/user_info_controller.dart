@@ -40,8 +40,15 @@ class UserInfoController extends GetxController {
     super.onInit();
     checkGender();
     isUserInfoInit.value = true;
-    //initTextFocusNode();
+    initTextFocusNode();
     update();
+  }
+
+  @override
+  void onClose() {
+    textEditingController.dispose();
+    textFocusNode.dispose();
+    super.onClose();
   }
 
   void checkGender() {
