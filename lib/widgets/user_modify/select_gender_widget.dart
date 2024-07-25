@@ -27,6 +27,7 @@ class SelectGenderWidget extends StatelessWidget {
           children: [
             Container(
               width: (MediaQuery.of(context).size.width - 35) / 2,
+
               child: ElevatedButton(
                 onPressed: controller.isGender.value == 1
                     ? controller.updateSelectedGender
@@ -38,14 +39,17 @@ class SelectGenderWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: Text(
-                  '남성',
-                  style: TextStyle(
-                    color: controller.isGender.value == 0
-                        ? AppColors.textBlack
-                        : AppColors.textPrimary,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Text(
+                    '남성',
+                    style: TextStyle(
+                      color: controller.isGender.value == 0
+                          ? AppColors.textBlack
+                          : AppColors.textPrimary,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -65,14 +69,17 @@ class SelectGenderWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: Text(
-                  '여성',
-                  style: TextStyle(
-                    color: controller.isGender.value == 1
-                        ? AppColors.textBlack
-                        : AppColors.textPrimary,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Text(
+                    '여성',
+                    style: TextStyle(
+                      color: controller.isGender.value == 1
+                          ? AppColors.textBlack
+                          : AppColors.textPrimary,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
