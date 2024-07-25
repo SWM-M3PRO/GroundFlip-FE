@@ -184,7 +184,7 @@ class MapController extends GetxController {
   }
 
   void _trackPixels() {
-    Timer.periodic(const Duration(seconds: 30), (timer) {
+    Timer.periodic(const Duration(seconds: 10), (timer) {
       updatePixels();
     });
   }
@@ -206,6 +206,7 @@ class MapController extends GetxController {
       case PixelMode.groupMode:
         break;
     }
+    await updateCurrentPixel();
   }
 
   bool _isMapOverZoomedOut() => currentCameraPosition.zoom < maxZoomOutLevel;
