@@ -42,7 +42,7 @@ class UserInfoUpdateScreen extends StatelessWidget {
           ),
         ),
         body: Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.only(top: 20),
           child: Obx(
                 () {
               if (!controller.isUserInfoInit.value) {
