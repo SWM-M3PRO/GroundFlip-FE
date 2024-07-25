@@ -6,7 +6,6 @@ import '../controllers/map_controller.dart';
 import '../controllers/pixel_info_controller.dart';
 import '../controllers/walking_controller.dart';
 import '../service/location_service.dart';
-import '../service/location_service.dart';
 import '../widgets/map/bottom_sheet/map_bottom_sheet.dart';
 import '../widgets/map/current_location_button.dart';
 import '../widgets/map/mode_change_toggle.dart';
