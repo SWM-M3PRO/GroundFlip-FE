@@ -44,7 +44,9 @@ class BottomSheetController extends GetxController {
   }
 
   void showIndividualModePixelInfo(
-      IndividualModePixelInfo pixelInfo, int pixelId) {
+    IndividualModePixelInfo pixelInfo,
+    int pixelId,
+  ) {
     mode.value = 2;
     changeVar.value = changeVar.value ? false : true;
     draggableController.animateTo(

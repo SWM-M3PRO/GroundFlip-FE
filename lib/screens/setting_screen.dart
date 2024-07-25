@@ -70,11 +70,12 @@ class SettingScreen extends StatelessWidget {
                 //   },
                 // ),
                 SettingsItem(
-                    title: '사용 가이드',
-                    onTap: () async {
-                      await launchUrl(Uri.parse(usageGuideUrl));
-                    },
-                    isLast: true),
+                  title: '사용 가이드',
+                  onTap: () async {
+                    await launchUrl(Uri.parse(usageGuideUrl));
+                  },
+                  isLast: true,
+                ),
                 // SettingsItem(title: '고객 문의 및 개선 요청', isLast: true),
               ],
             ),

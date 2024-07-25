@@ -34,7 +34,7 @@ class PixelInfoHeader extends StatelessWidget {
                 Text(
                   ' px',
                   style: TextStyles.fs14w500cPrimary,
-                )
+                ),
               ],
             ),
             Align(

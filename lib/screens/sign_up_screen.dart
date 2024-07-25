@@ -55,11 +55,11 @@ class SignUpScreen extends StatelessWidget {
                           radius: 80.0,
                           backgroundImage: controller.profileImage.value != null
                               ? FileImage(
-                                      File(controller.profileImage.value!.path))
-                                  as ImageProvider
+                                  File(controller.profileImage.value!.path),
+                                ) as ImageProvider
                               : AssetImage(
-                                      'assets/images/default_profile_image.png')
-                                  as ImageProvider,
+                                  'assets/images/default_profile_image.png',
+                                ) as ImageProvider,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -262,7 +262,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       ),
                     );
-                  })
+                  }),
                 ],
               ),
             ),
