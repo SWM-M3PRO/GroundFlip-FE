@@ -24,7 +24,7 @@ class SelectBirthWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.bottomSheet(
-          BirthYearPicker(),
+          BirthYearPicker(checkVersion: checkVersion,),
           backgroundColor: AppColors.backgroundSecondary,
           enterBottomSheetDuration: Duration(milliseconds: 100),
           exitBottomSheetDuration: Duration(milliseconds: 100),

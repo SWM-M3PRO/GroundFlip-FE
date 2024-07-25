@@ -160,6 +160,10 @@ class SignUpController extends GetxController {
     }
   }
 
+  void selectBirthYear(int year) async{
+    birthYear.value = year;
+  }
+
   void deleteImage() {
     profileImage.value = null;
     update();

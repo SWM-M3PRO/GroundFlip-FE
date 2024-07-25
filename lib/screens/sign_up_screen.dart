@@ -157,7 +157,7 @@ class SignUpScreen extends StatelessWidget {
                                   child: Center(
                                     child: TextField(
                                       controller: controller.textEditingController,
-                                      autofocus: true,
+                                      autofocus: false,
                                       focusNode: controller.textFocusNode,
                                       onSubmitted: controller.onSubmitted,
                                       decoration: InputDecoration(
@@ -183,7 +183,8 @@ class SignUpScreen extends StatelessWidget {
                                           controller.nicknameValidation.value,
                                           style: TextStyle(
                                             fontSize: 14,
-                                            color: AppColors.textForth,
+                                            color: controller.nicknameValidation.value ==
+                                                "3~10자 이내" ? AppColors.primary : AppColors.textForth,
                                           ),
                                         ),
                                         Icon(
@@ -191,7 +192,7 @@ class SignUpScreen extends StatelessWidget {
                                               "3~10자 이내"
                                               ? Icons.check
                                               : null,
-                                          color: AppColors.textForth,
+                                          color: AppColors.primary,
                                           size: 15,
                                         ),
                                       ],
@@ -235,7 +236,7 @@ class SignUpScreen extends StatelessWidget {
                             height: 60,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
-                              color: AppColors.boxColorSecond,
+                              color: controller.isNicknameTyped.value ? AppColors.primary : AppColors.boxColorSecond,
                             ),
                             child: Center(
                               child: Text(

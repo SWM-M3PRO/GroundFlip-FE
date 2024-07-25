@@ -41,6 +41,7 @@ class UserInfoController extends GetxController {
     checkGender();
     isUserInfoInit.value = true;
     initTextFocusNode();
+    print('initinit');
     update();
   }
 
@@ -191,6 +192,7 @@ class UserInfoController extends GetxController {
     if (regExp1.hasMatch(value)) {
       nicknameValidation.value = "3~10자 이내";
     }
+    FocusScope.of(Get.context!).unfocus();
   }
 
   void selectBirthYear(int year) async{

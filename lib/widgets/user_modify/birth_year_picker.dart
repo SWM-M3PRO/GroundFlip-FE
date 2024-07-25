@@ -4,10 +4,20 @@ import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
+import '../../controllers/sign_up_controller.dart';
 import '../../controllers/user_info_controller.dart';
 
 class BirthYearPicker extends StatelessWidget {
-  BirthYearPicker({super.key});
+  final int checkVersion;
+  late final dynamic controller;
+
+  BirthYearPicker({super.key, required this.checkVersion}){
+    if(checkVersion==0){
+      controller = Get.find<UserInfoController>();
+    }else{
+      controller = Get.find<SignUpController>();
+    }
+  }
 
   int selectedNumber = 0;
 
@@ -15,13 +25,10 @@ class BirthYearPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<int> yearOptions =
         List.generate(2024 - 1900 + 1, (index) => 1900 + index);
-
-    final UserInfoController userInfoController =
-        Get.find<UserInfoController>();
-    final FixedExtentScrollController controller = FixedExtentScrollController(
-      initialItem: userInfoController.birthYear.value - 1900,
+    final FixedExtentScrollController fixedExtentScrollController = FixedExtentScrollController(
+      initialItem: controller.birthYear.value - 1900,
     );
-    selectedNumber = userInfoController.birthYear.value;
+    selectedNumber = controller.birthYear.value;
     return SizedBox(
       width: 600,
       child: Padding(
@@ -38,6 +45,8 @@ class BirthYearPicker extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    new TextEditingController().clear();
                     Get.back();
                   },
                   style: ElevatedButton.styleFrom(
@@ -55,7 +64,7 @@ class BirthYearPicker extends StatelessWidget {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  userInfoController.selectBirthYear(selectedNumber);
+                  controller.selectBirthYear(selectedNumber);
                   Get.back();
                 },
                 child: CupertinoPicker(
@@ -66,9 +75,9 @@ class BirthYearPicker extends StatelessWidget {
                   ),
                   onSelectedItemChanged: (selectedYear) {
                     selectedNumber = yearOptions[selectedYear];
-                    userInfoController.birthYear.value = yearOptions[selectedYear];
+                    controller.birthYear.value = yearOptions[selectedYear];
                   },
-                  scrollController: controller,
+                  scrollController: fixedExtentScrollController,
                   children: yearOptions.map((year) {
                     return Center(
                       child: Text(
