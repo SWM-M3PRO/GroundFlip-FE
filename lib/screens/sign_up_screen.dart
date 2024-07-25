@@ -70,6 +70,7 @@ class SignUpScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
+                                borderRadius: BorderRadius.circular(16),
                                 onTap: controller.getImage,
                                 child: Container(
                                   height: 44,
@@ -92,6 +93,7 @@ class SignUpScreen extends StatelessWidget {
                               ),
                               SizedBox(width: 15),
                               InkWell(
+                                borderRadius: BorderRadius.circular(16),
                                 onTap: controller.deleteImage,
                                 child: Container(
                                   height: 44,
@@ -238,27 +240,29 @@ class SignUpScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(16),
-                    onTap: controller.isNicknameTyped.value
-                        ? controller.completeRegistration
-                        : null,
-                    child: Container(
-                      height: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        color: controller.isNicknameTyped.value
-                            ? AppColors.primary
-                            : AppColors.boxColorSecond,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '완료',
-                          style: TextStyles.fx17w700cTextThird,
+                  Obx(() {
+                    return InkWell(
+                      borderRadius: BorderRadius.circular(16),
+                      onTap: controller.isNicknameTyped.value
+                          ? controller.completeRegistration
+                          : null,
+                      child: Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: controller.isNicknameTyped.value
+                              ? AppColors.primary
+                              : AppColors.boxColorSecond,
+                        ),
+                        child: Center(
+                          child: Text(
+                            '완료',
+                            style: TextStyles.fx17w700cTextThird,
+                          ),
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  })
                 ],
               ),
             ),
