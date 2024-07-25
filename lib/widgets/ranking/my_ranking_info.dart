@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ground_flip/widgets/ranking/ranking_info.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 import '../../controllers/ranking_controller.dart';
-import 'ranking_info.dart';
 
 class MyRankingInfo extends StatelessWidget {
   const MyRankingInfo({super.key});
@@ -16,26 +16,22 @@ class MyRankingInfo extends StatelessWidget {
     return Obx(() {
       return Container(
         decoration: BoxDecoration(
-          border: Border.all(
-            color: Color.lerp(
+          gradient: LinearGradient(
+            colors: [
+              AppColors.secondary,
               AppColors.primary,
-              AppColors.background,
-              rankingController.t.value,
-            )!, // 경계선 색상
-            width: 1,
-          ),
-          color: Color.lerp(
-            AppColors.backgroundSecondary,
-            AppColors.background,
-            rankingController.t.value,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
         child: Padding(
-          padding: EdgeInsets.all(rankingController.myRankingInfoPadding.value),
+          // padding: EdgeInsets.all(rankingController.myRankingInfoPadding.value),
+          padding: EdgeInsets.all(20),
           child: Column(
             children: [
-              RankingInfo(
+              RankingInfoMy(
                 ranking: rankingController.getMyRanking(),
               ),
               SizedBox(height: rankingController.myRankingInfoPadding.value),
@@ -43,7 +39,7 @@ class MyRankingInfo extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
                 height: rankingController.myRankingInfoHeight.value,
                 decoration: BoxDecoration(
-                  color: AppColors.secondary,
+                  color: Color(0x80333333),
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: Row(
@@ -51,8 +47,8 @@ class MyRankingInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      '3px 더 먹으면 순위 상승!',
-                      style: TextStyles.fs14w500cPrimary,
+                      '오늘 하루도 파이팅!',
+                      style: TextStyles.fs14w800cTextPrimary,
                     ),
                   ],
                 ),

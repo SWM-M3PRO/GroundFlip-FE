@@ -70,7 +70,7 @@ class RankingSection extends StatelessWidget {
           for (int i = 0; i < rankings.length; i++)
             RankingListElement(
               ranking: rankings[i],
-              isLast: false,
+              isLast: i == rankings.length - 1 ? true : false,
             ),
         ],
       ),
