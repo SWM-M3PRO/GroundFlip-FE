@@ -57,6 +57,10 @@
 		<string>This app needs GPS</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>This app needs GPS</string>
+		<key>UIBackgroundModes</key>
+        <array>
+            <string>location</string>
+        </array>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>UILaunchStoryboardName</key>
