@@ -76,7 +76,11 @@ class RankingController extends GetxController {
   }
 
   getRankingsAll() {
-    return rankings.sublist(3);
+    if (rankings.length >= 3) {
+      return rankings.sublist(3);
+    } else {
+      return rankings.toList();
+    }
   }
 
   selectWeek(int selectedWeekNumber, DateTime selectedWeek) {

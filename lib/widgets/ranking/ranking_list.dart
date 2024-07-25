@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../controllers/ranking_controller.dart';
+import '../map/bottom_sheet/no_ranker_message.dart';
 import 'ranking_list_element.dart';
 
 class RankingList extends StatelessWidget {
@@ -22,6 +23,13 @@ class RankingList extends StatelessWidget {
         child: ListView(
           controller: rankingController.scrollController,
           children: [
+            Obx(() {
+              if (rankingController.rankings.isEmpty) {
+                return NoRankerMessage();
+              } else {
+                return Container();
+              }
+            }),
             Obx(() {
               return RankingSection(
                 rankings: rankingController.getRankingsTop3(),

@@ -38,10 +38,11 @@ class RankingInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(ranking.nickname, style: TextStyles.fs17w600cTextPrimary),
-              Text(
-                '${NumberFormat('###,###,###').format(ranking.currentPixelCount)}px',
-                style: TextStyles.fs14w500cPrimary,
-              ),
+              if (ranking.currentPixelCount != null)
+                Text(
+                  '${NumberFormat('###,###,###').format(ranking.currentPixelCount)}px',
+                  style: TextStyles.fs14w500cPrimary,
+                ),
             ],
           ),
         ),
@@ -57,15 +58,27 @@ class Rank extends StatelessWidget {
     "assets/images/2nd_place_medal.png",
     "assets/images/3rd_place_medal.png",
   ];
-  final int rank;
+  final int? rank;
 
   const Rank({super.key, required this.rank});
 
   @override
   Widget build(BuildContext context) {
-    if (rank <= 3 && rank >= 1) {
+    if (rank == null) {
+      return Container(
+        width: 44,
+        height: 44,
+        decoration: BoxDecoration(
+          color: AppColors.backgroundThird,
+          borderRadius: BorderRadius.all(Radius.circular(22)),
+        ),
+        child: Center(
+          child: Text('?', style: TextStyles.fs20w800cTextPrimary),
+        ),
+      );
+    } else if (rank! <= 3 && rank! >= 1) {
       return Image.asset(
-        medalImages[rank - 1],
+        medalImages[rank! - 1],
         width: 44,
         height: 44,
       );
