@@ -25,7 +25,7 @@ class SelectGenderWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               width: (MediaQuery.of(context).size.width - 35) / 2,
 
               child: ElevatedButton(

@@ -46,7 +46,7 @@ class BirthYearPicker extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     FocusManager.instance.primaryFocus?.unfocus();
-                    new TextEditingController().clear();
+                    TextEditingController().clear();
                     Get.back();
                   },
                   style: ElevatedButton.styleFrom(
