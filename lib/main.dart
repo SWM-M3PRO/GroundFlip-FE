@@ -19,6 +19,7 @@ Future<void> main() async {
   await GetStorage.init();
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
   await LocationService().initCurrentLocation();
+  LocationService().initBackgroundLocation();
   String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
   runApp(
     MyApp(
