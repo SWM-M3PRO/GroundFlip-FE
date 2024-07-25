@@ -27,8 +27,7 @@ class SelectGenderWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ButtonTheme(
-              height: 178,
-              minWidth: 167,
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               child: ElevatedButton(
                 onPressed: controller.isGender.value == 1
                     ? controller.updateSelectedGender

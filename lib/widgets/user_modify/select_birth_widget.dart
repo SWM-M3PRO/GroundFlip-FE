@@ -47,7 +47,7 @@ class SelectBirthWidget extends StatelessWidget {
           },
         ),
         buttonStyleData: ButtonStyleData(
-          height: 60,
+          padding: EdgeInsets.symmetric(vertical: 5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             color: AppColors.boxColor,

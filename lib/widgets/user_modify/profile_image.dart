@@ -46,8 +46,7 @@ class ProfileImage extends StatelessWidget {
                 InkWell(
                   onTap: controller.getImage,
                   child: Container(
-                    height: 44,
-                    width: 104,
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24),
                       color: AppColors.boxColorThird,
@@ -67,8 +66,7 @@ class ProfileImage extends StatelessWidget {
                 InkWell(
                   onTap: controller.deleteImage,
                   child: Container(
-                    height: 44,
-                    width: 44,
+                    padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24),
                       color: AppColors.boxColorThird,

@@ -52,143 +52,146 @@ class UserInfoUpdateScreen extends StatelessWidget {
               }
               return Center(
                 child: Expanded(
-                  child: Column(
-                    children: [
-                      ProfileImage(checkVersion: 0,),
-                      Padding(
-                        padding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding:
-                                const EdgeInsets.only(left: 10, bottom: 5),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                                  textBaseline: TextBaseline.alphabetic,
-                                  children: [
-                                    Text(
-                                      '닉네임',
-                                      style: TextStyle(
-                                        fontSize: 17.0,
-                                        color: AppColors.textForth,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 7.0,
-                                    ),
-                                    Text(
-                                      '영어,한글,숫자 조합 3~10자',
-                                      style: TextStyle(
-                                        fontSize: 11.0,
-                                        color: AppColors.textForth,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 56,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: AppColors.boxColor,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 15,),
-                                child: Center(
-                                  child: TextField(
-                                    controller: controller.textEditingController,
-                                    autofocus: true,
-                                    focusNode: controller.textFocusNode,
-                                    onSubmitted: controller.onSubmitted,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                    ),
-                                    style: TextStyle(
-                                      fontSize: 17.0,
-                                      color: AppColors.textPrimary,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Obx(
-                                    () => Padding(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      children: [
+                        ProfileImage(checkVersion: 0,),
+                        Padding(
+                          padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
                                   padding:
-                                  const EdgeInsets.only(left: 10, top: 5),
+                                  const EdgeInsets.only(left: 10, bottom: 5),
                                   child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                                    textBaseline: TextBaseline.alphabetic,
                                     children: [
                                       Text(
-                                        controller.nicknameValidation.value,
+                                        '닉네임',
                                         style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 17.0,
                                           color: AppColors.textForth,
                                         ),
                                       ),
-                                      Icon(
-                                        controller.nicknameValidation.value ==
-                                            "3~10자 이내"
-                                            ? Icons.check
-                                            : null,
-                                        color: AppColors.textForth,
-                                        size: 15,
+                                      SizedBox(
+                                        width: 7.0,
+                                      ),
+                                      Text(
+                                        '영어,한글,숫자 조합 3~10자',
+                                        style: TextStyle(
+                                          fontSize: 11.0,
+                                          color: AppColors.textForth,
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 0,),
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding:
-                                const EdgeInsets.only(left: 10, bottom: 8),
-                                child: Text(
-                                  '출생년도',
-                                  style: TextStyle(
-                                    fontSize: 17.0,
-                                    color: AppColors.textForth,
+                              Container(
+                                padding: EdgeInsets.symmetric(vertical: 5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: AppColors.boxColor,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 15,),
+                                  child: Center(
+                                    child: TextField(
+                                      controller: controller.textEditingController,
+                                      autofocus: true,
+                                      focusNode: controller.textFocusNode,
+                                      onSubmitted: controller.onSubmitted,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                      ),
+                                      style: TextStyle(
+                                        fontSize: 17.0,
+                                        color: AppColors.textPrimary,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            SelectBirthWidget(checkVersion: 0,),
-                            SelectGenderWidget(checkVersion: 0,),
-                          ],
-                        ),
-                      ),
-                      InkWell(
-                        borderRadius: BorderRadius.circular(16),
-                        onTap: controller.completeUserInfoUpdate,
-                        child: Container(
-                          height: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            color: AppColors.boxColorSecond,
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Obx(
+                                      () => Padding(
+                                    padding:
+                                    const EdgeInsets.only(left: 10, top: 5),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          controller.nicknameValidation.value,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: AppColors.textForth,
+                                          ),
+                                        ),
+                                        Icon(
+                                          controller.nicknameValidation.value ==
+                                              "3~10자 이내"
+                                              ? Icons.check
+                                              : null,
+                                          color: AppColors.textForth,
+                                          size: 15,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          child: Center(
-                            child: Text(
-                              '완료',
-                              style: TextStyles.fx17w700cTextThird,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 0,),
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.only(left: 10, bottom: 8),
+                                  child: Text(
+                                    '출생년도',
+                                    style: TextStyle(
+                                      fontSize: 17.0,
+                                      color: AppColors.textForth,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SelectBirthWidget(checkVersion: 0,),
+                              SelectGenderWidget(checkVersion: 0,),
+                            ],
+                          ),
+                        ),
+                        InkWell(
+                          borderRadius: BorderRadius.circular(16),
+                          onTap: controller.completeUserInfoUpdate,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: AppColors.boxColorSecond,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '완료',
+                                style: TextStyles.fx17w700cTextThird,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               );
