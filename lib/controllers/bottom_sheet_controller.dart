@@ -20,7 +20,10 @@ class BottomSheetController extends GetxController {
   RxBool changeVar = true.obs;
   double size = 1.1;
 
-  void showIndividualHistoryPixelInfo(IndividualHistoryPixelInfo pixelInfo) {
+  void showIndividualHistoryPixelInfo(
+    IndividualHistoryPixelInfo pixelInfo,
+    int pixelId,
+  ) {
     mode.value = 1;
     changeVar.value = changeVar.value ? false : true;
     draggableController.animateTo(
@@ -29,6 +32,7 @@ class BottomSheetController extends GetxController {
       curve: Curves.easeInOut,
     );
     currentHeader = PixelInfoHeader(
+      pixelId: pixelId,
       address: pixelInfo.address,
       visitCount: pixelInfo.visitCount!,
       mode: PixelMode.individualHistory,
@@ -39,7 +43,8 @@ class BottomSheetController extends GetxController {
     mode.value = 1;
   }
 
-  void showIndividualModePixelInfo(IndividualModePixelInfo pixelInfo) {
+  void showIndividualModePixelInfo(
+      IndividualModePixelInfo pixelInfo, int pixelId) {
     mode.value = 2;
     changeVar.value = changeVar.value ? false : true;
     draggableController.animateTo(
@@ -48,6 +53,7 @@ class BottomSheetController extends GetxController {
       curve: Curves.easeInOut,
     );
     currentHeader = PixelInfoHeader(
+      pixelId: pixelId,
       address: pixelInfo.address,
       visitCount: pixelInfo.visitCount!,
       mode: PixelMode.individualMode,
