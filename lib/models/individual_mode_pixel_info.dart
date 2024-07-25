@@ -1,18 +1,22 @@
 class IndividualModePixelInfo {
+  int? pixelId;
   String? address;
   int? addressNumber;
   int? visitCount;
   PixelOwnerUser? pixelOwnerUser;
   List<VisitList>? visitList;
 
-  IndividualModePixelInfo(
-      {this.address,
-      this.addressNumber,
-      this.visitCount,
-      this.pixelOwnerUser,
-      this.visitList,});
+  IndividualModePixelInfo({
+    this.pixelId,
+    this.address,
+    this.addressNumber,
+    this.visitCount,
+    this.pixelOwnerUser,
+    this.visitList,
+  });
 
   IndividualModePixelInfo.fromJson(Map<String, dynamic> json) {
+    pixelId = json['pixelId'];
     address = json['address'];
     addressNumber = json['addressNumber'];
     visitCount = json['visitCount'];
@@ -49,12 +53,13 @@ class PixelOwnerUser {
   int? currentPixelCount;
   int? accumulatePixelCount;
 
-  PixelOwnerUser(
-      {this.userId,
-      this.nickname,
-      this.profileImageUrl,
-      this.currentPixelCount,
-      this.accumulatePixelCount,});
+  PixelOwnerUser({
+    this.userId,
+    this.nickname,
+    this.profileImageUrl,
+    this.currentPixelCount,
+    this.accumulatePixelCount,
+  });
 
   PixelOwnerUser.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
