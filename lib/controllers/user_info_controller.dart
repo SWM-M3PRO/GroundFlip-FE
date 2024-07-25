@@ -41,7 +41,6 @@ class UserInfoController extends GetxController {
     checkGender();
     isUserInfoInit.value = true;
     initTextFocusNode();
-    print('initinit');
     update();
   }
 

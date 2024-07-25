@@ -10,6 +10,7 @@ import '../../controllers/user_info_controller.dart';
 class BirthYearPicker extends StatelessWidget {
   final int checkVersion;
   late final dynamic controller;
+  late final int selectedNumber;
 
   BirthYearPicker({super.key, required this.checkVersion}){
     if(checkVersion==0){
@@ -17,9 +18,8 @@ class BirthYearPicker extends StatelessWidget {
     }else{
       controller = Get.find<SignUpController>();
     }
+    selectedNumber = controller.birthYear.value;
   }
-
-  int selectedNumber = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,6 @@ class BirthYearPicker extends StatelessWidget {
     final FixedExtentScrollController fixedExtentScrollController = FixedExtentScrollController(
       initialItem: controller.birthYear.value - 1900,
     );
-    selectedNumber = controller.birthYear.value;
     return SizedBox(
       width: 600,
       child: Padding(
