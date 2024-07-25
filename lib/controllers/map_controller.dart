@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -32,7 +34,6 @@ class MapController extends GetxController {
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
 
-
   late final String mapStyle;
 
   GoogleMapController? googleMapController;
@@ -59,7 +60,7 @@ class MapController extends GetxController {
     await updateCurrentPixel();
     await occupyPixel();
     updatePixels();
-    _createUserMarker();
+    await _createUserMarker();
     _trackUserLocation();
     _trackPixels();
   }
@@ -135,20 +136,31 @@ class MapController extends GetxController {
     );
   }
 
-  void _createUserMarker() {
+  Future<void> _createUserMarker() async {
+    final Uint8List userMarkerIcon = await getBytesFromAsset(
+      'assets/images/current_location_marker.png',
+      48,
+    );
+
     _addMarker(
       LatLng(
         _locationService.currentLocation!.latitude!,
         _locationService.currentLocation!.longitude!,
       ),
       userMarkerId,
+      BitmapDescriptor.bytes(userMarkerIcon),
     );
   }
 
-  void _addMarker(LatLng position, String markerId) {
+  void _addMarker(
+    LatLng position,
+    String markerId,
+    BitmapDescriptor icon,
+  ) {
     final marker = Marker(
       markerId: MarkerId(markerId),
       position: position,
+      icon: icon,
     );
     markers.add(marker);
   }
@@ -158,8 +170,15 @@ class MapController extends GetxController {
   }
 
   void _updateMarkerPosition(LocationData newLocation, String markerId) {
+    Marker marker =
+        markers.firstWhere((marker) => marker.markerId.value == markerId);
+
     markers.removeWhere((marker) => marker.markerId.value == markerId);
-    _addMarker(LatLng(newLocation.latitude!, newLocation.longitude!), markerId);
+    _addMarker(
+        LatLng(newLocation.latitude!, newLocation.longitude!),
+        markerId,
+        marker.icon,
+    );
   }
 
   Future<void> _updateIndividualHistoryPixels(int radius) async {
@@ -290,5 +309,17 @@ class MapController extends GetxController {
     } else {
       return currentPixelCount.value;
     }
+  }
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(
+      data.buffer.asUint8List(),
+      targetWidth: width,
+    );
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
 }
