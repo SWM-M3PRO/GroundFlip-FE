@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../constants/app_colors.dart';
 import '../service/user_service.dart';
 import '../utils/secure_storage.dart';
 
@@ -15,7 +16,8 @@ class SignUpController extends GetxController {
 
   var profileImage = Rxn<XFile>();
 
-  final RegExp regExp = RegExp(r'^[A-Za-z가-힣0-9ㄱ-ㅎㅏ-ㅣ]{3,10}$');
+  final RegExp regExp1 = RegExp(r'^[A-Za-z가-힣0-9]{3,10}$');
+  final RegExp regExp2 = RegExp(r'^[A-Za-z가-힣0-9ㄱ-ㅎㅏ-ㅣ]{3,10}$');
 
   late RxList<bool> toggleSelection;
   bool isMale = true;
@@ -85,15 +87,37 @@ class SignUpController extends GetxController {
   void showErrorDialog(String message) {
     Get.dialog(
       AlertDialog(
-        title: Text(message),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              message,
+              style: TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+        ),
         actions: [
           TextButton(
-            child: Text('확인'),
+            child: Text(
+              '확인',
+              style: TextStyle(
+                color: AppColors.textSecondary,
+              ),
+            ),
             onPressed: () {
               Get.back();
             },
           ),
         ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        backgroundColor: AppColors.boxColor,
       ),
     );
   }
@@ -111,7 +135,7 @@ class SignUpController extends GetxController {
         Get.offAllNamed('/main');
       }
     } catch (e) {
-      if (!regExp.hasMatch(nickname.value)) {
+      if (!regExp1.hasMatch(nickname.value)) {
         showErrorDialog('닉네임 형식이 맞지 않습니다!');
       }
       if (e is DioException) {
@@ -125,10 +149,23 @@ class SignUpController extends GetxController {
 
   void onSubmitted(String value) {
     updateNickname(value);
-    if (!regExp.hasMatch(value)) {
-      nicknameValidation.value = "형식에 맞지 않습니다!";
-    } else {
-      nicknameValidation.value = "";
+    if (regExp2.hasMatch(value) && !regExp1.hasMatch(value)) {
+      nicknameValidation.value = "자음 모음은 사용할 수 없습니다!";
     }
+    if (!regExp1.hasMatch(value) && !regExp2.hasMatch(value)) {
+      nicknameValidation.value = "형식에 맞지 않습니다!";
+    }
+    if (regExp1.hasMatch(value)) {
+      nicknameValidation.value = "3~10자 이내";
+    }
+  }
+
+  void selectBirthYear(int year) async{
+    birthYear.value = year;
+  }
+
+  void deleteImage() {
+    profileImage.value = null;
+    update();
   }
 }

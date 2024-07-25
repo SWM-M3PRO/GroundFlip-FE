@@ -17,6 +17,7 @@ class PermissionRequestScreen extends StatelessWidget {
     Get.put(PermissionRequestController());
 
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: Container(
         color: AppColors.background,
         child: Column(
