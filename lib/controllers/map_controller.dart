@@ -20,6 +20,8 @@ import 'bottom_sheet_controller.dart';
 class MapController extends GetxController {
   final PixelService pixelService = PixelService();
   final UserService userService = UserService();
+  final LocationService _locationService = LocationService();
+
   final BottomSheetController bottomSheetController =
       Get.find<BottomSheetController>();
 
@@ -30,11 +32,11 @@ class MapController extends GetxController {
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
 
-  final Location location = Location();
+
   late final String mapStyle;
 
   GoogleMapController? googleMapController;
-  late LocationData currentLocation;
+
   late CameraPosition currentCameraPosition;
   late Map<String, int> latestPixel;
 
@@ -87,7 +89,10 @@ class MapController extends GetxController {
 
   focusOnCurrentLocation() {
     currentCameraPosition = CameraPosition(
-      target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
+      target: LatLng(
+        _locationService.currentLocation!.latitude!,
+        _locationService.currentLocation!.longitude!,
+      ),
       zoom: 16.0,
     );
     googleMapController?.animateCamera(
@@ -96,8 +101,8 @@ class MapController extends GetxController {
   }
 
   void _trackUserLocation() {
-    location.onLocationChanged.listen((newLocation) async {
-      currentLocation = newLocation;
+    _locationService.location.onLocationChanged.listen((newLocation) async {
+      _locationService.currentLocation = newLocation;
       if (isPixelChanged()) {
         _updateLatestPixel();
         await occupyPixel();
@@ -108,9 +113,12 @@ class MapController extends GetxController {
 
   Future<void> initCurrentLocation() async {
     try {
-      currentLocation = LocationService().currentLocation!;
+      await LocationService().initCurrentLocation();
       currentCameraPosition = CameraPosition(
-        target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
+        target: LatLng(
+          _locationService.currentLocation!.latitude!,
+          _locationService.currentLocation!.longitude!,
+        ),
         zoom: 16.0,
       );
     } catch (e) {
@@ -122,14 +130,17 @@ class MapController extends GetxController {
 
   void _updateLatestPixel() {
     latestPixel = pixelService.computeRelativeCoordinateByCoordinate(
-      currentLocation.latitude!,
-      currentLocation.longitude!,
+      _locationService.currentLocation!.latitude!,
+      _locationService.currentLocation!.longitude!,
     );
   }
 
   void _createUserMarker() {
     _addMarker(
-      LatLng(currentLocation.latitude!, currentLocation.longitude!),
+      LatLng(
+        _locationService.currentLocation!.latitude!,
+        _locationService.currentLocation!.longitude!,
+      ),
       userMarkerId,
     );
   }
@@ -213,8 +224,8 @@ class MapController extends GetxController {
   Future<void> occupyPixel() async {
     await pixelService.occupyPixel(
       userId: UserManager().getUserId()!,
-      currentLatitude: currentLocation.latitude!,
-      currentLongitude: currentLocation.longitude!,
+      currentLatitude: _locationService.currentLocation!.latitude!,
+      currentLongitude: _locationService.currentLocation!.longitude!,
     );
     updatePixels();
     await updateCurrentPixel();
@@ -223,8 +234,8 @@ class MapController extends GetxController {
   isPixelChanged() {
     Map<String, int> currentPixel =
         pixelService.computeRelativeCoordinateByCoordinate(
-      currentLocation.latitude!,
-      currentLocation.longitude!,
+      _locationService.currentLocation!.latitude!,
+      _locationService.currentLocation!.longitude!,
     );
     return latestPixel['x'] != currentPixel['x'] ||
         latestPixel['y'] != currentPixel['y'];
