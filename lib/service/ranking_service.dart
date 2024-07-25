@@ -13,14 +13,26 @@ class RankingService {
     return _instance;
   }
 
-  getAllUserRanking() async {
-    var response = await dio.get('/ranking/user');
+  getAllUserRanking(DateTime lookupDate) async {
+    var response = await dio.get(
+      '/ranking/user',
+      queryParameters: {
+        'lookup-date':
+            '${lookupDate.year}-${lookupDate.month.toString().padLeft(2, '0')}-${lookupDate.day.toString().padLeft(2, '0')}',
+      },
+    );
 
     return Ranking.listFromJson(response.data['data']);
   }
 
-  getUserRanking(int userId) async {
-    var response = await dio.get('/ranking/user/${userId.toString()}');
+  getUserRanking(int userId, DateTime lookupDate) async {
+    var response = await dio.get(
+      '/ranking/user/${userId.toString()}',
+      queryParameters: {
+        'lookup-date':
+            '${lookupDate.year}-${lookupDate.month.toString().padLeft(2, '0')}-${lookupDate.day.toString().padLeft(2, '0')}',
+      },
+    );
 
     return Ranking.fromJson(response.data['data']);
   }

@@ -30,7 +30,7 @@ class RankingListElement extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
           child: RankingInfo(
             ranking: ranking,
           ),
