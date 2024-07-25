@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ground_flip/widgets/ranking/ranking_info.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 import '../../controllers/ranking_controller.dart';
+import 'ranking_info.dart';
 
 class MyRankingInfo extends StatelessWidget {
   const MyRankingInfo({super.key});

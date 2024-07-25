@@ -41,7 +41,9 @@ class RankingController extends GetxController {
     List<Ranking> rankings =
         await rankingService.getAllUserRanking(selectedWeek);
     Ranking myRanking = await rankingService.getUserRanking(
-        UserManager().getUserId()!, selectedWeek);
+      UserManager().getUserId()!,
+      selectedWeek,
+    );
     this.rankings.assignAll(rankings);
     this.myRanking = myRanking.obs;
     isLoading.value = false;
@@ -51,7 +53,9 @@ class RankingController extends GetxController {
     List<Ranking> rankings =
         await rankingService.getAllUserRanking(selectedWeek);
     Ranking myRanking = await rankingService.getUserRanking(
-        UserManager().getUserId()!, selectedWeek);
+      UserManager().getUserId()!,
+      selectedWeek,
+    );
     await Future.delayed(Duration(seconds: seconds));
     this.rankings.assignAll(rankings);
     this.myRanking.value = myRanking;
