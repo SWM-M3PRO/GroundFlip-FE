@@ -104,7 +104,7 @@ class UserInfoUpdateScreen extends StatelessWidget {
                                   child: Center(
                                     child: TextField(
                                       controller: controller.textEditingController,
-                                      autofocus: true,
+                                      //autofocus: true,
                                       focusNode: controller.textFocusNode,
                                       onSubmitted: controller.onSubmitted,
                                       decoration: InputDecoration(
