@@ -26,15 +26,6 @@ class OnBoardScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: AppColors.buttonColor,
-          ),
-        ),
         backgroundColor: AppColors.background,
       ),
       body: SafeArea(
