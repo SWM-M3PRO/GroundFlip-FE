@@ -132,7 +132,7 @@ class SignUpController extends GetxController {
       );
       if (statusCode == 200) {
         await secureStorage.writeSignupStatus("true");
-        Get.offAllNamed('/main');
+        Get.offAllNamed('/onboard');
       }
     } catch (e) {
       if (!regExp1.hasMatch(nickname.value)) {

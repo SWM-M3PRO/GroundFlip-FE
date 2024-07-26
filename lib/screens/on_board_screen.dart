@@ -4,6 +4,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
+import '../controllers/onboard_controller.dart';
 
 class OnBoardScreen extends StatelessWidget {
   const OnBoardScreen({super.key});
@@ -11,27 +12,17 @@ class OnBoardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = PageController(viewportFraction: 1.0, keepPage: true);
+    final OnboardController onboardController = Get.put(OnboardController());
 
-    final List<Widget> onBoardImages = [
-      SizedBox.expand(
-        child: Image.asset(
-          'assets/images/onboard_image01.png',
-          fit: BoxFit.contain,
-        ),
-      ),
-      SizedBox.expand(
-        child: Image.asset(
-          'assets/images/onboard_image02.png',
-            fit: BoxFit.contain,
-        ),
-      ),
-      SizedBox.expand(
-        child: Image.asset(
-          'assets/images/current_pixel_icon.png',
-          fit: BoxFit.contain,
-        ),
-      ),
+    final List<String> onBoardImages = [
+      'assets/images/onboard_image02.png',
+      'assets/images/onboard_image03.png',
+      'assets/images/onboard_image04.png',
+      'assets/images/onboard_image05.png',
+      'assets/images/onboard_image06.png',
+      'assets/images/onboard_image07.png',
     ];
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -63,10 +54,15 @@ class OnBoardScreen extends StatelessWidget {
                         itemCount: onBoardImages.length,
                         itemBuilder: (context, index) {
                           return SizedBox(
-                            width: MediaQuery.of(context).size.width*0.8,
                             child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: onBoardImages[index],),
+                              borderRadius: BorderRadius.circular(12),
+                              child: SizedBox.expand(
+                                child: Image.asset(
+                                  onBoardImages[index],
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
                           );
                         },
                       ),
@@ -91,7 +87,9 @@ class OnBoardScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 50, left: 10, right: 10),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(16),
-                  onTap: () {},
+                  onTap: () {
+                    onboardController.goToMain();
+                  },
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 20),
                     decoration: BoxDecoration(

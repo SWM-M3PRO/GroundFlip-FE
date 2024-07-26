@@ -8,6 +8,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 // ignore: directives_ordering
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
+import 'screens/on_board_screen.dart';
 import 'screens/permission_request_screen.dart';
 import 'screens/policy_screen.dart';
 import 'screens/setting_screen.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
             name: '/permission',
             page: () => const PermissionRequestScreen(),
           ),
+          GetPage(name: '/onboard', page: () => const OnBoardScreen()),
         ],
       ),
     );
