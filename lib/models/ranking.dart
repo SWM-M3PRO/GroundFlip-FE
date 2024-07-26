@@ -1,13 +1,13 @@
 class Ranking {
   int userId;
-  String nickname;
+  String? nickname;
   String? profileImageUrl;
   int? rank;
   int? currentPixelCount;
 
   Ranking({
     required this.userId,
-    required this.nickname,
+    this.nickname,
     this.profileImageUrl,
     required this.rank,
     required this.currentPixelCount,
