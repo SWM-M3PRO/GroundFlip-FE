@@ -37,7 +37,7 @@ class UserService {
   deleteUser() async {
     String? accessToken = await secureStorage.readAccessToken();
     String? refreshToken = await secureStorage.readRefreshToken();
-    await dio.post(
+    await dio.delete(
       '/users/${UserManager().userId}',
       data: {
         "accessToken": accessToken,
