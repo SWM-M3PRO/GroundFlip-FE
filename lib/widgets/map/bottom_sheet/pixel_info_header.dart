@@ -24,27 +24,27 @@ class PixelInfoHeader extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                address ?? "대한민국",
+                style: TextStyles.fs24w900cTextPrimary,
+                overflow: TextOverflow.ellipsis,
+                softWrap: true,
+              ),
+            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
                   pixelId.toRadixString(16).toUpperCase().padLeft(7, '0'),
-                  style: TextStyles.fs24w900cTextPrimary,
+                  style: TextStyles.fs17w400cTextSecondary,
                 ),
                 Text(
                   ' px',
                   style: TextStyles.fs14w500cPrimary,
                 ),
               ],
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                address ?? "대한민국",
-                style: TextStyles.fs17w400cTextSecondary,
-                overflow: TextOverflow.ellipsis,
-                softWrap: true,
-              ),
             ),
           ],
         ),

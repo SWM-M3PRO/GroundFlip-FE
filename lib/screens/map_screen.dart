@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../constants/app_colors.dart';
 import '../controllers/map_controller.dart';
 import '../controllers/pixel_info_controller.dart';
 import '../controllers/walking_controller.dart';
@@ -24,7 +25,9 @@ class MapScreen extends StatelessWidget {
       body: Obx(() {
         if (mapController.isLoading.value) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: AppColors.primary,
+            ),
           );
         } else {
           return Stack(

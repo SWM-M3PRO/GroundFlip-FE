@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
+// ignore: directives_ordering
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
 import 'screens/permission_request_screen.dart';
@@ -23,7 +24,7 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
-  await LocationService().initCurrentLocation();
+  // await LocationService().initCurrentLocation();
   LocationService().initBackgroundLocation();
   String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
   runApp(
