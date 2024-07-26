@@ -38,8 +38,10 @@ class RankingInfo extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(ranking.nickname ?? "알수없음",
-                  style: TextStyles.fs17w600cTextPrimary),
+              Text(
+                ranking.nickname ?? "알수없음",
+                style: TextStyles.fs17w600cTextPrimary,
+              ),
               Spacer(),
               if (ranking.currentPixelCount != null)
                 Text(
@@ -124,8 +126,10 @@ class RankingInfoMy extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(ranking.nickname ?? "알수없음",
-                  style: TextStyles.fs17w600cTextPrimary),
+              Text(
+                ranking.nickname ?? "알수없음",
+                style: TextStyles.fs17w600cTextPrimary,
+              ),
               if (ranking.currentPixelCount != null)
                 Text(
                   '${NumberFormat('###,###,###').format(ranking.currentPixelCount)}px',

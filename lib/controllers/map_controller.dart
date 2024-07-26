@@ -134,22 +134,6 @@ class MapController extends GetxController {
     );
   }
 
-  Future<void> _createUserMarker() async {
-    final Uint8List userMarkerIcon = await getBytesFromAsset(
-      'assets/images/current_location_marker.png',
-      48,
-    );
-
-    _addMarker(
-      LatLng(
-        _locationService.currentLocation!.latitude!,
-        _locationService.currentLocation!.longitude!,
-      ),
-      userMarkerId,
-      BitmapDescriptor.bytes(userMarkerIcon),
-    );
-  }
-
   void _addMarker(
     LatLng position,
     String markerId,
