@@ -174,9 +174,9 @@ class MapController extends GetxController {
 
     markers.removeWhere((marker) => marker.markerId.value == markerId);
     _addMarker(
-        LatLng(newLocation.latitude!, newLocation.longitude!),
-        markerId,
-        marker.icon,
+      LatLng(newLocation.latitude!, newLocation.longitude!),
+      markerId,
+      marker.icon,
     );
   }
 
