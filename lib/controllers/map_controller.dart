@@ -59,7 +59,6 @@ class MapController extends GetxController {
     await updateCurrentPixel();
     await occupyPixel();
     updatePixels();
-    await _createUserMarker();
     _trackUserLocation();
     _trackPixels();
   }
