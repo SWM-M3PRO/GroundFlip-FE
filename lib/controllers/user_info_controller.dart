@@ -21,8 +21,6 @@ class UserInfoController extends GetxController {
   var profileImage = Rxn<XFile>();
 
   late RxList<bool> toggleSelection;
-  bool isMale = true;
-  bool isFemale = false;
 
   RxString nickname = "-".obs;
   RxInt birthYear = 2000.obs;
@@ -32,7 +30,10 @@ class UserInfoController extends GetxController {
   RxBool isNicknameTyped = false.obs;
   RxBool isUserInfoInit = false.obs;
   RxBool isInitImageUrl = false.obs;
-  RxInt isGender = 0.obs;
+  RxInt isMale = 0.obs;
+  RxInt isFemale = 0.obs;
+  RxInt isNoneGender = 0.obs;
+
 
   @override
   void onInit() async {
@@ -52,11 +53,42 @@ class UserInfoController extends GetxController {
   }
 
   void checkGender() {
-    if (gender.value == "MALE") {
-      isGender.value = 0;
-    } else {
-      isGender.value = 1;
+    genderValueToZero();
+    switch (gender.value) {
+      case 'MALE':
+        isMale.value=1;
+        break;
+      case 'FEMALE':
+        isFemale.value=1;
+        break;
+      case 'NONE':
+        isNoneGender.value=1;
+        break;
     }
+  }
+
+  void updateSelectedGender(int genderValue) {
+    genderValueToZero();
+    switch (genderValue) {
+      case 0:
+        isMale.value=1;
+        gender.value='MALE';
+        break;
+      case 1:
+        isFemale.value=1;
+        gender.value='FEMALE';
+        break;
+      case 2:
+        isNoneGender.value=1;
+        gender.value='NONE';
+        break;
+    }
+  }
+
+  void genderValueToZero(){
+    isMale.value=0;
+    isFemale.value=0;
+    isNoneGender.value=0;
   }
 
   void initTextFocusNode() {
@@ -75,15 +107,6 @@ class UserInfoController extends GetxController {
     );
   }
 
-  void updateSelectedGender() {
-    if (isGender.value == 0) {
-      isGender.value = 1;
-      gender.value = 'FEMALE';
-    } else {
-      isGender.value = 0;
-      gender.value = 'MALE';
-    }
-  }
 
   Future<void> userInfoInit() async {
     user = await userService.getCurrentUserInfo();

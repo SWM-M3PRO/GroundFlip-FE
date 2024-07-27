@@ -20,15 +20,15 @@ class SignUpController extends GetxController {
   final RegExp regExp2 = RegExp(r'^[A-Za-z가-힣0-9ㄱ-ㅎㅏ-ㅣ]{3,10}$');
 
   late RxList<bool> toggleSelection;
-  bool isMale = true;
-  bool isFemale = false;
 
   RxString nickname = ''.obs;
   RxInt birthYear = 2000.obs;
   RxString gender = 'MALE'.obs;
   RxString nicknameValidation = "".obs;
   RxBool isNicknameTyped = false.obs;
-  RxInt isGender = 0.obs;
+  RxInt isMale = 1.obs;
+  RxInt isFemale = 0.obs;
+  RxInt isNoneGender = 0.obs;
 
   @override
   void onInit() {
@@ -61,14 +61,28 @@ class SignUpController extends GetxController {
     }
   }
 
-  void updateSelectedGender() {
-    if (isGender.value == 0) {
-      isGender.value = 1;
-      gender.value = 'FEMALE';
-    } else {
-      isGender.value = 0;
-      gender.value = 'MALE';
+  void updateSelectedGender(int genderValue) {
+    genderValueToZero();
+    switch (genderValue) {
+      case 0:
+        isMale.value=1;
+        gender.value='MALE';
+        break;
+      case 1:
+        isFemale.value=1;
+        gender.value='FEMALE';
+        break;
+      case 2:
+        isNoneGender.value=1;
+        gender.value='NONE';
+        break;
     }
+  }
+
+  void genderValueToZero(){
+    isMale.value=0;
+    isFemale.value=0;
+    isNoneGender.value=0;
   }
 
   void updateBirthYear(int inputBirthYear) {
