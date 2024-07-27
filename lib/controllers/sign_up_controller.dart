@@ -77,7 +77,6 @@ class SignUpController extends GetxController {
         gender.value='NONE';
         break;
     }
-    print('${gender.value},}');
   }
 
   void genderValueToZero(){
