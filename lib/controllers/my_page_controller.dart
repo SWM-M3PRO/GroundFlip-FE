@@ -13,8 +13,7 @@ class MyPageController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    User userInfo = await userService.getCurrentUserInfo();
-    currentUserInfo.value = userInfo;
+    await updateUserInfo();
     await _updatePixelCount();
   }
 
@@ -23,6 +22,11 @@ class MyPageController extends GetxController {
         await userService.getUserPixelCount();
     currentPixelCount.value = currentUserPixelCount.currentPixelCount!;
     accumulatePixelCount.value = currentUserPixelCount.accumulatePixelCount!;
+  }
+
+  updateUserInfo() async {
+    User userInfo = await userService.getCurrentUserInfo();
+    currentUserInfo.value = userInfo;
   }
 
   getProfileImageURL() {

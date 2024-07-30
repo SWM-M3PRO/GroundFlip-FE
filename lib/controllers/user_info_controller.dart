@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../constants/app_colors.dart';
 import '../models/user.dart';
 import '../service/user_service.dart';
+import 'my_page_controller.dart';
 
 class UserInfoController extends GetxController {
   final UserService userService = UserService();
@@ -34,7 +35,6 @@ class UserInfoController extends GetxController {
   RxInt isFemale = 0.obs;
   RxInt isNoneGender = 0.obs;
 
-
   @override
   void onInit() async {
     await userInfoInit();
@@ -56,13 +56,13 @@ class UserInfoController extends GetxController {
     genderValueToZero();
     switch (gender.value) {
       case 'MALE':
-        isMale.value=1;
+        isMale.value = 1;
         break;
       case 'FEMALE':
-        isFemale.value=1;
+        isFemale.value = 1;
         break;
       case 'NONE':
-        isNoneGender.value=1;
+        isNoneGender.value = 1;
         break;
     }
   }
@@ -71,24 +71,24 @@ class UserInfoController extends GetxController {
     genderValueToZero();
     switch (genderValue) {
       case 0:
-        isMale.value=1;
-        gender.value='MALE';
+        isMale.value = 1;
+        gender.value = 'MALE';
         break;
       case 1:
-        isFemale.value=1;
-        gender.value='FEMALE';
+        isFemale.value = 1;
+        gender.value = 'FEMALE';
         break;
       case 2:
-        isNoneGender.value=1;
-        gender.value='NONE';
+        isNoneGender.value = 1;
+        gender.value = 'NONE';
         break;
     }
   }
 
-  void genderValueToZero(){
-    isMale.value=0;
-    isFemale.value=0;
-    isNoneGender.value=0;
+  void genderValueToZero() {
+    isMale.value = 0;
+    isFemale.value = 0;
+    isNoneGender.value = 0;
   }
 
   void initTextFocusNode() {
@@ -106,7 +106,6 @@ class UserInfoController extends GetxController {
       },
     );
   }
-
 
   Future<void> userInfoInit() async {
     user = await userService.getCurrentUserInfo();
@@ -166,7 +165,7 @@ class UserInfoController extends GetxController {
                 color: AppColors.textSecondary,
               ),
             ),
-            onPressed: () {
+            onPressed: () async {
               Get.back();
             },
           ),
@@ -188,6 +187,7 @@ class UserInfoController extends GetxController {
         profileImagePath: profileImage.value?.path,
       );
       if (statusCode == 200) {
+        await Get.find<MyPageController>().updateUserInfo();
         Get.back();
       }
     } catch (e) {
