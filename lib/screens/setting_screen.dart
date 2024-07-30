@@ -7,6 +7,7 @@ import '../controllers/setting_controller.dart';
 import '../widgets/common/app_bar.dart';
 import '../widgets/setting/setting_item.dart';
 import '../widgets/setting/setting_section.dart';
+import 'on_board_screen.dart';
 
 class SettingScreen extends StatelessWidget {
   static String individualInfoPolicyUrl =
@@ -71,8 +72,8 @@ class SettingScreen extends StatelessWidget {
                 // ),
                 SettingsItem(
                   title: '사용 가이드',
-                  onTap: () async {
-                    await launchUrl(Uri.parse(usageGuideUrl));
+                  onTap: () {
+                    Get.to(() => OnBoardScreen());
                   },
                   isLast: true,
                 ),

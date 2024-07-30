@@ -25,81 +25,80 @@ class OnBoardScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-      ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 16),
-                    SizedBox(
-                      height: 540,
-                      child: PageView.builder(
-                        controller: controller,
-                        itemCount: onBoardImages.length,
-                        itemBuilder: (context, index) {
-                          return SizedBox(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: SizedBox.expand(
-                                child: Image.asset(
-                                  onBoardImages[index],
-                                  fit: BoxFit.contain,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: 40),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height*0.65,
+                        child: PageView.builder(
+                          controller: controller,
+                          itemCount: onBoardImages.length,
+                          itemBuilder: (context, index) {
+                            return SizedBox(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: SizedBox.expand(
+                                  child: Image.asset(
+                                    onBoardImages[index],
+                                    fit: BoxFit.contain,
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 30),
-                      child: SmoothPageIndicator(
-                        controller: controller,
-                        count: onBoardImages.length,
-                        effect: const WormEffect(
-                          dotHeight: 10,
-                          dotWidth: 10,
-                          type: WormType.normal,
+                            );
+                          },
                         ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: SmoothPageIndicator(
+                          controller: controller,
+                          count: onBoardImages.length,
+                          effect: const WormEffect(
+                            dotHeight: 10,
+                            dotWidth: 10,
+                            type: WormType.normal,
+                            activeDotColor: AppColors.primary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 50, left: 10, right: 10),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(16),
-                  onTap: () {
-                    onboardController.goToMain();
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: AppColors.primary,
-                    ),
-                    child: Center(
-                      child: Text(
-                        '플레이 가이드 넘기기',
-                        style: TextStyles.fx17w700cTextThird,
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30, left: 10, right: 10),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16),
+                    onTap: () {
+                      onboardController.goToMain();
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 18),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: AppColors.primary,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '플레이 가이드 넘기기',
+                          style: TextStyles.fx17w700cTextThird,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
     );
   }
 }
