@@ -83,7 +83,7 @@ class RankingController extends GetxController {
     if (rankings.length >= 3) {
       return rankings.sublist(3);
     } else {
-      return rankings.toList();
+      return [];
     }
   }
 
