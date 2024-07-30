@@ -21,11 +21,12 @@ class SelectGenderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Padding(
-        padding: const EdgeInsets.only(top: 40, bottom: 40),
+        padding: const EdgeInsets.symmetric(vertical: 40),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
+              height: 55,
               width: (MediaQuery.of(context).size.width - 40) / 3,
 
               child: ElevatedButton(
@@ -56,7 +57,7 @@ class SelectGenderWidget extends StatelessWidget {
             ),
             SizedBox(width: 10),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 5),
+              height: 55,
               width: (MediaQuery.of(context).size.width - 40) / 3,
               child: ElevatedButton(
                 onPressed: controller.isFemale.value != 1
@@ -86,7 +87,7 @@ class SelectGenderWidget extends StatelessWidget {
             ),
             SizedBox(width: 10),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 5),
+              height: 55,
               width: (MediaQuery.of(context).size.width - 40) / 3,
               child: ElevatedButton(
                 onPressed: controller.isNoneGender.value != 1
@@ -107,7 +108,7 @@ class SelectGenderWidget extends StatelessWidget {
                       color: controller.isNoneGender.value == 1
                           ? AppColors.textBlack
                           : AppColors.textPrimary,
-                      fontSize: 17,
+                      fontSize: 15,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
