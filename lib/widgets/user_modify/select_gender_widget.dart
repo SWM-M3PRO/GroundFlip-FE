@@ -56,7 +56,7 @@ class SelectGenderWidget extends StatelessWidget {
               ),
             ),
             SizedBox(width: 10),
-            Container(
+            SizedBox(
               height: 55,
               width: (MediaQuery.of(context).size.width - 40) / 3,
               child: ElevatedButton(
@@ -86,7 +86,7 @@ class SelectGenderWidget extends StatelessWidget {
               ),
             ),
             SizedBox(width: 10),
-            Container(
+            SizedBox(
               height: 55,
               width: (MediaQuery.of(context).size.width - 40) / 3,
               child: ElevatedButton(

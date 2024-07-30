@@ -65,7 +65,7 @@ class OnBoardScreen extends StatelessWidget {
                             dotHeight: 10,
                             dotWidth: 10,
                             type: WormType.normal,
-                            activeDotColor: AppColors.primary
+                            activeDotColor: AppColors.primary,
                           ),
                         ),
                       ),
