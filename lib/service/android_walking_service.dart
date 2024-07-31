@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'dart:isolate';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_foreground_task/flutter_foreground_task.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 
 import '../models/user_step_response.dart';
@@ -12,10 +11,8 @@ import '../utils/user_manager.dart';
 import '../utils/walking_service.dart';
 
 class AndroidWalkingService implements WalkingService {
-  ReceivePort? _receivePort;
-  int currentSteps = 0;
-  UserManager userManager = UserManager();
   final Dio dio = DioService().getDio();
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
   static final AndroidWalkingService _instance =
       AndroidWalkingService._internal();
@@ -29,8 +26,9 @@ class AndroidWalkingService implements WalkingService {
   }
 
   @override
-  Future<int> getCurrentStep() {
-    return Future.value(currentSteps);
+  Future<int> getCurrentStep() async {
+    String? currentStep = await secureStorage.read(key: 'currentSteps');
+    return int.parse(currentStep ?? '0');
   }
 
   @override
@@ -66,27 +64,5 @@ class AndroidWalkingService implements WalkingService {
 
   Future<void> _initForegroundWalkingTask() async {
     initForegroundTask();
-    final newReceivePort = FlutterForegroundTask.receivePort;
-    _registerReceivePort(newReceivePort);
-  }
-
-  bool _registerReceivePort(ReceivePort? newReceivePort) {
-    if (newReceivePort == null) {
-      return false;
-    }
-
-    _closeReceivePort();
-
-    _receivePort = newReceivePort;
-    _receivePort?.listen((data) {
-      currentSteps = data;
-    });
-
-    return _receivePort != null;
-  }
-
-  void _closeReceivePort() {
-    _receivePort?.close();
-    _receivePort = null;
   }
 }
