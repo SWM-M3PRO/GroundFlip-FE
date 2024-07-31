@@ -101,7 +101,7 @@ class AuthService {
   ) async {
     try {
       var response = await dio.post(
-        '/auth/kakao/apple',
+        '/auth/apple/login',
         data: {
           "accessToken": identityToken,
           "authorizationCode": authorizationCode,
