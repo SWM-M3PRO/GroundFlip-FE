@@ -32,7 +32,8 @@ class _CurrentLocationButtonState extends State<CurrentLocationButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        mapController.focusOnCurrentLocation();
+        mapController.setCameraOnCurrentLocation();
+        mapController.isCameraTrackingUser = true.obs;
       },
       onPanDown: _onPointerDown,
       onPanEnd: (details) => _onPointerUp(),
