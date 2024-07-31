@@ -5,7 +5,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
 import '../enums/pixel_mode.dart';
 import '../models/individual_history_pixel.dart';
@@ -107,7 +106,6 @@ class MapController extends GetxController {
         _updateLatestPixel();
         await occupyPixel();
       }
-      _updateMarkerPosition(newLocation, userMarkerId);
     });
   }
 
@@ -135,33 +133,8 @@ class MapController extends GetxController {
     );
   }
 
-  void _addMarker(
-    LatLng position,
-    String markerId,
-    BitmapDescriptor icon,
-  ) {
-    final marker = Marker(
-      markerId: MarkerId(markerId),
-      position: position,
-      icon: icon,
-    );
-    markers.add(marker);
-  }
-
   Future<void> _loadMapStyle() async {
     mapStyle = await rootBundle.loadString(darkMapStylePath);
-  }
-
-  void _updateMarkerPosition(LocationData newLocation, String markerId) {
-    Marker marker =
-        markers.firstWhere((marker) => marker.markerId.value == markerId);
-
-    markers.removeWhere((marker) => marker.markerId.value == markerId);
-    _addMarker(
-      LatLng(newLocation.latitude!, newLocation.longitude!),
-      markerId,
-      marker.icon,
-    );
   }
 
   Future<void> _updateIndividualHistoryPixels(int radius) async {
