@@ -102,7 +102,8 @@ class MapController extends GetxController {
   void _trackUserLocation() {
     _locationService.location.onLocationChanged.listen((newLocation) async {
       _locationService.currentLocation = newLocation;
-      if (isPixelChanged()) {
+      double currentSpeed = _convertSpeedToKmPerHour(newLocation.speed);
+      if (isPixelChanged() && currentSpeed <= 10.5) {
         _updateLatestPixel();
         await occupyPixel();
       }
@@ -304,5 +305,13 @@ class MapController extends GetxController {
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
         .buffer
         .asUint8List();
+  }
+
+  _convertSpeedToKmPerHour(double? speed) {
+    if (speed == null) {
+      return -1;
+    } else {
+      return speed * 3.6;
+    }
   }
 }
