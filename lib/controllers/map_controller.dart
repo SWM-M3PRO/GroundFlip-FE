@@ -75,13 +75,14 @@ class MapController extends SuperController {
 
   @override
   void onPaused() {
-    isCameraTrackingUser = true.obs;
     _updatePixelTimer?.cancel();
   }
 
   @override
   void onResumed() {
     _trackPixels();
+    setCameraOnCurrentLocation();
+    isCameraTrackingUser = true.obs;
   }
 
   @override
