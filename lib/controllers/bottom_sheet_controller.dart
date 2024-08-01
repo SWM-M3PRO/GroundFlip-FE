@@ -9,11 +9,13 @@ import '../widgets/map/bottom_sheet/individual_history_list.dart';
 import '../widgets/map/bottom_sheet/pixel_info_header.dart';
 import '../widgets/map/bottom_sheet/step_stats.dart';
 import '../widgets/map/bottom_sheet/visited_user_list.dart';
+import 'map_controller.dart';
 
 class BottomSheetController extends GetxController {
   final PixelService pixelService = PixelService();
   final DraggableScrollableController draggableController =
       DraggableScrollableController();
+
   Widget currentBody = StepStatsBody();
   Widget currentHeader = StepStats();
   RxInt mode = 0.obs;
@@ -76,6 +78,7 @@ class BottomSheetController extends GetxController {
       duration: Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
+
   }
 
   void changeStepStatIfMinimized() {
@@ -83,6 +86,9 @@ class BottomSheetController extends GetxController {
       currentHeader = StepStats();
       currentBody = StepStatsBody();
       mode.value = 0;
+
+      Get.find<MapController>().changePixelToNormalState();
+      Get.find<MapController>().isBottomSheetShowUp = false;
     }
     size = draggableController.size;
   }

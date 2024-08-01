@@ -47,6 +47,9 @@ class MapController extends SuperController {
   final RxInt accumulatePixelCount = 0.obs;
   RxBool isCameraTrackingUser = true.obs;
 
+  Pixel lastOnTabPixel = Pixel.createEmptyPixel();
+  bool isBottomSheetShowUp = false;
+
   Timer? _cameraIdleTimer;
   Timer? _updatePixelTimer;
 
@@ -60,7 +63,7 @@ class MapController extends SuperController {
     await occupyPixel();
     updatePixels();
     _trackUserLocation();
-    _trackPixels();
+    trackPixels();
   }
 
   @override
@@ -78,7 +81,7 @@ class MapController extends SuperController {
 
   @override
   void onResumed() {
-    _trackPixels();
+    trackPixels();
     setCameraOnCurrentLocation();
     isCameraTrackingUser = true.obs;
   }
@@ -102,7 +105,9 @@ class MapController extends SuperController {
   }
 
   void onCameraIdle() {
-    _cameraIdleTimer = Timer(Duration(milliseconds: 300), updatePixels);
+    if(!isBottomSheetShowUp) {
+      _cameraIdleTimer = Timer(Duration(milliseconds: 300), updatePixels);
+    }
   }
 
   void updateCameraPosition(CameraPosition newCameraPosition) async {
@@ -199,7 +204,7 @@ class MapController extends SuperController {
     ]);
   }
 
-  void _trackPixels() {
+  void trackPixels() {
     _updatePixelTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
       updatePixels();
     });
@@ -233,7 +238,9 @@ class MapController extends SuperController {
       currentLatitude: _locationService.currentLocation!.latitude!,
       currentLongitude: _locationService.currentLocation!.longitude!,
     );
-    updatePixels();
+    if (!isBottomSheetShowUp) {
+      updatePixels();
+    }
     await updateCurrentPixel();
   }
 
@@ -251,7 +258,11 @@ class MapController extends SuperController {
     selectedType.value = type;
     currentPixelMode.value = PixelMode.fromInt(type);
     bottomSheetController.minimize();
+
+    isBottomSheetShowUp = false;
+    lastOnTabPixel = Pixel.createEmptyPixel();
     updatePixels();
+    trackPixels();
   }
 
   Future<int> _getCurrentRadiusOfMap() async {
@@ -305,4 +316,38 @@ class MapController extends SuperController {
       return speed * 3.6;
     }
   }
+
+  void changePixelToOnTabState(int pixelId) async {
+    if (!Pixel.isEmptyPixel(lastOnTabPixel)) {
+      changePixelToNormalState();
+    }
+
+    lastOnTabPixel = Pixel.clonePixel(pixels.firstWhere((pixel) => pixel.pixelId == pixelId));
+    Pixel newPixel = Pixel.createOnTabStatePixel(lastOnTabPixel);
+    pixels.removeWhere((pixel) => pixel.pixelId == pixelId);
+    pixels.add(newPixel);
+
+    isBottomSheetShowUp = true;
+
+    _cameraIdleTimer?.cancel();
+    _updatePixelTimer?.cancel();
+
+    googleMapController?.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: LatLng(
+              newPixel.points[0].latitude - Pixel.latPerPixel * 6,
+              newPixel.points[0].longitude,
+            ),
+            zoom: 16.0,
+          ),
+        ),
+    );
+  }
+
+  void changePixelToNormalState() {
+    pixels.removeWhere((pixel) => pixel.pixelId == lastOnTabPixel.pixelId);
+    pixels.add(lastOnTabPixel);
+  }
+
 }
