@@ -31,24 +31,29 @@ class PixelDashBoardWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                textValue,
-                style: TextStyles.fs14w400cTextSecondary,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    textValue,
+                    style: TextStyles.fs14w400cTextSecondary,
+                  ),
+                  Obx(
+                    () => Text(
+                      NumberFormat('###,###,###').format(countValue.value),
+                      style: TextStyles.fs20w700cPrimary,
+                    ),
+                  ),
+                ],
               ),
               Image.asset(
                 iconImageUrl,
                 width: 48,
                 height: 48,
-              ),
-              Obx(
-                () => Text(
-                  NumberFormat('###,###,###').format(countValue.value),
-                  style: TextStyles.fs20w700cPrimary,
-                ),
               ),
             ],
           ),
