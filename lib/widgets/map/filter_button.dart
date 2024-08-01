@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
+import '../../controllers/map_controller.dart';
 
 class FilterButton extends StatefulWidget {
   const FilterButton({super.key});
@@ -10,7 +12,7 @@ class FilterButton extends StatefulWidget {
 }
 
 class _FilterButtonState extends State<FilterButton> {
-  // final MapController mapController = Get.find<MapController>();
+  final MapController mapController = Get.find<MapController>();
   Color _buttonColor = AppColors.backgroundSecondary; // 기본 배경 색상
   final Color _pressedColor = Colors.grey; // 눌렀을 때의 배경 색상
 
@@ -29,7 +31,9 @@ class _FilterButtonState extends State<FilterButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        mapController.openFilterBottomSheet();
+      },
       onPanDown: _onPointerDown,
       onPanEnd: (details) => _onPointerUp(),
       onPanCancel: () => _onPointerUp(),
