@@ -28,7 +28,7 @@ class BottomSheetController extends GetxController {
     changeVar.value = changeVar.value ? false : true;
     draggableController.animateTo(
       0.6,
-      duration: Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 200),
       curve: Curves.easeInOut,
     );
     currentHeader = PixelInfoHeader(
@@ -51,7 +51,7 @@ class BottomSheetController extends GetxController {
     changeVar.value = changeVar.value ? false : true;
     draggableController.animateTo(
       0.6,
-      duration: Duration(milliseconds: 300),
+      duration: Duration(milliseconds: 200),
       curve: Curves.easeInOut,
     );
     currentHeader = PixelInfoHeader(
@@ -73,7 +73,7 @@ class BottomSheetController extends GetxController {
     mode.value = 0;
     draggableController.animateTo(
       0.1,
-      duration: Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 200),
       curve: Curves.easeInOut,
     );
   }
