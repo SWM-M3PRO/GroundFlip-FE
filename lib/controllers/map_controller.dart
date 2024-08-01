@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../constants/app_colors.dart';
 import '../enums/pixel_mode.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
@@ -12,7 +13,9 @@ import '../models/user_pixel_count.dart';
 import '../service/location_service.dart';
 import '../service/pixel_service.dart';
 import '../service/user_service.dart';
+import '../utils/date_handler.dart';
 import '../utils/user_manager.dart';
+import '../widgets/map/filter_bottom_sheet.dart';
 import '../widgets/pixel.dart';
 import 'bottom_sheet_controller.dart';
 
@@ -39,12 +42,15 @@ class MapController extends SuperController {
   late Map<String, int> latestPixel;
 
   Rx<PixelMode> currentPixelMode = PixelMode.individualHistory.obs;
+  String? currentPeriod = null;
   RxList<Pixel> pixels = <Pixel>[].obs;
   RxList<Marker> markers = <Marker>[].obs;
   RxBool isLoading = true.obs;
   final RxInt selectedType = 0.obs;
+  final RxInt selectedPeriod = 0.obs;
   final RxInt currentPixelCount = 0.obs;
   final RxInt accumulatePixelCount = 0.obs;
+  final RxInt accumulatePixelCountPerPeriod = 0.obs;
   RxBool isCameraTrackingUser = true.obs;
 
   Timer? _cameraIdleTimer;
@@ -64,12 +70,10 @@ class MapController extends SuperController {
   }
 
   @override
-  void onDetached() {
-  }
+  void onDetached() {}
 
   @override
-  void onInactive() {
-  }
+  void onInactive() {}
 
   @override
   void onPaused() {
@@ -84,21 +88,28 @@ class MapController extends SuperController {
   }
 
   @override
-  void onHidden() {
-  }
+  void onHidden() {}
 
   onBottomBarHidden() {
     bottomSheetController.minimize();
   }
 
   updateCurrentPixel() async {
-    UserPixelCount pixelCount = await userService.getUserPixelCount();
+    UserPixelCount pixelCount = await userService.getUserPixelCount(null);
+    UserPixelCount pixelCountPeriod =
+        await userService.getUserPixelCount(currentPeriod);
     currentPixelCount.value = pixelCount.currentPixelCount!;
     accumulatePixelCount.value = pixelCount.accumulatePixelCount!;
+    accumulatePixelCountPerPeriod.value =
+        pixelCountPeriod.accumulatePixelCount!;
   }
 
   getSelectedType() {
     return selectedType.value;
+  }
+
+  getSelectedPeriod() {
+    return selectedPeriod.value;
   }
 
   void onCameraIdle() {
@@ -174,6 +185,7 @@ class MapController extends SuperController {
       currentLongitude: currentCameraPosition.target.longitude,
       radius: radius,
       userId: UserManager().getUserId()!,
+      lookUpDate: currentPeriod,
     );
 
     pixels.assignAll([
@@ -254,6 +266,29 @@ class MapController extends SuperController {
     updatePixels();
   }
 
+  void changePeriod(int type) {
+    selectedPeriod.value = type;
+    if (type == 0) {
+      currentPeriod = null;
+    } else if (type == 1) {
+      currentPeriod = DateHandler.getStartOfThisWeekString();
+    } else {
+      currentPeriod = DateHandler.getNowString();
+    }
+    bottomSheetController.minimize();
+    updatePixels();
+  }
+
+  openFilterBottomSheet() {
+    bottomSheetController.minimize();
+    Get.bottomSheet(
+      FilterBottomSheet(),
+      backgroundColor: AppColors.backgroundSecondary,
+      enterBottomSheetDuration: Duration(milliseconds: 100),
+      exitBottomSheetDuration: Duration(milliseconds: 100),
+    );
+  }
+
   Future<int> _getCurrentRadiusOfMap() async {
     LatLngBounds visibleRegion = await googleMapController!.getVisibleRegion();
 
@@ -292,7 +327,7 @@ class MapController extends SuperController {
 
   getPixelCount() {
     if (currentPixelMode.value == PixelMode.individualHistory) {
-      return accumulatePixelCount.value;
+      return accumulatePixelCountPerPeriod.value;
     } else {
       return currentPixelCount.value;
     }

@@ -32,6 +32,15 @@ class DateHandler {
     return '${weekStartDate.month.toString().padLeft(2, '0')}월 ${weekStartDate.day.toString().padLeft(2, '0')}일 ~ ${weekEndDate.day.toString().padLeft(2, '0')}일';
   }
 
+  static String getNowString() {
+    return '${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')}';
+  }
+
+  static String getStartOfThisWeekString() {
+    DateTime startOfThisWeek = getStartOfWeek(DateTime.now());
+    return '${startOfThisWeek.year}-${startOfThisWeek.month.toString().padLeft(2, '0')}-${startOfThisWeek.day.toString().padLeft(2, '0')}';
+  }
+
   static DateTime getStartOfThisWeek() {
     return getStartOfWeek(DateTime.now());
   }
