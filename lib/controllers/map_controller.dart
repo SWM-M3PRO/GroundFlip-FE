@@ -47,7 +47,7 @@ class MapController extends SuperController {
   final RxInt accumulatePixelCount = 0.obs;
   RxBool isCameraTrackingUser = true.obs;
 
-  Pixel lastOnTabPixel = Pixel.createEmptyPixel();
+  late Pixel lastOnTabPixel;
   bool isBottomSheetShowUp = false;
 
   Timer? _cameraIdleTimer;
@@ -64,6 +64,7 @@ class MapController extends SuperController {
     updatePixels();
     _trackUserLocation();
     trackPixels();
+    lastOnTabPixel = Pixel.createEmptyPixel();
   }
 
   @override
