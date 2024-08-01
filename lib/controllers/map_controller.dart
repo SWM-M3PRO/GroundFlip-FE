@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -17,7 +16,7 @@ import '../utils/user_manager.dart';
 import '../widgets/pixel.dart';
 import 'bottom_sheet_controller.dart';
 
-class MapController extends GetxController {
+class MapController extends SuperController {
   final PixelService pixelService = PixelService();
   final UserService userService = UserService();
   final LocationService _locationService = LocationService();
@@ -46,8 +45,10 @@ class MapController extends GetxController {
   final RxInt selectedType = 0.obs;
   final RxInt currentPixelCount = 0.obs;
   final RxInt accumulatePixelCount = 0.obs;
+  RxBool isCameraTrackingUser = true.obs;
 
   Timer? _cameraIdleTimer;
+  Timer? _updatePixelTimer;
 
   @override
   void onInit() async {
@@ -62,7 +63,31 @@ class MapController extends GetxController {
     _trackPixels();
   }
 
-  onHidden() {
+  @override
+  void onDetached() {
+  }
+
+  @override
+  void onInactive() {
+  }
+
+  @override
+  void onPaused() {
+    _updatePixelTimer?.cancel();
+  }
+
+  @override
+  void onResumed() {
+    _trackPixels();
+    setCameraOnCurrentLocation();
+    isCameraTrackingUser = true.obs;
+  }
+
+  @override
+  void onHidden() {
+  }
+
+  onBottomBarHidden() {
     bottomSheetController.minimize();
   }
 
@@ -85,7 +110,7 @@ class MapController extends GetxController {
     _cameraIdleTimer?.cancel();
   }
 
-  focusOnCurrentLocation() {
+  setCameraOnCurrentLocation() {
     currentCameraPosition = CameraPosition(
       target: LatLng(
         _locationService.currentLocation!.latitude!,
@@ -101,6 +126,11 @@ class MapController extends GetxController {
   void _trackUserLocation() {
     _locationService.location.onLocationChanged.listen((newLocation) async {
       _locationService.currentLocation = newLocation;
+
+      if (isCameraTrackingUser.value) {
+        setCameraOnCurrentLocation();
+      }
+
       double currentSpeed = _convertSpeedToKmPerHour(newLocation.speed);
       if (isPixelChanged() && currentSpeed <= 10.5) {
         _updateLatestPixel();
@@ -170,7 +200,7 @@ class MapController extends GetxController {
   }
 
   void _trackPixels() {
-    Timer.periodic(const Duration(seconds: 10), (timer) {
+    _updatePixelTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
       updatePixels();
     });
   }
@@ -266,18 +296,6 @@ class MapController extends GetxController {
     } else {
       return currentPixelCount.value;
     }
-  }
-
-  Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(
-      data.buffer.asUint8List(),
-      targetWidth: width,
-    );
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
   }
 
   _convertSpeedToKmPerHour(double? speed) {

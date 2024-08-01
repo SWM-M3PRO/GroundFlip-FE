@@ -84,6 +84,7 @@ class AndroidWalkingHandler extends TaskHandler {
       now.month,
       now.day + 1,
       0,
+      0,
       Random().nextInt(40) + 10,
     );
     Duration timeUntilMidnight = midnight.difference(now);

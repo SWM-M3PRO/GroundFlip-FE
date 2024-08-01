@@ -33,24 +33,29 @@ class MapScreen extends StatelessWidget {
           return Stack(
             children: [
               Obx(() {
-                return GoogleMap(
-                  mapType: MapType.normal,
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(
-                      LocationService().currentLocation!.latitude!,
-                      LocationService().currentLocation!.longitude!,
-                    ),
-                    zoom: 16.0,
-                  ),
-                  onCameraMove: mapController.updateCameraPosition,
-                  onCameraIdle: mapController.onCameraIdle,
-                  onMapCreated: (GoogleMapController ctrl) {
-                    mapController.googleMapController = ctrl;
+                return Listener(
+                  onPointerDown: (e) {
+                    mapController.isCameraTrackingUser = false.obs;
                   },
-                  myLocationEnabled: true,
-                  style: mapController.mapStyle,
-                  markers: Set<Marker>.of(mapController.markers),
-                  polygons: Set<Polygon>.of(mapController.pixels),
+                  child: GoogleMap(
+                    mapType: MapType.normal,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                        LocationService().currentLocation!.latitude!,
+                        LocationService().currentLocation!.longitude!,
+                      ),
+                      zoom: 16.0,
+                    ),
+                    onCameraMove: mapController.updateCameraPosition,
+                    onCameraIdle: mapController.onCameraIdle,
+                    onMapCreated: (GoogleMapController ctrl) {
+                      mapController.googleMapController = ctrl;
+                    },
+                    myLocationEnabled: true,
+                    style: mapController.mapStyle,
+                    markers: Set<Marker>.of(mapController.markers),
+                    polygons: Set<Polygon>.of(mapController.pixels),
+                  ),
                 );
               }),
               Column(
