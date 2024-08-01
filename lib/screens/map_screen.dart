@@ -6,6 +6,7 @@ import '../constants/app_colors.dart';
 import '../controllers/map_controller.dart';
 import '../controllers/pixel_info_controller.dart';
 import '../controllers/walking_controller.dart';
+import '../enums/pixel_mode.dart';
 import '../service/location_service.dart';
 import '../widgets/map/bottom_sheet/map_bottom_sheet.dart';
 import '../widgets/map/current_location_button.dart';
@@ -68,7 +69,16 @@ class MapScreen extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    Align(alignment: Alignment.topRight, child: FilterButton()),
+                    Obx(() {
+                      if (mapController.currentPixelMode.value ==
+                          PixelMode.individualHistory) {
+                        return Align(
+                            alignment: Alignment.topRight,
+                            child: FilterButton());
+                      } else {
+                        return Container();
+                      }
+                    }),
                     Spacer(),
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
