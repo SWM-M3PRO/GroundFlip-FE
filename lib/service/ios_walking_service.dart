@@ -22,8 +22,12 @@ class IosWalkingService implements WalkingService {
     final now = DateTime.now();
     final startTime = DateTime(now.year, now.month, now.day, 0, 0, 0);
     final endTime = DateTime(now.year, now.month, now.day, 23, 59, 59);
-    int steps = await Health().getTotalStepsInInterval(startTime, endTime) ?? 0;
-    return steps;
+    int? steps = await Health().getTotalStepsInInterval(startTime, endTime);
+    if (steps == null) {
+      return await Health().getTotalStepsInInterval(startTime, endTime) ?? 0;
+    } else {
+      return steps;
+    }
   }
 
   @override
