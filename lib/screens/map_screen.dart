@@ -9,6 +9,7 @@ import '../controllers/walking_controller.dart';
 import '../service/location_service.dart';
 import '../widgets/map/bottom_sheet/map_bottom_sheet.dart';
 import '../widgets/map/current_location_button.dart';
+import '../widgets/map/filter_button.dart';
 import '../widgets/map/mode_change_toggle.dart';
 import '../widgets/map/pixel_count_info.dart';
 
@@ -58,23 +59,30 @@ class MapScreen extends StatelessWidget {
                   ),
                 );
               }),
-              Column(
-                children: [
-                  SizedBox(height: 60),
-                  ModeChangeToggle(),
-                  Spacer(),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        PixelCountInfo(count: 128),
-                        CurrentLocationButton(),
-                      ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  children: [
+                    SizedBox(height: 60),
+                    ModeChangeToggle(),
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.11),
-                ],
+                    Align(alignment: Alignment.topRight, child: FilterButton()),
+                    Spacer(),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          PixelCountInfo(count: 128),
+                          CurrentLocationButton(),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.11),
+                  ],
+                ),
               ),
               MapBottomSheet(),
             ],
