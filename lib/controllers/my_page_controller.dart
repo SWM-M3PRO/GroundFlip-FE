@@ -19,7 +19,7 @@ class MyPageController extends GetxController {
 
   _updatePixelCount() async {
     UserPixelCount currentUserPixelCount =
-        await userService.getUserPixelCount();
+        await userService.getUserPixelCount(null);
     currentPixelCount.value = currentUserPixelCount.currentPixelCount!;
     accumulatePixelCount.value = currentUserPixelCount.accumulatePixelCount!;
   }

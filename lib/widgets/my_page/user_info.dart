@@ -13,6 +13,7 @@ class UserInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final MyPageController myPageController = Get.find<MyPageController>();
     return InkWell(
+      borderRadius: BorderRadius.all(Radius.circular(16)),
       onTap: () {
         Get.to(() => UserInfoUpdateScreen());
       },
