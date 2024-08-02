@@ -6,7 +6,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
-import 'constants/app_colors.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
 import 'screens/on_board_screen.dart';

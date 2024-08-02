@@ -26,7 +26,7 @@ class InternetDisconnect extends StatelessWidget {
                 '확인',
                 style: TextStyle(
                     color: AppColors.primary,
-                    fontSize: 17
+                    fontSize: 17,
                 ),
               ),
               onPressed: () async {
