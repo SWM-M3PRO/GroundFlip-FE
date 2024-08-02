@@ -41,6 +41,10 @@ class DateHandler {
     return '${startOfThisWeek.year}-${startOfThisWeek.month.toString().padLeft(2, '0')}-${startOfThisWeek.day.toString().padLeft(2, '0')}';
   }
 
+  static String convertDateTimeToString(DateTime date) {
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  }
+
   static DateTime getStartOfThisWeek() {
     return getStartOfWeek(DateTime.now());
   }

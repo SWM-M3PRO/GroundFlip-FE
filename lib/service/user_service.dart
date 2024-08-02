@@ -34,6 +34,14 @@ class UserService {
     return UserPixelCount.fromJson(response.data['data']);
   }
 
+  Future<UserPixelCount> getAnotherUserPixelCount(String? lookUpDate, int userId) async {
+    var response = await dio.get(
+      '/pixels/count',
+      queryParameters: {"user-id": userId, 'lookup-date': lookUpDate},
+    );
+    return UserPixelCount.fromJson(response.data['data']);
+  }
+
   deleteUser() async {
     String? accessToken = await secureStorage.readAccessToken();
     String? refreshToken = await secureStorage.readRefreshToken();
