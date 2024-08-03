@@ -18,6 +18,7 @@ class SettingScreen extends StatelessWidget {
       'https://autumn-blouse-355.notion.site/ab3799e4818249daa3bfc32c7f44089d?pvs=4';
   static String usageGuideUrl =
       'https://autumn-blouse-355.notion.site/e9414fa20bef4021b5e7193dd3e2e77d';
+  static String customerSupportUrl = 'https://open.kakao.com/o/gH1dV7Eg';
 
   const SettingScreen({super.key});
 
@@ -77,7 +78,13 @@ class SettingScreen extends StatelessWidget {
                   },
                   isLast: true,
                 ),
-                // SettingsItem(title: '고객 문의 및 개선 요청', isLast: true),
+                SettingsItem(
+                  title: '고객 문의 및 개선 요청',
+                  isLast: true,
+                  onTap: () {
+                    launchUrl(Uri.parse(customerSupportUrl));
+                  },
+                ),
               ],
             ),
             SettingsSection(
