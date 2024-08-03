@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/app_colors.dart';
@@ -19,8 +21,11 @@ class SettingScreen extends StatelessWidget {
   static String usageGuideUrl =
       'https://autumn-blouse-355.notion.site/e9414fa20bef4021b5e7193dd3e2e77d';
   static String customerSupportUrl = 'https://open.kakao.com/o/gH1dV7Eg';
+  static String announcementUrl =
+      'https://autumn-blouse-355.notion.site/009bea49570a42679153e9f48b010ffc?v=eea22d1fd25b42488a54cc1c49b7e216&pvs=4';
+  final String appStoreId = dotenv.env['APP_ID']!;
 
-  const SettingScreen({super.key});
+  SettingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +53,20 @@ class SettingScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: ListView(
           children: [
-            // SettingsSection(
-            //   items: [
-            //     SettingsItem(title: 'App Store 리뷰 남기기',
-            //       isLast: true,),
-            //   ],
-            // ),
+            SettingsSection(
+              items: [
+                SettingsItem(
+                  title: 'App Store 리뷰 남기기',
+                  onTap: () {
+                    final inAppReview = InAppReview.instance;
+                    inAppReview.openStoreListing(
+                      appStoreId: appStoreId,
+                    );
+                  },
+                  isLast: true,
+                ),
+              ],
+            ),
             // SettingsSection(
             //   title: '알림',
             //   items: [
@@ -64,19 +77,17 @@ class SettingScreen extends StatelessWidget {
             SettingsSection(
               title: '가이드',
               items: [
-                // SettingsItem(
-                //   title: '공지사항',
-                //   onTap: () async {
-                //     final Uri url = Uri.parse('https://flutter.dev');
-                //     await launchUrl(url);
-                //   },
-                // ),
+                SettingsItem(
+                  title: '공지사항',
+                  onTap: () async {
+                    launchUrl(Uri.parse(announcementUrl));
+                  },
+                ),
                 SettingsItem(
                   title: '사용 가이드',
                   onTap: () {
                     Get.to(() => OnBoardScreen());
                   },
-                  isLast: true,
                 ),
                 SettingsItem(
                   title: '고객 문의 및 개선 요청',
