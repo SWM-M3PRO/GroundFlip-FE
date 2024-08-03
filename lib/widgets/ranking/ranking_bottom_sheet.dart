@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../constants/app_colors.dart';
 import '../my_page/pixel_dash_board_widget.dart';
 import 'ranking_user_info.dart';
 
@@ -27,9 +28,25 @@ class RankingBottomSheet extends StatelessWidget {
       width: 600,
       height: 250,
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        // padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0, bottom: 20.0),
         child: Column(
           children: [
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.backgroundThird,
+                  borderRadius:
+                  const BorderRadius.all(Radius.circular(10)),
+                ),
+                height: 4,
+                width: 40,
+                margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
             RankingUserInfo(
               nickname: nickname,
               profileImageUrl: profileImageUrl,
