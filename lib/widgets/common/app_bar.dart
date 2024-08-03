@@ -31,7 +31,7 @@ class RankingAppBar extends StatelessWidget {
           onPressed: () {
             launchUrl(Uri.parse(rankingGuideUrl));
           },
-        )
+        ),
       ],
       title: AppBarTitle(title: "주간 랭킹"),
       // Todo: 그룹 기능 구현 시 활성화
