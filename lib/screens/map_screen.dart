@@ -74,7 +74,7 @@ class MapScreen extends StatelessWidget {
                           PixelMode.individualHistory) {
                         return Align(
                             alignment: Alignment.topRight,
-                            child: FilterButton());
+                            child: FilterButton(),);
                       } else {
                         return Container();
                       }

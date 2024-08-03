@@ -42,7 +42,7 @@ class MapController extends SuperController {
   late Map<String, int> latestPixel;
 
   Rx<PixelMode> currentPixelMode = PixelMode.individualHistory.obs;
-  String? currentPeriod = null;
+  String? currentPeriod;
   RxList<Pixel> pixels = <Pixel>[].obs;
   RxList<Marker> markers = <Marker>[].obs;
   RxBool isLoading = true.obs;

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ground_flip/widgets/map/period_change_button.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
+import 'period_change_button.dart';
 
+// ignore: must_be_immutable
 class FilterBottomSheet extends StatelessWidget {
   FilterBottomSheet({
     super.key,
@@ -52,8 +53,9 @@ class FilterBottomSheet extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
                 decoration: BoxDecoration(
-                    color: AppColors.secondary,
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                  color: AppColors.secondary,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
                 child: Text(
                   "기간 선택",
                   style: TextStyles.fs14w500cPrimary,

@@ -53,7 +53,7 @@ class PixelService {
         'current-longitude': currentLongitude,
         'radius': radius,
         'user-id': userId,
-        'lookup-date': lookUpDate
+        'lookup-date': lookUpDate,
       },
     );
 
