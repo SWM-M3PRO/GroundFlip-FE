@@ -53,8 +53,8 @@ class FilterBottomSheet extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
                 decoration: BoxDecoration(
-                  color: AppColors.secondary,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: AppColors.secondary,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 child: Text(
                   "기간 선택",
