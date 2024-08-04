@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
 
   final String initialRoute;
   final listener =
-  InternetConnection().onStatusChange.listen((InternetStatus status) {
+      InternetConnection().onStatusChange.listen((InternetStatus status) {
     switch (status) {
       case InternetStatus.connected:
         break;
@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
         getPages: [
           GetPage(name: '/main', page: () => const MainScreen()),
           GetPage(name: '/login', page: () => const LoginScreen()),
-          GetPage(name: '/setting', page: () => const SettingScreen()),
+          GetPage(name: '/setting', page: () => SettingScreen()),
           GetPage(name: '/signup', page: () => const SignUpScreen()),
           GetPage(name: '/policy', page: () => const PolicyScreen()),
           GetPage(

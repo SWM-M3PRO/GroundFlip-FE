@@ -25,6 +25,8 @@ PODS:
     - Flutter
   - image_picker_ios (0.0.1):
     - Flutter
+  - in_app_review (0.2.0):
+    - Flutter
   - kakao_flutter_sdk_common (1.9.3):
     - Flutter
   - location (0.0.1):
@@ -57,6 +59,7 @@ DEPENDENCIES:
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - health (from `.symlinks/plugins/health/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
   - kakao_flutter_sdk_common (from `.symlinks/plugins/kakao_flutter_sdk_common/ios`)
   - location (from `.symlinks/plugins/location/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
@@ -92,6 +95,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/health/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
+  in_app_review:
+    :path: ".symlinks/plugins/in_app_review/ios"
   kakao_flutter_sdk_common:
     :path: ".symlinks/plugins/kakao_flutter_sdk_common/ios"
   location:
@@ -123,6 +128,7 @@ SPEC CHECKSUMS:
   GoogleMaps: 8939898920281c649150e0af74aa291c60f2e77d
   health: 5a380c0f6c4f619535845992993964293962e99e
   image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
+  in_app_review: 318597b3a06c22bb46dc454d56828c85f444f99d
   kakao_flutter_sdk_common: 80c3308f209f3d6cc74e338ffea3a51d17501d77
   location: d5cf8598915965547c3f36761ae9cc4f4e87d22e
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
