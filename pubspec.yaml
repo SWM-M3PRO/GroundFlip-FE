@@ -39,6 +39,8 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   internet_connection_checker_plus: ^2.5.1
   in_app_review: ^2.0.9
+  wakelock: ^0.4.0
+  wakelock_plus: ^1.2.7
   firebase_core: ^3.3.0
   firebase_analytics: ^11.2.1
 

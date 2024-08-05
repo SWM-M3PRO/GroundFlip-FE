@@ -51,6 +51,7 @@ class MapController extends SuperController {
   final RxInt currentPixelCount = 0.obs;
   final RxInt accumulatePixelCount = 0.obs;
   final RxInt accumulatePixelCountPerPeriod = 0.obs;
+  RxDouble speed = 0.0.obs;
   RxBool isCameraTrackingUser = true.obs;
 
   late Pixel lastOnTabPixel;
@@ -58,6 +59,10 @@ class MapController extends SuperController {
 
   Timer? _cameraIdleTimer;
   Timer? _updatePixelTimer;
+
+  RxInt elapsedSeconds = 0.obs; // 경과 시간을 초 단위로 저장
+  Timer? _timer;
+  RxBool isRunning = false.obs;
 
   @override
   void onInit() async {
@@ -149,6 +154,7 @@ class MapController extends SuperController {
       }
 
       double currentSpeed = _convertSpeedToKmPerHour(newLocation.speed);
+      speed.value = currentSpeed;
       if (isPixelChanged() && currentSpeed <= 10.5) {
         _updateLatestPixel();
         await occupyPixel();
@@ -359,7 +365,7 @@ class MapController extends SuperController {
     }
 
     lastOnTabPixel = Pixel.clonePixel(
-      pixels.firstWhere((pixel) => pixel.pixelId == pixelId),
+        pixels.firstWhere((pixel) => pixel.pixelId == pixelId),
     );
     Pixel newPixel = Pixel.createOnTabStatePixel(lastOnTabPixel);
     pixels.removeWhere((pixel) => pixel.pixelId == pixelId);
@@ -386,5 +392,20 @@ class MapController extends SuperController {
   void changePixelToNormalState() {
     pixels.removeWhere((pixel) => pixel.pixelId == lastOnTabPixel.pixelId);
     pixels.add(lastOnTabPixel);
+  }
+
+  startExplore() {
+    isRunning.value = true;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      elapsedSeconds.value++;
+    });
+    WakelockPlus.enable();
+  }
+
+  stopExplore() {
+    isRunning.value = false;
+    _timer!.cancel();
+    elapsedSeconds.value = 0;
+    WakelockPlus.disable();
   }
 }
