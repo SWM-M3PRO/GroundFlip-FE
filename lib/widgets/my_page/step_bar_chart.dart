@@ -20,11 +20,11 @@ class StepBarChart extends StatelessWidget {
           color: AppColors.backgroundSecondary,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Row(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12.0, 12, 20, 0),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Obx(
@@ -34,10 +34,13 @@ class StepBarChart extends StatelessWidget {
                               walkController.loadPreviousWeekSteps();
                             }
                           : null,
-                      child: Icon(
-                        Icons.arrow_back_ios_new_outlined,
-                        color: AppColors.textPrimary,
-                        size: 12,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.arrow_back_ios_new_outlined,
+                          color: AppColors.textPrimary,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ),
@@ -56,18 +59,24 @@ class StepBarChart extends StatelessWidget {
                               walkController.loadNextWeekSteps();
                             }
                           : null,
-                      child: Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: AppColors.textPrimary,
-                        size: 12,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: AppColors.textPrimary,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
-              Expanded(
-                child: Obx(
-                  () => BarChart(
+            ),
+            Expanded(
+              child: Obx(
+                () => Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: BarChart(
                     BarChartData(
                       barTouchData: getBarTouchData(),
                       titlesData: getTitlesData(walkController.getMaxStep()),
@@ -84,8 +93,8 @@ class StepBarChart extends StatelessWidget {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
