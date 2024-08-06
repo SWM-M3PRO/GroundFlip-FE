@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -90,6 +91,8 @@ class Pixel extends Polygon {
       strokeColor: isMyPixel ? Color(0xFF0DF69E) : Colors.red,
       strokeWidth: 2,
       customOnTap: (int pixelId) async {
+        FirebaseAnalytics.instance.logEvent(name: "individual_mode_pixel_click");
+
         Get.find<MapController>().changePixelToOnTabState(pixelId);
 
         IndividualModePixelInfo pixelInfo =
@@ -117,6 +120,8 @@ class Pixel extends Polygon {
       strokeColor: Color(0xFF0DF69E),
       strokeWidth: 2,
       customOnTap: (int pixelId) async {
+        FirebaseAnalytics.instance.logEvent(name: "history_pixel_click");
+
         Get.find<MapController>().changePixelToOnTabState(pixelId);
 
         IndividualHistoryPixelInfo pixelInfo =
