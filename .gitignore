@@ -46,7 +46,6 @@ app.*.map.json
 Secrets.xcconfig
 
 # google firebase
-/lib/firebase_options.dart
 /firebase.json
 /ios/Runner/GoogleService-Info.plist
 /android/app/google-services.json
