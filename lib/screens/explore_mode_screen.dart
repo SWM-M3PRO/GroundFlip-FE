@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
+import '../constants/text_styles.dart';
 import '../controllers/map_controller.dart';
 import '../controllers/walking_controller.dart';
 
@@ -25,53 +26,6 @@ class ExploreModeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Column(
-            //       children: [
-            //         Text(
-            //           '5.6',
-            //           style: TextStyle(
-            //             color: AppColors.textPrimary,
-            //             fontSize: 30,
-            //             fontWeight: FontWeight.w800,
-            //           ),
-            //         ),
-            //         Text(
-            //           '속도',
-            //           style: TextStyle(
-            //             color: AppColors.textSecondary,
-            //             fontSize: 20,
-            //             fontWeight: FontWeight.w500,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //     Column(
-            //       children: [
-            //         Obx(
-            //           () => Text(
-            //             walkingController.currentStep.toString(),
-            //             style: TextStyle(
-            //               color: AppColors.textPrimary,
-            //               fontSize: 30,
-            //               fontWeight: FontWeight.w800,
-            //             ),
-            //           ),
-            //         ),
-            //         Text(
-            //           '걸음수',
-            //           style: TextStyle(
-            //             color: AppColors.textSecondary,
-            //             fontSize: 20,
-            //             fontWeight: FontWeight.w500,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ],
-            // ),
             SizedBox(
               height: 100,
             ),
@@ -254,8 +208,7 @@ class ExploreModeScreen extends StatelessWidget {
                 InkWell(
                   borderRadius: BorderRadius.all(Radius.circular(50)),
                   onTap: () {
-                    mapController.stopExplore();
-                    Get.back();
+                    _showStopDialog();
                   },
                   child: Ink(
                     // height: ,
@@ -286,5 +239,33 @@ class ExploreModeScreen extends StatelessWidget {
     final int minutes = seconds ~/ 60;
     final int remainingSeconds = seconds % 60;
     return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
+  void _showStopDialog() {
+    Get.dialog(
+      AlertDialog(
+        title: Text(
+          '점령 모드를 종료 하시겠습니까?',
+          style: TextStyles.fs24w900cTextPrimary,
+        ),
+        backgroundColor: AppColors.backgroundSecondary,
+        actions: [
+          TextButton(
+            child: Text('아니오', style: TextStyles.fs17w600cAccent),
+            onPressed: () async {
+              Get.back();
+            },
+          ),
+          TextButton(
+            child: Text('예', style: TextStyles.fs17w600cTextPrimary),
+            onPressed: () async {
+              mapController.stopExplore();
+              Get.back();
+              Get.back();
+            },
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -48,7 +48,7 @@ class StepStatsBody extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Column(children: [
         SizedBox(
-          height: 300,
+          height: 200,
         ),
         TextButton(
           onPressed: () {
