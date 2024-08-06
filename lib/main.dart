@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -39,14 +41,25 @@ class MyApp extends StatelessWidget {
   MyApp({super.key, required this.initialRoute});
 
   final String initialRoute;
+  static bool checkInternet = true;
+
   final listener =
       InternetConnection().onStatusChange.listen((InternetStatus status) {
     switch (status) {
       case InternetStatus.connected:
+        checkInternet = true;
         break;
       case InternetStatus.disconnected:
-        Get.dialog(
-          InternetDisconnect(),
+        checkInternet = false;
+        Timer(
+          Duration(seconds: 5),
+          () {
+            if(!checkInternet){
+              Get.dialog(
+                InternetDisconnect(),
+              );
+            }
+          },
         );
         break;
     }
