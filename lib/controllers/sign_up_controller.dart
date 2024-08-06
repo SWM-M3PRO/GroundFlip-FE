@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,6 +9,8 @@ import '../service/user_service.dart';
 import '../utils/secure_storage.dart';
 
 class SignUpController extends GetxController {
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
   final UserService userService = UserService();
   final ImagePicker picker = ImagePicker();
   final SecureStorage secureStorage = SecureStorage();
@@ -159,6 +162,7 @@ class SignUpController extends GetxController {
         }
       }
     }
+    analytics.logSignUp(signUpMethod: "completeRegistration");
   }
 
   void onSubmitted(String value) {

@@ -44,3 +44,8 @@ app.*.map.json
 
 *.env
 Secrets.xcconfig
+
+# google firebase
+/firebase.json
+/ios/Runner/GoogleService-Info.plist
+/android/app/google-services.json

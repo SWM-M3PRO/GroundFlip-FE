@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -118,6 +119,7 @@ class RankingController extends GetxController {
   }
 
   void openRankingBottomSheet(Ranking ranking) async {
+    FirebaseAnalytics.instance.logEvent(name: "ranking_element_click");
     UserPixelCount pixelCount = await userService.getAnotherUserPixelCount(DateHandler.convertDateTimeToString(selectedWeek), ranking.userId);
     Get.bottomSheet(
       RankingBottomSheet(

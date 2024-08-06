@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -8,6 +10,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
+import 'firebase_options.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
 import 'screens/on_board_screen.dart';
@@ -17,6 +20,7 @@ import 'screens/setting_screen.dart';
 import 'screens/sign_up_screen.dart';
 import 'service/auth_service.dart';
 import 'service/location_service.dart';
+import 'utils/user_manager.dart';
 import 'widgets/common/internet_disconnect.dart';
 
 Future<void> main() async {
@@ -27,6 +31,10 @@ Future<void> main() async {
   ]);
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
   LocationService().initBackgroundLocation();
   String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
@@ -67,9 +75,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    analytics.logAppOpen();
+
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
       child: GetMaterialApp(
+        navigatorObservers: [
+          FirebaseAnalyticsObserver(analytics: analytics),
+        ],
         title: 'Ground Flip',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -77,7 +91,10 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: initialRoute,
         getPages: [
-          GetPage(name: '/main', page: () => const MainScreen()),
+          GetPage(name: '/main', page: ()  {
+            analytics.setUserId(id: UserManager().userId.toString());
+            return const MainScreen();
+            },),
           GetPage(name: '/login', page: () => const LoginScreen()),
           GetPage(name: '/setting', page: () => SettingScreen()),
           GetPage(name: '/signup', page: () => const SignUpScreen()),
