@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -33,6 +34,19 @@ class NavigationController extends GetxController {
       mapController.onBottomBarHidden();
     }
     selectedIndex(index);
+
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    switch (index) {
+      case 0:
+        analytics.logScreenView(screenName: "map_screen");
+        break;
+      case 1:
+        analytics.logScreenView(screenName: "ranking_screen");
+        break;
+      case 2:
+        analytics.logScreenView(screenName: "mypage_screen");
+        break;
+    }
   }
 
   Widget getCurrentPage() {
