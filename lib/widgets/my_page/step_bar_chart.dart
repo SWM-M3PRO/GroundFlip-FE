@@ -23,7 +23,7 @@ class StepBarChart extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(12.0, 12, 20, 0),
+              padding: const EdgeInsets.fromLTRB(0.0, 0, 20, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -34,8 +34,12 @@ class StepBarChart extends StatelessWidget {
                               walkController.loadPreviousWeekSteps();
                             }
                           : null,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.backgroundSecondary,
+                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                        ),
+                        padding: const EdgeInsets.fromLTRB(20.0, 20, 10, 20),
                         child: Icon(
                           Icons.arrow_back_ios_new_outlined,
                           color: AppColors.textPrimary,
@@ -59,8 +63,12 @@ class StepBarChart extends StatelessWidget {
                               walkController.loadNextWeekSteps();
                             }
                           : null,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.backgroundSecondary,
+                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                        ),
+                        padding: const EdgeInsets.fromLTRB(10.0, 20, 20, 20),
                         child: Icon(
                           Icons.arrow_forward_ios_outlined,
                           color: AppColors.textPrimary,
