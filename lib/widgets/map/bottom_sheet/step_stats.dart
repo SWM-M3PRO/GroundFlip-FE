@@ -58,12 +58,15 @@ class StepStatsBody extends StatelessWidget {
           style: TextButton.styleFrom(
             backgroundColor: AppColors.backgroundThird,
           ),
-          child: Text(
-            '점령 모드',
-            style: TextStyle(
-              fontSize: 20,
-              color: AppColors.primary,
-              fontWeight: FontWeight.w700,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              '점령 모드',
+              style: TextStyle(
+                fontSize: 20,
+                color: AppColors.primary,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ),
