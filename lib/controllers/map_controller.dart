@@ -359,7 +359,8 @@ class MapController extends SuperController {
     }
 
     lastOnTabPixel = Pixel.clonePixel(
-        pixels.firstWhere((pixel) => pixel.pixelId == pixelId));
+      pixels.firstWhere((pixel) => pixel.pixelId == pixelId),
+    );
     Pixel newPixel = Pixel.createOnTabStatePixel(lastOnTabPixel);
     pixels.removeWhere((pixel) => pixel.pixelId == pixelId);
     pixels.add(newPixel);
