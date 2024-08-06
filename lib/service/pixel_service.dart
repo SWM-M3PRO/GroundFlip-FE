@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../models/individual_history_pixel.dart';
 import '../models/individual_history_pixel_info.dart';
@@ -101,6 +102,14 @@ class PixelService {
       communityId: communityId,
     );
     await dio.post('/pixels', data: pixelRequest.toJson());
+
+    FirebaseAnalytics.instance.logEvent(
+      name: "occupyPixel",
+      parameters: {
+        "x": relativeCoordinate['x']!,
+        "y": relativeCoordinate['y']!,
+      },
+    );
   }
 
   Map<String, int> computeRelativeCoordinateByCoordinate(
