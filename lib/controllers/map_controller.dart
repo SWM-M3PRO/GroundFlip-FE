@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../constants/app_colors.dart';
 import '../enums/pixel_mode.dart';
@@ -365,7 +366,7 @@ class MapController extends SuperController {
     }
 
     lastOnTabPixel = Pixel.clonePixel(
-        pixels.firstWhere((pixel) => pixel.pixelId == pixelId),
+      pixels.firstWhere((pixel) => pixel.pixelId == pixelId),
     );
     Pixel newPixel = Pixel.createOnTabStatePixel(lastOnTabPixel);
     pixels.removeWhere((pixel) => pixel.pixelId == pixelId);
