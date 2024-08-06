@@ -41,12 +41,12 @@ class MapController extends SuperController {
   late CameraPosition currentCameraPosition;
   late Map<String, int> latestPixel;
 
-  Rx<PixelMode> currentPixelMode = PixelMode.individualHistory.obs;
+  Rx<PixelMode> currentPixelMode = PixelMode.individualMode.obs;
   String? currentPeriod;
   RxList<Pixel> pixels = <Pixel>[].obs;
   RxList<Marker> markers = <Marker>[].obs;
   RxBool isLoading = true.obs;
-  final RxInt selectedType = 0.obs;
+  final RxInt selectedMode = 1.obs;
   final RxInt selectedPeriod = 0.obs;
   final RxInt currentPixelCount = 0.obs;
   final RxInt accumulatePixelCount = 0.obs;
@@ -109,7 +109,7 @@ class MapController extends SuperController {
   }
 
   getSelectedType() {
-    return selectedType.value;
+    return selectedMode.value;
   }
 
   getSelectedPeriod() {
@@ -117,7 +117,7 @@ class MapController extends SuperController {
   }
 
   void onCameraIdle() {
-    if(!isBottomSheetShowUp) {
+    if (!isBottomSheetShowUp) {
       _cameraIdleTimer = Timer(Duration(milliseconds: 300), updatePixels);
     }
   }
@@ -268,7 +268,7 @@ class MapController extends SuperController {
   }
 
   void changePixelMode(int type) {
-    selectedType.value = type;
+    selectedMode.value = type;
     currentPixelMode.value = PixelMode.fromInt(type);
     bottomSheetController.minimize();
 
@@ -358,7 +358,8 @@ class MapController extends SuperController {
       changePixelToNormalState();
     }
 
-    lastOnTabPixel = Pixel.clonePixel(pixels.firstWhere((pixel) => pixel.pixelId == pixelId));
+    lastOnTabPixel = Pixel.clonePixel(
+        pixels.firstWhere((pixel) => pixel.pixelId == pixelId));
     Pixel newPixel = Pixel.createOnTabStatePixel(lastOnTabPixel);
     pixels.removeWhere((pixel) => pixel.pixelId == pixelId);
     pixels.add(newPixel);
@@ -369,15 +370,15 @@ class MapController extends SuperController {
     _updatePixelTimer?.cancel();
 
     googleMapController?.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: LatLng(
-              newPixel.points[0].latitude - Pixel.latPerPixel * 6,
-              newPixel.points[0].longitude,
-            ),
-            zoom: 16.0,
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(
+            newPixel.points[0].latitude - Pixel.latPerPixel * 6,
+            newPixel.points[0].longitude,
           ),
+          zoom: 16.0,
         ),
+      ),
     );
   }
 
@@ -385,5 +386,4 @@ class MapController extends SuperController {
     pixels.removeWhere((pixel) => pixel.pixelId == lastOnTabPixel.pixelId);
     pixels.add(lastOnTabPixel);
   }
-
 }
