@@ -28,17 +28,6 @@ class StepStats extends StatelessWidget {
             ' 걸음',
             style: TextStyles.fs17w400cTextSecondary,
           ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            mapController.speed.value.toStringAsFixed(1),
-            style: TextStyles.fs24w900cTextPrimary,
-          ),
-          Text(
-            ' km',
-            style: TextStyles.fs17w400cTextSecondary,
-          ),
           Spacer(),
           Text(
             '${walkingController.getCurrentCalorie()} kcal · ${walkingController.getCurrentTravelDistance()}km',
@@ -70,11 +59,12 @@ class StepStatsBody extends StatelessWidget {
             backgroundColor: AppColors.backgroundThird,
           ),
           child: Text(
-            '탐험 모드',
+            '점령 모드',
             style: TextStyle(
-                fontSize: 20,
-                color: AppColors.primary,
-                fontWeight: FontWeight.w700),
+              fontSize: 20,
+              color: AppColors.primary,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ]),
