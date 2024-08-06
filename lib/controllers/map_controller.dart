@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
+import '../constants/app_colors.dart';
 import '../enums/pixel_mode.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
@@ -14,11 +13,13 @@ import '../models/user_pixel_count.dart';
 import '../service/location_service.dart';
 import '../service/pixel_service.dart';
 import '../service/user_service.dart';
+import '../utils/date_handler.dart';
 import '../utils/user_manager.dart';
+import '../widgets/map/filter_bottom_sheet.dart';
 import '../widgets/pixel.dart';
 import 'bottom_sheet_controller.dart';
 
-class MapController extends GetxController {
+class MapController extends SuperController {
   final PixelService pixelService = PixelService();
   final UserService userService = UserService();
   final LocationService _locationService = LocationService();
@@ -40,15 +41,23 @@ class MapController extends GetxController {
   late CameraPosition currentCameraPosition;
   late Map<String, int> latestPixel;
 
-  Rx<PixelMode> currentPixelMode = PixelMode.individualHistory.obs;
+  Rx<PixelMode> currentPixelMode = PixelMode.individualMode.obs;
+  String? currentPeriod;
   RxList<Pixel> pixels = <Pixel>[].obs;
   RxList<Marker> markers = <Marker>[].obs;
   RxBool isLoading = true.obs;
-  final RxInt selectedType = 0.obs;
+  final RxInt selectedMode = 1.obs;
+  final RxInt selectedPeriod = 0.obs;
   final RxInt currentPixelCount = 0.obs;
   final RxInt accumulatePixelCount = 0.obs;
+  final RxInt accumulatePixelCountPerPeriod = 0.obs;
+  RxBool isCameraTrackingUser = true.obs;
+
+  late Pixel lastOnTabPixel;
+  bool isBottomSheetShowUp = false;
 
   Timer? _cameraIdleTimer;
+  Timer? _updatePixelTimer;
 
   @override
   void onInit() async {
@@ -60,25 +69,57 @@ class MapController extends GetxController {
     await occupyPixel();
     updatePixels();
     _trackUserLocation();
-    _trackPixels();
+    trackPixels();
+    lastOnTabPixel = Pixel.createEmptyPixel();
   }
 
-  onHidden() {
+  @override
+  void onDetached() {}
+
+  @override
+  void onInactive() {}
+
+  @override
+  void onPaused() {
+    _updatePixelTimer?.cancel();
+  }
+
+  @override
+  void onResumed() {
+    trackPixels();
+    setCameraOnCurrentLocation();
+    isCameraTrackingUser = true.obs;
+  }
+
+  @override
+  void onHidden() {}
+
+  onBottomBarHidden() {
     bottomSheetController.minimize();
   }
 
   updateCurrentPixel() async {
-    UserPixelCount pixelCount = await userService.getUserPixelCount();
+    UserPixelCount pixelCount = await userService.getUserPixelCount(null);
+    UserPixelCount pixelCountPeriod =
+        await userService.getUserPixelCount(currentPeriod);
     currentPixelCount.value = pixelCount.currentPixelCount!;
     accumulatePixelCount.value = pixelCount.accumulatePixelCount!;
+    accumulatePixelCountPerPeriod.value =
+        pixelCountPeriod.accumulatePixelCount!;
   }
 
   getSelectedType() {
-    return selectedType.value;
+    return selectedMode.value;
+  }
+
+  getSelectedPeriod() {
+    return selectedPeriod.value;
   }
 
   void onCameraIdle() {
-    _cameraIdleTimer = Timer(Duration(milliseconds: 300), updatePixels);
+    if (!isBottomSheetShowUp) {
+      _cameraIdleTimer = Timer(Duration(milliseconds: 300), updatePixels);
+    }
   }
 
   void updateCameraPosition(CameraPosition newCameraPosition) async {
@@ -86,7 +127,7 @@ class MapController extends GetxController {
     _cameraIdleTimer?.cancel();
   }
 
-  focusOnCurrentLocation() {
+  setCameraOnCurrentLocation() {
     currentCameraPosition = CameraPosition(
       target: LatLng(
         _locationService.currentLocation!.latitude!,
@@ -102,11 +143,16 @@ class MapController extends GetxController {
   void _trackUserLocation() {
     _locationService.location.onLocationChanged.listen((newLocation) async {
       _locationService.currentLocation = newLocation;
-      if (isPixelChanged()) {
+
+      if (isCameraTrackingUser.value) {
+        setCameraOnCurrentLocation();
+      }
+
+      double currentSpeed = _convertSpeedToKmPerHour(newLocation.speed);
+      if (isPixelChanged() && currentSpeed <= 10.5) {
         _updateLatestPixel();
         await occupyPixel();
       }
-      _updateMarkerPosition(newLocation, userMarkerId);
     });
   }
 
@@ -134,33 +180,8 @@ class MapController extends GetxController {
     );
   }
 
-  void _addMarker(
-    LatLng position,
-    String markerId,
-    BitmapDescriptor icon,
-  ) {
-    final marker = Marker(
-      markerId: MarkerId(markerId),
-      position: position,
-      icon: icon,
-    );
-    markers.add(marker);
-  }
-
   Future<void> _loadMapStyle() async {
     mapStyle = await rootBundle.loadString(darkMapStylePath);
-  }
-
-  void _updateMarkerPosition(LocationData newLocation, String markerId) {
-    Marker marker =
-        markers.firstWhere((marker) => marker.markerId.value == markerId);
-
-    markers.removeWhere((marker) => marker.markerId.value == markerId);
-    _addMarker(
-      LatLng(newLocation.latitude!, newLocation.longitude!),
-      markerId,
-      marker.icon,
-    );
   }
 
   Future<void> _updateIndividualHistoryPixels(int radius) async {
@@ -170,6 +191,7 @@ class MapController extends GetxController {
       currentLongitude: currentCameraPosition.target.longitude,
       radius: radius,
       userId: UserManager().getUserId()!,
+      lookUpDate: currentPeriod,
     );
 
     pixels.assignAll([
@@ -195,8 +217,8 @@ class MapController extends GetxController {
     ]);
   }
 
-  void _trackPixels() {
-    Timer.periodic(const Duration(seconds: 10), (timer) {
+  void trackPixels() {
+    _updatePixelTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
       updatePixels();
     });
   }
@@ -229,7 +251,9 @@ class MapController extends GetxController {
       currentLatitude: _locationService.currentLocation!.latitude!,
       currentLongitude: _locationService.currentLocation!.longitude!,
     );
-    updatePixels();
+    if (!isBottomSheetShowUp) {
+      updatePixels();
+    }
     await updateCurrentPixel();
   }
 
@@ -244,10 +268,37 @@ class MapController extends GetxController {
   }
 
   void changePixelMode(int type) {
-    selectedType.value = type;
+    selectedMode.value = type;
     currentPixelMode.value = PixelMode.fromInt(type);
     bottomSheetController.minimize();
+
+    isBottomSheetShowUp = false;
+    lastOnTabPixel = Pixel.createEmptyPixel();
     updatePixels();
+    trackPixels();
+  }
+
+  void changePeriod(int type) {
+    selectedPeriod.value = type;
+    if (type == 0) {
+      currentPeriod = null;
+    } else if (type == 1) {
+      currentPeriod = DateHandler.getStartOfThisWeekString();
+    } else {
+      currentPeriod = DateHandler.getNowString();
+    }
+    bottomSheetController.minimize();
+    updatePixels();
+  }
+
+  openFilterBottomSheet() {
+    bottomSheetController.minimize();
+    Get.bottomSheet(
+      FilterBottomSheet(),
+      backgroundColor: AppColors.backgroundSecondary,
+      enterBottomSheetDuration: Duration(milliseconds: 100),
+      exitBottomSheetDuration: Duration(milliseconds: 100),
+    );
   }
 
   Future<int> _getCurrentRadiusOfMap() async {
@@ -288,21 +339,52 @@ class MapController extends GetxController {
 
   getPixelCount() {
     if (currentPixelMode.value == PixelMode.individualHistory) {
-      return accumulatePixelCount.value;
+      return accumulatePixelCountPerPeriod.value;
     } else {
       return currentPixelCount.value;
     }
   }
 
-  Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(
-      data.buffer.asUint8List(),
-      targetWidth: width,
+  _convertSpeedToKmPerHour(double? speed) {
+    if (speed == null) {
+      return -1;
+    } else {
+      return speed * 3.6;
+    }
+  }
+
+  void changePixelToOnTabState(int pixelId) async {
+    if (!Pixel.isEmptyPixel(lastOnTabPixel)) {
+      changePixelToNormalState();
+    }
+
+    lastOnTabPixel = Pixel.clonePixel(
+      pixels.firstWhere((pixel) => pixel.pixelId == pixelId),
     );
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
+    Pixel newPixel = Pixel.createOnTabStatePixel(lastOnTabPixel);
+    pixels.removeWhere((pixel) => pixel.pixelId == pixelId);
+    pixels.add(newPixel);
+
+    isBottomSheetShowUp = true;
+
+    _cameraIdleTimer?.cancel();
+    _updatePixelTimer?.cancel();
+
+    googleMapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(
+            newPixel.points[0].latitude - Pixel.latPerPixel * 6,
+            newPixel.points[0].longitude,
+          ),
+          zoom: 16.0,
+        ),
+      ),
+    );
+  }
+
+  void changePixelToNormalState() {
+    pixels.removeWhere((pixel) => pixel.pixelId == lastOnTabPixel.pixelId);
+    pixels.add(lastOnTabPixel);
   }
 }

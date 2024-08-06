@@ -44,6 +44,7 @@ class PixelService {
     required double currentLongitude,
     required int userId,
     int radius = 1000,
+    String? lookUpDate,
   }) async {
     var response = await dio.get(
       '/pixels/individual-history',
@@ -52,6 +53,7 @@ class PixelService {
         'current-longitude': currentLongitude,
         'radius': radius,
         'user-id': userId,
+        'lookup-date': lookUpDate,
       },
     );
 

@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../constants/app_colors.dart';
 import '../models/ranking.dart';
+import '../models/user_pixel_count.dart';
 import '../service/ranking_service.dart';
+import '../service/user_service.dart';
 import '../utils/date_handler.dart';
 import '../utils/user_manager.dart';
+import '../widgets/ranking/ranking_bottom_sheet.dart';
 
 class RankingController extends GetxController {
   final RankingService rankingService = RankingService();
+  final UserService userService = UserService();
   final ScrollController scrollController = ScrollController();
 
   final RxBool isLoading = true.obs;
@@ -83,7 +88,7 @@ class RankingController extends GetxController {
     if (rankings.length >= 3) {
       return rankings.sublist(3);
     } else {
-      return rankings.toList();
+      return [];
     }
   }
 
@@ -110,5 +115,21 @@ class RankingController extends GetxController {
     this.t.value = t;
     myRankingInfoHeight.value = 40 - 40 * t2;
     myRankingInfoPadding.value = 20 - 20 * t;
+  }
+
+  void openRankingBottomSheet(Ranking ranking) async {
+    UserPixelCount pixelCount = await userService.getAnotherUserPixelCount(DateHandler.convertDateTimeToString(selectedWeek), ranking.userId);
+    Get.bottomSheet(
+      RankingBottomSheet(
+          userId: ranking.userId,
+          nickname: ranking.nickname!,
+          profileImageUrl: ranking.profileImageUrl,
+          currentPixelCount: pixelCount.currentPixelCount!,
+          accumulatePixelCount: pixelCount.accumulatePixelCount!,
+      ),
+      backgroundColor: AppColors.background,
+      enterBottomSheetDuration: Duration(milliseconds: 100),
+      exitBottomSheetDuration: Duration(milliseconds: 100),
+    );
   }
 }

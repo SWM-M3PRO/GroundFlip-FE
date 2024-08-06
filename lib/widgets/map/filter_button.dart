@@ -4,14 +4,14 @@ import 'package:get/get.dart';
 import '../../constants/app_colors.dart';
 import '../../controllers/map_controller.dart';
 
-class CurrentLocationButton extends StatefulWidget {
-  const CurrentLocationButton({super.key});
+class FilterButton extends StatefulWidget {
+  const FilterButton({super.key});
 
   @override
-  createState() => _CurrentLocationButtonState();
+  createState() => _FilterButtonState();
 }
 
-class _CurrentLocationButtonState extends State<CurrentLocationButton> {
+class _FilterButtonState extends State<FilterButton> {
   final MapController mapController = Get.find<MapController>();
   Color _buttonColor = AppColors.backgroundSecondary; // 기본 배경 색상
   final Color _pressedColor = Colors.grey; // 눌렀을 때의 배경 색상
@@ -32,8 +32,7 @@ class _CurrentLocationButtonState extends State<CurrentLocationButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        mapController.setCameraOnCurrentLocation();
-        mapController.isCameraTrackingUser = true.obs;
+        mapController.openFilterBottomSheet();
       },
       onPanDown: _onPointerDown,
       onPanEnd: (details) => _onPointerUp(),
@@ -45,7 +44,7 @@ class _CurrentLocationButtonState extends State<CurrentLocationButton> {
         ),
         padding: EdgeInsets.all(10),
         child: Icon(
-          Icons.my_location,
+          Icons.filter_none_rounded,
           color: Colors.white,
           size: 20, // 아이콘 크기
         ),

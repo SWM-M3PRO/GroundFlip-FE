@@ -30,7 +30,7 @@ class NavigationController extends GetxController {
       rankingController.onVisible();
     }
     if (selectedIndex.value == 0 && index != 0) {
-      mapController.onHidden();
+      mapController.onBottomBarHidden();
     }
     selectedIndex(index);
   }

@@ -25,11 +25,19 @@ class UserService {
     return User.fromJson(response.data['data']);
   }
 
-  Future<UserPixelCount> getUserPixelCount() async {
+  Future<UserPixelCount> getUserPixelCount(String? lookUpDate) async {
     int? userId = UserManager().getUserId();
     var response = await dio.get(
       '/pixels/count',
-      queryParameters: {"user-id": userId},
+      queryParameters: {"user-id": userId, 'lookup-date': lookUpDate},
+    );
+    return UserPixelCount.fromJson(response.data['data']);
+  }
+
+  Future<UserPixelCount> getAnotherUserPixelCount(String? lookUpDate, int userId) async {
+    var response = await dio.get(
+      '/pixels/count',
+      queryParameters: {"user-id": userId, 'lookup-date': lookUpDate},
     );
     return UserPixelCount.fromJson(response.data['data']);
   }

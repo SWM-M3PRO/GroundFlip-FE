@@ -32,7 +32,7 @@ class WalkingController extends GetxController {
   }
 
   void _initializeUpdateTimer() {
-    int updateInterval = Platform.isIOS ? 60 : 1;
+    int updateInterval = Platform.isIOS ? 15 : 1;
     Timer.periodic(Duration(seconds: updateInterval), (timer) {
       updateCurrentStep();
     });

@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:pedometer/pedometer.dart';
 
 import '../service/android_walking_service.dart';
@@ -55,13 +54,11 @@ Future<void> startCallback() async {
 }
 
 class AndroidWalkingHandler extends TaskHandler {
-  SendPort? _sendPort;
   late Stream<StepCount> _stepCountStream;
   final SecureStorage secureStorage = SecureStorage();
   final AndroidWalkingService androidWalkingService = AndroidWalkingService();
   AuthService authService = AuthService();
 
-  final GetStorage _localStorage = GetStorage();
   static String todayStepKey = 'currentSteps';
   static String lastSavedStepKey = 'lastSteps';
   Timer? _midnightTimer;
@@ -69,8 +66,8 @@ class AndroidWalkingHandler extends TaskHandler {
 
   @override
   void onStart(DateTime timestamp, SendPort? sendPort) async {
-    _sendPort = sendPort;
-    currentSteps = _localStorage.read(todayStepKey) ?? 0;
+    currentSteps = await getTodayStep() ?? 0;
+
     _stepCountStream = Pedometer.stepCountStream.asBroadcastStream();
     _stepCountStream.listen(updateStep).onError(onStepCountError);
     _initializeMidnightReset();
@@ -82,7 +79,14 @@ class AndroidWalkingHandler extends TaskHandler {
 
   void _initializeMidnightReset() {
     DateTime now = DateTime.now();
-    DateTime midnight = DateTime(now.year, now.month, now.day + 1, 0, Random().nextInt(40) + 10);
+    DateTime midnight = DateTime(
+      now.year,
+      now.month,
+      now.day + 1,
+      0,
+      0,
+      Random().nextInt(40) + 10,
+    );
     Duration timeUntilMidnight = midnight.difference(now);
     _midnightTimer?.cancel();
     _midnightTimer = Timer(timeUntilMidnight, () {
@@ -101,45 +105,67 @@ class AndroidWalkingHandler extends TaskHandler {
     await androidWalkingService.postUserStep(userId, previousDay, currentSteps);
 
     currentSteps = 0;
-    _localStorage.write(todayStepKey, 0);
+    await secureStorage.secureStorage.write(key: todayStepKey, value: '0');
 
     FlutterForegroundTask.updateService(
       notificationTitle: "걸음수",
       notificationText: currentSteps.toString(),
     );
-    _sendPort?.send(currentSteps);
   }
 
   updateStep(StepCount event) async {
     int currentTotalStep = event.steps;
 
-    int? lastSavedStepCount = _localStorage.read(lastSavedStepKey);
-    int todaySteps = _localStorage.read(todayStepKey) ?? 0;
+    int? lastSavedStepCount = await getLastSavedStep();
+    int todaySteps = await getTodayStep() ?? 0;
 
     if (lastSavedStepCount == null) {
-      _localStorage.write(lastSavedStepKey, currentTotalStep);
+      await secureStorage.secureStorage
+          .write(key: lastSavedStepKey, value: currentTotalStep.toString());
       lastSavedStepCount = currentTotalStep;
     }
 
     if (currentTotalStep < lastSavedStepCount) {
       todaySteps += currentTotalStep;
       lastSavedStepCount = currentTotalStep;
-      _localStorage.write(lastSavedStepKey, currentTotalStep);
+      await secureStorage.secureStorage
+          .write(key: lastSavedStepKey, value: currentTotalStep.toString());
     } else {
       int deltaSteps = currentTotalStep - lastSavedStepCount;
       todaySteps += deltaSteps;
       lastSavedStepCount = currentTotalStep;
     }
 
-    _localStorage.write(todayStepKey, todaySteps);
-    _localStorage.write(lastSavedStepKey, currentTotalStep);
+    await secureStorage.secureStorage
+        .write(key: todayStepKey, value: todaySteps.toString());
+    await secureStorage.secureStorage
+        .write(key: lastSavedStepKey, value: currentTotalStep.toString());
     currentSteps = todaySteps;
 
     FlutterForegroundTask.updateService(
       notificationTitle: "걸음수",
       notificationText: currentSteps.toString(),
     );
-    _sendPort?.send(currentSteps);
+  }
+
+  getTodayStep() async {
+    String? stringStep =
+        await secureStorage.secureStorage.read(key: todayStepKey);
+    if (stringStep == null) {
+      return null;
+    } else {
+      return int.parse(stringStep);
+    }
+  }
+
+  getLastSavedStep() async {
+    String? stringStep =
+        await secureStorage.secureStorage.read(key: lastSavedStepKey);
+    if (stringStep == null) {
+      return null;
+    } else {
+      return int.parse(stringStep);
+    }
   }
 
   @override
