@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:ground_flip/utils/user_manager.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
@@ -21,6 +20,7 @@ import 'screens/setting_screen.dart';
 import 'screens/sign_up_screen.dart';
 import 'service/auth_service.dart';
 import 'service/location_service.dart';
+import 'utils/user_manager.dart';
 import 'widgets/common/internet_disconnect.dart';
 
 Future<void> main() async {
