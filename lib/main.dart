@@ -1,13 +1,13 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:ground_flip/utils/user_manager.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
+import 'firebase_options.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
 import 'screens/on_board_screen.dart';
@@ -27,6 +27,10 @@ Future<void> main() async {
   ]);
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
   LocationService().initBackgroundLocation();
   String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
@@ -67,9 +71,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    analytics.logAppOpen();
+
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
       child: GetMaterialApp(
+        navigatorObservers: [
+          FirebaseAnalyticsObserver(analytics: analytics),
+        ],
         title: 'Ground Flip',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -77,7 +87,10 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: initialRoute,
         getPages: [
-          GetPage(name: '/main', page: () => const MainScreen()),
+          GetPage(name: '/main', page: ()  {
+            analytics.setUserId(id: UserManager().userId.toString());
+            return const MainScreen();
+            },),
           GetPage(name: '/login', page: () => const LoginScreen()),
           GetPage(name: '/setting', page: () => SettingScreen()),
           GetPage(name: '/signup', page: () => const SignUpScreen()),
