@@ -52,16 +52,16 @@ class PermissionRequestScreen extends StatelessWidget {
                   SizedBox(
                     height: 16.0,
                   ),
+                  PermissionElement(
+                    iconPath:
+                        'assets/images/permission/activity_recognition_icon.png',
+                    permissionName: '신체 활동',
+                    permissionDescription: '걸음 수를 가져오기 위해 필요해요!',
+                  ),
+                  SizedBox(
+                    height: 16.0,
+                  ),
                   if (Platform.isAndroid) ...[
-                    PermissionElement(
-                      iconPath:
-                          'assets/images/permission/activity_recognition_icon.png',
-                      permissionName: '신체 활동',
-                      permissionDescription: '걸음 수를 가져오기 위해 필요해요!',
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
                     PermissionElement(
                       iconPath:
                           'assets/images/permission/notification_icon.png',
@@ -75,9 +75,10 @@ class PermissionRequestScreen extends StatelessWidget {
                   if (Platform.isIOS) ...[
                     PermissionElement(
                       iconPath:
-                          'assets/images/permission/activity_recognition_icon.png',
-                      permissionName: '신체 활동',
-                      permissionDescription: '걸음 수를 가져오기 위해 필요해요!',
+                          'assets/images/permission/notification_icon.png',
+                      permissionName: '알림',
+                      permissionDescription:
+                          '공지사항, 앱 내의 활동에 대한 알림을 수신하기 위해 필요해요!',
                     ),
                     SizedBox(
                       height: 16.0,
