@@ -29,7 +29,7 @@ class DioService {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          final accessToken = await secureStorage.readAccessToken();
+          final accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjA3NTc5ODUsImV4cCI6MTgyMTYyMTk4NSwidXNlcklkIjo2MjJ9.HNTbCbz02o9-GsDxcdGG-VxJl0Q_xb1hBeu7ihg9oSY';//await secureStorage.readAccessToken();
           options.headers.addAll({
             'Authorization': 'Bearer $accessToken',
           });

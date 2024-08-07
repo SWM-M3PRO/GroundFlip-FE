@@ -12,6 +12,7 @@ import '../widgets/map/bottom_sheet/map_bottom_sheet.dart';
 import '../widgets/map/current_location_button.dart';
 import '../widgets/map/filter_button.dart';
 import '../widgets/map/mode_change_toggle.dart';
+import '../widgets/map/my_place_button.dart';
 import '../widgets/map/pixel_count_info.dart';
 
 class MapScreen extends StatelessWidget {
@@ -33,6 +34,7 @@ class MapScreen extends StatelessWidget {
           );
         } else {
           return Stack(
+            clipBehavior: Clip.hardEdge,
             children: [
               Obx(() {
                 return Listener(
@@ -60,6 +62,12 @@ class MapScreen extends StatelessWidget {
                   ),
                 );
               }),
+              Positioned(
+                left: 10,
+                top: 55,
+                child: MyPlaceButton(),
+                ),
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Column(
@@ -73,8 +81,9 @@ class MapScreen extends StatelessWidget {
                       if (mapController.currentPixelMode.value ==
                           PixelMode.individualHistory) {
                         return Align(
-                            alignment: Alignment.topRight,
-                            child: FilterButton(),);
+                          alignment: Alignment.topRight,
+                          child: FilterButton(),
+                        );
                       } else {
                         return Container();
                       }

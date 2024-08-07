@@ -55,6 +55,8 @@ class MapController extends SuperController {
   RxDouble speed = 0.0.obs;
   RxBool isCameraTrackingUser = true.obs;
 
+  RxBool myPlaceButtonVisible = false.obs;
+
   late Pixel lastOnTabPixel;
   bool isBottomSheetShowUp = false;
 
@@ -140,6 +142,16 @@ class MapController extends SuperController {
         _locationService.currentLocation!.longitude!,
       ),
       zoom: 16.0,
+    );
+    googleMapController?.animateCamera(
+      CameraUpdate.newCameraPosition(currentCameraPosition),
+    );
+  }
+
+  setCameraOnLocation(double latitude, double longitude) {
+    currentCameraPosition = CameraPosition(
+      target: LatLng(latitude, longitude),
+      zoom: 16.0
     );
     googleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(currentCameraPosition),
