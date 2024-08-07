@@ -14,7 +14,7 @@ class StepStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var walkingController = Get.find<WalkingController>();
-    var mapController = Get.find<MapController>();
+    Get.find<MapController>();
     return Obx(
       () => Row(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -46,31 +46,33 @@ class StepStatsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Column(children: [
-        SizedBox(
-          height: 200,
-        ),
-        TextButton(
-          onPressed: () {
-            Get.find<MapController>().startExplore();
-            Get.to(ExploreModeScreen());
-          },
-          style: TextButton.styleFrom(
-            backgroundColor: AppColors.backgroundThird,
+      child: Column(
+        children: [
+          SizedBox(
+            height: 200,
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Text(
-              '점령 모드',
-              style: TextStyle(
-                fontSize: 20,
-                color: AppColors.primary,
-                fontWeight: FontWeight.w700,
+          TextButton(
+            onPressed: () {
+              Get.find<MapController>().startExplore();
+              Get.to(ExploreModeScreen());
+            },
+            style: TextButton.styleFrom(
+              backgroundColor: AppColors.backgroundThird,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Text(
+                '점령 모드',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }

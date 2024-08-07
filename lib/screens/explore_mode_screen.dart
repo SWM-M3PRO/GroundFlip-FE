@@ -214,8 +214,9 @@ class ExploreModeScreen extends StatelessWidget {
                     // height: ,
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                        color: AppColors.backgroundSecondary,
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
+                      color: AppColors.backgroundSecondary,
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                    ),
                     child: Icon(
                       Icons.pause,
                       color: Colors.white,
