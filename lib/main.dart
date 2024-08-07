@@ -20,6 +20,7 @@ import 'screens/setting_screen.dart';
 import 'screens/sign_up_screen.dart';
 import 'service/auth_service.dart';
 import 'service/location_service.dart';
+import 'service/my_place_service.dart';
 import 'utils/user_manager.dart';
 import 'widgets/common/internet_disconnect.dart';
 
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
   MyApp({super.key, required this.initialRoute});
 
   final String initialRoute;
+  final MyPlaceService myPlaceService = MyPlaceService();
   static bool checkInternet = true;
 
   final listener =
@@ -77,6 +79,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     analytics.logAppOpen();
+    myPlaceService.getMyPlaceInfo();
 
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
