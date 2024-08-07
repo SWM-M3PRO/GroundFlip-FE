@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../constants/app_colors.dart';
 import '../../../constants/text_styles.dart';
+import '../../../controllers/map_controller.dart';
 import '../../../controllers/walking_controller.dart';
+import '../../../screens/explore_mode_screen.dart';
 
 class StepStats extends StatelessWidget {
   const StepStats({super.key});
@@ -11,6 +14,7 @@ class StepStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var walkingController = Get.find<WalkingController>();
+    Get.find<MapController>();
     return Obx(
       () => Row(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -42,8 +46,32 @@ class StepStatsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: SizedBox(
-        width: 10,
+      child: Column(
+        children: [
+          SizedBox(
+            height: 200,
+          ),
+          TextButton(
+            onPressed: () {
+              Get.find<MapController>().startExplore();
+              Get.to(ExploreModeScreen());
+            },
+            style: TextButton.styleFrom(
+              backgroundColor: AppColors.backgroundThird,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Text(
+                '점령 모드',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
