@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../constants/app_colors.dart';
@@ -225,8 +226,12 @@ class MapController extends SuperController {
   }
 
   void trackPixels() {
-    _updatePixelTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+    _updatePixelTimer = Timer.periodic(const Duration(seconds: 10), (timer) async {
       updatePixels();
+      print("update pixel!!");
+      var tmp = await Location().getLocation();
+      print("${DateTime.now()}");
+      print('${tmp.longitude} ${tmp.latitude}');
     });
   }
 
