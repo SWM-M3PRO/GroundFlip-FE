@@ -185,7 +185,6 @@ class MapController extends SuperController {
     );
     selectedLatitude.value = latLng.latitude;
     selectedLongitude.value = latLng.longitude;
-    print('1111 ${latLng.latitude}, ${latLng.longitude}');
   }
 
   void _trackUserLocation() {

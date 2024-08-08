@@ -19,10 +19,9 @@ import 'screens/permission_request_screen.dart';
 import 'screens/policy_screen.dart';
 import 'screens/setting_screen.dart';
 import 'screens/sign_up_screen.dart';
-import 'service/location_service.dart';
-import 'service/my_place_service.dart';
-import 'utils/user_manager.dart';
 import 'service/auth_service.dart';
+import 'service/location_service.dart';
+import 'utils/user_manager.dart';
 import 'widgets/common/internet_disconnect.dart';
 
 Future<void> main() async {
