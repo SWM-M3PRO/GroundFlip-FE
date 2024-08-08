@@ -7,8 +7,8 @@ import '../../controllers/map_controller.dart';
 import '../../service/my_place_service.dart';
 
 class MyPlaceButtonIcon extends StatelessWidget {
-  MyPlaceService myPlaceService = MyPlaceService();
-  MapController mapController = Get.find<MapController>();
+  final MyPlaceService myPlaceService = MyPlaceService();
+  final MapController mapController = Get.find<MapController>();
 
   final IconData icon;
   final String place;

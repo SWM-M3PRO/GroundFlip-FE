@@ -9,7 +9,7 @@ import '../service/location_service.dart';
 class MyPlaceScreen extends StatelessWidget {
   MyPlaceScreen({super.key});
 
-  MapController mapController = Get.find<MapController>();
+  final MapController mapController = Get.find<MapController>();
 
   @override
   Widget build(BuildContext context) {
