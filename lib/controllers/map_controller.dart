@@ -226,6 +226,7 @@ class MapController extends SuperController {
   void trackPixels() {
     _updatePixelTimer =
         Timer.periodic(const Duration(seconds: 10), (timer) async {
+      UserManager().updateSecureStorage();
       updatePixels();
     });
   }
