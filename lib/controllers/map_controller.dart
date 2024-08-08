@@ -4,20 +4,17 @@ import 'dart:math' as math;
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../constants/app_colors.dart';
 import '../enums/pixel_mode.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
-import '../models/pixel_occupy_request.dart';
 import '../models/user_pixel_count.dart';
 import '../service/location_service.dart';
 import '../service/pixel_service.dart';
 import '../service/user_service.dart';
 import '../utils/date_handler.dart';
-import '../utils/dio_service.dart';
 import '../utils/user_manager.dart';
 import '../widgets/map/filter_bottom_sheet.dart';
 import '../widgets/pixel.dart';
@@ -152,15 +149,6 @@ class MapController extends SuperController {
   void _trackUserLocation() {
     _locationService.location.onLocationChanged.listen((newLocation) async {
       _locationService.currentLocation = newLocation;
-      print("-----------------------track-------------------");
-      // DioService().getDio().get("/trackTest");
-      PixelOccupyRequest pixelRequest = PixelOccupyRequest(
-        userId: 20,
-        x: 200,
-        y: 200,
-        communityId: null,
-      );
-      await DioService().getDio().post('/pixels', data: pixelRequest.toJson());
       if (isCameraTrackingUser.value) {
         setCameraOnCurrentLocation();
       }
@@ -239,22 +227,6 @@ class MapController extends SuperController {
     _updatePixelTimer =
         Timer.periodic(const Duration(seconds: 10), (timer) async {
       updatePixels();
-      // try {
-      //   DioService().getDio().get("/periodTest");
-      // } catch (e) {}
-
-      PixelOccupyRequest pixelRequest = PixelOccupyRequest(
-        userId: 20,
-        x: 100,
-        y: 100,
-        communityId: null,
-      );
-      await DioService().getDio().post('/pixels', data: pixelRequest.toJson());
-
-      print("update pixel!!");
-      var tmp = await Location().getLocation();
-      print("${DateTime.now()}");
-      print('${tmp.longitude} ${tmp.latitude}');
     });
   }
 
