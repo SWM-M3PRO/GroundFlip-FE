@@ -49,7 +49,7 @@ class MyPlaceButton extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   MyPlaceButtonIcon(
-                    icon: Icons.gite,
+                    icon: Icons.work,
                     place: 'COMPANY',
                   ),
                   SizedBox(height: 10),

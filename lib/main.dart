@@ -10,6 +10,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
+import 'controllers/main_controller.dart';
 import 'firebase_options.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
@@ -32,13 +33,14 @@ Future<void> main() async {
   ]);
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
+  final MainController mainController = MainController();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
   LocationService().initBackgroundLocation();
-  String initialRoute = '/main';//await AuthService().isLogin() ? '/main' : '/permission';
+  String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
   runApp(
     MyApp(
       initialRoute: initialRoute,

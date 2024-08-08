@@ -56,6 +56,7 @@ class MapController extends SuperController {
   final RxInt accumulatePixelCountPerPeriod = 0.obs;
   final RxDouble selectedLatitude = 37.503640.obs;
   final RxDouble selectedLongitude = 127.044829.obs;
+  final RxString myPlaceName = "HOME".obs;
   RxDouble speed = 0.0.obs;
   RxBool isCameraTrackingUser = true.obs;
 
@@ -327,6 +328,19 @@ class MapController extends SuperController {
       currentPeriod = DateHandler.getStartOfThisWeekString();
     } else {
       currentPeriod = DateHandler.getNowString();
+    }
+    bottomSheetController.minimize();
+    updatePixels();
+  }
+
+  void changePlace(int type) {
+    selectedPlace.value = type;
+    if (type == 0) {
+      myPlaceName.value = "HOME";
+    } else if (type == 1) {
+      myPlaceName.value = "COMPANY";
+    } else {
+      myPlaceName.value = "ELSE";
     }
     bottomSheetController.minimize();
     updatePixels();

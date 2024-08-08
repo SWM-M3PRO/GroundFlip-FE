@@ -24,6 +24,7 @@ class MyPlaceService {
     myPlaces = MyPlace.listFromJson(response.data['data']);
     for (var e in myPlaces) {
       box.write(e.placeName.toString(), e.placePoint);
+      print('1111 ${e.placeName.toString()}, ${e.placePoint}');
     }
     return myPlaces;
   }

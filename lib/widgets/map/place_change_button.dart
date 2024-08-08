@@ -48,7 +48,7 @@ class PlaceChangeButton extends StatelessWidget {
             );
           },
           borderWidth: 0.0,
-          onChanged: (i) => mapController.changePeriod(i),
+          onChanged: (i) => mapController.changePlace(i),
         ),
       );
     });

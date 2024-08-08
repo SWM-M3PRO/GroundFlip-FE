@@ -1,8 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
+import '../../controllers/map_controller.dart';
+import '../../service/my_place_service.dart';
 import 'period_change_button.dart';
 import 'place_change_button.dart';
 
@@ -11,6 +16,10 @@ class MyPlaceBottomSheet extends StatelessWidget {
   MyPlaceBottomSheet({
     super.key,
   });
+
+  final MyPlaceService myPlaceService = MyPlaceService();
+  final MapController mapController = Get.find<MapController>();
+  final box = GetStorage();
 
   int selectedNumber = 0;
 
@@ -58,7 +67,18 @@ class MyPlaceBottomSheet extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 10),
               child: InkWell(
                 borderRadius: BorderRadius.circular(16),
-                onTap: (){},
+                onTap: () {
+                  myPlaceService.putMyPlaceInfo(
+                      mapController.myPlaceName.value,
+                      mapController.selectedLatitude.value,
+                      mapController.selectedLongitude.value);
+                  box.write(
+                      mapController.myPlaceName.value,
+                      Point(mapController.selectedLatitude.value,
+                          mapController.selectedLongitude.value),
+                  );
+                  Get.back();
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
