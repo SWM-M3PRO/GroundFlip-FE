@@ -19,7 +19,6 @@ import 'screens/permission_request_screen.dart';
 import 'screens/policy_screen.dart';
 import 'screens/setting_screen.dart';
 import 'screens/sign_up_screen.dart';
-import 'service/auth_service.dart';
 import 'service/location_service.dart';
 import 'service/my_place_service.dart';
 import 'utils/user_manager.dart';
@@ -40,7 +39,7 @@ Future<void> main() async {
 
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
   LocationService().initBackgroundLocation();
-  String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
+  String initialRoute = '/main';//await AuthService().isLogin() ? '/main' : '/permission';
   runApp(
     MyApp(
       initialRoute: initialRoute,

@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +7,6 @@ import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 import '../../controllers/map_controller.dart';
 import '../../service/my_place_service.dart';
-import 'period_change_button.dart';
 import 'place_change_button.dart';
 
 // ignore: must_be_immutable
@@ -67,16 +65,19 @@ class MyPlaceBottomSheet extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 10),
               child: InkWell(
                 borderRadius: BorderRadius.circular(16),
-                onTap: () {
-                  myPlaceService.putMyPlaceInfo(
+                onTap: () async{
+                  // await myPlaceService.putMyPlaceInfo(
+                  //     mapController.myPlaceName.value,
+                  //     mapController.selectedLatitude.value,
+                  //     mapController.selectedLongitude.value,);
+
+                  await mapController.writeLocalStorage(
                       mapController.myPlaceName.value,
                       mapController.selectedLatitude.value,
-                      mapController.selectedLongitude.value);
-                  box.write(
-                      mapController.myPlaceName.value,
-                      Point(mapController.selectedLatitude.value,
-                          mapController.selectedLongitude.value),
-                  );
+                      mapController.selectedLongitude.value,);
+
+                  mapController.myPlaceButtonVisible.value = false;
+                  Get.back();
                   Get.back();
                 },
                 child: Container(

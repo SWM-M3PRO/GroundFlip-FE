@@ -59,30 +59,29 @@ class MapScreen extends StatelessWidget {
                     style: mapController.mapStyle,
                     markers: Set<Marker>.of(mapController.markers),
                     polygons: Set<Polygon>.of(mapController.pixels),
-                    onTap: (LatLng latLng){
-                      mapController.updateMarker(latLng);
-                    },
                   ),
                 );
               }),
-              Positioned(
-                right: 10,
-                top: 110,
-                child: Obx(() {
-                  if (mapController.currentPixelMode.value ==
-                      PixelMode.individualHistory) {
-                    return Column(
-                      children: [
-                        FilterButton(),
-                        SizedBox(height: 10,),
-                        MyPlaceButton(),
-                      ],
-                    );
-                  } else {
-                    return MyPlaceButton();
-                  }
-                }),
-              ),
+             Positioned(
+                  right: 10,
+                  top: 110,
+                  child: Obx(() {
+                    if (mapController.currentPixelMode.value ==
+                        PixelMode.individualHistory) {
+                      return Column(
+                        children: [
+                          FilterButton(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          MyPlaceButton(),
+                        ],
+                      );
+                    } else {
+                      return MyPlaceButton();
+                    }
+                  }),
+                ),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),

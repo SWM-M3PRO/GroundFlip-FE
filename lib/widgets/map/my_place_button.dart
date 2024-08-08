@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../controllers/map_controller.dart';
-import '../../service/my_place_service.dart';
+import '../../screens/my_place_screen.dart';
 import 'my_place_button_icon.dart';
 
 class MyPlaceButton extends StatelessWidget {
@@ -39,7 +39,7 @@ class MyPlaceButton extends StatelessWidget {
           AnimatedContainer(
             duration: Duration(milliseconds: 500),
             curve: Curves.easeInOut,
-            height: mapController.myPlaceButtonVisible.value ? 180 : 0,
+            height: mapController.myPlaceButtonVisible.value ? 210 : 0,
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -47,20 +47,20 @@ class MyPlaceButton extends StatelessWidget {
                     icon: Icons.home,
                     place: 'HOME',
                   ),
-                  SizedBox(height: 10),
+
                   MyPlaceButtonIcon(
                     icon: Icons.work,
                     place: 'COMPANY',
                   ),
-                  SizedBox(height: 10),
+
                   MyPlaceButtonIcon(
                     icon: Icons.flag,
                     place: 'ELSE',
                   ),
-                  SizedBox(height: 10),
+
                   GestureDetector(
                     onTap: () {
-                      mapController.openMyPlaceBottomSheet();
+                      Get.to(()=>MyPlaceScreen());
                     },
                     child: Container(
                       padding: EdgeInsets.all(10),

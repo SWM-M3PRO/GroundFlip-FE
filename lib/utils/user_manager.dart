@@ -18,6 +18,6 @@ class UserManager {
   }
 
   int? getUserId() {
-    return userId;
+    return 622;//userId;
   }
 }

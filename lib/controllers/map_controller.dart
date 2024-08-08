@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:math';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -38,7 +40,10 @@ class MapController extends SuperController {
 
   late final String mapStyle;
 
+  final box = GetStorage();
+
   GoogleMapController? googleMapController;
+  GoogleMapController? googleMapController2;
 
   late CameraPosition currentCameraPosition;
   late Map<String, int> latestPixel;
@@ -168,14 +173,16 @@ class MapController extends SuperController {
 
   void updateMarker(LatLng latLng) {
     markers.clear();
-    markers.add(Marker(
-      markerId: MarkerId('clicked_position'),
-      position: latLng,
-      infoWindow: InfoWindow(
-        title: 'Clicked Position',
-        snippet: 'Lat: ${latLng.latitude}, Lng: ${latLng.longitude}',
+    markers.add(
+      Marker(
+        markerId: MarkerId('clicked_position'),
+        position: latLng,
+        infoWindow: InfoWindow(
+          title: 'Clicked Position',
+          snippet: 'Lat: ${latLng.latitude}, Lng: ${latLng.longitude}',
+        ),
       ),
-    ));
+    );
     selectedLatitude.value = latLng.latitude;
     selectedLongitude.value = latLng.longitude;
     print('1111 ${latLng.latitude}, ${latLng.longitude}');
@@ -263,6 +270,22 @@ class MapController extends SuperController {
     _updatePixelTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
       updatePixels();
     });
+  }
+
+  Future<void> writeLocalStorage(
+    String place,
+    double latitude,
+    double longitude,
+  ) async {
+    await box.write(
+      place,
+      Point(latitude, longitude),
+    );
+    update();
+  }
+
+  Future<void> deleteLocalStorage(String place) async {
+    await box.remove(place);
   }
 
   void updatePixels() async {

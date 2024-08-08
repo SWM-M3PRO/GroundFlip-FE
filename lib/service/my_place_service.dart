@@ -30,7 +30,7 @@ class MyPlaceService {
   }
 
   Future<void> putMyPlaceInfo(
-      String placeName, double latitude, double longitude) async {
+      String placeName, double latitude, double longitude,) async {
     int? userId = UserManager().getUserId();
     await dio.put(
       '/myplace',
@@ -38,7 +38,7 @@ class MyPlaceService {
         "userId": userId,
         "placeName": placeName,
         "latitude": latitude,
-        "longitude": longitude
+        "longitude": longitude,
       },
     );
   }
