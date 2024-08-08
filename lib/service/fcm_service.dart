@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../utils/dio_service.dart';
+import '../utils/user_manager.dart';
 
 class FcmService {
   static final FcmService _instance = FcmService._internal();
@@ -19,6 +20,7 @@ class FcmService {
     dio.post(
       "/users/fcm-token",
       data: {
+        "userId": UserManager().getUserId(),
         "fcmToken": fcmToken,
       },
     );
