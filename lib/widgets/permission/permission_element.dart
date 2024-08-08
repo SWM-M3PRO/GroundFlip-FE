@@ -20,14 +20,15 @@ class PermissionElement extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         decoration: BoxDecoration(
           color: AppColors.backgroundSecondary,
           borderRadius: BorderRadius.circular(16.0),
         ),
-        height: 80.0,
+        // height: 80.0,
         child: Row(
           children: [
-            SizedBox(width: 16.0),
+            // SizedBox(width: 16.0),
             Image.asset(
               iconPath,
               width: 40.0, // Adjust the size as needed

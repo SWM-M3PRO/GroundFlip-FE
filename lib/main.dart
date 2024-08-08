@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
         Timer(
           Duration(seconds: 5),
           () {
-            if(!checkInternet){
+            if (!checkInternet) {
               Get.dialog(
                 InternetDisconnect(),
               );
@@ -91,10 +91,13 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: initialRoute,
         getPages: [
-          GetPage(name: '/main', page: ()  {
-            analytics.setUserId(id: UserManager().userId.toString());
-            return const MainScreen();
-            },),
+          GetPage(
+            name: '/main',
+            page: () {
+              analytics.setUserId(id: UserManager().userId.toString());
+              return const MainScreen();
+            },
+          ),
           GetPage(name: '/login', page: () => const LoginScreen()),
           GetPage(name: '/setting', page: () => SettingScreen()),
           GetPage(name: '/signup', page: () => const SignUpScreen()),
