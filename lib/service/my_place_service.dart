@@ -24,13 +24,17 @@ class MyPlaceService {
     myPlaces = MyPlace.listFromJson(response.data['data']);
     for (var e in myPlaces) {
       box.write(e.placeName.toString(), e.placePoint);
-      print('1111 ${e.placeName.toString()}, ${e.placePoint}');
+      print('1111');
     }
+
     return myPlaces;
   }
 
   Future<void> putMyPlaceInfo(
-      String placeName, double latitude, double longitude,) async {
+    String placeName,
+    double latitude,
+    double longitude,
+  ) async {
     int? userId = UserManager().getUserId();
     await dio.put(
       '/myplace',
@@ -41,5 +45,11 @@ class MyPlaceService {
         "longitude": longitude,
       },
     );
+  }
+
+  Future<void> deleteMyPlaceInfo(String placeName) async {
+    int? userId = UserManager().getUserId();
+    await dio
+        .delete('/myplace', data: {"userId": userId, "placeName": placeName});
   }
 }

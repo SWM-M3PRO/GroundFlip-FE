@@ -51,6 +51,7 @@ class MyPlaceButtonIcon extends StatelessWidget {
                     onPressed: () async {
                       mapController.deleteLocalStorage(place);
                       mapController.myPlaceButtonVisible.value = false;
+                      myPlaceService.deleteMyPlaceInfo(place);
                       Get.back();
                     },
                   ),

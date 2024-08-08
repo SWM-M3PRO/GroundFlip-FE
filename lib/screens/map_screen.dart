@@ -57,7 +57,6 @@ class MapScreen extends StatelessWidget {
                     },
                     myLocationEnabled: true,
                     style: mapController.mapStyle,
-                    markers: Set<Marker>.of(mapController.markers),
                     polygons: Set<Polygon>.of(mapController.pixels),
                   ),
                 );

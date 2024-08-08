@@ -22,6 +22,7 @@ import 'screens/sign_up_screen.dart';
 import 'service/location_service.dart';
 import 'service/my_place_service.dart';
 import 'utils/user_manager.dart';
+import 'service/auth_service.dart';
 import 'widgets/common/internet_disconnect.dart';
 
 Future<void> main() async {
@@ -39,7 +40,7 @@ Future<void> main() async {
 
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
   LocationService().initBackgroundLocation();
-  String initialRoute = '/main';//await AuthService().isLogin() ? '/main' : '/permission';
+  String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
   runApp(
     MyApp(
       initialRoute: initialRoute,
@@ -51,7 +52,6 @@ class MyApp extends StatelessWidget {
   MyApp({super.key, required this.initialRoute});
 
   final String initialRoute;
-  final MyPlaceService myPlaceService = MyPlaceService();
   static bool checkInternet = true;
 
   final listener =
@@ -80,7 +80,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     analytics.logAppOpen();
-    myPlaceService.getMyPlaceInfo();
 
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
