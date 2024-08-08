@@ -13,6 +13,8 @@ class UserManager {
 
   void init() {
     userId = null;
+    accessToken = null;
+    refreshToken = null;
   }
 
   void setUserId(int id) {
@@ -32,10 +34,10 @@ class UserManager {
   }
 
   String getAccessToken() {
-    return accessToken!;
+    return accessToken ?? "token";
   }
 
   String getRefreshToken() {
-    return refreshToken!;
+    return refreshToken ?? "token";
   }
 }
