@@ -4,15 +4,17 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart' hide Response;
+import 'package:ground_flip/utils/user_manager.dart';
 
 import '../models/reissue_response.dart';
 import '../service/auth_service.dart';
-import 'secure_storage.dart';
 
 class DioService {
   static final DioService _dioServices = DioService._internal();
   static final String baseUrl = dotenv.env['BASE_URL']!;
-  final SecureStorage secureStorage = SecureStorage();
+
+  // final SecureStorage secureStorage = SecureStorage();
+  final UserManager userManager = UserManager();
 
   factory DioService() => _dioServices;
 
@@ -29,7 +31,8 @@ class DioService {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          final accessToken = await secureStorage.readAccessToken();
+          // final accessToken = await secureStorage.readAccessToken();
+          final accessToken = userManager.getAccessToken();
           options.headers.addAll({
             'Authorization': 'Bearer $accessToken',
           });
@@ -47,9 +50,11 @@ class DioService {
           if (dioException.response?.statusCode == HttpStatus.unauthorized) {
             try {
               ReissueResponse reissueResponse = await reissueToken();
-              await secureStorage.writeAccessToken(reissueResponse.accessToken);
-              await secureStorage
-                  .writeRefreshToken(reissueResponse.refreshToken);
+              userManager.setAccessToken(reissueResponse.accessToken!);
+              userManager.setRefreshToken(reissueResponse.refreshToken!);
+              // await secureStorage.writeAccessToken(reissueResponse.accessToken);
+              // await secureStorage
+              //     .writeRefreshToken(reissueResponse.refreshToken);
 
               Response<dynamic> resendResponse =
                   await resendRequest(dioException, reissueResponse);
@@ -82,7 +87,8 @@ class DioService {
   }
 
   Future<ReissueResponse> reissueToken() async {
-    final refreshToken = await secureStorage.readRefreshToken();
+    // final refreshToken = await secureStorage.readRefreshToken();
+    final refreshToken = userManager.getRefreshToken();
     final dio = Dio();
     var response = await dio
         .post("$baseUrl/auth/reissue", data: {"refreshToken": refreshToken});

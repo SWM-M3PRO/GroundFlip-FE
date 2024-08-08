@@ -8,6 +8,8 @@ class UserManager {
   UserManager._internal();
 
   int? userId;
+  String? accessToken;
+  String? refreshToken;
 
   void init() {
     userId = null;
@@ -17,7 +19,23 @@ class UserManager {
     userId = id;
   }
 
+  void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+  }
+
+  void setRefreshToken(String refreshToken) {
+    this.refreshToken = refreshToken;
+  }
+
   int? getUserId() {
     return userId;
+  }
+
+  String getAccessToken() {
+    return accessToken!;
+  }
+
+  String getRefreshToken() {
+    return refreshToken!;
   }
 }

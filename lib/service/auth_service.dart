@@ -55,6 +55,8 @@ class AuthService {
       return false;
     } else {
       UserManager().setUserId(extractUserIdFromToken(accessToken));
+      UserManager().setAccessToken(accessToken);
+      UserManager().setRefreshToken(refreshToken);
       return true;
     }
   }
