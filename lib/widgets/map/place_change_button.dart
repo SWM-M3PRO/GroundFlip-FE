@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
-import '../../controllers/map_controller.dart';
+import '../../controllers/my_place_controller.dart';
 
 class PlaceChangeButton extends StatelessWidget {
   PlaceChangeButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final MapController mapController = Get.find<MapController>();
+    final MyPlaceController myPlaceController = Get.find<MyPlaceController>();
     return Obx(() {
       return Center(
         child: AnimatedToggleSwitch<int>.size(
-          current: mapController.getSelectedPlace(),
+          current: myPlaceController.getSelectedPlace(),
           style: ToggleStyle(
             backgroundColor: AppColors.backgroundThird,
             indicatorColor: AppColors.buttonColor,
@@ -48,7 +48,7 @@ class PlaceChangeButton extends StatelessWidget {
             );
           },
           borderWidth: 0.0,
-          onChanged: (i) => mapController.changePlace(i),
+          onChanged: (i) => myPlaceController.changePlace(i),
         ),
       );
     });

@@ -123,4 +123,8 @@ class MyPlaceController extends GetxController {
     }
     bottomSheetController.minimize();
   }
+
+  getSelectedPlace() {
+    return selectedPlace.value;
+  }
 }

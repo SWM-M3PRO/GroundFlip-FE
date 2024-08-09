@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math' as math;
-import 'dart:math';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -19,7 +18,6 @@ import '../service/user_service.dart';
 import '../utils/date_handler.dart';
 import '../utils/user_manager.dart';
 import '../widgets/map/filter_bottom_sheet.dart';
-import '../widgets/map/my_place_bottom_sheet.dart';
 import '../widgets/pixel.dart';
 import 'bottom_sheet_controller.dart';
 
@@ -40,10 +38,9 @@ class MapController extends SuperController {
 
   late final String mapStyle;
 
-  final box = GetStorage();
-
   GoogleMapController? googleMapController;
-  GoogleMapController? googleMapController2;
+
+  final box = GetStorage();
 
   late CameraPosition currentCameraPosition;
   late Map<String, int> latestPixel;
@@ -55,18 +52,14 @@ class MapController extends SuperController {
   RxBool isLoading = true.obs;
   final RxInt selectedMode = 1.obs;
   final RxInt selectedPeriod = 0.obs;
-  final RxInt selectedPlace = 0.obs;
   final RxInt currentPixelCount = 0.obs;
   final RxInt accumulatePixelCount = 0.obs;
   final RxInt accumulatePixelCountPerPeriod = 0.obs;
-  final RxDouble selectedLatitude = 37.503640.obs;
-  final RxDouble selectedLongitude = 127.044829.obs;
-  final RxString myPlaceName = "HOME".obs;
+
   RxDouble speed = 0.0.obs;
   RxBool isCameraTrackingUser = true.obs;
 
   RxBool myPlaceButtonVisible = false.obs;
-  RxBool myPlaceisEmpty = true.obs;
 
   late Pixel lastOnTabPixel;
   bool isBottomSheetShowUp = false;
@@ -135,10 +128,6 @@ class MapController extends SuperController {
     return selectedPeriod.value;
   }
 
-  getSelectedPlace() {
-    return selectedPlace.value;
-  }
-
   void onCameraIdle() {
     if (!isBottomSheetShowUp) {
       _cameraIdleTimer = Timer(Duration(milliseconds: 300), updatePixels);
@@ -151,6 +140,8 @@ class MapController extends SuperController {
   }
 
   setCameraOnCurrentLocation() {
+    isCameraTrackingUser = true.obs;
+
     currentCameraPosition = CameraPosition(
       target: LatLng(
         _locationService.currentLocation!.latitude!,
@@ -164,27 +155,18 @@ class MapController extends SuperController {
   }
 
   setCameraOnLocation(double latitude, double longitude) {
-    currentCameraPosition =
-        CameraPosition(target: LatLng(latitude, longitude), zoom: 16.0);
+    currentCameraPosition = CameraPosition(
+      target: LatLng(
+        latitude,
+        longitude,
+      ),
+      zoom: 16.0,
+    );
     googleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(currentCameraPosition),
     );
-  }
 
-  void updateMarker(LatLng latLng) {
-    markers.clear();
-    markers.add(
-      Marker(
-        markerId: MarkerId('clicked_position'),
-        position: latLng,
-        infoWindow: InfoWindow(
-          title: 'Clicked Position',
-          snippet: 'Lat: ${latLng.latitude}, Lng: ${latLng.longitude}',
-        ),
-      ),
-    );
-    selectedLatitude.value = latLng.latitude;
-    selectedLongitude.value = latLng.longitude;
+    isCameraTrackingUser = false.obs;
   }
 
   void _trackUserLocation() {
@@ -271,22 +253,6 @@ class MapController extends SuperController {
     });
   }
 
-  Future<void> writeLocalStorage(
-    String place,
-    double latitude,
-    double longitude,
-  ) async {
-    await box.write(
-      place,
-      Point(latitude, longitude),
-    );
-    update();
-  }
-
-  Future<void> deleteLocalStorage(String place) async {
-    await box.remove(place);
-  }
-
   void updatePixels() async {
     if (_isMapOverZoomedOut()) {
       pixels.value = [];
@@ -355,33 +321,10 @@ class MapController extends SuperController {
     updatePixels();
   }
 
-  void changePlace(int type) {
-    selectedPlace.value = type;
-    if (type == 0) {
-      myPlaceName.value = "HOME";
-    } else if (type == 1) {
-      myPlaceName.value = "COMPANY";
-    } else {
-      myPlaceName.value = "ELSE";
-    }
-    bottomSheetController.minimize();
-    updatePixels();
-  }
-
   openFilterBottomSheet() {
     bottomSheetController.minimize();
     Get.bottomSheet(
       FilterBottomSheet(),
-      backgroundColor: AppColors.backgroundSecondary,
-      enterBottomSheetDuration: Duration(milliseconds: 100),
-      exitBottomSheetDuration: Duration(milliseconds: 100),
-    );
-  }
-
-  openMyPlaceBottomSheet() {
-    bottomSheetController.minimize();
-    Get.bottomSheet(
-      MyPlaceBottomSheet(),
       backgroundColor: AppColors.backgroundSecondary,
       enterBottomSheetDuration: Duration(milliseconds: 100),
       exitBottomSheetDuration: Duration(milliseconds: 100),
@@ -488,5 +431,9 @@ class MapController extends SuperController {
     _timer!.cancel();
     elapsedSeconds.value = 0;
     WakelockPlus.disable();
+  }
+
+  Future<void> deleteLocalStorage(String place) async {
+    await box.remove(place);
   }
 }
