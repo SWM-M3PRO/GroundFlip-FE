@@ -17,7 +17,10 @@ import '../utils/user_manager.dart';
 class Pixel extends Polygon {
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
+  static const int defaultStrokeWidth = 2;
 
+  static const double strokeWidthToLatitude = 0.00000905;
+  static const double strokeWidthToLongitude = 0.0000113625;
   final int x;
   final int y;
   final int pixelId;
@@ -89,7 +92,7 @@ class Pixel extends Polygon {
               .withOpacity(0.3 + (Random().nextDouble() * (0.6 - 0.3)))
           : Colors.red.withOpacity(0.3 + (Random().nextDouble() * (0.6 - 0.3))),
       strokeColor: isMyPixel ? Color(0xFF0DF69E) : Colors.red,
-      strokeWidth: 2,
+      strokeWidth: defaultStrokeWidth,
       customOnTap: (int pixelId) async {
         FirebaseAnalytics.instance.logEvent(name: "individual_mode_pixel_click");
 
@@ -118,7 +121,7 @@ class Pixel extends Polygon {
       fillColor: Color(0xFF0DF69E)
           .withOpacity(0.3 + (Random().nextDouble() * (0.6 - 0.3))),
       strokeColor: Color(0xFF0DF69E),
-      strokeWidth: 2,
+      strokeWidth: defaultStrokeWidth,
       customOnTap: (int pixelId) async {
         FirebaseAnalytics.instance.logEvent(name: "history_pixel_click");
 
@@ -137,13 +140,13 @@ class Pixel extends Polygon {
 
   static List<LatLng> _getRectangleFromLatLng({required LatLng topLeftPoint}) {
     return List<LatLng>.of({
-      LatLng(topLeftPoint.latitude, topLeftPoint.longitude),
-      LatLng(topLeftPoint.latitude, topLeftPoint.longitude + lonPerPixel),
+      LatLng(topLeftPoint.latitude - strokeWidthToLatitude, topLeftPoint.longitude + strokeWidthToLongitude),
+      LatLng(topLeftPoint.latitude - strokeWidthToLatitude, topLeftPoint.longitude + lonPerPixel - strokeWidthToLongitude),
       LatLng(
-        topLeftPoint.latitude - latPerPixel,
-        topLeftPoint.longitude + lonPerPixel,
+        topLeftPoint.latitude - latPerPixel + strokeWidthToLatitude,
+        topLeftPoint.longitude + lonPerPixel - strokeWidthToLongitude,
       ),
-      LatLng(topLeftPoint.latitude - latPerPixel, topLeftPoint.longitude),
+      LatLng(topLeftPoint.latitude - latPerPixel + strokeWidthToLatitude, topLeftPoint.longitude + strokeWidthToLongitude),
     });
   }
 
@@ -157,7 +160,7 @@ class Pixel extends Polygon {
       fillColor: Colors.white
           .withOpacity(0.3),
       strokeColor: Colors.white,
-      strokeWidth: 2,
+      strokeWidth: defaultStrokeWidth,
       customOnTap: (pixelId) {},
       zIndex: 1,
     );
