@@ -19,8 +19,8 @@ class Pixel extends Polygon {
   static const double lonPerPixel = 0.000909;
   static const int defaultStrokeWidth = 2;
 
-  static const double strokeWidthToLatitude = 0.00000905;
-  static const double strokeWidthToLongitude = 0.0000113625;
+  static const double defaultStrokeWidthToLatitude = 0.00000905;
+  static const double defaultStrokeWidthToLongitude = 0.0000113625;
   final int x;
   final int y;
   final int pixelId;
@@ -140,13 +140,13 @@ class Pixel extends Polygon {
 
   static List<LatLng> _getRectangleFromLatLng({required LatLng topLeftPoint}) {
     return List<LatLng>.of({
-      LatLng(topLeftPoint.latitude - strokeWidthToLatitude, topLeftPoint.longitude + strokeWidthToLongitude),
-      LatLng(topLeftPoint.latitude - strokeWidthToLatitude, topLeftPoint.longitude + lonPerPixel - strokeWidthToLongitude),
+      LatLng(topLeftPoint.latitude - defaultStrokeWidthToLatitude, topLeftPoint.longitude + defaultStrokeWidthToLongitude),
+      LatLng(topLeftPoint.latitude - defaultStrokeWidthToLatitude, topLeftPoint.longitude + lonPerPixel - defaultStrokeWidthToLongitude),
       LatLng(
-        topLeftPoint.latitude - latPerPixel + strokeWidthToLatitude,
-        topLeftPoint.longitude + lonPerPixel - strokeWidthToLongitude,
+        topLeftPoint.latitude - latPerPixel + defaultStrokeWidthToLatitude,
+        topLeftPoint.longitude + lonPerPixel - defaultStrokeWidthToLongitude,
       ),
-      LatLng(topLeftPoint.latitude - latPerPixel + strokeWidthToLatitude, topLeftPoint.longitude + strokeWidthToLongitude),
+      LatLng(topLeftPoint.latitude - latPerPixel + defaultStrokeWidthToLatitude, topLeftPoint.longitude + defaultStrokeWidthToLongitude),
     });
   }
 
