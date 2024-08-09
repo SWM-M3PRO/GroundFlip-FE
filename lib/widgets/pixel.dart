@@ -17,10 +17,12 @@ import '../utils/user_manager.dart';
 class Pixel extends Polygon {
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
-  static const int defaultStrokeWidth = 2;
-
   static const double defaultStrokeWidthToLatitude = 0.00000905;
   static const double defaultStrokeWidthToLongitude = 0.0000113625;
+
+  static const int defaultStrokeWidth = 2;
+  static const double defaultZoomLevel = 16.0;
+
   final int x;
   final int y;
   final int pixelId;
@@ -53,7 +55,7 @@ class Pixel extends Polygon {
       y: 0,
       pixelId: 1,
       points: List<LatLng>.from({LatLng(0.0, 0.0)}),
-      customOnTap: (int pixelId) {  },
+      customOnTap: (int pixelId) {},
       polygonId: '1',
     );
   }
@@ -63,7 +65,8 @@ class Pixel extends Polygon {
       x: pixel.x,
       y: pixel.y,
       pixelId: pixel.pixelId,
-      customOnTap: (int pixelId) => (pixel.onTap != null) ? (pixel.onTap!)() : {},
+      customOnTap: (int pixelId) =>
+          (pixel.onTap != null) ? (pixel.onTap!)() : {},
       polygonId: pixel.polygonId.value,
       points: List<LatLng>.from(pixel.points),
       geodesic: pixel.geodesic,
@@ -94,7 +97,8 @@ class Pixel extends Polygon {
       strokeColor: isMyPixel ? Color(0xFF0DF69E) : Colors.red,
       strokeWidth: defaultStrokeWidth,
       customOnTap: (int pixelId) async {
-        FirebaseAnalytics.instance.logEvent(name: "individual_mode_pixel_click");
+        FirebaseAnalytics.instance
+            .logEvent(name: "individual_mode_pixel_click");
 
         Get.find<MapController>().changePixelToOnTabState(pixelId);
 
@@ -139,14 +143,27 @@ class Pixel extends Polygon {
   }
 
   static List<LatLng> _getRectangleFromLatLng({required LatLng topLeftPoint}) {
+    double currentZoomLevel =
+        Get.find<MapController>().currentCameraPosition.zoom;
+
+    num zoomScale = (16.0 - currentZoomLevel) >= 0
+        ? pow(2, (defaultZoomLevel - currentZoomLevel))
+        : 1;
+
+    double strokeWidthToLatitude = defaultStrokeWidthToLatitude * zoomScale;
+    double strokeWidthToLongitude = defaultStrokeWidthToLongitude * zoomScale;
+
     return List<LatLng>.of({
-      LatLng(topLeftPoint.latitude - defaultStrokeWidthToLatitude, topLeftPoint.longitude + defaultStrokeWidthToLongitude),
-      LatLng(topLeftPoint.latitude - defaultStrokeWidthToLatitude, topLeftPoint.longitude + lonPerPixel - defaultStrokeWidthToLongitude),
+      LatLng(topLeftPoint.latitude - strokeWidthToLatitude,
+          topLeftPoint.longitude + strokeWidthToLongitude),
+      LatLng(topLeftPoint.latitude - strokeWidthToLatitude,
+          topLeftPoint.longitude + lonPerPixel - strokeWidthToLongitude),
       LatLng(
-        topLeftPoint.latitude - latPerPixel + defaultStrokeWidthToLatitude,
-        topLeftPoint.longitude + lonPerPixel - defaultStrokeWidthToLongitude,
+        topLeftPoint.latitude - latPerPixel + strokeWidthToLatitude,
+        topLeftPoint.longitude + lonPerPixel - strokeWidthToLongitude,
       ),
-      LatLng(topLeftPoint.latitude - latPerPixel + defaultStrokeWidthToLatitude, topLeftPoint.longitude + defaultStrokeWidthToLongitude),
+      LatLng(topLeftPoint.latitude - latPerPixel + strokeWidthToLatitude,
+          topLeftPoint.longitude + strokeWidthToLongitude),
     });
   }
 
@@ -157,8 +174,7 @@ class Pixel extends Polygon {
       pixelId: pixel.pixelId,
       polygonId: pixel.pixelId.toString(),
       points: pixel.points,
-      fillColor: Colors.white
-          .withOpacity(0.3),
+      fillColor: Colors.white.withOpacity(0.3),
       strokeColor: Colors.white,
       strokeWidth: defaultStrokeWidth,
       customOnTap: (pixelId) {},
