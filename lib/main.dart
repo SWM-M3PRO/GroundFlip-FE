@@ -53,18 +53,24 @@ class MyApp extends StatelessWidget {
   final String initialRoute;
   static bool checkInternet = true;
 
-  final listener =
+  var listener =
       InternetConnection().onStatusChange.listen((InternetStatus status) {
+    final MainController mainController = Get.find<MainController>();
     switch (status) {
       case InternetStatus.connected:
-        checkInternet = true;
+        mainController.internetCheck.value = true;
+        if (mainController.isAlertIsShow.value) {
+          Get.back();
+          mainController.isAlertIsShow.value = false;
+        }
         break;
       case InternetStatus.disconnected:
-        checkInternet = false;
+        mainController.internetCheck.value = false;
         Timer(
           Duration(seconds: 5),
           () {
-            if (!checkInternet) {
+            if (!mainController.internetCheck.value) {
+              mainController.isAlertIsShow.value = true;
               Get.dialog(
                 InternetDisconnect(),
               );
