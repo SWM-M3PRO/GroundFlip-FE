@@ -12,6 +12,7 @@ import '../widgets/map/bottom_sheet/map_bottom_sheet.dart';
 import '../widgets/map/current_location_button.dart';
 import '../widgets/map/filter_button.dart';
 import '../widgets/map/mode_change_toggle.dart';
+import '../widgets/map/my_place_button.dart';
 import '../widgets/map/pixel_count_info.dart';
 
 class MapScreen extends StatelessWidget {
@@ -33,6 +34,7 @@ class MapScreen extends StatelessWidget {
           );
         } else {
           return Stack(
+            clipBehavior: Clip.hardEdge,
             children: [
               Obx(() {
                 return Listener(
@@ -55,11 +57,31 @@ class MapScreen extends StatelessWidget {
                     },
                     myLocationEnabled: true,
                     style: mapController.mapStyle,
-                    markers: Set<Marker>.of(mapController.markers),
                     polygons: Set<Polygon>.of(mapController.pixels),
                   ),
                 );
               }),
+             Positioned(
+                  right: 10,
+                  top: 110,
+                  child: Obx(() {
+                    if (mapController.currentPixelMode.value ==
+                        PixelMode.individualHistory) {
+                      return Column(
+                        children: [
+                          FilterButton(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          MyPlaceButton(),
+                        ],
+                      );
+                    } else {
+                      return MyPlaceButton();
+                    }
+                  }),
+                ),
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Column(
@@ -69,16 +91,6 @@ class MapScreen extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    Obx(() {
-                      if (mapController.currentPixelMode.value ==
-                          PixelMode.individualHistory) {
-                        return Align(
-                            alignment: Alignment.topRight,
-                            child: FilterButton(),);
-                      } else {
-                        return Container();
-                      }
-                    }),
                     Spacer(),
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
