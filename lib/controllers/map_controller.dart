@@ -149,7 +149,6 @@ class MapController extends SuperController {
   void _trackUserLocation() {
     _locationService.location.onLocationChanged.listen((newLocation) async {
       _locationService.currentLocation = newLocation;
-
       if (isCameraTrackingUser.value) {
         setCameraOnCurrentLocation();
       }
@@ -225,7 +224,9 @@ class MapController extends SuperController {
   }
 
   void trackPixels() {
-    _updatePixelTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+    _updatePixelTimer =
+        Timer.periodic(const Duration(seconds: 10), (timer) async {
+      UserManager().updateSecureStorage();
       updatePixels();
     });
   }
