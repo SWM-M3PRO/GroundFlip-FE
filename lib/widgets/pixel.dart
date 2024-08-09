@@ -154,16 +154,22 @@ class Pixel extends Polygon {
     double strokeWidthToLongitude = defaultStrokeWidthToLongitude * zoomScale;
 
     return List<LatLng>.of({
-      LatLng(topLeftPoint.latitude - strokeWidthToLatitude,
-          topLeftPoint.longitude + strokeWidthToLongitude),
-      LatLng(topLeftPoint.latitude - strokeWidthToLatitude,
-          topLeftPoint.longitude + lonPerPixel - strokeWidthToLongitude),
+      LatLng(
+        topLeftPoint.latitude - strokeWidthToLatitude,
+        topLeftPoint.longitude + strokeWidthToLongitude,
+      ),
+      LatLng(
+        topLeftPoint.latitude - strokeWidthToLatitude,
+        topLeftPoint.longitude + lonPerPixel - strokeWidthToLongitude,
+      ),
       LatLng(
         topLeftPoint.latitude - latPerPixel + strokeWidthToLatitude,
         topLeftPoint.longitude + lonPerPixel - strokeWidthToLongitude,
       ),
-      LatLng(topLeftPoint.latitude - latPerPixel + strokeWidthToLatitude,
-          topLeftPoint.longitude + strokeWidthToLongitude),
+      LatLng(
+        topLeftPoint.latitude - latPerPixel + strokeWidthToLatitude,
+        topLeftPoint.longitude + strokeWidthToLongitude,
+      ),
     });
   }
 
