@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
-import '../../controllers/map_controller.dart';
+import '../../controllers/my_place_controller.dart';
 import '../../service/my_place_service.dart';
 import 'place_change_button.dart';
 
@@ -16,7 +16,7 @@ class MyPlaceBottomSheet extends StatelessWidget {
   });
 
   final MyPlaceService myPlaceService = MyPlaceService();
-  final MapController mapController = Get.find<MapController>();
+  final MyPlaceController myPlaceController = Get.find<MyPlaceController>();
   final box = GetStorage();
 
   int selectedNumber = 0;
@@ -67,16 +67,15 @@ class MyPlaceBottomSheet extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 onTap: () async{
                   await myPlaceService.putMyPlaceInfo(
-                      mapController.myPlaceName.value,
-                      mapController.selectedLatitude.value,
-                      mapController.selectedLongitude.value,);
+                      myPlaceController.myPlaceName.value,
+                      myPlaceController.selectedLatitude.value,
+                      myPlaceController.selectedLongitude.value,);
 
-                  await mapController.writeLocalStorage(
-                      mapController.myPlaceName.value,
-                      mapController.selectedLatitude.value,
-                      mapController.selectedLongitude.value,);
+                  await myPlaceController.writeLocalStorage(
+                      myPlaceController.myPlaceName.value,
+                      myPlaceController.selectedLatitude.value,
+                      myPlaceController.selectedLongitude.value,);
 
-                  mapController.myPlaceButtonVisible.value = false;
                   Get.back();
                   Get.back();
                 },
