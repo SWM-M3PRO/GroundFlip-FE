@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import '../../constants/app_colors.dart';
 import '../../controllers/my_place_controller.dart';
 
-class PlaceChangeButton extends StatelessWidget {
-  PlaceChangeButton({super.key});
+class PlaceChangeToggleButton extends StatelessWidget {
+  PlaceChangeToggleButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class PlaceChangeButton extends StatelessWidget {
             );
           },
           borderWidth: 0.0,
-          onChanged: (i) => myPlaceController.changePlace(i),
+          onChanged: (i) => myPlaceController.changeSelectedPlace(i),
         ),
       );
     });

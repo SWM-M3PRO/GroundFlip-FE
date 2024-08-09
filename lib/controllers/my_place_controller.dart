@@ -86,7 +86,7 @@ class MyPlaceController extends GetxController {
     mapStyle = await rootBundle.loadString(darkMapStylePath);
   }
 
-  Future<void> writeLocalStorage(
+  Future<void> writeMyPlaceOnLocalStorage(
       String place,
       double latitude,
       double longitude,
@@ -96,10 +96,6 @@ class MyPlaceController extends GetxController {
       Point(latitude, longitude),
     );
     update();
-  }
-
-  Future<void> deleteLocalStorage(String place) async {
-    await box.remove(place);
   }
 
   openMyPlaceBottomSheet() {
@@ -112,7 +108,7 @@ class MyPlaceController extends GetxController {
     );
   }
 
-  void changePlace(int type) {
+  void changeSelectedPlace(int type) {
     selectedPlace.value = type;
     if (type == 0) {
       myPlaceName.value = "HOME";

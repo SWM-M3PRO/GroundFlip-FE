@@ -433,7 +433,7 @@ class MapController extends SuperController {
     WakelockPlus.disable();
   }
 
-  Future<void> deleteLocalStorage(String place) async {
+  Future<void> deleteMyPlaceFromLocalStorage(String place) async {
     await box.remove(place);
   }
 }

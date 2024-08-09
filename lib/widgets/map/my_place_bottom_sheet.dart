@@ -7,7 +7,7 @@ import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 import '../../controllers/my_place_controller.dart';
 import '../../service/my_place_service.dart';
-import 'place_change_button.dart';
+import 'place_change_toggle_button.dart';
 
 // ignore: must_be_immutable
 class MyPlaceBottomSheet extends StatelessWidget {
@@ -59,19 +59,19 @@ class MyPlaceBottomSheet extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            PlaceChangeButton(),
+            PlaceChangeToggleButton(),
             Spacer(),
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: InkWell(
                 borderRadius: BorderRadius.circular(16),
-                onTap: () async{
+                onTap: () async {
                   await myPlaceService.putMyPlaceInfo(
                       myPlaceController.myPlaceName.value,
                       myPlaceController.selectedLatitude.value,
                       myPlaceController.selectedLongitude.value,);
 
-                  await myPlaceController.writeLocalStorage(
+                  await myPlaceController.writeMyPlaceOnLocalStorage(
                       myPlaceController.myPlaceName.value,
                       myPlaceController.selectedLatitude.value,
                       myPlaceController.selectedLongitude.value,);
