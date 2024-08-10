@@ -45,7 +45,7 @@ class MyPlaceButtonIcon extends StatelessWidget {
                     child: Text(
                       '확인',
                       style: TextStyle(
-                        color: AppColors.textSecondary,
+                        color: AppColors.primary,
                       ),
                     ),
                     onPressed: () async {
