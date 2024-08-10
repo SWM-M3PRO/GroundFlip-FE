@@ -36,7 +36,7 @@ class MyPlaceBottomSheet extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    "즐겨찾기 장소 등록",
+                    "내 장소 등록",
                     style: TextStyles.fs20w700cTextPrimary,
                   ),
                 ),
