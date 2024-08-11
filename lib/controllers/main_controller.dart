@@ -10,7 +10,7 @@ import '../service/my_place_service.dart';
 import '../service/version_service.dart';
 
 class MainController extends GetxController {
-  static final String playStoreUrl =
+  static const String playStoreUrl =
       'https://play.google.com/store/apps/details?id=com.m3pro.ground_flip';
   final FcmService fcmService = FcmService();
   final MyPlaceService myPlaceService = MyPlaceService();

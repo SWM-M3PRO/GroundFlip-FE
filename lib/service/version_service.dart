@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 import '../models/version_response.dart';
 import '../utils/dio_service.dart';
