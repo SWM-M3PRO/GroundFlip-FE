@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
   final String initialRoute;
   static bool checkInternet = true;
 
-  var listener =
+  final listener =
       InternetConnection().onStatusChange.listen((InternetStatus status) {
     final MainController mainController = Get.find<MainController>();
     switch (status) {
