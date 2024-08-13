@@ -20,7 +20,6 @@ class VersionService {
     String currentVersion = packageInfo.version;
     var response = await dio.get('/version', queryParameters: {"currentVersion":currentVersion});
     VersionResponse versionResponse = VersionResponse.fromJson(response.data['data']);
-    print('1111 ${versionResponse.needUpdate}');
     return versionResponse;
   }
 }
