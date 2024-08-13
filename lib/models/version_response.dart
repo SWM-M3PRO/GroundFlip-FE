@@ -1,17 +1,16 @@
 
 class VersionResponse {
   String? version;
-  DateTime? createdDate;
+  String? needUpdate;
 
   VersionResponse({
     this.version,
-    this.createdDate,
+    this.needUpdate,
   });
 
   VersionResponse.fromJson(Map<String, dynamic> json){
     version = json['version'];
-    createdDate = json['createdDate'] != null ? DateTime.parse(json['createdDate']) : null;
+    needUpdate = json['needUpdate'];
   }
-
 
 }

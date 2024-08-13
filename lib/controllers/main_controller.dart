@@ -1,6 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/app_colors.dart';
@@ -12,6 +13,8 @@ import '../service/version_service.dart';
 class MainController extends GetxController {
   static const String playStoreUrl =
       'https://play.google.com/store/apps/details?id=com.m3pro.ground_flip';
+  static const String appStoreUrl =
+      "https://apps.apple.com/app/ground-flip/id6550922550";
   final FcmService fcmService = FcmService();
   final MyPlaceService myPlaceService = MyPlaceService();
   final VersionService versionService = VersionService();
@@ -27,14 +30,12 @@ class MainController extends GetxController {
   }
 
   Future<dynamic> checkVersion() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
     VersionResponse versionResponse = await versionService.getVersion();
-    String currentVersion = packageInfo.version;
-    if (versionResponse.version != currentVersion) {
+    if (versionResponse.needUpdate == "NEED") {
       return Get.dialog(
         AlertDialog(
           title: Text(
-            "앱을 업데이트 해주세요!",
+            "앱의 최신버전이 존재합니다.",
             style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 20,
@@ -55,7 +56,11 @@ class MainController extends GetxController {
                     ),
                   ),
                   onPressed: () async {
-                    launchUrl(Uri.parse(playStoreUrl));
+                    if (Platform.isIOS) {
+                      launchUrl(Uri.parse(appStoreUrl));
+                    } else {
+                      launchUrl(Uri.parse(playStoreUrl));
+                    }
                   },
                 ),
               ),

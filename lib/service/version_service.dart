@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../models/version_response.dart';
 import '../utils/dio_service.dart';
@@ -15,7 +16,11 @@ class VersionService {
   final Dio dio = DioService().getDio();
 
   Future<VersionResponse> getVersion() async {
-    var response = await dio.get('/version');
-    return VersionResponse.fromJson(response.data['data']);
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String currentVersion = packageInfo.version;
+    var response = await dio.get('/version', queryParameters: {"currentVersion":currentVersion});
+    VersionResponse versionResponse = VersionResponse.fromJson(response.data['data']);
+    print('1111 ${versionResponse.needUpdate}');
+    return versionResponse;
   }
 }
