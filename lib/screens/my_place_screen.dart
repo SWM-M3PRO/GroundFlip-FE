@@ -14,6 +14,24 @@ class MyPlaceScreen extends StatelessWidget {
     final MyPlaceController myPlaceController = Get.put(MyPlaceController());
 
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: AppColors.buttonColor,
+          ),
+        ),
+        backgroundColor: AppColors.background,
+        title: Text(
+          '내 장소 등록',
+          style: TextStyle(
+            color: AppColors.textPrimary,
+          ),
+        ),
+      ),
       body: Obx(() {
         if (myPlaceController.isLoading.value) {
           return const Center(
@@ -49,7 +67,7 @@ class MyPlaceScreen extends StatelessWidget {
                 },
               ),
               Positioned(
-                top: 60,
+                top: 20,
                 right: 10,
                 child: GestureDetector(
                   onTap: () {

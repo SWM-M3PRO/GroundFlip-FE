@@ -32,11 +32,12 @@ Future<void> main() async {
   ]);
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
-  MainController();
+  final MainController mainController = MainController();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  mainController.checkVersion();
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
   LocationService().initBackgroundLocation();
   String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
@@ -55,16 +56,22 @@ class MyApp extends StatelessWidget {
 
   final listener =
       InternetConnection().onStatusChange.listen((InternetStatus status) {
+    final MainController mainController = Get.find<MainController>();
     switch (status) {
       case InternetStatus.connected:
-        checkInternet = true;
+        mainController.internetCheck.value = true;
+        if (mainController.isAlertIsShow.value) {
+          Get.back();
+          mainController.isAlertIsShow.value = false;
+        }
         break;
       case InternetStatus.disconnected:
-        checkInternet = false;
+        mainController.internetCheck.value = false;
         Timer(
           Duration(seconds: 5),
           () {
-            if (!checkInternet) {
+            if (!mainController.internetCheck.value) {
+              mainController.isAlertIsShow.value = true;
               Get.dialog(
                 InternetDisconnect(),
               );
@@ -83,6 +90,7 @@ class MyApp extends StatelessWidget {
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
       child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         navigatorObservers: [
           FirebaseAnalyticsObserver(analytics: analytics),
         ],

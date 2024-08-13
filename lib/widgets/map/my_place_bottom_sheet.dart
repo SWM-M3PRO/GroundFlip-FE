@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
+import '../../controllers/map_controller.dart';
 import '../../controllers/my_place_controller.dart';
 import '../../service/my_place_service.dart';
 import 'place_change_toggle_button.dart';
@@ -17,6 +18,7 @@ class MyPlaceBottomSheet extends StatelessWidget {
 
   final MyPlaceService myPlaceService = MyPlaceService();
   final MyPlaceController myPlaceController = Get.find<MyPlaceController>();
+  final MapController mapController = Get.find<MapController>();
   final box = GetStorage();
 
   int selectedNumber = 0;
@@ -34,7 +36,7 @@ class MyPlaceBottomSheet extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    "즐겨찾기 장소 등록",
+                    "내 장소 등록",
                     style: TextStyles.fs20w700cTextPrimary,
                   ),
                 ),
@@ -75,6 +77,7 @@ class MyPlaceBottomSheet extends StatelessWidget {
                       myPlaceController.myPlaceName.value,
                       myPlaceController.selectedLatitude.value,
                       myPlaceController.selectedLongitude.value,);
+                  mapController.myPlaceButtonVisible.value = false;
 
                   Get.back();
                   Get.back();

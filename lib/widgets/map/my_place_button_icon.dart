@@ -33,7 +33,7 @@ class MyPlaceButtonIcon extends StatelessWidget {
             Get.dialog(
               AlertDialog(
                 title: Text(
-                  '등록을 삭제하시겠습니까?',
+                  '내 장소를 삭제하시겠습니까?',
                   style: TextStyle(
                     color: AppColors.textPrimary,
                     fontSize: 20,
@@ -45,7 +45,7 @@ class MyPlaceButtonIcon extends StatelessWidget {
                     child: Text(
                       '확인',
                       style: TextStyle(
-                        color: AppColors.textSecondary,
+                        color: AppColors.primary,
                       ),
                     ),
                     onPressed: () async {
