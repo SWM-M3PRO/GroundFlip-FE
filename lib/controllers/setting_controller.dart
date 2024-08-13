@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../constants/text_styles.dart';
 import '../service/auth_service.dart';
@@ -8,6 +9,24 @@ import '../service/user_service.dart';
 class SettingController extends GetxController {
   final AuthService authService = AuthService();
   final UserService userService = UserService();
+  late PackageInfo packageInfo;
+  late String currentVersion;
+
+  @override
+  void onInit() {
+    init();
+    super.onInit();
+  }
+
+  Future<void> init() async{
+    await setPageInfo();
+    currentVersion = packageInfo.version;
+    update();
+  }
+
+  Future<void> setPageInfo() async{
+    packageInfo = await PackageInfo.fromPlatform();
+  }
 
   logout() async {
     _showLogoutDialog();
