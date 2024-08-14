@@ -49,18 +49,7 @@ class MyPlaceController extends GetxController {
     bottomSheetController.minimize();
   }
 
-  void updateMarker(LatLng latLng) {
-    markers.clear();
-    markers.add(
-      Marker(
-        markerId: MarkerId('clicked_position'),
-        position: latLng,
-        infoWindow: InfoWindow(
-          title: 'Clicked Position',
-          snippet: 'Lat: ${latLng.latitude}, Lng: ${latLng.longitude}',
-        ),
-      ),
-    );
+  void updateCoordinate(LatLng latLng) {
     selectedLatitude.value = latLng.latitude;
     selectedLongitude.value = latLng.longitude;
   }

@@ -13,25 +13,29 @@ class MyPlaceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final MyPlaceController myPlaceController = Get.put(MyPlaceController());
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: AppColors.buttonColor,
-          ),
-        ),
-        backgroundColor: AppColors.background,
-        title: Text(
-          '내 장소 등록',
-          style: TextStyle(
-            color: AppColors.textPrimary,
-          ),
+    final PreferredSizeWidget appBar = AppBar(
+      leading: IconButton(
+        onPressed: () {
+          Get.back();
+        },
+        icon: Icon(
+          Icons.arrow_back_ios,
+          color: AppColors.buttonColor,
         ),
       ),
+      backgroundColor: AppColors.background,
+      title: Text(
+        '내 장소 등록',
+        style: TextStyle(
+          color: AppColors.textPrimary,
+        ),
+      ),
+    );
+
+    final double appBarHeight = appBar.preferredSize.height;
+
+    return Scaffold(
+      appBar: appBar,
       body: Obx(() {
         if (myPlaceController.isLoading.value) {
           return const Center(
@@ -60,8 +64,24 @@ class MyPlaceScreen extends StatelessWidget {
                     myLocationEnabled: false,
                     style: myPlaceController.mapStyle,
                     markers: Set<Marker>.of(myPlaceController.markers),
-                    onTap: (LatLng latLng) {
-                      myPlaceController.updateMarker(latLng);
+                    onCameraIdle: () async {
+                      final GoogleMapController? controller =
+                          myPlaceController.googleMapController;
+                      LatLng center = LatLng(
+                        LocationService().currentLocation!.latitude!,
+                        LocationService().currentLocation!.longitude!,
+                      );
+                      if (controller != null) {
+                        center = await controller.getLatLng(
+                          ScreenCoordinate(
+                            x: MediaQuery.of(context).size.width ~/ 2,
+                            y: (MediaQuery.of(context).size.height-appBarHeight) ~/ 2,
+                          ),
+                        );
+                      } else {
+                        print('googlemap is null');
+                      }
+                      myPlaceController.updateCoordinate(center);
                     },
                   );
                 },
@@ -82,7 +102,7 @@ class MyPlaceScreen extends StatelessWidget {
                     child: Text(
                       '등록',
                       style: TextStyle(
-                        color: AppColors.textPrimary,
+                        color: AppColors.textBlack,
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                       ),
