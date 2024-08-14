@@ -6,7 +6,6 @@ import '../constants/app_colors.dart';
 import '../controllers/my_place_controller.dart';
 import '../service/location_service.dart';
 import '../widgets/map/current_location_button.dart';
-import '../widgets/map/my_place_button.dart';
 
 class MyPlaceScreen extends StatelessWidget {
   MyPlaceScreen({super.key});
@@ -14,8 +13,8 @@ class MyPlaceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MyPlaceController myPlaceController = Get.put(MyPlaceController());
-    final double mapPinHeight = 60;
-    final double mapPinWidth = mapPinHeight * 0.85;
+    const double mapPinHeight = 60;
+    const double mapPinWidth = mapPinHeight * 0.85;
 
     final PreferredSizeWidget appBar = AppBar(
       leading: IconButton(
@@ -85,14 +84,13 @@ class MyPlaceScreen extends StatelessWidget {
                         LatLngBounds visibleRegion =
                             await controller.getVisibleRegion();
                         center = LatLng(
-                            (visibleRegion.northeast.latitude +
-                                    visibleRegion.southwest.latitude) /
-                                2,
-                            (visibleRegion.northeast.longitude +
-                                    visibleRegion.southwest.longitude) /
-                                2);
-                      } else {
-                        print('googlemap is null');
+                          (visibleRegion.northeast.latitude +
+                                  visibleRegion.southwest.latitude) /
+                              2,
+                          (visibleRegion.northeast.longitude +
+                                  visibleRegion.southwest.longitude) /
+                              2,
+                        );
                       }
                       myPlaceController.updateCoordinate(center);
                     },
