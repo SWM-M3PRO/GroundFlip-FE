@@ -3,18 +3,34 @@ import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../controllers/map_controller.dart';
+import '../../controllers/my_place_controller.dart';
 
 class CurrentLocationButton extends StatefulWidget {
-  const CurrentLocationButton({super.key});
+  final String checkController;
+  const CurrentLocationButton({super.key, required this.checkController});
 
   @override
   createState() => _CurrentLocationButtonState();
 }
 
 class _CurrentLocationButtonState extends State<CurrentLocationButton> {
-  final MapController mapController = Get.find<MapController>();
+  late final dynamic _controller;
   Color _buttonColor = AppColors.backgroundSecondary; // 기본 배경 색상
   final Color _pressedColor = Colors.grey; // 눌렀을 때의 배경 색상
+
+  @override
+  void initState(){
+    super.initState();
+    _initializeController();
+  }
+
+  void _initializeController(){
+    if(widget.checkController=="map"){
+      _controller = Get.find<MapController>();
+    }else{
+      _controller = Get.find<MyPlaceController>();
+    }
+  }
 
   void _onPointerDown(DragDownDetails event) {
     setState(() {
@@ -32,8 +48,8 @@ class _CurrentLocationButtonState extends State<CurrentLocationButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        mapController.setCameraOnCurrentLocation();
-        mapController.isCameraTrackingUser = true.obs;
+        _controller.setCameraOnCurrentLocation();
+        _controller.isCameraTrackingUser = true.obs;
       },
       onPanDown: _onPointerDown,
       onPanEnd: (details) => _onPointerUp(),

@@ -32,6 +32,7 @@ class MyPlaceController extends GetxController {
   RxBool isLoading = true.obs;
   final RxDouble selectedLatitude = 37.503640.obs;
   final RxDouble selectedLongitude = 127.044829.obs;
+  RxBool isCameraTrackingUser = true.obs;
   final RxString myPlaceName = "HOME".obs;
   final RxInt selectedPlace = 0.obs;
 
@@ -111,5 +112,20 @@ class MyPlaceController extends GetxController {
 
   getSelectedPlace() {
     return selectedPlace.value;
+  }
+
+  setCameraOnCurrentLocation() {
+    isCameraTrackingUser = true.obs;
+
+    currentCameraPosition = CameraPosition(
+      target: LatLng(
+        _locationService.currentLocation!.latitude!,
+        _locationService.currentLocation!.longitude!,
+      ),
+      zoom: 16.0,
+    );
+    googleMapController?.animateCamera(
+      CameraUpdate.newCameraPosition(currentCameraPosition),
+    );
   }
 }

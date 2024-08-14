@@ -5,6 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../constants/app_colors.dart';
 import '../controllers/my_place_controller.dart';
 import '../service/location_service.dart';
+import '../widgets/map/current_location_button.dart';
+import '../widgets/map/my_place_button.dart';
 
 class MyPlaceScreen extends StatelessWidget {
   MyPlaceScreen({super.key});
@@ -12,6 +14,8 @@ class MyPlaceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MyPlaceController myPlaceController = Get.put(MyPlaceController());
+    final double mapPinHeight = 60;
+    final double mapPinWidth = mapPinHeight * 0.85;
 
     final PreferredSizeWidget appBar = AppBar(
       leading: IconButton(
@@ -30,6 +34,11 @@ class MyPlaceScreen extends StatelessWidget {
           color: AppColors.textPrimary,
         ),
       ),
+    );
+    final Widget mapPinImage = Image.asset(
+      'assets/images/green_map_pin.png',
+      height: mapPinHeight,
+      width: mapPinWidth,
     );
 
     final double appBarHeight = appBar.preferredSize.height;
@@ -62,6 +71,7 @@ class MyPlaceScreen extends StatelessWidget {
                       myPlaceController.googleMapController = ctrl;
                     },
                     myLocationEnabled: false,
+                    zoomControlsEnabled: false,
                     style: myPlaceController.mapStyle,
                     markers: Set<Marker>.of(myPlaceController.markers),
                     onCameraIdle: () async {
@@ -72,12 +82,15 @@ class MyPlaceScreen extends StatelessWidget {
                         LocationService().currentLocation!.longitude!,
                       );
                       if (controller != null) {
-                        center = await controller.getLatLng(
-                          ScreenCoordinate(
-                            x: MediaQuery.of(context).size.width ~/ 2,
-                            y: (MediaQuery.of(context).size.height-appBarHeight) ~/ 2,
-                          ),
-                        );
+                        LatLngBounds visibleRegion =
+                            await controller.getVisibleRegion();
+                        center = LatLng(
+                            (visibleRegion.northeast.latitude +
+                                    visibleRegion.southwest.latitude) /
+                                2,
+                            (visibleRegion.northeast.longitude +
+                                    visibleRegion.southwest.longitude) /
+                                2);
                       } else {
                         print('googlemap is null');
                       }
@@ -87,27 +100,52 @@ class MyPlaceScreen extends StatelessWidget {
                 },
               ),
               Positioned(
-                top: 20,
-                right: 10,
-                child: GestureDetector(
-                  onTap: () {
-                    myPlaceController.openMyPlaceBottomSheet();
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 7, horizontal: 20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: AppColors.primary,
-                    ),
-                    child: Text(
-                      '등록',
-                      style: TextStyle(
-                        color: AppColors.textBlack,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
+                top: (MediaQuery.of(context).size.height - appBarHeight) / 2 -
+                    (mapPinHeight - 2),
+                left:
+                    (MediaQuery.of(context).size.width / 2) - (mapPinWidth / 2),
+                child: mapPinImage,
+              ),
+              Positioned(
+                bottom: 15,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: CurrentLocationButton(
+                        checkController: "myPlace",
                       ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: GestureDetector(
+                        onTap: () {
+                          myPlaceController.openMyPlaceBottomSheet();
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width - 20,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: AppColors.primary,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Center(
+                              child: Text(
+                                '등록',
+                                style: TextStyle(
+                                  color: AppColors.textBlack,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

@@ -68,10 +68,10 @@ class MyPlaceBottomSheet extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(16),
                 onTap: () async {
-                  await myPlaceService.putMyPlaceInfo(
-                      myPlaceController.myPlaceName.value,
-                      myPlaceController.selectedLatitude.value,
-                      myPlaceController.selectedLongitude.value,);
+                  // await myPlaceService.putMyPlaceInfo(
+                  //     myPlaceController.myPlaceName.value,
+                  //     myPlaceController.selectedLatitude.value,
+                  //     myPlaceController.selectedLongitude.value,);
 
                   await myPlaceController.writeMyPlaceOnLocalStorage(
                       myPlaceController.myPlaceName.value,
@@ -94,7 +94,7 @@ class MyPlaceBottomSheet extends StatelessWidget {
                         '장소등록',
                         style: TextStyle(
                           fontSize: 20,
-                          color: AppColors.textPrimary,
+                          color: AppColors.textBlack,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
