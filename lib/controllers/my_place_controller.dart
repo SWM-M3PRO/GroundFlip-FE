@@ -30,8 +30,8 @@ class MyPlaceController extends GetxController {
 
   RxList<Marker> markers = <Marker>[].obs;
   RxBool isLoading = true.obs;
-  final RxDouble selectedLatitude = 37.503640.obs;
-  final RxDouble selectedLongitude = 127.044829.obs;
+  late final RxDouble selectedLatitude;
+  late final RxDouble selectedLongitude;
   RxBool isCameraTrackingUser = true.obs;
   final RxString myPlaceName = "HOME".obs;
   final RxInt selectedPlace = 0.obs;
@@ -42,6 +42,8 @@ class MyPlaceController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    selectedLongitude.value =_locationService.currentLocation!.longitude!;
+    selectedLatitude.value = _locationService.currentLocation!.latitude!;
     await _loadMapStyle();
     await initCurrentLocation();
   }

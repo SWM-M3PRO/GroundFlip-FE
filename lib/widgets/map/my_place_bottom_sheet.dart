@@ -68,10 +68,10 @@ class MyPlaceBottomSheet extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(16),
                 onTap: () async {
-                  // await myPlaceService.putMyPlaceInfo(
-                  //     myPlaceController.myPlaceName.value,
-                  //     myPlaceController.selectedLatitude.value,
-                  //     myPlaceController.selectedLongitude.value,);
+                  await myPlaceService.putMyPlaceInfo(
+                      myPlaceController.myPlaceName.value,
+                      myPlaceController.selectedLatitude.value,
+                      myPlaceController.selectedLongitude.value,);
 
                   await myPlaceController.writeMyPlaceOnLocalStorage(
                       myPlaceController.myPlaceName.value,
