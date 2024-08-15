@@ -32,7 +32,7 @@ Future<void> main() async {
   ]);
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
-  final MainController mainController = Get.put(MainController());
+  final MainController mainController = Get.put(MainController(), permanent: true);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
