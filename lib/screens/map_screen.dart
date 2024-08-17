@@ -56,6 +56,7 @@ class MapScreen extends StatelessWidget {
                       mapController.googleMapController = ctrl;
                     },
                     myLocationEnabled: true,
+                    myLocationButtonEnabled: false,
                     style: mapController.mapStyle,
                     polygons: Set<Polygon>.of(mapController.pixels),
                   ),
@@ -98,7 +99,7 @@ class MapScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           PixelCountInfo(count: 128),
-                          CurrentLocationButton(),
+                          CurrentLocationButton(checkController: "map",),
                         ],
                       ),
                     ),

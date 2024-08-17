@@ -32,15 +32,15 @@ Future<void> main() async {
   ]);
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
-  final MainController mainController = MainController();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  mainController.checkVersion();
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
   LocationService().initBackgroundLocation();
   String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
+  final MainController mainController = Get.put(MainController(), permanent: true);
+  mainController.checkVersion();
   runApp(
     MyApp(
       initialRoute: initialRoute,

@@ -94,7 +94,7 @@ class MyPlaceBottomSheet extends StatelessWidget {
                         '장소등록',
                         style: TextStyle(
                           fontSize: 20,
-                          color: AppColors.textPrimary,
+                          color: AppColors.textBlack,
                           fontWeight: FontWeight.w700,
                         ),
                       ),

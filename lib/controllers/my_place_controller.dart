@@ -30,8 +30,9 @@ class MyPlaceController extends GetxController {
 
   RxList<Marker> markers = <Marker>[].obs;
   RxBool isLoading = true.obs;
-  final RxDouble selectedLatitude = 37.503640.obs;
-  final RxDouble selectedLongitude = 127.044829.obs;
+  final RxDouble selectedLatitude = 37.566422.obs;
+  final RxDouble selectedLongitude = 126.977948.obs;
+  RxBool isCameraTrackingUser = true.obs;
   final RxString myPlaceName = "HOME".obs;
   final RxInt selectedPlace = 0.obs;
 
@@ -49,25 +50,13 @@ class MyPlaceController extends GetxController {
     bottomSheetController.minimize();
   }
 
-  void updateMarker(LatLng latLng) {
-    markers.clear();
-    markers.add(
-      Marker(
-        markerId: MarkerId('clicked_position'),
-        position: latLng,
-        infoWindow: InfoWindow(
-          title: 'Clicked Position',
-          snippet: 'Lat: ${latLng.latitude}, Lng: ${latLng.longitude}',
-        ),
-      ),
-    );
+  void updateCoordinate(LatLng latLng) {
     selectedLatitude.value = latLng.latitude;
     selectedLongitude.value = latLng.longitude;
   }
 
   Future<void> initCurrentLocation() async {
     try {
-      await LocationService().initCurrentLocation();
       currentCameraPosition = CameraPosition(
         target: LatLng(
           _locationService.currentLocation!.latitude!,
@@ -122,5 +111,20 @@ class MyPlaceController extends GetxController {
 
   getSelectedPlace() {
     return selectedPlace.value;
+  }
+
+  setCameraOnCurrentLocation() {
+    isCameraTrackingUser = true.obs;
+
+    currentCameraPosition = CameraPosition(
+      target: LatLng(
+        _locationService.currentLocation!.latitude!,
+        _locationService.currentLocation!.longitude!,
+      ),
+      zoom: 16.0,
+    );
+    googleMapController?.animateCamera(
+      CameraUpdate.newCameraPosition(currentCameraPosition),
+    );
   }
 }
