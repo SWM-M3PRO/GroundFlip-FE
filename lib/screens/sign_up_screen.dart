@@ -73,7 +73,9 @@ class SignUpScreen extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     borderRadius: BorderRadius.circular(16),
-                                    onTap: controller.getImage,
+                                    onTap: (){
+                                      controller.getImage(context);
+                                    },
                                     child: Container(
                                       height: 44,
                                       width: 104,

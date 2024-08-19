@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../constants/app_colors.dart';
 import '../models/user.dart';
 import '../service/user_service.dart';
+import '../widgets/common/alert.dart';
 import 'my_page_controller.dart';
 
 class UserInfoController extends GetxController {
@@ -122,13 +123,26 @@ class UserInfoController extends GetxController {
     textEditingController = TextEditingController(text: nickname.value);
   }
 
-  Future getImage() async {
+  Future getImage(BuildContext context) async {
+    int imageSize = 0;
+    double imageSizeMB = 0.0;
     XFile? selectedImage = await picker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 100,
     );
     if (selectedImage != null) {
-      profileImage.value = selectedImage;
+      imageSize = await selectedImage.length();
+      imageSizeMB = imageSize / (1024 * 1024);
+      if (imageSizeMB > 10) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return Alert(text1: "10MB 이하 사이즈의 이미지를 넣어주세요!", text2: "확인");
+          },
+        );
+      } else {
+        profileImage.value = selectedImage;
+      }
     }
   }
 
