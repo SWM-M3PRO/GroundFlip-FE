@@ -53,7 +53,6 @@ class UserInfoController extends GetxController {
   }
 
   Future<void> textDispose() async{
-    print('2222 dispose');
     textEditingController.dispose();
     textFocusNode.dispose();
   }
@@ -134,12 +133,14 @@ class UserInfoController extends GetxController {
       imageSize = await selectedImage.length();
       imageSizeMB = imageSize / (1024 * 1024);
       if (imageSizeMB > 10) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return Alert(text1: "10MB 이하 사이즈의 이미지를 넣어주세요!", text2: "확인");
-          },
-        );
+        if(context.mounted){
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Alert(text1: "10MB 이하 사이즈의 이미지를 넣어주세요!", text2: "확인");
+            },
+          );
+        }
       } else {
         profileImage.value = selectedImage;
       }
@@ -151,7 +152,6 @@ class UserInfoController extends GetxController {
   }
 
   void updateNickname(String value) {
-    print('3333 $value');
     nickname.value = value;
     if (regExp2.hasMatch(value) && !regExp1.hasMatch(value)) {
       nicknameValidation.value = "자음 모음은 사용할 수 없습니다!";
@@ -208,7 +208,6 @@ class UserInfoController extends GetxController {
   }
 
   void completeUserInfoUpdate() async {
-    print('1111 ${nickname.value} ${gender.value}, ${birthYear.value}');
     try {
       int? statusCode = await userService.putUserInfo(
         gender: gender.value,

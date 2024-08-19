@@ -18,7 +18,6 @@ class VersionService {
   Future<VersionResponse> getVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String currentVersion = packageInfo.version;
-    print('0000 $currentVersion');
     var response = await dio.get('/version', queryParameters: {"currentVersion":currentVersion});
     VersionResponse versionResponse = VersionResponse.fromJson(response.data['data']);
     return versionResponse;
