@@ -99,6 +99,15 @@ class SignUpController extends GetxController {
     } else {
       isNicknameTyped.value = true;
     }
+    if (regExp2.hasMatch(inputString) && !regExp1.hasMatch(inputString)) {
+      nicknameValidation.value = "자음 모음은 사용할 수 없습니다!";
+    }
+    if (!regExp1.hasMatch(inputString) && !regExp2.hasMatch(inputString)) {
+      nicknameValidation.value = "형식에 맞지 않습니다!";
+    }
+    if (regExp1.hasMatch(inputString)) {
+      nicknameValidation.value = "3~10자 이내";
+    }
   }
 
   void showErrorDialog(String message) {

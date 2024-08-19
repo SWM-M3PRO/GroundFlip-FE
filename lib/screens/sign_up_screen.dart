@@ -167,6 +167,7 @@ class SignUpScreen extends StatelessWidget {
                                     controller: controller.textEditingController,
                                     autofocus: false,
                                     focusNode: controller.textFocusNode,
+                                    onChanged: controller.updateNickname,
                                     onSubmitted: controller.onSubmitted,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,

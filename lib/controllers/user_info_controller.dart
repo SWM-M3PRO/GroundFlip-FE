@@ -46,10 +46,15 @@ class UserInfoController extends GetxController {
   }
 
   @override
-  void onClose() {
+  Future<void> onClose() async{
+    await textDispose();
+    super.onClose();
+  }
+
+  Future<void> textDispose() async{
+    print('2222 dispose');
     textEditingController.dispose();
     textFocusNode.dispose();
-    super.onClose();
   }
 
   void checkGender() {
@@ -131,9 +136,19 @@ class UserInfoController extends GetxController {
     birthYear.value = inputBirthYear;
   }
 
-  void updateNickname(String inputString) {
-    nickname.value = inputString;
-    if (inputString == '') {
+  void updateNickname(String value) {
+    print('3333 ${value}');
+    nickname.value = value;
+    if (regExp2.hasMatch(value) && !regExp1.hasMatch(value)) {
+      nicknameValidation.value = "자음 모음은 사용할 수 없습니다!";
+    }
+    if (!regExp1.hasMatch(value) && !regExp2.hasMatch(value)) {
+      nicknameValidation.value = "형식에 맞지 않습니다!";
+    }
+    if (regExp1.hasMatch(value)) {
+      nicknameValidation.value = "3~10자 이내";
+    }
+    if (value == '') {
       isNicknameTyped.value = false;
     } else {
       isNicknameTyped.value = true;
@@ -179,6 +194,7 @@ class UserInfoController extends GetxController {
   }
 
   void completeUserInfoUpdate() async {
+    print('1111 ${nickname.value} ${gender.value}, ${birthYear.value}');
     try {
       int? statusCode = await userService.putUserInfo(
         gender: gender.value,
