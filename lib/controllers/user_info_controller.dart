@@ -151,7 +151,7 @@ class UserInfoController extends GetxController {
   }
 
   void updateNickname(String value) {
-    print('3333 ${value}');
+    print('3333 $value');
     nickname.value = value;
     if (regExp2.hasMatch(value) && !regExp1.hasMatch(value)) {
       nicknameValidation.value = "자음 모음은 사용할 수 없습니다!";

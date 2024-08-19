@@ -22,6 +22,7 @@ import 'screens/sign_up_screen.dart';
 import 'service/auth_service.dart';
 import 'service/location_service.dart';
 import 'utils/user_manager.dart';
+import 'utils/version_check.dart';
 import 'widgets/common/internet_disconnect.dart';
 
 Future<void> main() async {
@@ -39,8 +40,8 @@ Future<void> main() async {
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
   LocationService().initBackgroundLocation();
   String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
-  final MainController mainController = Get.put(MainController(), permanent: true);
-  mainController.checkVersion();
+  VersionCheck versionCheck = VersionCheck();
+  versionCheck.versionCheck();
   runApp(
     MyApp(
       initialRoute: initialRoute,
