@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:ground_flip/utils/secure_storage.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
@@ -25,23 +27,50 @@ import 'utils/user_manager.dart';
 import 'utils/version_check.dart';
 import 'widgets/common/internet_disconnect.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+
+  final SecureStorage secureStorage = SecureStorage();
+  await secureStorage.secureStorage.write(key: "currentSteps", value: '0');
+
+  print("Handling a background message: ${message.messageId}");
+}
+
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('######Got a message whilst in the foreground!#####');
+    print('Message data: ${message.data}');
+
+    if (message.notification != null) {
+      print('Message also contained a notification: ${message.notification}');
+    }
+  });
 
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
+
   LocationService().initBackgroundLocation();
+
   String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
+
   VersionCheck versionCheck = VersionCheck();
   versionCheck.versionCheck();
+
   runApp(
     MyApp(
       initialRoute: initialRoute,
