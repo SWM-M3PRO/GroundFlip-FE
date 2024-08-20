@@ -62,7 +62,7 @@ class AndroidWalkingHandler extends TaskHandler {
   static String todayStepKey = 'currentSteps';
   static String lastSavedStepKey = 'lastSteps';
   Timer? _midnightTimer;
-  int currentSteps = 0;
+  static int currentSteps = 0;
 
   @override
   void onStart(DateTime timestamp, SendPort? sendPort) async {
@@ -90,15 +90,15 @@ class AndroidWalkingHandler extends TaskHandler {
     Duration timeUntilMidnight = midnight.difference(now);
     _midnightTimer?.cancel();
     _midnightTimer = Timer(timeUntilMidnight, () {
-      _resetStepsAtMidnight();
+      resetStepsAtMidnight();
       _midnightTimer?.cancel();
       _midnightTimer = Timer.periodic(Duration(days: 1), (timer) {
-        _resetStepsAtMidnight();
+        resetStepsAtMidnight();
       });
     });
   }
 
-  void _resetStepsAtMidnight() async {
+  void resetStepsAtMidnight() async {
     String token = await secureStorage.readAccessToken();
     int userId = authService.extractUserIdFromToken(token);
     DateTime previousDay = DateTime.now().subtract(Duration(days: 1));

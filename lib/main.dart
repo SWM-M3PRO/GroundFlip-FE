@@ -6,10 +6,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:ground_flip/utils/android_notification.dart';
 import 'package:ground_flip/utils/secure_storage.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:intl/intl.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
 import 'controllers/main_controller.dart';
@@ -29,11 +32,21 @@ import 'widgets/common/internet_disconnect.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
+  DateTime previousDay = DateTime.now().subtract(Duration(days: 1));
 
   final SecureStorage secureStorage = SecureStorage();
-  await secureStorage.secureStorage.write(key: "currentSteps", value: '0');
+  await secureStorage.secureStorage.write(
+      key: "STEP:${DateFormat('yyyy-MM-dd').format(previousDay)}",
+      value: AndroidWalkingHandler.currentSteps.toString(),
+  );
 
-  print("Handling a background message: ${message.messageId}");
+  await secureStorage.secureStorage.write(key: "currentSteps", value: '0');
+  AndroidWalkingHandler.currentSteps = 0;
+
+  FlutterForegroundTask.updateService(
+    notificationTitle: "걸음수",
+    notificationText: 0.toString(),
+  );
 }
 
 
@@ -51,15 +64,17 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     print('######Got a message whilst in the foreground!#####');
     print('Message data: ${message.data}');
+    print('Message : ${message.notification}');
+    print('Message : ${message.notification?.title}');
+    print('Message : ${message.notification?.body}');
 
-    if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
-    }
+    AndroidWalkingHandler walkingHandler = AndroidWalkingHandler();
+    walkingHandler.resetStepsAtMidnight();
   });
 
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
