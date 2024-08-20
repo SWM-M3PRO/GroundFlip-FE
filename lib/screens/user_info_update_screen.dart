@@ -13,7 +13,7 @@ class UserInfoUpdateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserInfoController controller = Get.put(UserInfoController());
+    final UserInfoController userInfoController = Get.put(UserInfoController());
 
     return GestureDetector(
       onTap: () {
@@ -46,7 +46,7 @@ class UserInfoUpdateScreen extends StatelessWidget {
               padding: EdgeInsets.only(top: 20),
               child: Obx(
                 () {
-                  if (!controller.isUserInfoInit.value) {
+                  if (!userInfoController.isUserInfoInit.value) {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
@@ -109,10 +109,11 @@ class UserInfoUpdateScreen extends StatelessWidget {
                                     child: Center(
                                       child: TextField(
                                         controller:
-                                            controller.textEditingController,
+                                            userInfoController.textEditingController,
                                         autofocus: false,
-                                        focusNode: controller.textFocusNode,
-                                        onSubmitted: controller.onSubmitted,
+                                        focusNode: userInfoController.textFocusNode,
+                                        onChanged: userInfoController.updateNickname,
+                                        onSubmitted: userInfoController.onSubmitted,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                         ),
@@ -133,10 +134,10 @@ class UserInfoUpdateScreen extends StatelessWidget {
                                       child: Row(
                                         children: [
                                           Text(
-                                            controller.nicknameValidation.value,
+                                            userInfoController.nicknameValidation.value,
                                             style: TextStyle(
                                               fontSize: 14,
-                                              color: controller.nicknameValidation
+                                              color: userInfoController.nicknameValidation
                                                           .value ==
                                                       "3~10자 이내"
                                                   ? AppColors.primary
@@ -144,7 +145,7 @@ class UserInfoUpdateScreen extends StatelessWidget {
                                             ),
                                           ),
                                           Icon(
-                                            controller.nicknameValidation.value ==
+                                            userInfoController.nicknameValidation.value ==
                                                     "3~10자 이내"
                                                 ? Icons.check
                                                 : null,
@@ -191,7 +192,9 @@ class UserInfoUpdateScreen extends StatelessWidget {
                           ),
                           InkWell(
                             borderRadius: BorderRadius.circular(16),
-                            onTap: controller.completeUserInfoUpdate,
+                            onTap: (){
+                              userInfoController.completeUserInfoUpdate();
+                            },
                             child: Container(
                               padding: EdgeInsets.symmetric(vertical: 20),
                               decoration: BoxDecoration(
