@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -19,29 +20,55 @@ import 'screens/permission_request_screen.dart';
 import 'screens/policy_screen.dart';
 import 'screens/setting_screen.dart';
 import 'screens/sign_up_screen.dart';
+import 'service/alarm_service.dart';
+import 'service/android_walking_service.dart';
 import 'service/auth_service.dart';
 import 'service/location_service.dart';
 import 'utils/user_manager.dart';
 import 'utils/version_check.dart';
 import 'widgets/common/internet_disconnect.dart';
 
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  String? title = message.notification!.title;
+
+  await AlarmService.initializeStepCount(title);
+}
+
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    String? title = message.notification!.title;
+
+    await AlarmService.initializeStepCount(title);
+  });
+
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
+
   LocationService().initBackgroundLocation();
+
   String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
+  AndroidWalkingService().postAllUserStepFromStorage();
+
   VersionCheck versionCheck = VersionCheck();
   versionCheck.versionCheck();
+
   runApp(
     MyApp(
       initialRoute: initialRoute,
