@@ -24,29 +24,37 @@ import 'screens/permission_request_screen.dart';
 import 'screens/policy_screen.dart';
 import 'screens/setting_screen.dart';
 import 'screens/sign_up_screen.dart';
+import 'service/android_walking_service.dart';
 import 'service/auth_service.dart';
 import 'service/location_service.dart';
 import 'utils/user_manager.dart';
 import 'utils/version_check.dart';
 import 'widgets/common/internet_disconnect.dart';
 
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  DateTime previousDay = DateTime.now().subtract(Duration(days: 1));
+  String? title = message.notification!.title;
+  if(title != null && title.contains("걸음 수")) {
+    DateTime previousDay = DateTime.now().subtract(Duration(days: 1));
 
-  final SecureStorage secureStorage = SecureStorage();
-  await secureStorage.secureStorage.write(
-      key: "STEP:${DateFormat('yyyy-MM-dd').format(previousDay)}",
-      value: AndroidWalkingHandler.currentSteps.toString(),
-  );
+    final SecureStorage secureStorage = SecureStorage();
 
-  await secureStorage.secureStorage.write(key: "currentSteps", value: '0');
-  AndroidWalkingHandler.currentSteps = 0;
+    String dailyStepKey = "STEP:${DateFormat('yyyy-MM-dd').format(previousDay)}";
+    if(!await secureStorage.secureStorage.containsKey(key: dailyStepKey)) {
+      await secureStorage.secureStorage.write(
+        key: dailyStepKey,
+        value: await secureStorage.secureStorage.read(key: "currentSteps"),
+      );
 
-  FlutterForegroundTask.updateService(
-    notificationTitle: "걸음수",
-    notificationText: 0.toString(),
-  );
+      await secureStorage.secureStorage.write(key: "currentSteps", value: '0');
+      AndroidWalkingHandler.currentSteps = 0;
+      FlutterForegroundTask.updateService(
+        notificationTitle: "걸음수",
+        notificationText: 0.toString(),
+      );
+    }
+  }
 }
 
 
@@ -67,14 +75,27 @@ Future<void> main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-    print('######Got a message whilst in the foreground!#####');
-    print('Message data: ${message.data}');
-    print('Message : ${message.notification}');
-    print('Message : ${message.notification?.title}');
-    print('Message : ${message.notification?.body}');
+    String? title = message.notification!.title;
+    if(title != null && title.contains("걸음 수")) {
+      DateTime previousDay = DateTime.now().subtract(Duration(days: 1));
 
-    AndroidWalkingHandler walkingHandler = AndroidWalkingHandler();
-    walkingHandler.resetStepsAtMidnight();
+      final SecureStorage secureStorage = SecureStorage();
+
+      String dailyStepKey = "STEP:${DateFormat('yyyy-MM-dd').format(previousDay)}";
+      if(!await secureStorage.secureStorage.containsKey(key: dailyStepKey)) {
+        await secureStorage.secureStorage.write(
+          key: dailyStepKey,
+          value: await secureStorage.secureStorage.read(key: "currentSteps"),
+        );
+
+        await secureStorage.secureStorage.write(key: "currentSteps", value: '0');
+        AndroidWalkingHandler.currentSteps = 0;
+        FlutterForegroundTask.updateService(
+          notificationTitle: "걸음수",
+          notificationText: 0.toString(),
+        );
+      }
+    }
   });
 
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
@@ -82,6 +103,7 @@ Future<void> main() async {
   LocationService().initBackgroundLocation();
 
   String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
+  AndroidWalkingService().postAllUserStepFromStorage();
 
   VersionCheck versionCheck = VersionCheck();
   versionCheck.versionCheck();

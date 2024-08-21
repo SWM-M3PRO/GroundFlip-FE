@@ -62,6 +62,17 @@ class AndroidWalkingService implements WalkingService {
     );
   }
 
+  Future<void> postAllUserStepFromStorage() async {
+    Map<String, int> allSteps = await _getStepData();
+
+    allSteps.forEach((date, steps) async {
+      await dio.post(
+        '/steps',
+        data: {"userId": UserManager().getUserId(), "date": date, "steps": steps},
+      );
+    });
+  }
+
   Future<void> _initForegroundWalkingTask() async {
     initForegroundTask();
   }
@@ -72,9 +83,8 @@ class AndroidWalkingService implements WalkingService {
     Map<String, int> stepData = {};
     allSteps.forEach((key, value) async {
       if (key.startsWith("STEP:")) {
-        String dateKey = key.substring(5); // This removes "STEP:"
+        String dateKey = key.substring(5);
         stepData[dateKey] = int.parse(value);
-
         await secureStorage.delete(key: key);
       }
     });
