@@ -53,113 +53,104 @@ class SettingScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: GetBuilder<SettingController>(
-        builder: (controller) {
-          if (controller.currentVersion.isEmpty) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: ListView(
-              children: [
-                SettingsSection(
-                  items: [
-                    SettingsItem(
-                      title: '알림 설정',
-                      onTap: () {
-                        Get.to(PushSettingScreen());
-                      },
-                    ),
-                    SettingsItem(
-                      title: Platform.isIOS
-                          ? 'App Store 리뷰 남기기'
-                          : 'playstore 리뷰 남기기',
-                      onTap: () {
-                        final inAppReview = InAppReview.instance;
-                        inAppReview.openStoreListing(
-                          appStoreId: appStoreId,
-                        );
-                      },
-                      isLast: true,
-                    ),
-                  ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: ListView(
+          children: [
+            SettingsSection(
+              items: [
+                SettingsItem(
+                  title: '알림 설정',
+                  onTap: () {
+                    Get.to(PushSettingScreen());
+                  },
                 ),
-                SettingsSection(
-                  title: '가이드',
-                  items: [
-                    SettingsItem(
-                      title: '공지사항',
-                      onTap: () async {
-                        launchUrl(Uri.parse(announcementUrl));
-                      },
-                    ),
-                    SettingsItem(
-                      title: '사용 가이드',
-                      onTap: () {
-                        launchUrl(Uri.parse(playGuideUrl));
-                      },
-                    ),
-                    SettingsItem(
-                      title: '고객 문의 및 개선 요청',
-                      isLast: true,
-                      onTap: () {
-                        launchUrl(Uri.parse(customerSupportUrl));
-                      },
-                    ),
-                  ],
-                ),
-                SettingsSection(
-                  title: '기타',
-                  items: [
-                    SettingsItem(
-                      title: '서비스 이용약관',
-                      onTap: () {
-                        launchUrl(Uri.parse(serviceUsePolicyUrl));
-                      },
-                    ),
-                    SettingsItem(
-                      title: '위치기반서비스 이용약관',
-                      onTap: () {
-                        launchUrl(Uri.parse(placeServicePolicyUrl));
-                      },
-                    ),
-                    SettingsItem(
-                      title: '개인정보 처리 방침',
-                      onTap: () {
-                        launchUrl(Uri.parse(individualInfoPolicyUrl));
-                      },
-                    ),
-                    SettingsItem(
-                      title: '버전 정보',
-                      subTitle: settingController.currentVersion,
-                      isLast: true,
-                    ),
-                  ],
-                ),
-                SettingsSection(
-                  items: [
-                    SettingsItem(
-                      title: '로그아웃',
-                      onTap: () {
-                        settingController.logout();
-                      },
-                    ),
-                    SettingsItem(
-                      title: '계정 탈퇴',
-                      isAccent: true,
-                      isLast: true,
-                      onTap: () {
-                        settingController.removeAccount();
-                      },
-                    ),
-                  ],
+                SettingsItem(
+                  title:
+                      Platform.isIOS ? 'App Store 리뷰 남기기' : 'playstore 리뷰 남기기',
+                  onTap: () {
+                    final inAppReview = InAppReview.instance;
+                    inAppReview.openStoreListing(
+                      appStoreId: appStoreId,
+                    );
+                  },
+                  isLast: true,
                 ),
               ],
             ),
-          );
-        },
+            SettingsSection(
+              title: '가이드',
+              items: [
+                SettingsItem(
+                  title: '공지사항',
+                  onTap: () async {
+                    launchUrl(Uri.parse(announcementUrl));
+                  },
+                ),
+                SettingsItem(
+                  title: '사용 가이드',
+                  onTap: () {
+                    launchUrl(Uri.parse(playGuideUrl));
+                  },
+                ),
+                SettingsItem(
+                  title: '고객 문의 및 개선 요청',
+                  isLast: true,
+                  onTap: () {
+                    launchUrl(Uri.parse(customerSupportUrl));
+                  },
+                ),
+              ],
+            ),
+            SettingsSection(
+              title: '기타',
+              items: [
+                SettingsItem(
+                  title: '서비스 이용약관',
+                  onTap: () {
+                    launchUrl(Uri.parse(serviceUsePolicyUrl));
+                  },
+                ),
+                SettingsItem(
+                  title: '위치기반서비스 이용약관',
+                  onTap: () {
+                    launchUrl(Uri.parse(placeServicePolicyUrl));
+                  },
+                ),
+                SettingsItem(
+                  title: '개인정보 처리 방침',
+                  onTap: () {
+                    launchUrl(Uri.parse(individualInfoPolicyUrl));
+                  },
+                ),
+                SettingsItem(
+                  title: '버전 정보',
+                  // subTitle: settingController.currentVersion,
+                  subTitle: "1.0.3",
+                  isLast: true,
+                ),
+              ],
+            ),
+            SettingsSection(
+              items: [
+                SettingsItem(
+                  title: '로그아웃',
+                  onTap: () {
+                    settingController.logout();
+                  },
+                ),
+                SettingsItem(
+                  title: '계정 탈퇴',
+                  isAccent: true,
+                  isLast: true,
+                  onTap: () {
+                    settingController.removeAccount();
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
