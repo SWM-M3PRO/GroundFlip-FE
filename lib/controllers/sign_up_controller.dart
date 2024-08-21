@@ -68,11 +68,11 @@ class SignUpController extends GetxController {
       imageSize = await selectedImage.length();
       imageSizeMB = imageSize / (1024 * 1024);
       if (imageSizeMB > 10) {
-        if(context.mounted){
+        if (context.mounted) {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return Alert(text1: "10MB 이하 사이즈의 이미지를 넣어주세요!", text2: "확인");
+              return Alert(title: "10MB 이하 사이즈의 이미지를 넣어주세요!", buttonText: "확인");
             },
           );
         }

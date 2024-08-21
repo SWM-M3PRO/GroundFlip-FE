@@ -2,41 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
+import '../../constants/text_styles.dart';
 
 class Alert extends StatelessWidget {
-  final String text1;
-  final String text2;
-  Alert({super.key, required this.text1, required this.text2});
+  final String title;
+  String? content;
+  final String buttonText;
+
+  Alert(
+      {super.key, required this.title, required this.buttonText, this.content});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
-        text1,
+        title,
         style: TextStyle(
           color: AppColors.textPrimary,
           fontSize: 20,
           fontWeight: FontWeight.w400,
         ),
       ),
+      content: content == null
+          ? null
+          : Text(
+              content ?? "",
+              style: TextStyles.fs17w400cTextSecondary,
+            ),
       actions: [
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 0),
-            child: TextButton(
-              child: Text(
-                text2,
-                style: TextStyle(
-                  color: AppColors.primary,
-                  fontSize: 17,
-                ),
-              ),
-              onPressed: () {
-                Get.back();
-              },
+        TextButton(
+          child: Text(
+            buttonText,
+            style: TextStyle(
+              color: AppColors.primary,
+              fontSize: 17,
             ),
           ),
+          onPressed: () {
+            Get.back();
+          },
         ),
       ],
       shape: RoundedRectangleBorder(
