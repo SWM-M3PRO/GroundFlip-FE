@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import '../constants/app_colors.dart';
 import '../service/user_service.dart';
 import '../utils/secure_storage.dart';
-import '../widgets/common/alert.dart';
+import '../widgets/common/alert/alert.dart';
 
 class SignUpController extends GetxController {
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;

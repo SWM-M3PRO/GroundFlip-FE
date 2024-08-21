@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
 import '../models/permission.dart';
 import '../service/auth_service.dart';
 import '../service/permission_service.dart';
 import '../service/user_service.dart';
-import '../widgets/common/alert.dart';
+import '../widgets/common/alert/alert.dart';
 
 class SettingController extends GetxController {
   final AuthService authService = AuthService();
@@ -70,7 +71,14 @@ class SettingController extends GetxController {
   void _showLogoutDialog() {
     Get.dialog(
       AlertDialog(
-        title: Text('로그아웃 하시겠습니까?'),
+        title: Text(
+          '로그아웃 하시겠습니까?',
+          style: TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
         actions: [
           TextButton(
             child: Text('아니오', style: TextStyles.fs17w600cAccent),
@@ -79,13 +87,17 @@ class SettingController extends GetxController {
             },
           ),
           TextButton(
-            child: Text('예', style: TextStyles.fs17w600cTextBlack),
+            child: Text('예', style: TextStyles.fs17w700cPrimary),
             onPressed: () async {
               await authService.logout();
               Get.offAllNamed('/login');
             },
           ),
         ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        backgroundColor: AppColors.boxColor,
       ),
     );
   }
@@ -93,8 +105,18 @@ class SettingController extends GetxController {
   void _showRemoveAccountDialog() {
     Get.dialog(
       AlertDialog(
-        title: Text('정말 탈퇴 하시겠습니까?'),
-        content: Text('탈퇴 시 모든 정보가 즉시 삭제되며, 복구 할 수 없습니다.'),
+        title: Text(
+          '정말 탈퇴 하시겠습니까?',
+          style: TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        content: Text(
+          '탈퇴 시 모든 정보가 즉시 삭제되며, 복구 할 수 없습니다.',
+          style: TextStyles.fs17w400cTextSecondary,
+        ),
         actions: [
           TextButton(
             child: Text('아니오', style: TextStyles.fs17w600cAccent),
@@ -103,7 +125,7 @@ class SettingController extends GetxController {
             },
           ),
           TextButton(
-            child: Text('예', style: TextStyles.fs17w600cTextBlack),
+            child: Text('예', style: TextStyles.fs17w700cPrimary),
             onPressed: () async {
               try {
                 Get.back();
@@ -115,6 +137,10 @@ class SettingController extends GetxController {
             },
           ),
         ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        backgroundColor: AppColors.boxColor,
       ),
     );
   }
@@ -122,8 +148,18 @@ class SettingController extends GetxController {
   void _showFailDialog() {
     Get.dialog(
       AlertDialog(
-        title: Text('실패하였습니다.'),
-        content: Text('잠시후 다시 시도해주세요.'),
+        title: Text(
+          '실패하였습니다.',
+          style: TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        content: Text(
+          '잠시후 다시 시도해주세요.',
+          style: TextStyles.fs17w400cTextSecondary,
+        ),
         actions: [
           TextButton(
             child: Text('닫기', style: TextStyles.fs17w600cAccent),
@@ -132,6 +168,10 @@ class SettingController extends GetxController {
             },
           ),
         ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        backgroundColor: AppColors.boxColor,
       ),
     );
   }

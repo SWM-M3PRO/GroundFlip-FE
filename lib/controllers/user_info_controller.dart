@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../constants/app_colors.dart';
 import '../models/user.dart';
 import '../service/user_service.dart';
-import '../widgets/common/alert.dart';
+import '../widgets/common/alert/alert.dart';
 import 'my_page_controller.dart';
 
 class UserInfoController extends GetxController {

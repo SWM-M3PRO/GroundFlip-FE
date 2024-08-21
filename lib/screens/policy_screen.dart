@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
 import '../controllers/policy_controller.dart';
-import '../widgets/permission/marketing_push_permission_alert.dart';
+import '../widgets/common/alert/marketing_push_permission_alert.dart';
 import '../widgets/policy/check_policy.dart';
 import '../widgets/policy/policy_all_check.dart';
 

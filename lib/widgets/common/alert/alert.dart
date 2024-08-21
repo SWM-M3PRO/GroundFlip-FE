@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../constants/app_colors.dart';
-import '../../constants/text_styles.dart';
+import '../../../constants/app_colors.dart';
+import '../../../constants/text_styles.dart';
 
 class Alert extends StatelessWidget {
   final String title;
