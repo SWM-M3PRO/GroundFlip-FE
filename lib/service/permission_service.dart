@@ -21,9 +21,9 @@ class PermissionService {
     return Permission.fromJson(response.data['data']);
   }
 
-  void updateServiceNotification(bool isEnabled) {
+  Future<void> updateServiceNotification(bool isEnabled) async {
     int? userId = UserManager().getUserId();
-    dio.put(
+    await dio.put(
       '/permission/service-notification',
       data: {
         "userId": userId,
@@ -32,9 +32,9 @@ class PermissionService {
     );
   }
 
-  void updateMarketingNotification(bool isEnabled) {
+  Future<void> updateMarketingNotification(bool isEnabled) async {
     int? userId = UserManager().getUserId();
-    dio.put(
+    await dio.put(
       '/permission/marketing-notification',
       data: {
         "userId": userId,

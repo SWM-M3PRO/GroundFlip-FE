@@ -39,11 +39,13 @@ class PushSettingScreen extends StatelessWidget {
               title: '서비스 알림',
               subTitle: "매일 아침 동기 부여 알림을 받습니다.",
               isEnabled: settingController.isServiceNotificationEnabled,
+              onChanged: settingController.changeServiceNotificationStatus,
             ),
             PushPermissionItem(
               title: '마케팅 알림',
               subTitle: "앱의 이벤트, 소식, 해택 등을 알림을 받습니다.",
               isEnabled: settingController.isMarketingNotificationEnabled,
+              onChanged: settingController.changeMarketingNotificationStatus,
               isLast: true,
             ),
           ],

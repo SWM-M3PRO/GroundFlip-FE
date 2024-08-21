@@ -9,6 +9,7 @@ class PushPermissionItem extends StatelessWidget {
   final String? subTitle;
   final bool isAccent;
   final RxBool isEnabled;
+  final onChanged;
   final bool isLast;
 
   PushPermissionItem({
@@ -18,6 +19,7 @@ class PushPermissionItem extends StatelessWidget {
     this.isAccent = false,
     required this.isEnabled,
     super.key,
+    this.onChanged,
   });
 
   @override
@@ -64,7 +66,9 @@ class PushPermissionItem extends StatelessWidget {
             Obx(
               () => CupertinoSwitch(
                 value: isEnabled.value,
-                onChanged: (bool value) {},
+                onChanged: (bool value) async {
+                  await onChanged();
+                },
               ),
             ),
           ],

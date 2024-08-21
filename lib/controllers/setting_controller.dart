@@ -34,6 +34,18 @@ class SettingController extends GetxController {
         permission.isMarketingNotificationEnabled.obs;
   }
 
+  changeServiceNotificationStatus() async {
+    bool changedStatus = !isServiceNotificationEnabled.value;
+    await permissionService.updateServiceNotification(changedStatus);
+    isServiceNotificationEnabled.value = changedStatus;
+  }
+
+  changeMarketingNotificationStatus() async {
+    bool changedStatus = !isMarketingNotificationEnabled.value;
+    await permissionService.updateMarketingNotification(changedStatus);
+    isMarketingNotificationEnabled.value = changedStatus;
+  }
+
   Future<void> setPageInfo() async {
     packageInfo = await PackageInfo.fromPlatform();
   }
