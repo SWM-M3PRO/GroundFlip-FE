@@ -85,6 +85,7 @@ class MyApp extends StatelessWidget {
   final listener =
       InternetConnection().onStatusChange.listen((InternetStatus status) {
     final MainController mainController = Get.find<MainController>();
+    mainController.checkLocationPermission();
     switch (status) {
       case InternetStatus.connected:
         mainController.internetCheck.value = true;
