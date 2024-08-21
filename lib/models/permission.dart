@@ -10,8 +10,8 @@ class Permission {
   factory Permission.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        'isServiceNotificationEnabled': var isServiceNotificationEnabled,
-        'isMarketingNotificationEnabled': var isMarketingNotificationEnabled,
+        'serviceNotificationEnabled': var isServiceNotificationEnabled,
+        'marketingNotificationEnabled': var isMarketingNotificationEnabled,
       } =>
         Permission(
           isServiceNotificationEnabled: isServiceNotificationEnabled,
