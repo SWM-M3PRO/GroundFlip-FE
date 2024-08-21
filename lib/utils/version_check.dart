@@ -36,6 +36,7 @@ class VersionCheck {
                 padding: EdgeInsets.symmetric(vertical: 0),
                 child: Row(
                   children: [
+                    Spacer(),
                     TextButton(
                       child: Text(
                         '확인',
