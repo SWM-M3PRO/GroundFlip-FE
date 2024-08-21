@@ -3,14 +3,20 @@ import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../constants/text_styles.dart';
+import '../models/permission.dart';
 import '../service/auth_service.dart';
+import '../service/permission_service.dart';
 import '../service/user_service.dart';
 
 class SettingController extends GetxController {
   final AuthService authService = AuthService();
   final UserService userService = UserService();
+  final PermissionService permissionService = PermissionService();
   late PackageInfo packageInfo;
+
   late String currentVersion;
+  late RxBool isServiceNotificationEnabled;
+  late RxBool isMarketingNotificationEnabled;
 
   @override
   void onInit() {
@@ -18,13 +24,17 @@ class SettingController extends GetxController {
     super.onInit();
   }
 
-  Future<void> init() async{
+  Future<void> init() async {
     await setPageInfo();
+    Permission permission = await permissionService.getPermission();
     currentVersion = packageInfo.version;
     update();
+    isServiceNotificationEnabled = permission.isServiceNotificationEnabled.obs;
+    isMarketingNotificationEnabled =
+        permission.isMarketingNotificationEnabled.obs;
   }
 
-  Future<void> setPageInfo() async{
+  Future<void> setPageInfo() async {
     packageInfo = await PackageInfo.fromPlatform();
   }
 

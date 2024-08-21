@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
@@ -7,6 +8,7 @@ class PushPermissionItem extends StatelessWidget {
   final String title;
   final String? subTitle;
   final bool isAccent;
+  final RxBool isEnabled;
   final bool isLast;
 
   PushPermissionItem({
@@ -14,6 +16,7 @@ class PushPermissionItem extends StatelessWidget {
     this.subTitle,
     this.isLast = false,
     this.isAccent = false,
+    required this.isEnabled,
     super.key,
   });
 
@@ -58,8 +61,12 @@ class PushPermissionItem extends StatelessWidget {
                 ],
               ),
             ),
-            // Spacer(),
-            CupertinoSwitch(value: true, onChanged: (bool value) {})
+            Obx(
+              () => CupertinoSwitch(
+                value: isEnabled.value,
+                onChanged: (bool value) {},
+              ),
+            ),
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
+import '../controllers/setting_controller.dart';
 import '../widgets/common/app_bar.dart';
 import '../widgets/setting/push_permission_item.dart';
 import '../widgets/setting/setting_section.dart';
@@ -11,6 +12,8 @@ class PushSettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final SettingController settingController = Get.find<SettingController>();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.background,
@@ -35,10 +38,12 @@ class PushSettingScreen extends StatelessWidget {
             PushPermissionItem(
               title: '서비스 알림',
               subTitle: "매일 아침 동기 부여 알림을 받습니다.",
+              isEnabled: settingController.isServiceNotificationEnabled,
             ),
             PushPermissionItem(
               title: '마케팅 알림',
               subTitle: "앱의 이벤트, 소식, 해택 등을 알림을 받습니다.",
+              isEnabled: settingController.isMarketingNotificationEnabled,
               isLast: true,
             ),
           ],
