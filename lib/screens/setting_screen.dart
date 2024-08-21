@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import 'package:ground_flip/screens/push_setting_screen.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,6 +11,7 @@ import '../controllers/setting_controller.dart';
 import '../widgets/common/app_bar.dart';
 import '../widgets/setting/setting_item.dart';
 import '../widgets/setting/setting_section.dart';
+import 'push_setting_screen.dart';
 
 class SettingScreen extends StatelessWidget {
   static String individualInfoPolicyUrl =

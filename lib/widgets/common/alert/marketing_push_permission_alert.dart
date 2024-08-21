@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ground_flip/screens/sign_up_screen.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/text_styles.dart';
+import '../../../screens/sign_up_screen.dart';
 import '../../../service/permission_service.dart';
 
 class MarketingPushPermissionAlert extends StatelessWidget {

@@ -9,7 +9,7 @@ class PushPermissionItem extends StatelessWidget {
   final String? subTitle;
   final bool isAccent;
   final RxBool isEnabled;
-  final onChanged;
+  final Function onChanged;
   final bool isLast;
 
   PushPermissionItem({
@@ -19,7 +19,7 @@ class PushPermissionItem extends StatelessWidget {
     this.isAccent = false,
     required this.isEnabled,
     super.key,
-    this.onChanged,
+    required this.onChanged,
   });
 
   @override

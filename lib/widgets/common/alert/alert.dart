@@ -4,13 +4,18 @@ import 'package:get/get.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/text_styles.dart';
 
+// ignore: must_be_immutable
 class Alert extends StatelessWidget {
   final String title;
   String? content;
   final String buttonText;
 
-  Alert(
-      {super.key, required this.title, required this.buttonText, this.content});
+  Alert({
+    super.key,
+    required this.title,
+    required this.buttonText,
+    this.content,
+  });
 
   @override
   Widget build(BuildContext context) {
