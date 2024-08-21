@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:isolate';
-import 'dart:math';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:pedometer/pedometer.dart';
 
 import '../service/android_walking_service.dart';
-import '../service/auth_service.dart';
 import 'secure_storage.dart';
 
 Future<void> initForegroundTask() async {
