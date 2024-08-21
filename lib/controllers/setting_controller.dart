@@ -7,6 +7,7 @@ import '../models/permission.dart';
 import '../service/auth_service.dart';
 import '../service/permission_service.dart';
 import '../service/user_service.dart';
+import '../widgets/common/alert.dart';
 
 class SettingController extends GetxController {
   final AuthService authService = AuthService();
@@ -36,13 +37,21 @@ class SettingController extends GetxController {
 
   changeServiceNotificationStatus() async {
     bool changedStatus = !isServiceNotificationEnabled.value;
-    await permissionService.updateServiceNotification(changedStatus);
-    isServiceNotificationEnabled.value = changedStatus;
+    try {
+      await permissionService.updateServiceNotification(changedStatus);
+      isServiceNotificationEnabled.value = changedStatus;
+    } catch (e) {
+      Get.dialog(Alert(title: "실패", content: "다시 시도 해주세요!", buttonText: "확인"));
+    }
   }
 
   changeMarketingNotificationStatus() async {
     bool changedStatus = !isMarketingNotificationEnabled.value;
-    await permissionService.updateMarketingNotification(changedStatus);
+    try {
+      await permissionService.updateMarketingNotification(changedStatus);
+    } catch (e) {
+      Get.dialog(Alert(title: "실패", content: "다시 시도 해주세요!", buttonText: "확인"));
+    }
     isMarketingNotificationEnabled.value = changedStatus;
   }
 
