@@ -57,11 +57,10 @@ class AndroidWalkingHandler extends TaskHandler {
   late Stream<StepCount> _stepCountStream;
   final SecureStorage secureStorage = SecureStorage();
   final AndroidWalkingService androidWalkingService = AndroidWalkingService();
-  AuthService authService = AuthService();
 
   static String todayStepKey = 'currentSteps';
   static String lastSavedStepKey = 'lastSteps';
-  Timer? _midnightTimer;
+
   static int currentSteps = 0;
 
   @override
@@ -70,47 +69,10 @@ class AndroidWalkingHandler extends TaskHandler {
 
     _stepCountStream = Pedometer.stepCountStream.asBroadcastStream();
     _stepCountStream.listen(updateStep).onError(onStepCountError);
-    _initializeMidnightReset();
   }
 
   void onStepCountError(error) {
     currentSteps = 0;
-  }
-
-  void _initializeMidnightReset() {
-    DateTime now = DateTime.now();
-    DateTime midnight = DateTime(
-      now.year,
-      now.month,
-      now.day + 1,
-      0,
-      0,
-      Random().nextInt(40) + 10,
-    );
-    Duration timeUntilMidnight = midnight.difference(now);
-    _midnightTimer?.cancel();
-    _midnightTimer = Timer(timeUntilMidnight, () {
-      resetStepsAtMidnight();
-      _midnightTimer?.cancel();
-      _midnightTimer = Timer.periodic(Duration(days: 1), (timer) {
-        resetStepsAtMidnight();
-      });
-    });
-  }
-
-  void resetStepsAtMidnight() async {
-    String token = await secureStorage.readAccessToken();
-    int userId = authService.extractUserIdFromToken(token);
-    DateTime previousDay = DateTime.now().subtract(Duration(days: 1));
-    await androidWalkingService.postUserStep(userId, previousDay, currentSteps);
-
-    currentSteps = 0;
-    await secureStorage.secureStorage.write(key: todayStepKey, value: '0');
-
-    FlutterForegroundTask.updateService(
-      notificationTitle: "걸음수",
-      notificationText: currentSteps.toString(),
-    );
   }
 
   updateStep(StepCount event) async {
