@@ -6,13 +6,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:ground_flip/utils/android_notification.dart';
-import 'package:ground_flip/utils/secure_storage.dart';
+import 'package:ground_flip/service/alarm_service.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:intl/intl.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
 import 'controllers/main_controller.dart';
@@ -35,26 +32,8 @@ import 'widgets/common/internet_disconnect.dart';
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   String? title = message.notification!.title;
-  if(title != null && title.contains("걸음 수")) {
-    DateTime previousDay = DateTime.now().subtract(Duration(days: 1));
 
-    final SecureStorage secureStorage = SecureStorage();
-
-    String dailyStepKey = "STEP:${DateFormat('yyyy-MM-dd').format(previousDay)}";
-    if(!await secureStorage.secureStorage.containsKey(key: dailyStepKey)) {
-      await secureStorage.secureStorage.write(
-        key: dailyStepKey,
-        value: await secureStorage.secureStorage.read(key: "currentSteps"),
-      );
-
-      await secureStorage.secureStorage.write(key: "currentSteps", value: '0');
-      AndroidWalkingHandler.currentSteps = 0;
-      FlutterForegroundTask.updateService(
-        notificationTitle: "걸음수",
-        notificationText: 0.toString(),
-      );
-    }
-  }
+  await AlarmService.initializeStepCount(title);
 }
 
 
@@ -76,26 +55,8 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     String? title = message.notification!.title;
-    if(title != null && title.contains("걸음 수")) {
-      DateTime previousDay = DateTime.now().subtract(Duration(days: 1));
 
-      final SecureStorage secureStorage = SecureStorage();
-
-      String dailyStepKey = "STEP:${DateFormat('yyyy-MM-dd').format(previousDay)}";
-      if(!await secureStorage.secureStorage.containsKey(key: dailyStepKey)) {
-        await secureStorage.secureStorage.write(
-          key: dailyStepKey,
-          value: await secureStorage.secureStorage.read(key: "currentSteps"),
-        );
-
-        await secureStorage.secureStorage.write(key: "currentSteps", value: '0');
-        AndroidWalkingHandler.currentSteps = 0;
-        FlutterForegroundTask.updateService(
-          notificationTitle: "걸음수",
-          notificationText: 0.toString(),
-        );
-      }
-    }
+    await AlarmService.initializeStepCount(title);
   });
 
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
