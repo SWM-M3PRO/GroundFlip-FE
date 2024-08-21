@@ -19,6 +19,7 @@ class VersionCheck {
     VersionResponse versionResponse = await versionService.getVersion();
     if (versionResponse.needUpdate == "NEED") {
       return Get.dialog(
+        barrierDismissible: false,
         AlertDialog(
           title: Text(
             "앱의 최신버전이 존재합니다.",
@@ -77,6 +78,7 @@ class VersionCheck {
     }
     if (versionResponse.needUpdate == "FORCE") {
       return Get.dialog(
+        barrierDismissible: false,
         AlertDialog(
           title: Text(
             "앱의 최신버전이 존재합니다.",
