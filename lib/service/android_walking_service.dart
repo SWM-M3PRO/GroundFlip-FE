@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -62,7 +63,39 @@ class AndroidWalkingService implements WalkingService {
     );
   }
 
+  Future<void> postAllUserStepFromStorage() async {
+    Map<String, int> allSteps = await _getStepData();
+
+    allSteps.forEach((date, steps) async {
+      await dio.post(
+        '/steps',
+        data: {
+          "userId": UserManager().getUserId(),
+          "date": date,
+          "steps": steps,
+        },
+      );
+    });
+  }
+
   Future<void> _initForegroundWalkingTask() async {
-    initForegroundTask();
+    if (Platform.isAndroid) {
+      initForegroundTask();
+    }
+  }
+
+  Future<Map<String, int>> _getStepData() async {
+    Map<String, String> allSteps = await secureStorage.readAll();
+
+    Map<String, int> stepData = {};
+    allSteps.forEach((key, value) async {
+      if (key.startsWith("STEP:")) {
+        String dateKey = key.substring(5);
+        stepData[dateKey] = int.parse(value);
+        await secureStorage.delete(key: key);
+      }
+    });
+
+    return stepData;
   }
 }

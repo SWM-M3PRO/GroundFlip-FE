@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
 import '../controllers/bottom_sheet_controller.dart';
+import '../controllers/main_controller.dart';
 import '../controllers/map_controller.dart';
 import '../controllers/my_page_controller.dart';
 import '../controllers/navigation_controller.dart';
@@ -19,13 +20,14 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
+    final MainController mainController = Get.put(MainController());
     Get.put(MyPageController());
     Get.put(RankingController());
     Get.put(BottomSheetController());
     Get.put(MapController());
     final NavigationController navigationController =
         Get.put(NavigationController());
-
+    mainController.checkLocationPermission();
     return Scaffold(
       appBar: navigationController.selectedIndex.value == 0
           ? null

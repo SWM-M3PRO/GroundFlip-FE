@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -39,6 +40,8 @@ class MapController extends SuperController {
 
   GoogleMapController? googleMapController;
 
+  final box = GetStorage();
+
   late CameraPosition currentCameraPosition;
   late Map<String, int> latestPixel;
 
@@ -52,8 +55,11 @@ class MapController extends SuperController {
   final RxInt currentPixelCount = 0.obs;
   final RxInt accumulatePixelCount = 0.obs;
   final RxInt accumulatePixelCountPerPeriod = 0.obs;
+
   RxDouble speed = 0.0.obs;
   RxBool isCameraTrackingUser = true.obs;
+
+  RxBool myPlaceButtonVisible = false.obs;
 
   late Pixel lastOnTabPixel;
   bool isBottomSheetShowUp = false;
@@ -134,6 +140,8 @@ class MapController extends SuperController {
   }
 
   setCameraOnCurrentLocation() {
+    isCameraTrackingUser = true.obs;
+
     currentCameraPosition = CameraPosition(
       target: LatLng(
         _locationService.currentLocation!.latitude!,
@@ -146,10 +154,24 @@ class MapController extends SuperController {
     );
   }
 
+  setCameraOnLocation(double latitude, double longitude) {
+    currentCameraPosition = CameraPosition(
+      target: LatLng(
+        latitude,
+        longitude,
+      ),
+      zoom: 16.0,
+    );
+    googleMapController?.animateCamera(
+      CameraUpdate.newCameraPosition(currentCameraPosition),
+    );
+
+    isCameraTrackingUser = false.obs;
+  }
+
   void _trackUserLocation() {
     _locationService.location.onLocationChanged.listen((newLocation) async {
       _locationService.currentLocation = newLocation;
-
       if (isCameraTrackingUser.value) {
         setCameraOnCurrentLocation();
       }
@@ -225,7 +247,9 @@ class MapController extends SuperController {
   }
 
   void trackPixels() {
-    _updatePixelTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+    _updatePixelTimer =
+        Timer.periodic(const Duration(seconds: 10), (timer) async {
+      UserManager().updateSecureStorage();
       updatePixels();
     });
   }
@@ -408,5 +432,9 @@ class MapController extends SuperController {
     _timer!.cancel();
     elapsedSeconds.value = 0;
     WakelockPlus.disable();
+  }
+
+  Future<void> deleteMyPlaceFromLocalStorage(String place) async {
+    await box.remove(place);
   }
 }

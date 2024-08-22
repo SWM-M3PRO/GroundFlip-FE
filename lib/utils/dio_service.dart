@@ -7,12 +7,13 @@ import 'package:get/get.dart' hide Response;
 
 import '../models/reissue_response.dart';
 import '../service/auth_service.dart';
-import 'secure_storage.dart';
+import 'user_manager.dart';
 
 class DioService {
   static final DioService _dioServices = DioService._internal();
   static final String baseUrl = dotenv.env['BASE_URL']!;
-  final SecureStorage secureStorage = SecureStorage();
+
+  final UserManager userManager = UserManager();
 
   factory DioService() => _dioServices;
 
@@ -29,7 +30,7 @@ class DioService {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          final accessToken = await secureStorage.readAccessToken();
+          final accessToken = userManager.getAccessToken();
           options.headers.addAll({
             'Authorization': 'Bearer $accessToken',
           });
@@ -41,18 +42,17 @@ class DioService {
           return handler.next(response);
         },
         onError: (
-          DioException dioException,
-          ErrorInterceptorHandler errorInterceptorHandler,
-        ) async {
+            DioException dioException,
+            ErrorInterceptorHandler errorInterceptorHandler,
+            ) async {
           if (dioException.response?.statusCode == HttpStatus.unauthorized) {
             try {
               ReissueResponse reissueResponse = await reissueToken();
-              await secureStorage.writeAccessToken(reissueResponse.accessToken);
-              await secureStorage
-                  .writeRefreshToken(reissueResponse.refreshToken);
+              userManager.setAccessToken(reissueResponse.accessToken!);
+              userManager.setRefreshToken(reissueResponse.refreshToken!);
 
               Response<dynamic> resendResponse =
-                  await resendRequest(dioException, reissueResponse);
+              await resendRequest(dioException, reissueResponse);
               errorInterceptorHandler.resolve(resendResponse);
               debugPrint('-------------refresh---------------');
             } catch (err) {
@@ -69,9 +69,9 @@ class DioService {
   }
 
   Future<Response<dynamic>> resendRequest(
-    DioException dioException,
-    ReissueResponse reissueResponse,
-  ) async {
+      DioException dioException,
+      ReissueResponse reissueResponse,
+      ) async {
     final options = dioException.requestOptions;
     final dio = Dio();
     options.headers.addAll({
@@ -82,12 +82,13 @@ class DioService {
   }
 
   Future<ReissueResponse> reissueToken() async {
-    final refreshToken = await secureStorage.readRefreshToken();
+    final refreshToken = userManager.getRefreshToken();
     final dio = Dio();
     var response = await dio
         .post("$baseUrl/auth/reissue", data: {"refreshToken": refreshToken});
     ReissueResponse reissueResponse =
-        ReissueResponse.fromJson(response.data["data"]);
+    ReissueResponse.fromJson(response.data["data"]);
+    UserManager().setTokenReissued();
     return reissueResponse;
   }
 
@@ -101,11 +102,11 @@ class DioService {
       options.extra['requestTimestamp'] = requestTimestamp;
       debugPrint(
         '---------------[Request - $requestTimestamp]---------------\n'
-        '[Method] : ${options.method}\n'
-        '[Path] : ${options.path}\n'
-        '[Headers] : ${options.headers}\n'
-        '[Query Parameters] : ${options.queryParameters}\n'
-        '[Body] : ${options.data}',
+            '[Method] : ${options.method}\n'
+            '[Path] : ${options.path}\n'
+            '[Headers] : ${options.headers}\n'
+            '[Query Parameters] : ${options.queryParameters}\n'
+            '[Body] : ${options.data}',
       );
     }
   }
@@ -117,10 +118,10 @@ class DioService {
       var requestDuration = requestEndTime.difference(requestTimestamp);
       debugPrint(
         '\n---------------[Response - $requestTimestamp]---------------\n'
-        '[Status Code] : ${response.statusCode}\n'
-        '[Data] : ${response.data}\n'
-        '[Duration] : ${requestDuration.inMilliseconds} ms\n'
-        '----------------------------------------------\n',
+            '[Status Code] : ${response.statusCode}\n'
+            '[Data] : ${response.data}\n'
+            '[Duration] : ${requestDuration.inMilliseconds} ms\n'
+            '----------------------------------------------\n',
       );
     }
   }
@@ -128,10 +129,10 @@ class DioService {
   void logError(DioException dioException) {
     debugPrint(
       '\n---------------[Response - ERROR]---------------\n'
-      '[Status Code] : ${dioException.response?.statusCode}\n'
-      '[Message]: ${dioException.message}'
-      '[Data] : ${dioException.response?.data}\n'
-      '----------------------------------------------\n',
+          '[Status Code] : ${dioException.response?.statusCode}\n'
+          '[Message]: ${dioException.message}'
+          '[Data] : ${dioException.response?.data}\n'
+          '----------------------------------------------\n',
     );
   }
 }

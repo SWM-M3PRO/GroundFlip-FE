@@ -33,7 +33,7 @@ class CheckPolicy extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SizedBox(width: 28),
+          SizedBox(width: 10),
           Obx(
             () => IconButton(
               icon: Icon(

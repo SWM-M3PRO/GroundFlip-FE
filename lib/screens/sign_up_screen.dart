@@ -73,7 +73,9 @@ class SignUpScreen extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     borderRadius: BorderRadius.circular(16),
-                                    onTap: controller.getImage,
+                                    onTap: (){
+                                      controller.getImage(context);
+                                    },
                                     child: Container(
                                       height: 44,
                                       width: 104,
@@ -167,6 +169,7 @@ class SignUpScreen extends StatelessWidget {
                                     controller: controller.textEditingController,
                                     autofocus: false,
                                     focusNode: controller.textFocusNode,
+                                    onChanged: controller.updateNickname,
                                     onSubmitted: controller.onSubmitted,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,

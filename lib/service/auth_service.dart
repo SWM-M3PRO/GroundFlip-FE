@@ -55,6 +55,8 @@ class AuthService {
       return false;
     } else {
       UserManager().setUserId(extractUserIdFromToken(accessToken));
+      UserManager().setAccessToken(accessToken);
+      UserManager().setRefreshToken(refreshToken);
       return true;
     }
   }
@@ -83,6 +85,8 @@ class AuthService {
     await secureStorage.writeAccessToken(authResponse.accessToken);
     await secureStorage.writeRefreshToken(authResponse.refreshToken);
     UserManager().setUserId(extractUserIdFromToken(authResponse.accessToken!));
+    UserManager().setAccessToken(authResponse.accessToken!);
+    UserManager().setRefreshToken(authResponse.refreshToken!);
   }
 
   Future<LoginResponse> postKakaoLogin(String accessToken) async {

@@ -44,7 +44,9 @@ class ProfileImage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 InkWell(
-                  onTap: controller.getImage,
+                  onTap: (){
+                    controller.getImage(context);
+                  },
                   borderRadius: BorderRadius.circular(24),
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),

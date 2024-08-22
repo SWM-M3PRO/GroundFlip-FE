@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../constants/app_colors.dart';
 import '../models/user.dart';
 import '../service/user_service.dart';
+import '../widgets/common/alert/alert.dart';
 import 'my_page_controller.dart';
 
 class UserInfoController extends GetxController {
@@ -46,10 +47,14 @@ class UserInfoController extends GetxController {
   }
 
   @override
-  void onClose() {
+  Future<void> onClose() async {
+    await textDispose();
+    super.onClose();
+  }
+
+  Future<void> textDispose() async {
     textEditingController.dispose();
     textFocusNode.dispose();
-    super.onClose();
   }
 
   void checkGender() {
@@ -117,13 +122,28 @@ class UserInfoController extends GetxController {
     textEditingController = TextEditingController(text: nickname.value);
   }
 
-  Future getImage() async {
+  Future getImage(BuildContext context) async {
+    int imageSize = 0;
+    double imageSizeMB = 0.0;
     XFile? selectedImage = await picker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 100,
     );
     if (selectedImage != null) {
-      profileImage.value = selectedImage;
+      imageSize = await selectedImage.length();
+      imageSizeMB = imageSize / (1024 * 1024);
+      if (imageSizeMB > 10) {
+        if (context.mounted) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Alert(title: "10MB 이하 사이즈의 이미지를 넣어주세요!", buttonText: "확인");
+            },
+          );
+        }
+      } else {
+        profileImage.value = selectedImage;
+      }
     }
   }
 
@@ -131,9 +151,18 @@ class UserInfoController extends GetxController {
     birthYear.value = inputBirthYear;
   }
 
-  void updateNickname(String inputString) {
-    nickname.value = inputString;
-    if (inputString == '') {
+  void updateNickname(String value) {
+    nickname.value = value;
+    if (regExp2.hasMatch(value) && !regExp1.hasMatch(value)) {
+      nicknameValidation.value = "자음 모음은 사용할 수 없습니다!";
+    }
+    if (!regExp1.hasMatch(value) && !regExp2.hasMatch(value)) {
+      nicknameValidation.value = "형식에 맞지 않습니다!";
+    }
+    if (regExp1.hasMatch(value)) {
+      nicknameValidation.value = "3~10자 이내";
+    }
+    if (value == '') {
       isNicknameTyped.value = false;
     } else {
       isNicknameTyped.value = true;

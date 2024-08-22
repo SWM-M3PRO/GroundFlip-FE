@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import '../constants/app_colors.dart';
 import '../service/user_service.dart';
 import '../utils/secure_storage.dart';
+import '../widgets/common/alert/alert.dart';
 
 class SignUpController extends GetxController {
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
@@ -45,7 +46,9 @@ class SignUpController extends GetxController {
       () {
         if (textFocusNode.hasFocus) {
           textEditingController.selection = TextSelection(
-              baseOffset: 0, extentOffset: textEditingController.text.length,);
+            baseOffset: 0,
+            extentOffset: textEditingController.text.length,
+          );
         }
         if (!textFocusNode.hasFocus) {
           onSubmitted(textEditingController.text);
@@ -54,13 +57,28 @@ class SignUpController extends GetxController {
     );
   }
 
-  Future getImage() async {
+  Future getImage(BuildContext context) async {
+    int imageSize = 0;
+    double imageSizeMB = 0.0;
     XFile? selectedImage = await picker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 100,
     );
     if (selectedImage != null) {
-      profileImage.value = selectedImage;
+      imageSize = await selectedImage.length();
+      imageSizeMB = imageSize / (1024 * 1024);
+      if (imageSizeMB > 10) {
+        if (context.mounted) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Alert(title: "10MB 이하 사이즈의 이미지를 넣어주세요!", buttonText: "확인");
+            },
+          );
+        }
+      } else {
+        profileImage.value = selectedImage;
+      }
     }
   }
 
@@ -68,24 +86,24 @@ class SignUpController extends GetxController {
     genderValueToZero();
     switch (genderValue) {
       case 0:
-        isMale.value=1;
-        gender.value='MALE';
+        isMale.value = 1;
+        gender.value = 'MALE';
         break;
       case 1:
-        isFemale.value=1;
-        gender.value='FEMALE';
+        isFemale.value = 1;
+        gender.value = 'FEMALE';
         break;
       case 2:
-        isNoneGender.value=1;
-        gender.value='NONE';
+        isNoneGender.value = 1;
+        gender.value = 'NONE';
         break;
     }
   }
 
-  void genderValueToZero(){
-    isMale.value=0;
-    isFemale.value=0;
-    isNoneGender.value=0;
+  void genderValueToZero() {
+    isMale.value = 0;
+    isFemale.value = 0;
+    isNoneGender.value = 0;
   }
 
   void updateBirthYear(int inputBirthYear) {
@@ -98,6 +116,15 @@ class SignUpController extends GetxController {
       isNicknameTyped.value = false;
     } else {
       isNicknameTyped.value = true;
+    }
+    if (regExp2.hasMatch(inputString) && !regExp1.hasMatch(inputString)) {
+      nicknameValidation.value = "자음 모음은 사용할 수 없습니다!";
+    }
+    if (!regExp1.hasMatch(inputString) && !regExp2.hasMatch(inputString)) {
+      nicknameValidation.value = "형식에 맞지 않습니다!";
+    }
+    if (regExp1.hasMatch(inputString)) {
+      nicknameValidation.value = "3~10자 이내";
     }
   }
 
@@ -178,7 +205,7 @@ class SignUpController extends GetxController {
     }
   }
 
-  void selectBirthYear(int year) async{
+  void selectBirthYear(int year) async {
     birthYear.value = year;
   }
 
