@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
-import 'setting_item.dart';
 
 class SettingsSection extends StatelessWidget {
   final String? title;
-  final List<SettingsItem> items;
+  final List<Widget> items;
 
   SettingsSection({this.title, required this.items, super.key});
 

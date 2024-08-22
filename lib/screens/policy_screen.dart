@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
 import '../controllers/policy_controller.dart';
+import '../widgets/common/alert/marketing_push_permission_alert.dart';
 import '../widgets/policy/check_policy.dart';
 import '../widgets/policy/policy_all_check.dart';
-import 'sign_up_screen.dart';
 
 class PolicyScreen extends StatelessWidget {
   const PolicyScreen({super.key});
@@ -65,7 +65,7 @@ class PolicyScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                   onTap: () {
                     policyController.allPolicyChecked.value == 1
-                        ? Get.to(() => SignUpScreen())
+                        ? Get.dialog(MarketingPushPermissionAlert())
                         : null;
                   },
                   child: Container(
