@@ -1,14 +1,10 @@
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:health/health.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-import '../constants/app_colors.dart';
-import '../constants/text_styles.dart';
 
 class PermissionRequestController extends GetxController {
   Future<void> checkPermissions() async {
