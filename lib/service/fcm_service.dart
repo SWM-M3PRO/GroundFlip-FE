@@ -24,7 +24,7 @@ class FcmService {
       data: {
         "userId": UserManager().getUserId(),
         "fcmToken": fcmToken,
-        "device": Platform.isIOS ? "iOS" : "Android",
+        "device": Platform.isIOS ? "IOS" : "ANDROID",
       },
     );
   }
