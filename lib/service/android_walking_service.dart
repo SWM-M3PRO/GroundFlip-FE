@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -68,13 +69,19 @@ class AndroidWalkingService implements WalkingService {
     allSteps.forEach((date, steps) async {
       await dio.post(
         '/steps',
-        data: {"userId": UserManager().getUserId(), "date": date, "steps": steps},
+        data: {
+          "userId": UserManager().getUserId(),
+          "date": date,
+          "steps": steps
+        },
       );
     });
   }
 
   Future<void> _initForegroundWalkingTask() async {
-    initForegroundTask();
+    if (Platform.isAndroid) {
+      initForegroundTask();
+    }
   }
 
   Future<Map<String, int>> _getStepData() async {
