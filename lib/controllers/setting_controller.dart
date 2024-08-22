@@ -16,20 +16,20 @@ class SettingController extends GetxController {
   final PermissionService permissionService = PermissionService();
   late PackageInfo packageInfo;
 
-  late String currentVersion;
+  RxString currentVersion = ''.obs;
   late RxBool isServiceNotificationEnabled;
   late RxBool isMarketingNotificationEnabled;
 
   @override
-  void onInit() {
-    init();
+  Future<void> onInit() async {
+    await init();
     super.onInit();
   }
 
   Future<void> init() async {
     await setPageInfo();
     Permission permission = await permissionService.getPermission();
-    currentVersion = packageInfo.version;
+    currentVersion.value = packageInfo.version;
     update();
     isServiceNotificationEnabled = permission.isServiceNotificationEnabled.obs;
     isMarketingNotificationEnabled =

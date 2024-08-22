@@ -123,11 +123,12 @@ class SettingScreen extends StatelessWidget {
                     launchUrl(Uri.parse(individualInfoPolicyUrl));
                   },
                 ),
-                SettingsItem(
-                  title: '버전 정보',
-                  // subTitle: settingController.currentVersion,
-                  subTitle: "1.0.3",
-                  isLast: true,
+                Obx(
+                  () => SettingsItem(
+                    title: '버전 정보',
+                    subTitle: settingController.currentVersion.value,
+                    isLast: true,
+                  ),
                 ),
               ],
             ),
