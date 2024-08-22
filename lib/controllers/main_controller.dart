@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
+import '../service/android_walking_service.dart';
 import '../service/fcm_service.dart';
 import '../service/my_place_service.dart';
 
@@ -19,9 +20,8 @@ class MainController extends GetxController {
     super.onInit();
     fcmService.registerFcmToken();
     myPlaceService.getMyPlaceInfo();
+    AndroidWalkingService().postAllUserStepFromStorage();
   }
-
-
 
   Future<void> checkLocationPermission() async {
     PermissionStatus status = await Permission.locationAlways.status;
@@ -48,13 +48,19 @@ class MainController extends GetxController {
         ),
         actions: [
           TextButton(
-            child: Text('아니오', style: TextStyles.fs17w600cAccent,),
+            child: Text(
+              '아니오',
+              style: TextStyles.fs17w600cAccent,
+            ),
             onPressed: () async {
               Get.back();
             },
           ),
           TextButton(
-            child: Text('예', style: TextStyles.fs17w700cPrimary,),
+            child: Text(
+              '예',
+              style: TextStyles.fs17w700cPrimary,
+            ),
             onPressed: () {
               openAppSettings();
               Get.back();
@@ -69,4 +75,3 @@ class MainController extends GetxController {
     );
   }
 }
-

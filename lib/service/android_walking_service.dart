@@ -72,7 +72,7 @@ class AndroidWalkingService implements WalkingService {
         data: {
           "userId": UserManager().getUserId(),
           "date": date,
-          "steps": steps
+          "steps": steps,
         },
       );
     });

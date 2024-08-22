@@ -8,10 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
-import 'controllers/main_controller.dart';
 import 'firebase_options.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
@@ -21,12 +19,10 @@ import 'screens/policy_screen.dart';
 import 'screens/setting_screen.dart';
 import 'screens/sign_up_screen.dart';
 import 'service/alarm_service.dart';
-import 'service/android_walking_service.dart';
 import 'service/auth_service.dart';
 import 'service/location_service.dart';
 import 'utils/user_manager.dart';
 import 'utils/version_check.dart';
-import 'widgets/common/internet_disconnect.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -35,7 +31,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
   await AlarmService.initializeStepCount(title);
 }
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,7 +59,6 @@ Future<void> main() async {
   LocationService().initBackgroundLocation();
 
   String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
-  AndroidWalkingService().postAllUserStepFromStorage();
 
   VersionCheck versionCheck = VersionCheck();
   versionCheck.versionCheck();
@@ -82,40 +76,38 @@ class MyApp extends StatelessWidget {
   final String initialRoute;
   static bool checkInternet = true;
 
-  final listener =
-      InternetConnection().onStatusChange.listen((InternetStatus status) {
-    final MainController mainController = Get.find<MainController>();
-    mainController.checkLocationPermission();
-    switch (status) {
-      case InternetStatus.connected:
-        mainController.internetCheck.value = true;
-        if (mainController.isAlertIsShow.value) {
-          Get.back();
-          mainController.isAlertIsShow.value = false;
-        }
-        break;
-      case InternetStatus.disconnected:
-        mainController.internetCheck.value = false;
-        Timer(
-          Duration(seconds: 5),
-          () {
-            if (!mainController.internetCheck.value) {
-              mainController.isAlertIsShow.value = true;
-              Get.dialog(
-                InternetDisconnect(),
-              );
-            }
-          },
-        );
-        break;
-    }
-  });
+  // final listener =
+  //     InternetConnection().onStatusChange.listen((InternetStatus status) {
+  //   final MainController mainController = Get.find<MainController>();
+  //   switch (status) {
+  //     case InternetStatus.connected:
+  //       mainController.internetCheck.value = true;
+  //       if (mainController.isAlertIsShow.value) {
+  //         Get.back();
+  //         mainController.isAlertIsShow.value = false;
+  //       }
+  //       break;
+  //     case InternetStatus.disconnected:
+  //       mainController.internetCheck.value = false;
+  //       Timer(
+  //         Duration(seconds: 5),
+  //         () {
+  //           if (!mainController.internetCheck.value) {
+  //             mainController.isAlertIsShow.value = true;
+  //             Get.dialog(
+  //               InternetDisconnect(),
+  //             );
+  //           }
+  //         },
+  //       );
+  //       break;
+  //   }
+  // });
 
   @override
   Widget build(BuildContext context) {
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     analytics.logAppOpen();
-
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
       child: GetMaterialApp(

@@ -20,14 +20,14 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
-    Get.put(MainController());
+    final MainController mainController = Get.put(MainController());
     Get.put(MyPageController());
     Get.put(RankingController());
     Get.put(BottomSheetController());
     Get.put(MapController());
     final NavigationController navigationController =
         Get.put(NavigationController());
-
+    mainController.checkLocationPermission();
     return Scaffold(
       appBar: navigationController.selectedIndex.value == 0
           ? null
