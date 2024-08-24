@@ -27,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
     Get.put(MapController());
     final NavigationController navigationController =
         Get.put(NavigationController());
-    mainController.checkLocationPermission();
+
     return Scaffold(
       appBar: navigationController.selectedIndex.value == 0
           ? null
