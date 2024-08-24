@@ -1,21 +1,37 @@
-import 'package:location/location.dart';
+import 'location_speed_data.dart';
 
 class LocationHistory {
-  static const maxCount = 20;
-  List<LocationData> locationHistory = [];
+  static const maxCount = 50;
+  static const speedThreshold = 20;
+  List<LocationSpeedData> locationHistory = [];
+  int overThresholdCount = 0;
 
-  add(LocationData location) {
+  add(LocationSpeedData location) {
     if (locationHistory.length == maxCount) {
-      locationHistory.removeAt(0);
+      removeOldestHistory();
+    }
+    if (location.speed > speedThreshold) {
+      overThresholdCount += 1;
     }
     locationHistory.add(location);
   }
 
-  LocationData? getCurrentLocation() {
-    if (locationHistory.isNotEmpty) {
-      return locationHistory.last;
-    } else {
-      return null;
+  void removeOldestHistory() {
+    if (locationHistory[0].speed > speedThreshold) {
+      overThresholdCount -= 1;
     }
+    locationHistory.removeAt(0);
+  }
+
+  LocationSpeedData getCurrentLocation() {
+    return locationHistory.last;
+  }
+
+  double getCurrentLocationSpeed() {
+    return locationHistory.last.speed;
+  }
+
+  isNotDriving() {
+    return overThresholdCount <= 3;
   }
 }
