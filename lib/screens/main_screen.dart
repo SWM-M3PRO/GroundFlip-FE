@@ -20,7 +20,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
-    final MainController mainController = Get.put(MainController());
+    Get.put(MainController());
     Get.put(MyPageController());
     Get.put(RankingController());
     Get.put(BottomSheetController());
