@@ -180,11 +180,16 @@ class MapController extends SuperController {
         setCameraOnCurrentLocation();
       }
       speed.value = _locationService.getCurrentSpeed();
-      if (isPixelChanged() && walkingService.isWalking()) {
+      if (isPixelChanged() && isWalking()) {
         _updateLatestPixel();
         await occupyPixel();
       }
     });
+  }
+
+  isWalking() {
+    return walkingService.isWalking() &&
+        _locationService.getCurrentSpeed() <= 25;
   }
 
   Future<void> initCurrentLocation() async {
