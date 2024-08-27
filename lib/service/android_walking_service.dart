@@ -98,4 +98,10 @@ class AndroidWalkingService implements WalkingService {
 
     return stepData;
   }
+
+  @override
+  bool isWalking() {
+    // TODO: implement isWalking
+    throw UnimplementedError();
+  }
 }

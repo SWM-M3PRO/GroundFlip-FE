@@ -7,6 +7,7 @@ import 'walking_service.dart';
 class WalkingServiceFactory {
   static WalkingService getWalkingService() {
     if (Platform.isIOS) {
+      IosWalkingService().init();
       return IosWalkingService();
     } else if (Platform.isAndroid) {
       return AndroidWalkingService();
