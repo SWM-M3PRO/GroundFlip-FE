@@ -171,14 +171,12 @@ class MapController extends SuperController {
 
   void _trackUserLocation() {
     _locationService.location.onLocationChanged.listen((newLocation) async {
-      _locationService.currentLocation = newLocation;
+      _locationService.updateCurrentLocation(newLocation);
       if (isCameraTrackingUser.value) {
         setCameraOnCurrentLocation();
       }
-
-      double currentSpeed = _convertSpeedToKmPerHour(newLocation.speed);
-      speed.value = currentSpeed;
-      if (isPixelChanged() && currentSpeed <= 10.5) {
+      speed.value = _locationService.getCurrentSpeed();
+      if (isPixelChanged() && _locationService.isWalking()) {
         _updateLatestPixel();
         await occupyPixel();
       }
@@ -373,14 +371,6 @@ class MapController extends SuperController {
       return accumulatePixelCountPerPeriod.value;
     } else {
       return currentPixelCount.value;
-    }
-  }
-
-  _convertSpeedToKmPerHour(double? speed) {
-    if (speed == null) {
-      return -1;
-    } else {
-      return speed * 3.6;
     }
   }
 

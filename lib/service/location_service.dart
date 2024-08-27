@@ -41,7 +41,7 @@ class LocationService {
   }
 
   isWalking() {
-    if (currentLocation!.speed != null) {
+    if (currentLocation!.speed == null) {
       return false;
     }
     double speed = locationHistory.getCurrentLocation().speed;
@@ -87,7 +87,7 @@ class LocationService {
 
   double calculateDistance(
       double startLat, double startLng, double endLat, double endLng) {
-    const double earthRadius = 6371000; // 지구 반지름(미터 단위)
+    const double earthRadius = 6371000;
 
     final double dLat = degreesToRadians(endLat - startLat);
     final double dLng = degreesToRadians(endLng - startLng);
@@ -100,7 +100,7 @@ class LocationService {
 
     final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
-    return earthRadius * c; // 거리(미터)
+    return earthRadius * c;
   }
 
   double degreesToRadians(double degrees) {
