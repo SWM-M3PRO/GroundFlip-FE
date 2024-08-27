@@ -17,6 +17,8 @@ import '../service/pixel_service.dart';
 import '../service/user_service.dart';
 import '../utils/date_handler.dart';
 import '../utils/user_manager.dart';
+import '../utils/walking_service.dart';
+import '../utils/walking_service_factory.dart';
 import '../widgets/map/filter_bottom_sheet.dart';
 import '../widgets/pixel.dart';
 import 'bottom_sheet_controller.dart';
@@ -25,6 +27,8 @@ class MapController extends SuperController {
   final PixelService pixelService = PixelService();
   final UserService userService = UserService();
   final LocationService _locationService = LocationService();
+  final WalkingService walkingService =
+      WalkingServiceFactory.getWalkingService();
 
   final BottomSheetController bottomSheetController =
       Get.find<BottomSheetController>();
@@ -176,7 +180,7 @@ class MapController extends SuperController {
         setCameraOnCurrentLocation();
       }
       speed.value = _locationService.getCurrentSpeed();
-      if (isPixelChanged() && _locationService.isWalking()) {
+      if (isPixelChanged() && walkingService.isWalking()) {
         _updateLatestPixel();
         await occupyPixel();
       }

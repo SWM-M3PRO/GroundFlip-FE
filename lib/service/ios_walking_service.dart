@@ -9,7 +9,7 @@ class IosWalkingService implements WalkingService {
   static const _stopped = 'stopped';
   static const _unknown = 'unknown';
   String pedestrianStatus = _stopped;
-  var _pedestrianStatusStream;
+  late Stream<PedestrianStatus> _pedestrianStatusStream;
 
   IosWalkingService._internal();
 
