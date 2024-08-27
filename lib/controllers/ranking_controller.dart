@@ -120,14 +120,15 @@ class RankingController extends GetxController {
 
   void openRankingBottomSheet(Ranking ranking) async {
     FirebaseAnalytics.instance.logEvent(name: "ranking_element_click");
-    UserPixelCount pixelCount = await userService.getAnotherUserPixelCount(DateHandler.convertDateTimeToString(selectedWeek), ranking.userId);
+    UserPixelCount pixelCount =
+        await userService.getAnotherUserPixelCount(null, ranking.userId);
     Get.bottomSheet(
       RankingBottomSheet(
-          userId: ranking.userId,
-          nickname: ranking.nickname!,
-          profileImageUrl: ranking.profileImageUrl,
-          currentPixelCount: pixelCount.currentPixelCount!,
-          accumulatePixelCount: pixelCount.accumulatePixelCount!,
+        userId: ranking.userId,
+        nickname: ranking.nickname!,
+        profileImageUrl: ranking.profileImageUrl,
+        currentPixelCount: pixelCount.currentPixelCount!,
+        accumulatePixelCount: pixelCount.accumulatePixelCount!,
       ),
       backgroundColor: AppColors.background,
       enterBottomSheetDuration: Duration(milliseconds: 100),
