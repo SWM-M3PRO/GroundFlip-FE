@@ -21,6 +21,7 @@ class MainController extends GetxController {
     fcmService.registerFcmToken();
     myPlaceService.getMyPlaceInfo();
     AndroidWalkingService().postAllUserStepFromStorage();
+    checkLocationPermission();
   }
 
   Future<void> checkLocationPermission() async {
