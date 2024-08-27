@@ -40,18 +40,6 @@ class LocationService {
     return locationHistory.getCurrentLocationSpeed();
   }
 
-  isWalking() {
-    if (currentLocation!.speed == null) {
-      return false;
-    }
-    double speed = locationHistory.getCurrentLocation().speed;
-    if (_convertSpeedToKmPerHour(speed) >= 20) {
-      return false;
-    } else {
-      return locationHistory.isNotDriving();
-    }
-  }
-
   initBackgroundLocation() {
     location.enableBackgroundMode(enable: true);
     location.changeNotificationOptions(
@@ -59,14 +47,6 @@ class LocationService {
       subtitle: '백그라운드 작동 중입니다.',
       iconName: 'drawable/ground_flip_app_icon',
     );
-  }
-
-  _convertSpeedToKmPerHour(double? speed) {
-    if (speed == null) {
-      return -1;
-    } else {
-      return speed * 3.6;
-    }
   }
 
   calculateSpeed(LocationData previousLocation, LocationData currentLocation) {
@@ -80,13 +60,15 @@ class LocationService {
     );
     final speedInMps = distanceInMeters / timeInSeconds;
     final speedInKmH = speedInMps * 3.6;
-    print(
-        '[speed] : $speedInKmH, [now_time] : ${DateTime.now()}, [time] : $timeInSeconds, [distance] : $distanceInMeters');
     return speedInKmH;
   }
 
   double calculateDistance(
-      double startLat, double startLng, double endLat, double endLng) {
+    double startLat,
+    double startLng,
+    double endLat,
+    double endLng,
+  ) {
     const double earthRadius = 6371000;
 
     final double dLat = degreesToRadians(endLat - startLat);
