@@ -21,7 +21,7 @@ class LocationService {
     location.changeNotificationOptions(
       title: '땅 따먹기 중!',
       subtitle: '백그라운드 작동 중입니다.',
-      iconName: 'drawable/ground_flip_app_icon',
+      iconName: 'drawable/background_app_icon',
     );
   }
 }
