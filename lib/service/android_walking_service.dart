@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:pedometer/pedometer.dart';
 
 import '../models/user_step_response.dart';
 import '../utils/android_notification.dart';
@@ -15,8 +16,14 @@ class AndroidWalkingService implements WalkingService {
   final Dio dio = DioService().getDio();
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
+  static const _walking = 'walking';
+  static const _stopped = 'stopped';
+  static const _unknown = 'unknown';
   static final AndroidWalkingService _instance =
       AndroidWalkingService._internal();
+
+  String pedestrianStatus = _stopped;
+  late Stream<PedestrianStatus> _pedestrianStatusStream;
 
   AndroidWalkingService._internal() {
     _initForegroundWalkingTask();
@@ -24,6 +31,14 @@ class AndroidWalkingService implements WalkingService {
 
   factory AndroidWalkingService() {
     return _instance;
+  }
+
+  init() {
+    _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
+    _pedestrianStatusStream.listen((PedestrianStatus event) {
+      String status = event.status;
+      pedestrianStatus = status;
+    });
   }
 
   @override
@@ -100,8 +115,11 @@ class AndroidWalkingService implements WalkingService {
   }
 
   @override
-  bool isWalking() {
-    // TODO: implement isWalking
-    throw UnimplementedError();
+  isWalking() {
+    if (pedestrianStatus == _unknown) {
+      return false;
+    } else {
+      return pedestrianStatus == _walking;
+    }
   }
 }
