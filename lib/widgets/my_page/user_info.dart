@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,8 +30,10 @@ class UserInfo extends StatelessWidget {
               children: [
                 ClipOval(
                   child: myPageController.getProfileImageURL() != null
-                      ? Image.network(
-                          myPageController.getProfileImageURL(),
+                      ? Image(
+                          image: CachedNetworkImageProvider(
+                            myPageController.getProfileImageURL(),
+                          ),
                           width: 44,
                           height: 44,
                           fit: BoxFit.cover,

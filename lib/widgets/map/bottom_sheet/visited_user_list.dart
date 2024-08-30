@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
@@ -55,9 +56,10 @@ class OwnerInfo extends StatelessWidget {
           children: [
             ClipOval(
               child: pixelOwnerUser.profileImageUrl != null
-                  ? Image.network(
-                      pixelOwnerUser.profileImageUrl!,
-                      cacheWidth: 100,
+                  ? Image(
+                      image: CachedNetworkImageProvider(
+                        pixelOwnerUser.profileImageUrl!,
+                      ),
                       width: 44,
                       height: 44,
                       fit: BoxFit.cover,
@@ -130,9 +132,10 @@ class VisitedUserListElement extends StatelessWidget {
           children: [
             ClipOval(
               child: visitedUser.profileImageUrl != null
-                  ? Image.network(
-                      visitedUser.profileImageUrl!,
-                      cacheWidth: 100,
+                  ? Image(
+                      image: CachedNetworkImageProvider(
+                        visitedUser.profileImageUrl!,
+                      ),
                       width: 44,
                       height: 44,
                       fit: BoxFit.cover,
