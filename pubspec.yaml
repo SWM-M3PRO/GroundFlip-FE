@@ -44,6 +44,7 @@ dependencies:
   firebase_analytics: ^11.2.1
   firebase_messaging: ^15.0.4
   package_info_plus: ^8.0.2
+  optimize_battery: ^0.0.4
 
 dev_dependencies:
   flutter_test:
