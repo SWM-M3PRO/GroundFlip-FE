@@ -39,7 +39,10 @@ class WalkingController extends GetxController {
   }
 
   void _initializeCurrentStep() async {
-    currentStep.value = (await walkingService.getCurrentStep());
+    int stepCount = await walkingService.getCurrentStep();
+    if (stepCount != 0) {
+      currentStep.value = stepCount;
+    }
   }
 
   Future<void> _initializeWeeklySteps() async {

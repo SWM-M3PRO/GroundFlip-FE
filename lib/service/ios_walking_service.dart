@@ -1,14 +1,28 @@
 import 'package:health/health.dart';
+import 'package:pedometer/pedometer.dart';
 
 import '../utils/walking_service.dart';
 
 class IosWalkingService implements WalkingService {
   static final IosWalkingService _instance = IosWalkingService._internal();
+  static const _walking = 'walking';
+  static const _stopped = 'stopped';
+  static const _unknown = 'unknown';
+  String pedestrianStatus = _stopped;
+  late Stream<PedestrianStatus> _pedestrianStatusStream;
 
   IosWalkingService._internal();
 
   factory IosWalkingService() {
     return _instance;
+  }
+
+  init() {
+    _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
+    _pedestrianStatusStream.listen((PedestrianStatus event) {
+      String status = event.status;
+      pedestrianStatus = status;
+    });
   }
 
   Future<bool> requestAuthorization() async {
@@ -48,5 +62,14 @@ class IosWalkingService implements WalkingService {
     }
 
     return dailySteps;
+  }
+
+  @override
+  isWalking() {
+    if (pedestrianStatus == _unknown) {
+      return false;
+    } else {
+      return pedestrianStatus == _walking;
+    }
   }
 }
