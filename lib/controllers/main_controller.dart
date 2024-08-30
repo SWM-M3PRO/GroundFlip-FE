@@ -35,10 +35,8 @@ class MainController extends GetxController {
   }
 
   Future<void> checkBatteryPermission() async {
-    print("battery check");
     bool batteryPermissionGranted =
         await OptimizeBattery.isIgnoringBatteryOptimizations();
-    print(batteryPermissionGranted);
     if (batteryPermissionGranted == false) {
       _showRequestBattery();
     }
@@ -89,7 +87,6 @@ class MainController extends GetxController {
   }
 
   void _showRequestBattery() {
-    print("alert battery");
     Get.dialog(
       AlertDialog(
         title: Text(
