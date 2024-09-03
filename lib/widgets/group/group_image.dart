@@ -28,7 +28,7 @@ class GroupImage extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.transparent, // 위쪽은 투명색
+                      Color(0x1A000000), // 위쪽은 투명색
                       Colors.black, // 아래쪽은 검은색
                     ],
                     stops: [0.8, 1.0],
