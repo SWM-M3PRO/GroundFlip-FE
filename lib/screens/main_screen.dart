@@ -29,7 +29,8 @@ class _MainScreenState extends State<MainScreen> {
         Get.put(NavigationController());
 
     return Scaffold(
-      appBar: navigationController.selectedIndex.value == 0
+      appBar: navigationController.selectedIndex.value == 0 ||
+              navigationController.selectedIndex.value == 2
           ? null
           : PreferredSize(
               preferredSize: const Size.fromHeight(kToolbarHeight),

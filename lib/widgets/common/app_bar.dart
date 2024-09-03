@@ -45,10 +45,7 @@ class GroupAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: AppColors.background,
-      title: AppBarTitle(title: "그룹"),
-    );
+    return Container();
   }
 }
 
