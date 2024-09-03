@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -32,9 +32,19 @@ class MemberList extends StatelessWidget {
                   "멤버",
                   style: TextStyles.fs24w900cTextPrimary,
                 ),
-                Text(
-                  "더보기",
-                  style: TextStyles.fs14w500cTextSecondary,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "더보기",
+                      style: TextStyles.fs14w600cTextSecondary,
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColors.textSecondary,
+                      size: 10,
+                    )
+                  ],
                 )
               ],
             ),

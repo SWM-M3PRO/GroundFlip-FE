@@ -22,12 +22,10 @@ class GroupActionButton extends StatelessWidget {
               color: AppColors.boxColor),
           height: 60,
           width: 1000,
-          child: Expanded(
-            child: Center(
-              child: Text(
-                "그룹 탈퇴",
-                style: TextStyles.fs17w600cAccent,
-              ),
+          child: Center(
+            child: Text(
+              "그룹 탈퇴",
+              style: TextStyles.fs17w600cAccent,
             ),
           ),
         ),
