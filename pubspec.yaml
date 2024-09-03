@@ -45,6 +45,8 @@ dependencies:
   firebase_messaging: ^15.0.4
   package_info_plus: ^8.0.2
   optimize_battery: ^0.0.4
+  cached_network_image: ^3.4.0
+
 
 dev_dependencies:
   flutter_test:

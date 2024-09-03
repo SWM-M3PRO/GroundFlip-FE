@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
@@ -30,8 +31,8 @@ class RankingUserInfo extends StatelessWidget {
             children: [
               ClipOval(
                 child: profileImageUrl != null
-                    ? Image.network(
-                        profileImageUrl!,
+                    ? Image(
+                        image: CachedNetworkImageProvider(profileImageUrl!),
                         width: 44,
                         height: 44,
                         fit: BoxFit.cover,
