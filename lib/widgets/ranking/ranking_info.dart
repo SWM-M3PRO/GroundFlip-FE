@@ -17,7 +17,7 @@ class RankingInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Rank(rank: ranking.rank),
+        Rank(rank: ranking.rank, size: 30),
         SizedBox(width: 10),
         ClipOval(
           child: ranking.profileImageUrl != null
@@ -63,15 +63,16 @@ class Rank extends StatelessWidget {
     "assets/images/3rd_place_medal.png",
   ];
   final int? rank;
+  final double size;
 
-  const Rank({super.key, required this.rank});
+  const Rank({super.key, required this.rank, required this.size});
 
   @override
   Widget build(BuildContext context) {
     if (rank == null) {
       return SizedBox(
-        width: 30,
-        height: 30,
+        width: size,
+        height: size,
         child: Center(
           child: Text('?', style: TextStyles.fs20w800cTextPrimary),
         ),
@@ -79,13 +80,13 @@ class Rank extends StatelessWidget {
     } else if (rank! <= 3 && rank! >= 1) {
       return Image.asset(
         medalImages[rank! - 1],
-        width: 30,
-        height: 30,
+        width: size,
+        height: size,
       );
     } else {
       return SizedBox(
-        width: 30,
-        height: 30,
+        width: size,
+        height: size,
         child: Center(
           child: Text(rank.toString(), style: TextStyles.fs20w800cTextPrimary),
         ),
