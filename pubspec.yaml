@@ -47,6 +47,7 @@ dependencies:
   optimize_battery: ^0.0.4
   cached_network_image: ^3.4.0
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

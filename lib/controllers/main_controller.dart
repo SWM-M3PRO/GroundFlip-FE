@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:optimize_battery/optimize_battery.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../constants/app_colors.dart';
@@ -22,6 +23,7 @@ class MainController extends GetxController {
     myPlaceService.getMyPlaceInfo();
     AndroidWalkingService().postAllUserStepFromStorage();
     checkLocationPermission();
+    await checkBatteryPermission();
   }
 
   Future<void> checkLocationPermission() async {
@@ -29,6 +31,14 @@ class MainController extends GetxController {
 
     if (status != PermissionStatus.granted) {
       _showRequestLocationAlways();
+    }
+  }
+
+  Future<void> checkBatteryPermission() async {
+    bool batteryPermissionGranted =
+        await OptimizeBattery.isIgnoringBatteryOptimizations();
+    if (batteryPermissionGranted == false) {
+      _showRequestBattery();
     }
   }
 
@@ -64,6 +74,50 @@ class MainController extends GetxController {
             ),
             onPressed: () {
               openAppSettings();
+              Get.back();
+            },
+          ),
+        ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        backgroundColor: AppColors.boxColor,
+      ),
+    );
+  }
+
+  void _showRequestBattery() {
+    Get.dialog(
+      AlertDialog(
+        title: Text(
+          '배터리 최적화를 해제 해주세요!',
+          style: TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        content: Text(
+          '만보기 기능과 땅따먹기 기능이 예기치 않게 종료되지 않아요! ',
+          style: TextStyles.fs17w400cTextSecondary,
+        ),
+        actions: [
+          TextButton(
+            child: Text(
+              '아니오',
+              style: TextStyles.fs17w600cAccent,
+            ),
+            onPressed: () async {
+              Get.back();
+            },
+          ),
+          TextButton(
+            child: Text(
+              '예',
+              style: TextStyles.fs17w700cPrimary,
+            ),
+            onPressed: () async {
+              await OptimizeBattery.stopOptimizingBatteryUsage();
               Get.back();
             },
           ),
