@@ -67,7 +67,16 @@ class PermissionRequestScreen extends StatelessWidget {
                           'assets/images/permission/notification_icon.png',
                       permissionName: '알림',
                       permissionDescription:
-                          '공지사항, 앱 내의 활동에 대한 알림을 수신하기하고 걸음 수를 알림창에 표시하기 위해 필요해요!',
+                          '공지사항, 앱 내의 활동에 대한 알림을 수신하고 걸음 수를 알림창에 표시하기 위해 필요해요!',
+                    ),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    PermissionElement(
+                      iconPath: 'assets/images/permission/battery_icon.png',
+                      permissionName: '배터리 최적화 예외',
+                      permissionDescription:
+                          '백그라운드에서 만보기와 땅따먹기 기능을 제공하기 위해 필요해요!',
                     ),
                     SizedBox(
                       height: 16.0,
