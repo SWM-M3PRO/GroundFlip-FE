@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 
 class GroupRecord extends StatelessWidget {
-  final int currentPixelCount;
-  final int accumulatePixelCount;
-  final int maxPixelCount;
-  final int maxRankingCount;
+  final RxInt currentPixelCount;
+  final RxInt accumulatePixelCount;
+  final RxInt maxPixelCount;
+  final RxInt maxRankingCount;
 
   const GroupRecord({
     super.key,
@@ -26,7 +27,7 @@ class GroupRecord extends StatelessWidget {
           children: [
             GroupRecordElement(
               title: "현재 px",
-              content: currentPixelCount,
+              content: currentPixelCount.value,
               iconImageUrl: "assets/images/current_pixel_icon.png",
             ),
             SizedBox(
@@ -34,7 +35,7 @@ class GroupRecord extends StatelessWidget {
             ),
             GroupRecordElement(
               title: "누적 px",
-              content: accumulatePixelCount,
+              content: accumulatePixelCount.value,
               iconImageUrl: "assets/images/accumulate_pixel_icon.png",
             ),
           ],
@@ -46,7 +47,7 @@ class GroupRecord extends StatelessWidget {
           children: [
             GroupRecordElement(
               title: "하루 최대 px",
-              content: maxPixelCount,
+              content: maxPixelCount.value,
               iconImageUrl: "assets/images/max_pixel_icon.png",
             ),
             SizedBox(
@@ -54,7 +55,7 @@ class GroupRecord extends StatelessWidget {
             ),
             GroupRecordElement(
               title: "최고 랭킹",
-              content: maxRankingCount,
+              content: maxRankingCount.value,
               iconImageUrl: "assets/images/max_ranking_icon.png",
             ),
           ],

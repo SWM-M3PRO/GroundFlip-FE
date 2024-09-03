@@ -17,7 +17,10 @@ class NavigationController extends GetxController {
   static List<Widget> tabPages = <Widget>[
     const MapScreen(),
     const RankingScreen(),
-    const GroupScreen(),
+    const GroupScreen(
+      groupId: 1,
+      isTap: true,
+    ),
     const MyPageScreen(),
   ];
   static List<Widget> appBars = <Widget>[

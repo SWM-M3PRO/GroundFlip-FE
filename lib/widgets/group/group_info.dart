@@ -1,15 +1,16 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 
 class GroupInfo extends StatelessWidget {
-  final int memberCount;
-  final int groupColor;
-  final int weeklyRanking;
+  final RxInt memberCount;
+  final RxInt groupColor;
+  final RxInt weeklyRanking;
 
   const GroupInfo({
     super.key,
@@ -25,7 +26,7 @@ class GroupInfo extends StatelessWidget {
         GroupInfoElement(
           title: "멤버",
           content: Text(
-            '${NumberFormat('###,###,###').format(memberCount)}명',
+            '${NumberFormat('###,###,###').format(memberCount.value)}명',
             style: TextStyles.fs17w700cTextPrimary,
           ),
         ),
@@ -35,7 +36,7 @@ class GroupInfo extends StatelessWidget {
         GroupInfoElement(
           title: "그룹 색상",
           content: GroupColor(
-            color: groupColor,
+            color: groupColor.value,
           ),
         ),
         SizedBox(
@@ -44,7 +45,7 @@ class GroupInfo extends StatelessWidget {
         GroupInfoElement(
           title: "주간 랭킹",
           content: Text(
-            '${NumberFormat('###,###,###').format(weeklyRanking)}등',
+            '${NumberFormat('###,###,###').format(weeklyRanking.value)}등',
             style: TextStyles.fs17w700cTextPrimary,
           ),
         ),
