@@ -3,22 +3,23 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
-import '../controllers/group_controller.dart';
-import '../widgets/group/group_action_button.dart';
-import '../widgets/group/group_image.dart';
-import '../widgets/group/group_info.dart';
-import '../widgets/group/group_record.dart';
-import '../widgets/group/member/member_list.dart';
+import '../controllers/community_controller.dart';
+import '../widgets/community/community_action_button.dart';
+import '../widgets/community/community_image.dart';
+import '../widgets/community/community_info.dart';
+import '../widgets/community/community_record.dart';
+import '../widgets/community/member/member_list.dart';
 
-class GroupScreen extends StatelessWidget {
+class CommunityScreen extends StatelessWidget {
   final int groupId;
   final bool isTap;
 
-  const GroupScreen({super.key, required this.groupId, required this.isTap});
+  const CommunityScreen(
+      {super.key, required this.groupId, required this.isTap});
 
   @override
   Widget build(BuildContext context) {
-    final GroupController groupController = Get.put(GroupController());
+    final CommunityController groupController = Get.put(CommunityController());
     groupController.init(groupId);
     return CustomScrollView(
       slivers: [
@@ -53,7 +54,7 @@ class GroupScreen extends StatelessWidget {
               return FlexibleSpaceBar(
                 title: top <= 120
                     ? Text(
-                        groupController.groupName.value,
+                        groupController.name.value,
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -64,7 +65,7 @@ class GroupScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Text(
-                            groupController.groupName.value,
+                            groupController.name.value,
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -73,8 +74,8 @@ class GroupScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                background: GroupImage(
-                  imageUrl: groupController.groupImageUrl.value,
+                background: CommunityImage(
+                  imageUrl: groupController.imageUrl.value,
                 ),
                 collapseMode: CollapseMode.parallax,
               );
@@ -86,15 +87,15 @@ class GroupScreen extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: Column(
               children: [
-                GroupInfo(
+                CommunityInfo(
                   memberCount: groupController.memberCount,
-                  groupColor: groupController.groupColor,
-                  weeklyRanking: groupController.weeklyRanking,
+                  communityColor: groupController.communityColor,
+                  weeklyRanking: groupController.communityRanking,
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                GroupRecord(
+                CommunityRecord(
                   currentPixelCount: groupController.currentPixelCount,
                   accumulatePixelCount: groupController.accumulatePixelCount,
                   maxPixelCount: groupController.maxPixelCount,
@@ -107,7 +108,7 @@ class GroupScreen extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                GroupActionButton(
+                CommunityActionButton(
                   isJoin: groupController.isJoin.value,
                 ),
               ],

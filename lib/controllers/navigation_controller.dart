@@ -2,7 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../screens/group_screen.dart';
+import '../screens/community_screen.dart';
 import '../screens/map_screen.dart';
 import '../screens/my_page_screen.dart';
 import '../screens/ranking_screen.dart';
@@ -17,7 +17,7 @@ class NavigationController extends GetxController {
   static List<Widget> tabPages = <Widget>[
     const MapScreen(),
     const RankingScreen(),
-    const GroupScreen(
+    const CommunityScreen(
       groupId: 1,
       isTap: true,
     ),

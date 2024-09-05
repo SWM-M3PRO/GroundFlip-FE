@@ -7,15 +7,15 @@ import 'package:intl/intl.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 
-class GroupInfo extends StatelessWidget {
+class CommunityInfo extends StatelessWidget {
   final RxInt memberCount;
-  final RxInt groupColor;
+  final RxInt communityColor;
   final RxInt weeklyRanking;
 
-  const GroupInfo({
+  const CommunityInfo({
     super.key,
     required this.memberCount,
-    required this.groupColor,
+    required this.communityColor,
     required this.weeklyRanking,
   });
 
@@ -23,7 +23,7 @@ class GroupInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        GroupInfoElement(
+        CommunityInfoElement(
           title: "멤버",
           content: Text(
             '${NumberFormat('###,###,###').format(memberCount.value)}명',
@@ -33,16 +33,16 @@ class GroupInfo extends StatelessWidget {
         SizedBox(
           width: 10,
         ),
-        GroupInfoElement(
+        CommunityInfoElement(
           title: "그룹 색상",
-          content: GroupColor(
-            color: groupColor.value,
+          content: CommunityColor(
+            color: communityColor.value,
           ),
         ),
         SizedBox(
           width: 10,
         ),
-        GroupInfoElement(
+        CommunityInfoElement(
           title: "주간 랭킹",
           content: Text(
             '${NumberFormat('###,###,###').format(weeklyRanking.value)}등',
@@ -54,11 +54,11 @@ class GroupInfo extends StatelessWidget {
   }
 }
 
-class GroupInfoElement extends StatelessWidget {
+class CommunityInfoElement extends StatelessWidget {
   final String title;
   final Widget content;
 
-  const GroupInfoElement({
+  const CommunityInfoElement({
     super.key,
     required this.title,
     required this.content,
@@ -93,10 +93,10 @@ class GroupInfoElement extends StatelessWidget {
   }
 }
 
-class GroupColor extends StatelessWidget {
+class CommunityColor extends StatelessWidget {
   final int color;
 
-  const GroupColor({super.key, required this.color});
+  const CommunityColor({super.key, required this.color});
 
   @override
   Widget build(BuildContext context) {

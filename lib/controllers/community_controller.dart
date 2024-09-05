@@ -2,13 +2,13 @@ import 'package:get/get.dart';
 
 import '../models/ranking.dart';
 
-class GroupController extends GetxController {
-  final RxString groupName = "".obs;
-  final RxString groupImageUrl = "".obs;
+class CommunityController extends GetxController {
+  final RxString name = "".obs;
+  final RxString imageUrl = "".obs;
 
   final RxInt memberCount = 0.obs;
-  final RxInt groupColor = 0.obs;
-  final RxInt weeklyRanking = 0.obs;
+  final RxInt communityColor = 0.obs;
+  final RxInt communityRanking = 0.obs;
   final RxInt currentPixelCount = 0.obs;
   final RxInt accumulatePixelCount = 0.obs;
   final RxInt maxPixelCount = 0.obs;
@@ -24,12 +24,12 @@ class GroupController extends GetxController {
   ].obs;
 
   init(int groupId) {
-    groupName.value = "세종대학교";
-    groupImageUrl.value =
+    name.value = "세종대학교";
+    imageUrl.value =
         "https://ground-flip-prod-storage-resized.s3.ap-northeast-2.amazonaws.com/resized-static/42166cf0-b557-42a1-a1fb-d04472ea0ac1%23%23%23622.jpg";
     memberCount.value = 3;
-    groupColor.value = 0xFF0DF69E;
-    weeklyRanking.value = 534;
+    communityColor.value = 0xFF0DF69E;
+    communityRanking.value = 534;
     currentPixelCount.value = 124;
     accumulatePixelCount.value = 11394;
     maxPixelCount.value = 945;

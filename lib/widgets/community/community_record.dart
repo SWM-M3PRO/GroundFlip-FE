@@ -5,13 +5,13 @@ import 'package:intl/intl.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 
-class GroupRecord extends StatelessWidget {
+class CommunityRecord extends StatelessWidget {
   final RxInt currentPixelCount;
   final RxInt accumulatePixelCount;
   final RxInt maxPixelCount;
   final RxInt maxRankingCount;
 
-  const GroupRecord({
+  const CommunityRecord({
     super.key,
     required this.currentPixelCount,
     required this.accumulatePixelCount,
@@ -25,7 +25,7 @@ class GroupRecord extends StatelessWidget {
       children: [
         Row(
           children: [
-            GroupRecordElement(
+            CommunityRecordElement(
               title: "현재 px",
               content: currentPixelCount.value,
               iconImageUrl: "assets/images/current_pixel_icon.png",
@@ -33,7 +33,7 @@ class GroupRecord extends StatelessWidget {
             SizedBox(
               width: 10,
             ),
-            GroupRecordElement(
+            CommunityRecordElement(
               title: "누적 px",
               content: accumulatePixelCount.value,
               iconImageUrl: "assets/images/accumulate_pixel_icon.png",
@@ -45,7 +45,7 @@ class GroupRecord extends StatelessWidget {
         ),
         Row(
           children: [
-            GroupRecordElement(
+            CommunityRecordElement(
               title: "하루 최대 px",
               content: maxPixelCount.value,
               iconImageUrl: "assets/images/max_pixel_icon.png",
@@ -53,7 +53,7 @@ class GroupRecord extends StatelessWidget {
             SizedBox(
               width: 10,
             ),
-            GroupRecordElement(
+            CommunityRecordElement(
               title: "최고 랭킹",
               content: maxRankingCount.value,
               iconImageUrl: "assets/images/max_ranking_icon.png",
@@ -65,12 +65,12 @@ class GroupRecord extends StatelessWidget {
   }
 }
 
-class GroupRecordElement extends StatelessWidget {
+class CommunityRecordElement extends StatelessWidget {
   final String title;
   final int content;
   final String iconImageUrl;
 
-  const GroupRecordElement({
+  const CommunityRecordElement({
     super.key,
     required this.title,
     required this.content,

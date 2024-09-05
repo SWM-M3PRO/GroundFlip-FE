@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class GroupImage extends StatelessWidget {
+class CommunityImage extends StatelessWidget {
   final String imageUrl;
 
-  const GroupImage({super.key, required this.imageUrl});
+  const CommunityImage({super.key, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {

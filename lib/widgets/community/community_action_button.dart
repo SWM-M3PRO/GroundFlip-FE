@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 
-class GroupActionButton extends StatelessWidget {
+class CommunityActionButton extends StatelessWidget {
   final bool isJoin;
 
-  const GroupActionButton({super.key, required this.isJoin});
+  const CommunityActionButton({super.key, required this.isJoin});
 
   @override
   Widget build(BuildContext context) {
