@@ -46,6 +46,7 @@ dependencies:
   package_info_plus: ^8.0.2
   optimize_battery: ^0.0.4
   cached_network_image: ^3.4.0
+  flutter_svg: ^2.0.10+1
 
 
 dev_dependencies:
