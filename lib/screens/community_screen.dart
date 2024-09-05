@@ -22,103 +22,117 @@ class CommunityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CommunityController groupController = Get.put(CommunityController());
-    groupController.init(groupId);
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          expandedHeight: 350.0,
-          floating: false,
-          pinned: true,
-          iconTheme: IconThemeData(
-            color: Colors.white,
+    final CommunityController communityController =
+        Get.put(CommunityController());
+    communityController.init(groupId);
+
+    return Obx(() {
+      if (communityController.isLoading.value) {
+        return const Center(
+          child: CircularProgressIndicator(
+            color: AppColors.primary,
           ),
-          leading: isTap
-              ? null
-              : IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  onPressed: () {
-                    Get.back();
-                  },
-                ),
-          actions: [
-            IconButton(
-              icon: SvgPicture.asset(
-                'assets/images/share_icon.svg',
-                width: 20,
+        );
+      } else {
+        return CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 350.0,
+              floating: false,
+              pinned: true,
+              iconTheme: IconThemeData(
+                color: Colors.white,
               ),
-              onPressed: () {},
-            ),
-          ],
-          backgroundColor: AppColors.background,
-          flexibleSpace: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              var top = constraints.biggest.height;
-              return FlexibleSpaceBar(
-                title: top <= 120
-                    ? Text(
-                        groupController.name.value,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    : Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Text(
-                            groupController.name.value,
+              leading: isTap
+                  ? null
+                  : IconButton(
+                      icon: Icon(Icons.arrow_back_ios),
+                      onPressed: () {
+                        Get.back();
+                      },
+                    ),
+              actions: [
+                IconButton(
+                  icon: SvgPicture.asset(
+                    'assets/images/share_icon.svg',
+                    width: 20,
+                  ),
+                  onPressed: () {},
+                ),
+              ],
+              backgroundColor: AppColors.background,
+              flexibleSpace: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  var top = constraints.biggest.height;
+                  return FlexibleSpaceBar(
+                    title: top <= 120
+                        ? Text(
+                            communityController.name.value,
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                            ),
+                          )
+                        : Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Text(
+                                communityController.name.value,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                background: CommunityImage(
-                  imageUrl: groupController.imageUrl.value,
-                ),
-                collapseMode: CollapseMode.parallax,
-              );
-            },
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.all(10),
-            child: Column(
-              children: [
-                CommunityInfo(
-                  memberCount: groupController.memberCount,
-                  communityColor: groupController.communityColor,
-                  weeklyRanking: groupController.communityRanking,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CommunityRecord(
-                  currentPixelCount: groupController.currentPixelCount,
-                  accumulatePixelCount: groupController.accumulatePixelCount,
-                  maxPixelCount: groupController.maxPixelCount,
-                  maxRankingCount: groupController.maxRankingCount,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                MemberList(members: groupController.members),
-                SizedBox(
-                  height: 20,
-                ),
-                CommunityActionButton(
-                  isJoin: groupController.isJoin.value,
-                ),
-              ],
+                    background: CommunityImage(
+                      imageUrl: communityController.imageUrl.value,
+                    ),
+                    collapseMode: CollapseMode.parallax,
+                  );
+                },
+              ),
             ),
-          ),
-        ),
-      ],
-    );
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    CommunityInfo(
+                      memberCount: communityController.memberCount,
+                      communityColor: communityController.communityColor,
+                      weeklyRanking: communityController.communityRanking,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    CommunityRecord(
+                      currentPixelCount: communityController.currentPixelCount,
+                      accumulatePixelCount:
+                          communityController.accumulatePixelCount,
+                      maxPixelCount: communityController.maxPixelCount,
+                      maxRankingCount: communityController.maxRanking,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    MemberList(members: communityController.members),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    CommunityActionButton(
+                      isJoin: communityController.isJoin.value,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      }
+    });
   }
 }
