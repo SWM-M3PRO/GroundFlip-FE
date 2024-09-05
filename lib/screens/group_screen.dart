@@ -55,7 +55,9 @@ class GroupScreen extends StatelessWidget {
                     ? Text(
                         groupController.groupName.value,
                         style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       )
                     : Align(
                         alignment: Alignment.bottomLeft,
@@ -111,7 +113,7 @@ class GroupScreen extends StatelessWidget {
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }

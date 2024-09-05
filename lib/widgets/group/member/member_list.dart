@@ -43,9 +43,9 @@ class MemberList extends StatelessWidget {
                       Icons.arrow_forward_ios,
                       color: AppColors.textSecondary,
                       size: 10,
-                    )
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),

@@ -70,11 +70,12 @@ class GroupRecordElement extends StatelessWidget {
   final int content;
   final String iconImageUrl;
 
-  const GroupRecordElement(
-      {super.key,
-      required this.title,
-      required this.content,
-      required this.iconImageUrl});
+  const GroupRecordElement({
+    super.key,
+    required this.title,
+    required this.content,
+    required this.iconImageUrl,
+  });
 
   @override
   Widget build(BuildContext context) {

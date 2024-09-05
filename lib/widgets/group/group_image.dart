@@ -10,8 +10,7 @@ class GroupImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        double width = constraints.maxWidth *
-            0.8; // Image width is 80% of the available width
+// Image width is 80% of the available width
         double aspectRatio = 350 / 350; // Original aspect ratio
         return AspectRatio(
           aspectRatio: aspectRatio,

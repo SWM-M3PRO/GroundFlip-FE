@@ -14,12 +14,13 @@ class GroupActionButton extends StatelessWidget {
       return InkWell(
         borderRadius: BorderRadius.all(Radius.circular(16)),
         onTap: () {
-          print("test");
+          //Todo : 그룹 탈퇴 로직
         },
         child: Ink(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: AppColors.boxColor),
+            borderRadius: BorderRadius.circular(16),
+            color: AppColors.boxColor,
+          ),
           height: 60,
           width: 1000,
           child: Center(
@@ -34,18 +35,19 @@ class GroupActionButton extends StatelessWidget {
       return InkWell(
         borderRadius: BorderRadius.all(Radius.circular(16)),
         onTap: () {
-          print("test");
+          //Todo : 그룹 가입 로직
         },
         child: Ink(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: AppColors.primary),
+            borderRadius: BorderRadius.circular(16),
+            color: AppColors.primary,
+          ),
           height: 60,
           width: 1000,
           child: Expanded(
             child: Center(
               child: Text(
-                "그룹 탈퇴",
+                "그룹 가입 신청하기",
                 style: TextStyles.fs17w600cTextBlack,
               ),
             ),

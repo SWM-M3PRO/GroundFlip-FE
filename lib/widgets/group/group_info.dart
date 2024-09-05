@@ -58,8 +58,11 @@ class GroupInfoElement extends StatelessWidget {
   final String title;
   final Widget content;
 
-  const GroupInfoElement(
-      {super.key, required this.title, required this.content});
+  const GroupInfoElement({
+    super.key,
+    required this.title,
+    required this.content,
+  });
 
   @override
   Widget build(BuildContext context) {
