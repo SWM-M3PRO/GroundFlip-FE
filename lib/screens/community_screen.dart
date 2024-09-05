@@ -14,8 +14,11 @@ class CommunityScreen extends StatelessWidget {
   final int groupId;
   final bool isTap;
 
-  const CommunityScreen(
-      {super.key, required this.groupId, required this.isTap});
+  const CommunityScreen({
+    super.key,
+    required this.groupId,
+    required this.isTap,
+  });
 
   @override
   Widget build(BuildContext context) {
