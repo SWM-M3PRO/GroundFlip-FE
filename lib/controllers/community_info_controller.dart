@@ -17,7 +17,6 @@ class CommunityInfoController extends GetxController {
   final RxInt accumulatePixelCount = 0.obs;
   final RxInt maxPixelCount = 0.obs;
   final RxInt maxRanking = 0.obs;
-  final RxBool isJoin = true.obs;
   final RxBool isLoading = true.obs;
 
   final RxList members = [

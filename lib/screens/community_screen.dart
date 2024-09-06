@@ -68,7 +68,8 @@ class CommunityScreen extends StatelessWidget {
                               alignment: Alignment.bottomLeft,
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
+                                  horizontal: 10.0,
+                                ),
                                 child: Text(
                                   communityController.name.value,
                                   style: TextStyle(
