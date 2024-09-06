@@ -21,6 +21,8 @@ class OnBoardScreen extends StatelessWidget {
       'assets/images/onboard_image05.png',
       'assets/images/onboard_image06.png',
       'assets/images/onboard_image07.png',
+      'assets/images/onboard_image08.png',
+      'assets/images/onboard_image09.png',
     ];
 
     return Scaffold(

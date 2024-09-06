@@ -3,7 +3,7 @@ description: "GroundFlip"
 
 publish_to: 'none'
 
-version: 1.0.4+8
+version: 1.0.5+13
 
 environment:
   sdk: '>=3.3.4 <4.0.0'
@@ -44,6 +44,9 @@ dependencies:
   firebase_analytics: ^11.2.1
   firebase_messaging: ^15.0.4
   package_info_plus: ^8.0.2
+  optimize_battery: ^0.0.4
+  cached_network_image: ^3.4.0
+
 
 dev_dependencies:
   flutter_test:

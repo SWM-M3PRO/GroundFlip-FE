@@ -17,6 +17,8 @@ import '../service/pixel_service.dart';
 import '../service/user_service.dart';
 import '../utils/date_handler.dart';
 import '../utils/user_manager.dart';
+import '../utils/walking_service.dart';
+import '../utils/walking_service_factory.dart';
 import '../widgets/map/filter_bottom_sheet.dart';
 import '../widgets/pixel.dart';
 import 'bottom_sheet_controller.dart';
@@ -25,6 +27,8 @@ class MapController extends SuperController {
   final PixelService pixelService = PixelService();
   final UserService userService = UserService();
   final LocationService _locationService = LocationService();
+  final WalkingService walkingService =
+      WalkingServiceFactory.getWalkingService();
 
   final BottomSheetController bottomSheetController =
       Get.find<BottomSheetController>();
@@ -171,18 +175,21 @@ class MapController extends SuperController {
 
   void _trackUserLocation() {
     _locationService.location.onLocationChanged.listen((newLocation) async {
-      _locationService.currentLocation = newLocation;
+      _locationService.updateCurrentLocation(newLocation);
       if (isCameraTrackingUser.value) {
         setCameraOnCurrentLocation();
       }
-
-      double currentSpeed = _convertSpeedToKmPerHour(newLocation.speed);
-      speed.value = currentSpeed;
-      if (isPixelChanged() && currentSpeed <= 10.5) {
+      speed.value = _locationService.getCurrentSpeed();
+      if (isPixelChanged() && isWalking()) {
         _updateLatestPixel();
         await occupyPixel();
       }
     });
+  }
+
+  isWalking() {
+    return walkingService.isWalking() &&
+        _locationService.getCurrentSpeed() <= 25;
   }
 
   Future<void> initCurrentLocation() async {
@@ -373,14 +380,6 @@ class MapController extends SuperController {
       return accumulatePixelCountPerPeriod.value;
     } else {
       return currentPixelCount.value;
-    }
-  }
-
-  _convertSpeedToKmPerHour(double? speed) {
-    if (speed == null) {
-      return -1;
-    } else {
-      return speed * 3.6;
     }
   }
 

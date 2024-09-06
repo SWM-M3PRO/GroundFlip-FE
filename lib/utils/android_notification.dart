@@ -21,7 +21,7 @@ Future<void> initForegroundTask() async {
         iconData: const NotificationIconData(
           resType: ResourceType.mipmap,
           resPrefix: ResourcePrefix.ic,
-          name: 'launcher',
+          name: 'background_app_icon',
         ),
         isSticky: true,
       ),

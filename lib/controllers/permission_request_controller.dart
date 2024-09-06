@@ -4,9 +4,18 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:health/health.dart';
+import 'package:optimize_battery/optimize_battery.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionRequestController extends GetxController {
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+    if (Platform.isAndroid) {
+      await OptimizeBattery.stopOptimizingBatteryUsage();
+    }
+  }
+
   Future<void> checkPermissions() async {
     if (Platform.isAndroid) {
       await requestAndroidPermissions();
@@ -36,7 +45,13 @@ class PermissionRequestController extends GetxController {
       }
     }
 
-    if (allPermissionGranted(androidPermissionStatus)) {
+    bool batteryPermissionGranted =
+        await OptimizeBattery.isIgnoringBatteryOptimizations();
+    if (batteryPermissionGranted == false) {
+      OptimizeBattery.openBatteryOptimizationSettings();
+    }
+    if (allPermissionGranted(androidPermissionStatus) &&
+        batteryPermissionGranted == true) {
       Get.toNamed('/login');
     }
   }

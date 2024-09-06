@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
@@ -20,9 +21,8 @@ class RankingInfo extends StatelessWidget {
         SizedBox(width: 10),
         ClipOval(
           child: ranking.profileImageUrl != null
-              ? Image.network(
-                  ranking.profileImageUrl!,
-                  cacheWidth: 100,
+              ? Image(
+                  image: CachedNetworkImageProvider(ranking.profileImageUrl!),
                   width: 30,
                   height: 30,
                   fit: BoxFit.cover,
@@ -108,9 +108,8 @@ class RankingInfoMy extends StatelessWidget {
       children: [
         ClipOval(
           child: ranking.profileImageUrl != null
-              ? Image.network(
-                  ranking.profileImageUrl!,
-                  cacheWidth: 100,
+              ? Image(
+                  image: CachedNetworkImageProvider(ranking.profileImageUrl!),
                   width: 44,
                   height: 44,
                   fit: BoxFit.cover,
