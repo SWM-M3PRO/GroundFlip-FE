@@ -3,30 +3,31 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
-import '../controllers/community_controller.dart';
+import '../controllers/community_info_controller.dart';
 import '../widgets/community/community_action_button.dart';
 import '../widgets/community/community_image.dart';
 import '../widgets/community/community_info.dart';
 import '../widgets/community/community_record.dart';
 import '../widgets/community/member/member_list.dart';
-import 'no_community_screen.dart';
 
-class CommunityScreen extends StatelessWidget {
-  const CommunityScreen({
+class CommunityInfoScreen extends StatelessWidget {
+  final int groupId;
+
+  const CommunityInfoScreen({
     super.key,
+    required this.groupId,
   });
 
   @override
   Widget build(BuildContext context) {
-    final CommunityController communityController =
-        Get.put(CommunityController());
-    communityController.init();
+    final CommunityInfoController communityInfoController =
+        Get.put(CommunityInfoController());
+    communityInfoController.init(groupId);
 
-    return Obx(() {
-      if (!communityController.isJoin.value) {
-        return NoCommunityScreen();
-      } else {
-        if (communityController.isLoading.value) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Obx(() {
+        if (communityInfoController.isLoading.value) {
           return const Center(
             child: CircularProgressIndicator(
               color: AppColors.primary,
@@ -41,6 +42,12 @@ class CommunityScreen extends StatelessWidget {
                 pinned: true,
                 iconTheme: IconThemeData(
                   color: Colors.white,
+                ),
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    Get.back();
+                  },
                 ),
                 actions: [
                   IconButton(
@@ -58,7 +65,7 @@ class CommunityScreen extends StatelessWidget {
                     return FlexibleSpaceBar(
                       title: top <= 120
                           ? Text(
-                              communityController.name.value,
+                              communityInfoController.name.value,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -70,7 +77,7 @@ class CommunityScreen extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10.0),
                                 child: Text(
-                                  communityController.name.value,
+                                  communityInfoController.name.value,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -80,7 +87,7 @@ class CommunityScreen extends StatelessWidget {
                               ),
                             ),
                       background: CommunityImage(
-                        imageUrl: communityController.imageUrl.value,
+                        imageUrl: communityInfoController.imageUrl.value,
                       ),
                       collapseMode: CollapseMode.parallax,
                     );
@@ -93,30 +100,30 @@ class CommunityScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       CommunityInfo(
-                        memberCount: communityController.memberCount,
-                        communityColor: communityController.communityColor,
-                        weeklyRanking: communityController.communityRanking,
+                        memberCount: communityInfoController.memberCount,
+                        communityColor: communityInfoController.communityColor,
+                        weeklyRanking: communityInfoController.communityRanking,
                       ),
                       SizedBox(
                         height: 20,
                       ),
                       CommunityRecord(
                         currentPixelCount:
-                            communityController.currentPixelCount,
+                            communityInfoController.currentPixelCount,
                         accumulatePixelCount:
-                            communityController.accumulatePixelCount,
-                        maxPixelCount: communityController.maxPixelCount,
-                        maxRankingCount: communityController.maxRanking,
+                            communityInfoController.accumulatePixelCount,
+                        maxPixelCount: communityInfoController.maxPixelCount,
+                        maxRankingCount: communityInfoController.maxRanking,
                       ),
                       SizedBox(
                         height: 20,
                       ),
-                      MemberList(members: communityController.members),
+                      MemberList(members: communityInfoController.members),
                       SizedBox(
                         height: 20,
                       ),
-                      QuitCommunityButton(
-                        onTap: communityController.quitCommunity,
+                      SignUpCommunityButton(
+                        onTap: communityInfoController.signUpCommunity,
                       ),
                     ],
                   ),
@@ -125,7 +132,7 @@ class CommunityScreen extends StatelessWidget {
             ],
           );
         }
-      }
-    });
+      }),
+    );
   }
 }

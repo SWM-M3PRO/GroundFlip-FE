@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
-import 'search_group_screen.dart';
+import 'community_info_screen.dart';
 
 class NoCommunityScreen extends StatelessWidget {
   const NoCommunityScreen({super.key});
@@ -36,7 +36,7 @@ class NoCommunityScreen extends StatelessWidget {
               InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(16)),
                 onTap: () {
-                  Get.to(SearchGroupScreen());
+                  Get.to(CommunityInfoScreen(groupId: 20));
                 },
                 child: Ink(
                   decoration: BoxDecoration(
@@ -45,12 +45,10 @@ class NoCommunityScreen extends StatelessWidget {
                   ),
                   height: 60,
                   width: 200,
-                  child: Expanded(
-                    child: Center(
-                      child: Text(
-                        "그룹 검색",
-                        style: TextStyles.fs17w600cTextBlack,
-                      ),
+                  child: Center(
+                    child: Text(
+                      "그룹 검색",
+                      style: TextStyles.fs17w600cTextBlack,
                     ),
                   ),
                 ),

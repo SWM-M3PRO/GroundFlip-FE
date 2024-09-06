@@ -5,17 +5,22 @@ import 'package:get/get.dart';
 import '../screens/community_screen.dart';
 import '../screens/map_screen.dart';
 import '../screens/my_page_screen.dart';
-import '../screens/no_community_screen.dart';
 import '../screens/ranking_screen.dart';
 import '../widgets/common/app_bar.dart';
 import 'map_controller.dart';
-import 'my_page_controller.dart';
 import 'ranking_controller.dart';
 
 class NavigationController extends GetxController {
   final RankingController rankingController = Get.find<RankingController>();
   final MapController mapController = Get.find<MapController>();
   final RxInt selectedIndex = 0.obs;
+
+  static List<Widget> tabPages = <Widget>[
+    const MapScreen(),
+    const RankingScreen(),
+    const CommunityScreen(),
+    const MyPageScreen(),
+  ];
 
   static List<Widget> appBars = <Widget>[
     const MapAppBar(),
@@ -48,26 +53,7 @@ class NavigationController extends GetxController {
   }
 
   Widget getCurrentPage() {
-    MyPageController myPageController = Get.find<MyPageController>();
-    switch (selectedIndex.value) {
-      case 0:
-        return MapScreen();
-      case 1:
-        return RankingScreen();
-      case 2:
-        if (myPageController.currentUserInfo.value.communityId == null) {
-          return const NoCommunityScreen();
-        } else {
-          return CommunityScreen(
-            groupId: myPageController.currentUserInfo.value.communityId!,
-            isTap: true,
-          );
-        }
-      case 3:
-        return MyPageScreen();
-      default:
-        return Container();
-    }
+    return tabPages[selectedIndex.value];
   }
 
   Widget getCurrentAppBar() {
