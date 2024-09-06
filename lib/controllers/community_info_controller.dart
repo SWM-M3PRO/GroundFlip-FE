@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import '../models/community.dart';
 import '../models/ranking.dart';
 import '../service/community_service.dart';
+import 'community_controller.dart';
 import 'my_page_controller.dart';
 
-class CommunityController extends GetxController {
+class CommunityInfoController extends GetxController {
   final CommunityService communityService = CommunityService();
   final RxString name = "".obs;
   final RxString imageUrl = "".obs;
-  final RxInt communityId = 0.obs;
   final RxInt memberCount = 0.obs;
   final RxInt communityColor = 0.obs;
   final RxInt communityRanking = 0.obs;
@@ -17,7 +17,6 @@ class CommunityController extends GetxController {
   final RxInt accumulatePixelCount = 0.obs;
   final RxInt maxPixelCount = 0.obs;
   final RxInt maxRanking = 0.obs;
-  final RxBool isJoin = true.obs;
   final RxBool isLoading = true.obs;
 
   final RxList members = [
@@ -28,21 +27,8 @@ class CommunityController extends GetxController {
     Ranking(userId: 1, rank: 5, currentPixelCount: 123, nickname: "test5"),
   ].obs;
 
-  init() async {
-    MyPageController myPageController = Get.find<MyPageController>();
-    if (myPageController.currentUserInfo.value.communityId == null) {
-      isJoin.value = false;
-    } else {
-      await updateCommunityInfo();
-    }
-  }
-
-  updateCommunityInfo() async {
-    isJoin.value = true;
-    communityId.value =
-        Get.find<MyPageController>().currentUserInfo.value.communityId!;
-    Community community =
-        await communityService.getCommunityInfo(communityId.value);
+  init(int communityId) async {
+    Community community = await communityService.getCommunityInfo(communityId);
     name.value = community.name;
     imageUrl.value = community.backgroundImageUrl;
     memberCount.value = community.memberCount;
@@ -55,10 +41,11 @@ class CommunityController extends GetxController {
     isLoading.value = false;
   }
 
-  quitCommunity() {
-    // ToDo : 그룹 탈퇴 구현
+  signUpCommunity() async {
+    // ToDo : 그룹 가입 구현
     MyPageController myPageController = Get.find<MyPageController>();
-    myPageController.updateUserInfo();
-    isJoin.value = false;
+    CommunityController communityController = Get.find<CommunityController>();
+    await myPageController.updateUserInfo();
+    communityController.updateCommunityInfo();
   }
 }

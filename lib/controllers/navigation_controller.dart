@@ -14,15 +14,14 @@ class NavigationController extends GetxController {
   final RankingController rankingController = Get.find<RankingController>();
   final MapController mapController = Get.find<MapController>();
   final RxInt selectedIndex = 0.obs;
+
   static List<Widget> tabPages = <Widget>[
     const MapScreen(),
     const RankingScreen(),
-    const CommunityScreen(
-      groupId: 1,
-      isTap: true,
-    ),
+    const CommunityScreen(),
     const MyPageScreen(),
   ];
+
   static List<Widget> appBars = <Widget>[
     const MapAppBar(),
     const RankingAppBar(),
