@@ -17,10 +17,12 @@ class SearchGroupService {
   Future<List<SearchGroupResult>> getSearchGroups({
     required String searchKeyword,
   }) async {
+    print('1111 ${searchKeyword}');
     var response = await dio.get(
-      '/groups',
+      '/communities',
       queryParameters: {'searchKeyword': searchKeyword},
     );
+    print('2222 ${searchKeyword},${SearchGroupResult.listFromJson(response.data['data'])}');
     return SearchGroupResult.listFromJson(response.data['data']);
   }
 }
