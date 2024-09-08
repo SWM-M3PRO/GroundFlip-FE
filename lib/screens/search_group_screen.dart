@@ -69,7 +69,9 @@ class SearchGroupScreen extends StatelessWidget {
                               ),
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 11, horizontal: 7),
+                                vertical: 11,
+                                horizontal: 7,
+                              ),
                             ),
                             style: TextStyle(
                               fontSize: 17.0,
@@ -102,8 +104,8 @@ class SearchGroupScreen extends StatelessWidget {
         body: Column(
           children: [
             Obx(
-            () => Expanded(
-                child: groupSearchController.searchKeyword.value==""
+              () => Expanded(
+                child: groupSearchController.searchKeyword.value == ""
                     ? Padding(
                         padding: const EdgeInsets.all(15),
                         child: Column(
@@ -179,10 +181,12 @@ class SearchGroupScreen extends StatelessWidget {
                           );
                         } else {
                           return ListView.builder(
-                            itemCount: groupSearchController.searchResult.length,
+                            itemCount:
+                                groupSearchController.searchResult.length,
                             itemBuilder: (context, index) {
                               groupSearchController.updateCommunityInfo(
-                                  groupSearchController.searchResult[index]);
+                                groupSearchController.searchResult[index],
+                              );
 
                               return Column(
                                 children: [
@@ -192,17 +196,19 @@ class SearchGroupScreen extends StatelessWidget {
                                           groupSearchController.imageUrl.value,
                                       communityName: groupSearchController
                                           .communityName.value,
-                                      communityId:
-                                          groupSearchController.communityId.value,
+                                      communityId: groupSearchController
+                                          .communityId.value,
                                       isSearched: 0,
                                     ),
                                   ),
                                   if (index <
-                                      groupSearchController.searchResult.length -
+                                      groupSearchController
+                                              .searchResult.length -
                                           1)
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 25),
+                                        horizontal: 25,
+                                      ),
                                       child: Divider(
                                         thickness: 1, // 선의 두께
                                         color: AppColors.subLineColor,

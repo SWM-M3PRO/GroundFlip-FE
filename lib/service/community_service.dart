@@ -26,7 +26,6 @@ class CommunityService {
       '/communities',
       queryParameters: {'searchKeyword': searchKeyword},
     );
-    print('2222 ${response.data['data']}');
     return SearchGroupResult.listFromJson(response.data['data']);
   }
 }

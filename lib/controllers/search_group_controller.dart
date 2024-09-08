@@ -49,7 +49,6 @@ class GroupSearchController extends GetxController {
   }
 
   void updateKeyword(String value) {
-    print('1111 ${value}');
     searchKeyword.value = value;
     if (textEditingController.text.isNotEmpty) {
       getSearchedGroup(value);
