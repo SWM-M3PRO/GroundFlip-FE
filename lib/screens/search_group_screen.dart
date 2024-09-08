@@ -9,7 +9,6 @@ import '../widgets/community/community_list.dart';
 class SearchGroupScreen extends StatelessWidget {
   const SearchGroupScreen({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     final GroupSearchController groupSearchController =
@@ -52,28 +51,26 @@ class SearchGroupScreen extends StatelessWidget {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 5,),
+                            vertical: 10,
+                            horizontal: 5,
+                          ),
                           child: TextField(
-                            controller: groupSearchController.searchController,
+                            controller:
+                                groupSearchController.textEditingController,
                             autofocus: false,
-                            focusNode: groupSearchController.searchFocusnode,
-                            onChanged: (value) {
-                              if (groupSearchController
-                                  .searchController.text.isNotEmpty) {
-                                groupSearchController.getSearchedGroup(
-                                  groupSearchController.searchController.text,
-                                );
-                              }
-                            },
+                            focusNode: groupSearchController.searchFocusNode,
+                            onChanged: groupSearchController.updateKeyword,
+                            onSubmitted: groupSearchController.updateKeyword,
                             decoration: InputDecoration(
-                                hintText: '그룹을 검색해주세요',
-                                hintStyle: TextStyle(
-                                  color: AppColors.textPrimary,
-                                  fontSize: 11,
-                                ),
-                                border: InputBorder.none,
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 11),),
+                              hintText: '그룹을 검색해주세요',
+                              hintStyle: TextStyle(
+                                color: AppColors.textPrimary,
+                                fontSize: 11,
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 11, horizontal: 7),
+                            ),
                             style: TextStyle(
                               fontSize: 17.0,
                               color: AppColors.textPrimary,
@@ -84,7 +81,7 @@ class SearchGroupScreen extends StatelessWidget {
                       IconButton(
                         onPressed: () {
                           String keyword =
-                              groupSearchController.searchController.text;
+                              groupSearchController.textEditingController.text;
                           if (keyword.isNotEmpty) {
                             groupSearchController.getSearchedGroup(keyword);
                           }
@@ -104,108 +101,121 @@ class SearchGroupScreen extends StatelessWidget {
         ),
         body: Column(
           children: [
-            Expanded(
-              child: groupSearchController.searchController.text.isEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '상위 랭킹 그룹',
-                            style: TextStyle(
+            Obx(
+            () => Expanded(
+                child: groupSearchController.searchKeyword.value==""
+                    ? Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '상위 랭킹 그룹',
+                              style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.textPrimary,),
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16)),
-                              color: AppColors.boxColor,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 17,),
-                              child: Column(
-                                children: [
-                                  CommunityList(
-                                    imageUrl:
-                                        'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
-                                    communityName: '1등 그룹',
-                                    communityId: 1,
-                                    isSearched: 1,
-                                  ),
-                                  Divider(
-                                    thickness: 1,
-                                    color: AppColors.subLineColor,
-                                    height: betweenLine,
-                                  ),
-                                  CommunityList(
-                                    imageUrl:
-                                        'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
-                                    communityName: '2등 그룹',
-                                    communityId: 2,
-                                    isSearched: 2,
-                                  ),
-                                  Divider(
-                                    thickness: 1,
-                                    color: AppColors.subLineColor,
-                                    height: betweenLine,
-                                  ),
-                                  CommunityList(
-                                    imageUrl:
-                                        'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
-                                    communityName: '2등 그룹',
-                                    communityId: 3,
-                                    isSearched: 3,
-                                  ),
-                                ],
+                                color: AppColors.textPrimary,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : groupSearchController.searchResult.isEmpty
-                      ? Center(
-                          child: Text(
-                            '그룹이 없습니다!',
-                            style: TextStyle(color: AppColors.textPrimary),
-                          ),
-                        )
-                      : ListView.builder(
-                          itemCount: groupSearchController.searchResult.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                ListTile(
-                                  title: CommunityList(
-                                    imageUrl: groupSearchController
-                                        .searchResult[index].backgroundImageUrl,
-                                    communityName: groupSearchController
-                                        .searchResult[index].name,
-                                    communityId: groupSearchController
-                                        .searchResult[index].id,
-                                    isSearched: 0,
-                                  ),
+                            SizedBox(height: 10),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(16)),
+                                color: AppColors.boxColor,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 17,
                                 ),
-                                if (index <
-                                    groupSearchController.searchResult.length -
-                                        1)
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                                    child: Divider(
-                                      thickness: 1, // 선의 두께
+                                child: Column(
+                                  children: [
+                                    CommunityList(
+                                      imageUrl:
+                                          'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
+                                      communityName: '1등 그룹',
+                                      communityId: 1,
+                                      isSearched: 1,
+                                    ),
+                                    Divider(
+                                      thickness: 1,
                                       color: AppColors.subLineColor,
-                                      height: 1,// 선의 색상
+                                      height: betweenLine,
+                                    ),
+                                    CommunityList(
+                                      imageUrl:
+                                          'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
+                                      communityName: '2등 그룹',
+                                      communityId: 2,
+                                      isSearched: 2,
+                                    ),
+                                    Divider(
+                                      thickness: 1,
+                                      color: AppColors.subLineColor,
+                                      height: betweenLine,
+                                    ),
+                                    CommunityList(
+                                      imageUrl:
+                                          'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
+                                      communityName: '2등 그룹',
+                                      communityId: 3,
+                                      isSearched: 3,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Obx(() {
+                        if (groupSearchController.searchResult.isEmpty) {
+                          return Center(
+                            child: Text(
+                              '그룹이 없습니다!',
+                              style: TextStyle(color: AppColors.textPrimary),
+                            ),
+                          );
+                        } else {
+                          return ListView.builder(
+                            itemCount: groupSearchController.searchResult.length,
+                            itemBuilder: (context, index) {
+                              groupSearchController.updateCommunityInfo(
+                                  groupSearchController.searchResult[index]);
+
+                              return Column(
+                                children: [
+                                  ListTile(
+                                    title: CommunityList(
+                                      imageUrl:
+                                          groupSearchController.imageUrl.value,
+                                      communityName: groupSearchController
+                                          .communityName.value,
+                                      communityId:
+                                          groupSearchController.communityId.value,
+                                      isSearched: 0,
                                     ),
                                   ),
-                              ],
-                            );
-                          },
-                        ),
+                                  if (index <
+                                      groupSearchController.searchResult.length -
+                                          1)
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 25),
+                                      child: Divider(
+                                        thickness: 1, // 선의 두께
+                                        color: AppColors.subLineColor,
+                                        height: 1, // 선의 색상
+                                      ),
+                                    ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      }),
+              ),
             ),
           ],
         ),
