@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../constants/app_colors.dart';
 import '../controllers/search_group_controller.dart';
+import '../widgets/community/community_list.dart';
 import 'community_info_screen.dart';
 import 'community_screen.dart';
 
@@ -105,93 +106,93 @@ class SearchGroupScreen extends StatelessWidget {
         body: Column(
           children: [
             Expanded(
-              child: Obx(() {
-                if (groupSearchController.searchResult.isEmpty ||
-                    groupSearchController.searchResult.isEmpty) {
-                  return Center(
-                    child: Text(
-                      '그룹이 없습니다!',
-                      style: TextStyle(color: AppColors.textPrimary),
-                    ),
-                  );
-                } else {
-                  return ListView.builder(
-                    itemCount: groupSearchController.searchResult.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: InkWell(
-                          onTap: () {
-                            Get.to(() => CommunityInfoScreen(
-                                groupId: groupSearchController
-                                    .searchResult[index].id));
-                          },
-                          child: Container(
-                            child: Row(
-                              children: [
-                                checkFileExtension(groupSearchController
-                                            .searchResult[index]
-                                            .backgroundImageUrl) ==
-                                        'svg'
-                                    ? SvgPicture.network(
-                                        groupSearchController
-                                            .searchResult[index]
-                                            .backgroundImageUrl,
-                                        width: 38,
-                                      )
-                                    : Image(
-                                        image: CachedNetworkImageProvider(
-                                            groupSearchController
-                                                .searchResult[index]
-                                                .backgroundImageUrl),
-                                        width: 38,
-                                      ),
-                                SizedBox(width: 8),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      groupSearchController
-                                          .searchResult[index].name,
-                                      style: TextStyle(
-                                        color: AppColors.textPrimary,
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          '${formatNumber(1122)}px',
-                                          style: TextStyle(
-                                              color: AppColors.primary),
-                                        ),
-                                        Text(
-                                          'ㆍ',
-                                          style: TextStyle(
-                                              color: AppColors.textForth),
-                                        ),
-                                        Text(
-                                          '누적 ${formatNumber(2222)}px',
-                                          style: TextStyle(
-                                              color: AppColors.textForth),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Spacer(),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: AppColors.textPrimary,
-                                  size: 20,
-                                ),
-                              ],
-                            ),
+              child: groupSearchController.searchController.text.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '상위 랭킹 그룹',
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.textPrimary),
                           ),
+                          SizedBox(height: 10),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16)),
+                              color: AppColors.boxColor,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 17),
+                              child: Column(
+                                children: [
+                                  CommunityList(
+                                    imageUrl:
+                                        'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
+                                    communityName: '1등 그룹',
+                                    isSearched: 1,
+                                  ),
+                                  Divider(
+                                    thickness: 1,
+                                    color: AppColors.subLineColor,
+                                  ),
+                                  CommunityList(
+                                    imageUrl:
+                                    'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
+                                    communityName: '2등 그룹',
+                                    isSearched: 2,
+                                  ),
+                                  Divider(
+                                    thickness: 1,
+                                    color: AppColors.subLineColor,
+                                  ),
+                                  CommunityList(
+                                    imageUrl:
+                                    'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
+                                    communityName: '2등 그룹',
+                                    isSearched: 3,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  : groupSearchController.searchResult.isEmpty
+                      ? Center(
+                          child: Text(
+                            '그룹이 없습니다!',
+                            style: TextStyle(color: AppColors.textPrimary),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: groupSearchController.searchResult.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    () => CommunityInfoScreen(
+                                        groupId: groupSearchController
+                                            .searchResult[index].id),
+                                  );
+                                },
+                                child: CommunityList(
+                                  imageUrl: groupSearchController
+                                      .searchResult[index].backgroundImageUrl,
+                                  communityName: groupSearchController
+                                      .searchResult[index].name,
+                                  isSearched: 0,
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  );
-                }
-              }),
             ),
           ],
         ),
