@@ -13,10 +13,13 @@ import 'community_screen.dart';
 class SearchGroupScreen extends StatelessWidget {
   const SearchGroupScreen({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     final GroupSearchController groupSearchController =
         Get.put(GroupSearchController());
+
+    const double betweenLine = 15;
 
     return GestureDetector(
       onTap: () {
@@ -127,33 +130,39 @@ class SearchGroupScreen extends StatelessWidget {
                               color: AppColors.boxColor,
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 17),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 17),
                               child: Column(
                                 children: [
                                   CommunityList(
                                     imageUrl:
                                         'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
                                     communityName: '1등 그룹',
+                                    communityId: 1,
                                     isSearched: 1,
                                   ),
                                   Divider(
                                     thickness: 1,
                                     color: AppColors.subLineColor,
+                                    height: betweenLine,
                                   ),
                                   CommunityList(
                                     imageUrl:
-                                    'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
+                                        'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
                                     communityName: '2등 그룹',
+                                    communityId: 2,
                                     isSearched: 2,
                                   ),
                                   Divider(
                                     thickness: 1,
                                     color: AppColors.subLineColor,
+                                    height: betweenLine,
                                   ),
                                   CommunityList(
                                     imageUrl:
-                                    'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
+                                        'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
                                     communityName: '2등 그룹',
+                                    communityId: 3,
                                     isSearched: 3,
                                   ),
                                 ],
@@ -173,23 +182,31 @@ class SearchGroupScreen extends StatelessWidget {
                       : ListView.builder(
                           itemCount: groupSearchController.searchResult.length,
                           itemBuilder: (context, index) {
-                            return ListTile(
-                              title: InkWell(
-                                onTap: () {
-                                  Get.to(
-                                    () => CommunityInfoScreen(
-                                        groupId: groupSearchController
-                                            .searchResult[index].id),
-                                  );
-                                },
-                                child: CommunityList(
-                                  imageUrl: groupSearchController
-                                      .searchResult[index].backgroundImageUrl,
-                                  communityName: groupSearchController
-                                      .searchResult[index].name,
-                                  isSearched: 0,
+                            return Column(
+                              children: [
+                                ListTile(
+                                  title: CommunityList(
+                                    imageUrl: groupSearchController
+                                        .searchResult[index].backgroundImageUrl,
+                                    communityName: groupSearchController
+                                        .searchResult[index].name,
+                                    communityId: groupSearchController
+                                        .searchResult[index].id,
+                                    isSearched: 0,
+                                  ),
                                 ),
-                              ),
+                                if (index <
+                                    groupSearchController.searchResult.length -
+                                        1)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                                    child: Divider(
+                                      thickness: 1, // 선의 두께
+                                      color: AppColors.subLineColor,
+                                      height: 1,// 선의 색상
+                                    ),
+                                  ),
+                              ],
                             );
                           },
                         ),
