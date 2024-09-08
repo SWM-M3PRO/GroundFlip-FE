@@ -58,7 +58,7 @@ Future<void> main() async {
 
   LocationService().initBackgroundLocation();
 
-  String initialRoute = '/main';//await AuthService().isLogin() ? '/main' : '/permission';
+  String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
 
   VersionCheck versionCheck = VersionCheck();
   versionCheck.versionCheck();
