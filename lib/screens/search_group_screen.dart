@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../constants/app_colors.dart';
 import '../controllers/search_group_controller.dart';
+import 'community_info_screen.dart';
+import 'community_screen.dart';
 
 class SearchGroupScreen extends StatelessWidget {
   const SearchGroupScreen({super.key});
@@ -115,26 +118,59 @@ class SearchGroupScreen extends StatelessWidget {
                     itemCount: groupSearchController.searchResult.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Container(
-                          child: Row(
-                            children: [
-                              Image(
-                                image: CachedNetworkImageProvider(
-                                  groupSearchController
-                                      .searchResult[index].backgroundImageUrl,
+                        title: InkWell(
+                          onTap: () {
+                            Get.to(() => CommunityInfoScreen(
+                                groupId: groupSearchController
+                                    .searchResult[index].id));
+                          },
+                          child: Container(
+                            child: Row(
+                              children: [
+                                SvgPicture.network(groupSearchController
+                                    .searchResult[index].backgroundImageUrl,
+                                width: 38,
                                 ),
-                                width: 44,
-                                height: 44,
-                                fit: BoxFit.cover,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                groupSearchController.searchResult[index].name,
-                                style: TextStyle(
+                                SizedBox(width: 8),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      groupSearchController
+                                          .searchResult[index].name,
+                                      style: TextStyle(
+                                        color: AppColors.textPrimary,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '1111px',
+                                          style: TextStyle(
+                                              color: AppColors.primary),
+                                        ),
+                                        Text(
+                                          'ㆍ',
+                                          style: TextStyle(
+                                              color: AppColors.textForth),
+                                        ),
+                                        Text(
+                                          '누적 2222px',
+                                          style: TextStyle(
+                                              color: AppColors.textForth),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Spacer(),
+                                Icon(
+                                  Icons.arrow_forward_ios,
                                   color: AppColors.textPrimary,
+                                  size: 20,
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       );

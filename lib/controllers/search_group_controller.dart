@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../service/search_group_service.dart';
+import '../service/community_service.dart';
 
 class GroupSearchController extends GetxController {
   RxList<dynamic> searchResult = <dynamic>[].obs;
   FocusNode searchFocusnode = FocusNode();
   TextEditingController searchController = TextEditingController();
 
-  SearchGroupService searchGroupService = SearchGroupService();
+  CommunityService communityService = CommunityService();
 
   @override
   void onInit() {
@@ -31,7 +31,7 @@ class GroupSearchController extends GetxController {
 
   void getSearchedGroup(keyword) async {
     List<dynamic> getInstance =
-        await searchGroupService.getSearchGroups(searchKeyword: keyword);
+        await communityService.getSearchCommunities(searchKeyword: keyword);
     searchResult.assignAll(getInstance);
   }
 }
