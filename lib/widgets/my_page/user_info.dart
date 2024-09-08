@@ -17,7 +17,7 @@ class UserInfo extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.all(Radius.circular(16)),
       onTap: () {
-        Get.to(() => SearchGroupScreen());//UserInfoUpdateScreen());
+        Get.to(() => UserInfoUpdateScreen());
       },
       child: Ink(
         decoration: const BoxDecoration(
