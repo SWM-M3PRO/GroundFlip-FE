@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../constants/app_colors.dart';
-import '../controllers/search_group_controller.dart';
+import '../controllers/search_community_controller.dart';
 import '../widgets/community/community_list.dart';
 
 class SearchGroupScreen extends StatelessWidget {
@@ -11,8 +11,8 @@ class SearchGroupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GroupSearchController groupSearchController =
-        Get.put(GroupSearchController());
+    final SearchCommunityController searchCommunityController =
+        Get.put(SearchCommunityController());
 
     const double betweenLine = 15;
 
@@ -56,11 +56,11 @@ class SearchGroupScreen extends StatelessWidget {
                           ),
                           child: TextField(
                             controller:
-                                groupSearchController.textEditingController,
+                                searchCommunityController.textEditingController,
                             autofocus: false,
-                            focusNode: groupSearchController.searchFocusNode,
-                            onChanged: groupSearchController.updateKeyword,
-                            onSubmitted: groupSearchController.updateKeyword,
+                            focusNode: searchCommunityController.searchFocusNode,
+                            onChanged: searchCommunityController.updateKeyword,
+                            onSubmitted: searchCommunityController.updateKeyword,
                             decoration: InputDecoration(
                               hintText: '그룹을 검색해주세요',
                               hintStyle: TextStyle(
@@ -83,9 +83,9 @@ class SearchGroupScreen extends StatelessWidget {
                       IconButton(
                         onPressed: () {
                           String keyword =
-                              groupSearchController.textEditingController.text;
+                              searchCommunityController.textEditingController.text;
                           if (keyword.isNotEmpty) {
-                            groupSearchController.getSearchedGroup(keyword);
+                            searchCommunityController.getSearchedGroup(keyword);
                           }
                         },
                         icon: Icon(
@@ -105,7 +105,7 @@ class SearchGroupScreen extends StatelessWidget {
           children: [
             Obx(
               () => Expanded(
-                child: groupSearchController.searchKeyword.value == ""
+                child: searchCommunityController.searchKeyword.value == ""
                     ? Padding(
                         padding: const EdgeInsets.all(15),
                         child: Column(
@@ -172,7 +172,7 @@ class SearchGroupScreen extends StatelessWidget {
                         ),
                       )
                     : Obx(() {
-                        if (groupSearchController.searchResult.isEmpty) {
+                        if (searchCommunityController.searchResult.isEmpty) {
                           return Center(
                             child: Text(
                               '그룹이 없습니다!',
@@ -182,10 +182,10 @@ class SearchGroupScreen extends StatelessWidget {
                         } else {
                           return ListView.builder(
                             itemCount:
-                                groupSearchController.searchResult.length,
+                                searchCommunityController.searchResult.length,
                             itemBuilder: (context, index) {
-                              groupSearchController.updateCommunityInfo(
-                                groupSearchController.searchResult[index],
+                              searchCommunityController.updateCommunityInfo(
+                                searchCommunityController.searchResult[index],
                               );
 
                               return Column(
@@ -193,16 +193,16 @@ class SearchGroupScreen extends StatelessWidget {
                                   ListTile(
                                     title: CommunityList(
                                       imageUrl:
-                                          groupSearchController.imageUrl.value,
-                                      communityName: groupSearchController
+                                          searchCommunityController.imageUrl.value,
+                                      communityName: searchCommunityController
                                           .communityName.value,
-                                      communityId: groupSearchController
+                                      communityId: searchCommunityController
                                           .communityId.value,
                                       isSearched: 0,
                                     ),
                                   ),
                                   if (index <
-                                      groupSearchController
+                                      searchCommunityController
                                               .searchResult.length -
                                           1)
                                     Padding(

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../service/community_service.dart';
 
-class GroupSearchController extends GetxController {
+class SearchCommunityController extends GetxController {
   RxList<dynamic> searchResult = <dynamic>[].obs;
   FocusNode searchFocusNode = FocusNode();
   late final TextEditingController textEditingController;
