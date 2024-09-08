@@ -127,10 +127,23 @@ class SearchGroupScreen extends StatelessWidget {
                           child: Container(
                             child: Row(
                               children: [
-                                SvgPicture.network(groupSearchController
-                                    .searchResult[index].backgroundImageUrl,
-                                width: 38,
-                                ),
+                                checkFileExtension(groupSearchController
+                                            .searchResult[index]
+                                            .backgroundImageUrl) ==
+                                        'svg'
+                                    ? SvgPicture.network(
+                                        groupSearchController
+                                            .searchResult[index]
+                                            .backgroundImageUrl,
+                                        width: 38,
+                                      )
+                                    : Image(
+                                        image: CachedNetworkImageProvider(
+                                            groupSearchController
+                                                .searchResult[index]
+                                                .backgroundImageUrl),
+                                        width: 38,
+                                      ),
                                 SizedBox(width: 8),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,5 +196,16 @@ class SearchGroupScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String checkFileExtension(String url) {
+    Uri uri = Uri.parse(url);
+    String path = uri.path;
+
+    if (path.contains('.')) {
+      return path.split('.').last;
+    } else {
+      return '';
+    }
   }
 }
