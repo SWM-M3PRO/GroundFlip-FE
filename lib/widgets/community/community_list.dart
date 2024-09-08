@@ -13,7 +13,7 @@ class CommunityList extends StatelessWidget {
       required this.imageUrl,
       required this.communityName,
       required this.isSearched,
-      required this.communityId});
+      required this.communityId,});
 
   final String imageUrl;
   final String communityName;

@@ -8,7 +8,7 @@ class SearchGroupResult {
       {required this.name,
       required this.backgroundImageUrl,
       required this.communityColor,
-      required this.id});
+      required this.id,});
 
   factory SearchGroupResult.fromJson(Map<String, dynamic> json) {
     return switch (json) {
@@ -31,7 +31,7 @@ class SearchGroupResult {
   static List<SearchGroupResult> listFromJson(List<dynamic> jsonList) {
     return [
       for (var element in jsonList)
-        if (element != null) SearchGroupResult.fromJson(element)
+        if (element != null) SearchGroupResult.fromJson(element),
     ];
   }
 }

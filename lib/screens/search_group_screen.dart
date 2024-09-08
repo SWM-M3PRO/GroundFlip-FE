@@ -1,14 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import '../constants/app_colors.dart';
 import '../controllers/search_group_controller.dart';
 import '../widgets/community/community_list.dart';
-import 'community_info_screen.dart';
-import 'community_screen.dart';
 
 class SearchGroupScreen extends StatelessWidget {
   const SearchGroupScreen({super.key});
@@ -56,7 +52,7 @@ class SearchGroupScreen extends StatelessWidget {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 5),
+                              vertical: 10, horizontal: 5,),
                           child: TextField(
                             controller: groupSearchController.searchController,
                             autofocus: false,
@@ -77,7 +73,7 @@ class SearchGroupScreen extends StatelessWidget {
                                 ),
                                 border: InputBorder.none,
                                 contentPadding:
-                                    EdgeInsets.symmetric(vertical: 11)),
+                                    EdgeInsets.symmetric(vertical: 11),),
                             style: TextStyle(
                               fontSize: 17.0,
                               color: AppColors.textPrimary,
@@ -120,7 +116,7 @@ class SearchGroupScreen extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.textPrimary),
+                                color: AppColors.textPrimary,),
                           ),
                           SizedBox(height: 10),
                           Container(
@@ -131,7 +127,7 @@ class SearchGroupScreen extends StatelessWidget {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 17),
+                                  horizontal: 20, vertical: 17,),
                               child: Column(
                                 children: [
                                   CommunityList(
@@ -168,7 +164,7 @@ class SearchGroupScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     )

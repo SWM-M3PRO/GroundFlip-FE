@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 import '../../controllers/my_page_controller.dart';
-import '../../screens/search_group_screen.dart';
 import '../../screens/user_info_update_screen.dart';
 
 class UserInfo extends StatelessWidget {
