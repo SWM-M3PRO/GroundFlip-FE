@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 import '../constants/app_colors.dart';
 import '../controllers/search_group_controller.dart';
@@ -158,7 +159,7 @@ class SearchGroupScreen extends StatelessWidget {
                                     Row(
                                       children: [
                                         Text(
-                                          '1111px',
+                                          '${formatNumber(1122)}px',
                                           style: TextStyle(
                                               color: AppColors.primary),
                                         ),
@@ -168,7 +169,7 @@ class SearchGroupScreen extends StatelessWidget {
                                               color: AppColors.textForth),
                                         ),
                                         Text(
-                                          '누적 2222px',
+                                          '누적 ${formatNumber(2222)}px',
                                           style: TextStyle(
                                               color: AppColors.textForth),
                                         ),
@@ -207,5 +208,10 @@ class SearchGroupScreen extends StatelessWidget {
     } else {
       return '';
     }
+  }
+
+  String formatNumber(int number) {
+    final formatter = NumberFormat('#,###');
+    return formatter.format(number);
   }
 }
