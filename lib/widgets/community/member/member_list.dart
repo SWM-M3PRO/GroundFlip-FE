@@ -42,10 +42,12 @@ class MemberList extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Get.to(CommunityMemberScreen(
-                      communityName: communityName,
-                      communityId: communityId,
-                    ));
+                    Get.to(
+                      CommunityMemberScreen(
+                        communityName: communityName,
+                        communityId: communityId,
+                      ),
+                    );
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

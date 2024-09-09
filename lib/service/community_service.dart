@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../models/community.dart';
+import '../models/ranking.dart';
 import '../models/search_community_response.dart';
 import '../utils/dio_service.dart';
 
@@ -29,7 +30,7 @@ class CommunityService {
     return SearchCommunityResponse.listFromJson(response.data['data']);
   }
 
-  Future<List> getMembers(int communityId) async {
+  Future<List<Ranking>> getMembers(int communityId) async {
     return [];
   }
 }

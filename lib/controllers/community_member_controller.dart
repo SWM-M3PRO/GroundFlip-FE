@@ -6,13 +6,16 @@ class CommunityMemberController extends GetxController {
   final CommunityService communityService = CommunityService();
   final RxList members = [].obs;
   final RxBool isLoading = true.obs;
+  late int communityId;
 
   init(int communityId) async {
-    print(1);
-    var members = await communityService.getMembers(communityId);
-    this.members.assignAll(members);
+    this.communityId = communityId;
+    loadMembers();
     isLoading.value = false;
   }
 
-  reloadMembers() {}
+  loadMembers() async {
+    var members = await communityService.getMembers(communityId);
+    this.members.assignAll(members);
+  }
 }
