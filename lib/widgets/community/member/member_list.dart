@@ -133,7 +133,7 @@ class RankingInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                ranking.nickname ?? "알수없음",
+                ranking.name ?? "알수없음",
                 style: TextStyles.fs17w600cTextPrimary,
               ),
               if (ranking.currentPixelCount != null)
