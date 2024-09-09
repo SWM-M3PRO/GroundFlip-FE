@@ -1,9 +1,12 @@
+import '../enums/ranking_kind.dart';
+
 class Ranking {
   int id;
   String? name;
   String? profileImageUrl;
   int? rank;
   int? currentPixelCount;
+  RankingKind kind;
 
   Ranking({
     required this.id,
@@ -11,6 +14,7 @@ class Ranking {
     this.profileImageUrl,
     required this.rank,
     required this.currentPixelCount,
+    required this.kind,
   });
 
   factory Ranking.fromJsonUser(Map<String, dynamic> json) {
@@ -28,6 +32,7 @@ class Ranking {
           profileImageUrl: profileImageUrl,
           rank: rank,
           currentPixelCount: currentPixelCount,
+          kind: RankingKind.user,
         ),
       _ => throw const FormatException('Failed to load Ranking')
     };
@@ -48,6 +53,7 @@ class Ranking {
           profileImageUrl: profileImageUrl,
           rank: rank,
           currentPixelCount: currentPixelCount,
+          kind: RankingKind.community,
         ),
       _ => throw const FormatException('Failed to load Ranking')
     };

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
+import '../enums/ranking_kind.dart';
 import '../models/ranking.dart';
 import '../models/user_pixel_count.dart';
 import '../service/ranking_service.dart';
@@ -137,19 +138,21 @@ class RankingController extends GetxController {
 
   void openRankingBottomSheet(Ranking ranking) async {
     FirebaseAnalytics.instance.logEvent(name: "ranking_element_click");
-    UserPixelCount pixelCount =
-        await userService.getAnotherUserPixelCount(null, ranking.id);
-    Get.bottomSheet(
-      RankingBottomSheet(
-        userId: ranking.id,
-        nickname: ranking.name!,
-        profileImageUrl: ranking.profileImageUrl,
-        currentPixelCount: pixelCount.currentPixelCount!,
-        accumulatePixelCount: pixelCount.accumulatePixelCount!,
-      ),
-      backgroundColor: AppColors.background,
-      enterBottomSheetDuration: Duration(milliseconds: 100),
-      exitBottomSheetDuration: Duration(milliseconds: 100),
-    );
+    if (ranking.kind == RankingKind.user) {
+      UserPixelCount pixelCount =
+          await userService.getAnotherUserPixelCount(null, ranking.id);
+      Get.bottomSheet(
+        RankingBottomSheet(
+          userId: ranking.id,
+          nickname: ranking.name!,
+          profileImageUrl: ranking.profileImageUrl,
+          currentPixelCount: pixelCount.currentPixelCount!,
+          accumulatePixelCount: pixelCount.accumulatePixelCount!,
+        ),
+        backgroundColor: AppColors.background,
+        enterBottomSheetDuration: Duration(milliseconds: 100),
+        exitBottomSheetDuration: Duration(milliseconds: 100),
+      );
+    }
   }
 }

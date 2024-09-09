@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../enums/ranking_kind.dart';
 import '../models/community.dart';
 import '../models/ranking.dart';
 import '../service/community_service.dart';
@@ -20,11 +21,41 @@ class CommunityInfoController extends GetxController {
   final RxBool isLoading = true.obs;
 
   final RxList members = [
-    Ranking(id: 1, rank: 1, currentPixelCount: 123, name: "test1"),
-    Ranking(id: 1, rank: 2, currentPixelCount: 123, name: "test2"),
-    Ranking(id: 1, rank: 3, currentPixelCount: 123, name: "test3"),
-    Ranking(id: 1, rank: 4, currentPixelCount: 123, name: "test4"),
-    Ranking(id: 1, rank: 5, currentPixelCount: 123, name: "test5"),
+    Ranking(
+      id: 1,
+      rank: 1,
+      currentPixelCount: 123,
+      name: "test1",
+      kind: RankingKind.community,
+    ),
+    Ranking(
+      id: 1,
+      rank: 2,
+      currentPixelCount: 123,
+      name: "test2",
+      kind: RankingKind.community,
+    ),
+    Ranking(
+      id: 1,
+      rank: 3,
+      currentPixelCount: 123,
+      name: "test3",
+      kind: RankingKind.community,
+    ),
+    Ranking(
+      id: 1,
+      rank: 4,
+      currentPixelCount: 123,
+      name: "test4",
+      kind: RankingKind.community,
+    ),
+    Ranking(
+      id: 1,
+      rank: 5,
+      currentPixelCount: 123,
+      name: "test5",
+      kind: RankingKind.community,
+    ),
   ].obs;
 
   init(int communityId) async {
