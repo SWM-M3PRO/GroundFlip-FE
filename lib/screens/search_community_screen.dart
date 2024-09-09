@@ -6,8 +6,8 @@ import '../constants/app_colors.dart';
 import '../controllers/search_community_controller.dart';
 import '../widgets/community/community_list.dart';
 
-class SearchGroupScreen extends StatelessWidget {
-  const SearchGroupScreen({super.key});
+class SearchCommunityScreen extends StatelessWidget {
+  const SearchCommunityScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -106,71 +106,7 @@ class SearchGroupScreen extends StatelessWidget {
             Obx(
               () => Expanded(
                 child: searchCommunityController.searchKeyword.value == ""
-                    ? Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '상위 랭킹 그룹',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textPrimary,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(16)),
-                                color: AppColors.boxColor,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 17,
-                                ),
-                                child: Column(
-                                  children: [
-                                    CommunityList(
-                                      imageUrl:
-                                          'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
-                                      communityName: '1등 그룹',
-                                      communityId: 1,
-                                      isSearched: 1,
-                                    ),
-                                    Divider(
-                                      thickness: 1,
-                                      color: AppColors.subLineColor,
-                                      height: betweenLine,
-                                    ),
-                                    CommunityList(
-                                      imageUrl:
-                                          'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
-                                      communityName: '2등 그룹',
-                                      communityId: 2,
-                                      isSearched: 2,
-                                    ),
-                                    Divider(
-                                      thickness: 1,
-                                      color: AppColors.subLineColor,
-                                      height: betweenLine,
-                                    ),
-                                    CommunityList(
-                                      imageUrl:
-                                          'https://ground-flip-s3.s3.ap-northeast-2.amazonaws.com/university_logo/ads+%EC%9D%B4%EB%AF%B8%EC%A7%802.png',
-                                      communityName: '2등 그룹',
-                                      communityId: 3,
-                                      isSearched: 3,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                   ? Container()
                     : Obx(() {
                         if (searchCommunityController.searchResult.isEmpty) {
                           return Center(
@@ -238,10 +174,5 @@ class SearchGroupScreen extends StatelessWidget {
     } else {
       return '';
     }
-  }
-
-  String formatNumber(int number) {
-    final formatter = NumberFormat('#,###');
-    return formatter.format(number);
   }
 }

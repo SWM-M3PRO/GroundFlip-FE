@@ -1,16 +1,16 @@
-class SearchGroupResult {
+class SearchCommunityResponse {
   String name;
   String backgroundImageUrl;
   String communityColor;
   int id;
 
-  SearchGroupResult(
+  SearchCommunityResponse(
       {required this.name,
       required this.backgroundImageUrl,
       required this.communityColor,
       required this.id,});
 
-  factory SearchGroupResult.fromJson(Map<String, dynamic> json) {
+  factory SearchCommunityResponse.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
         'name': var name,
@@ -18,7 +18,7 @@ class SearchGroupResult {
         'communityColor': var communityColor,
         'id': var id
       } =>
-        SearchGroupResult(
+        SearchCommunityResponse(
             name: name,
             backgroundImageUrl: backgroundImageUrl,
             communityColor: communityColor,
@@ -28,10 +28,10 @@ class SearchGroupResult {
     };
   }
 
-  static List<SearchGroupResult> listFromJson(List<dynamic> jsonList) {
+  static List<SearchCommunityResponse> listFromJson(List<dynamic> jsonList) {
     return [
       for (var element in jsonList)
-        if (element != null) SearchGroupResult.fromJson(element),
+        if (element != null) SearchCommunityResponse.fromJson(element),
     ];
   }
 }

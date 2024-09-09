@@ -13,7 +13,7 @@ class SearchCommunityController extends GetxController {
   RxString communityName = "".obs;
   RxInt communityId = 0.obs;
 
-  CommunityService communityService = CommunityService();
+  final CommunityService communityService = CommunityService();
 
   @override
   void onInit() {

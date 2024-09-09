@@ -50,22 +50,6 @@ class CommunityList extends StatelessWidget {
                     color: AppColors.textPrimary,
                   ),
                 ),
-                Row(
-                  children: [
-                    Text(
-                      '${formatNumber(1122)}px',
-                      style: TextStyle(color: AppColors.primary),
-                    ),
-                    Text(
-                      'ㆍ',
-                      style: TextStyle(color: AppColors.textForth),
-                    ),
-                    Text(
-                      '누적 ${formatNumber(2222)}px',
-                      style: TextStyle(color: AppColors.textForth),
-                    ),
-                  ],
-                ),
               ],
             ),
             Spacer(),
