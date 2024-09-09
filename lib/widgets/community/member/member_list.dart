@@ -7,6 +7,7 @@ import '../../../constants/app_colors.dart';
 import '../../../constants/text_styles.dart';
 import '../../../controllers/ranking_controller.dart';
 import '../../../models/ranking.dart';
+import '../../../screens/community_member_screen.dart';
 import '../../ranking/ranking_info.dart';
 
 class MemberList extends StatelessWidget {
@@ -32,19 +33,24 @@ class MemberList extends StatelessWidget {
                   "멤버",
                   style: TextStyles.fs24w900cTextPrimary,
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "더보기",
-                      style: TextStyles.fs14w600cTextSecondary,
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.textSecondary,
-                      size: 10,
-                    ),
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    Get.to(CommunityMemberScreen(communityName: '세종대'));
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "더보기",
+                        style: TextStyles.fs14w600cTextSecondary,
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: AppColors.textSecondary,
+                        size: 10,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
