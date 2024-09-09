@@ -11,9 +11,16 @@ import '../../../screens/community_member_screen.dart';
 import '../../ranking/ranking_info.dart';
 
 class MemberList extends StatelessWidget {
+  final String communityName;
+  final int communityId;
   final List members;
 
-  const MemberList({super.key, required this.members});
+  const MemberList({
+    super.key,
+    required this.members,
+    required this.communityName,
+    required this.communityId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +42,10 @@ class MemberList extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Get.to(CommunityMemberScreen(communityName: '세종대'));
+                    Get.to(CommunityMemberScreen(
+                      communityName: communityName,
+                      communityId: communityId,
+                    ));
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

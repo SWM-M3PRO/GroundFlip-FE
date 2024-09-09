@@ -28,4 +28,8 @@ class CommunityService {
     );
     return SearchCommunityResponse.listFromJson(response.data['data']);
   }
+
+  Future<List> getMembers(int communityId) async {
+    return [];
+  }
 }

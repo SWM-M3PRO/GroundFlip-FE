@@ -8,12 +8,13 @@ import '../../constants/app_colors.dart';
 import '../../screens/community_info_screen.dart';
 
 class CommunityList extends StatelessWidget {
-  const CommunityList(
-      {super.key,
-      required this.imageUrl,
-      required this.communityName,
-      required this.isSearched,
-      required this.communityId,});
+  const CommunityList({
+    super.key,
+    required this.imageUrl,
+    required this.communityName,
+    required this.isSearched,
+    required this.communityId,
+  });
 
   final String imageUrl;
   final String communityName;
@@ -26,7 +27,7 @@ class CommunityList extends StatelessWidget {
       title: InkWell(
         onTap: () {
           Get.to(
-            () => CommunityInfoScreen(groupId: communityId),
+            () => CommunityInfoScreen(communityId: communityId),
           );
         },
         child: Row(

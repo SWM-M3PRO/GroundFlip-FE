@@ -11,18 +11,18 @@ import '../widgets/community/community_record.dart';
 import '../widgets/community/member/member_list.dart';
 
 class CommunityInfoScreen extends StatelessWidget {
-  final int groupId;
+  final int communityId;
 
   const CommunityInfoScreen({
     super.key,
-    required this.groupId,
+    required this.communityId,
   });
 
   @override
   Widget build(BuildContext context) {
     final CommunityInfoController communityInfoController =
         Get.put(CommunityInfoController());
-    communityInfoController.init(groupId);
+    communityInfoController.init(communityId);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -119,7 +119,11 @@ class CommunityInfoScreen extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      MemberList(members: communityInfoController.members),
+                      MemberList(
+                        members: communityInfoController.members,
+                        communityName: communityInfoController.name.value,
+                        communityId: communityId,
+                      ),
                       SizedBox(
                         height: 20,
                       ),
