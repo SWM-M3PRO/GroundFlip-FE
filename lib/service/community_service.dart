@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../models/community.dart';
+import '../models/search_community_response.dart';
 import '../utils/dio_service.dart';
 
 class CommunityService {
@@ -16,5 +17,15 @@ class CommunityService {
   Future<Community> getCommunityInfo(int communityId) async {
     var response = await dio.get('/communities/$communityId');
     return Community.fromJson(response.data['data']);
+  }
+
+  Future<List<SearchCommunityResponse>> getSearchCommunities({
+    required String searchKeyword,
+  }) async {
+    var response = await dio.get(
+      '/communities',
+      queryParameters: {'searchKeyword': searchKeyword},
+    );
+    return SearchCommunityResponse.listFromJson(response.data['data']);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CommunityImage extends StatelessWidget {
   final String imageUrl;
@@ -13,10 +14,15 @@ class CommunityImage extends StatelessWidget {
         return Stack(
           children: [
             Positioned.fill(
-              child: Image(
-                image: CachedNetworkImageProvider(imageUrl),
-                fit: BoxFit.cover,
-              ),
+              child: checkFileExtension(imageUrl) == 'svg'
+                  ? SvgPicture.network(
+                      imageUrl,
+                      fit: BoxFit.fitWidth,
+                    )
+                  : Image(
+                      image: CachedNetworkImageProvider(imageUrl),
+                      fit: BoxFit.fitWidth,
+                    ),
             ),
             Container(
               decoration: BoxDecoration(
@@ -35,5 +41,16 @@ class CommunityImage extends StatelessWidget {
         );
       },
     );
+  }
+
+  String checkFileExtension(String url) {
+    Uri uri = Uri.parse(url);
+    String path = uri.path;
+
+    if (path.contains('.')) {
+      return path.split('.').last;
+    } else {
+      return '';
+    }
   }
 }
