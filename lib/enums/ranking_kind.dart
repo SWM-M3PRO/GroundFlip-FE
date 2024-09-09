@@ -1,0 +1,4 @@
+enum RankingKind {
+  user,
+  community,
+}
