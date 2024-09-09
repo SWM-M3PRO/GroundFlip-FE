@@ -10,6 +10,7 @@ import '../service/user_service.dart';
 import '../utils/date_handler.dart';
 import '../utils/user_manager.dart';
 import '../widgets/ranking/ranking_bottom_sheet.dart';
+import 'my_page_controller.dart';
 
 class RankingController extends GetxController {
   final RankingService rankingService = RankingService();
@@ -18,7 +19,7 @@ class RankingController extends GetxController {
 
   final RxBool isLoading = true.obs;
 
-  late final Rx<Ranking> myRanking;
+  late Rx<Ranking> myRanking;
   final RxInt selectedType = 0.obs;
   final RxList rankings = [].obs;
 
@@ -56,13 +57,29 @@ class RankingController extends GetxController {
   }
 
   updateRankingWithDelay(int seconds) async {
-    List<Ranking> rankings =
-        await rankingService.getAllUserRanking(selectedWeek);
-    Ranking myRanking = await rankingService.getUserRanking(
-      UserManager().getUserId()!,
-      selectedWeek,
-    );
     await Future.delayed(Duration(seconds: seconds));
+    await updateRanking();
+  }
+
+  Future<void> updateRanking() async {
+    List<Ranking> rankings;
+    Ranking myRanking;
+    if (selectedType.value == 0) {
+      rankings = await rankingService.getAllUserRanking(selectedWeek);
+      myRanking = await rankingService.getUserRanking(
+        UserManager().getUserId()!,
+        selectedWeek,
+      );
+    } else {
+      int? communityId =
+          Get.find<MyPageController>().currentUserInfo.value.communityId;
+      rankings = await rankingService.getAllCommunityRanking(selectedWeek);
+      myRanking = await rankingService.getCommunityRanking(
+        communityId,
+        selectedWeek,
+      );
+    }
+
     this.rankings.assignAll(rankings);
     this.myRanking.value = myRanking;
   }
@@ -121,11 +138,11 @@ class RankingController extends GetxController {
   void openRankingBottomSheet(Ranking ranking) async {
     FirebaseAnalytics.instance.logEvent(name: "ranking_element_click");
     UserPixelCount pixelCount =
-        await userService.getAnotherUserPixelCount(null, ranking.userId);
+        await userService.getAnotherUserPixelCount(null, ranking.id);
     Get.bottomSheet(
       RankingBottomSheet(
-        userId: ranking.userId,
-        nickname: ranking.nickname!,
+        userId: ranking.id,
+        nickname: ranking.name!,
         profileImageUrl: ranking.profileImageUrl,
         currentPixelCount: pixelCount.currentPixelCount!,
         accumulatePixelCount: pixelCount.accumulatePixelCount!,

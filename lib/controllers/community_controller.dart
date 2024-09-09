@@ -21,11 +21,11 @@ class CommunityController extends GetxController {
   final RxBool isLoading = true.obs;
 
   final RxList members = [
-    Ranking(userId: 1, rank: 1, currentPixelCount: 123, nickname: "test1"),
-    Ranking(userId: 1, rank: 2, currentPixelCount: 123, nickname: "test2"),
-    Ranking(userId: 1, rank: 3, currentPixelCount: 123, nickname: "test3"),
-    Ranking(userId: 1, rank: 4, currentPixelCount: 123, nickname: "test4"),
-    Ranking(userId: 1, rank: 5, currentPixelCount: 123, nickname: "test5"),
+    Ranking(id: 1, rank: 1, currentPixelCount: 123, name: "test1"),
+    Ranking(id: 1, rank: 2, currentPixelCount: 123, name: "test2"),
+    Ranking(id: 1, rank: 3, currentPixelCount: 123, name: "test3"),
+    Ranking(id: 1, rank: 4, currentPixelCount: 123, name: "test4"),
+    Ranking(id: 1, rank: 5, currentPixelCount: 123, name: "test5"),
   ].obs;
 
   init() async {
