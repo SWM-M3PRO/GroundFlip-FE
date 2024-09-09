@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../constants/app_colors.dart';
 import '../controllers/search_community_controller.dart';
@@ -13,8 +12,6 @@ class SearchCommunityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final SearchCommunityController searchCommunityController =
         Get.put(SearchCommunityController());
-
-    const double betweenLine = 15;
 
     return GestureDetector(
       onTap: () {
@@ -61,7 +58,8 @@ class SearchCommunityScreen extends StatelessWidget {
                             focusNode: searchCommunityController.searchFocusNode,
                             onChanged: searchCommunityController.updateKeyword,
                             onSubmitted: searchCommunityController.updateKeyword,
-                            decoration: InputDecoration(
+                            cursorColor: AppColors.primary,
+                           decoration: InputDecoration(
                               hintText: '그룹을 검색해주세요',
                               hintStyle: TextStyle(
                                 color: AppColors.textPrimary,
