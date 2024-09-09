@@ -31,6 +31,10 @@ class CommunityService {
   }
 
   Future<List<Ranking>> getMembers(int communityId) async {
-    return [];
+    var response = await dio.get(
+      '/community/{communityId}/members',
+    );
+
+    return Ranking.listFromJsonUser(response.data['data']);
   }
 }

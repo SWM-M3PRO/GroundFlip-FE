@@ -22,6 +22,7 @@ class CommunityMemberScreen extends StatelessWidget {
         Get.put(CommunityMemberController());
     communityMemberController.init(communityId);
     List members = communityMemberController.members;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(

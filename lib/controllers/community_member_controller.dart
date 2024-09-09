@@ -10,7 +10,7 @@ class CommunityMemberController extends GetxController {
 
   init(int communityId) async {
     this.communityId = communityId;
-    loadMembers();
+    await loadMembers();
     isLoading.value = false;
   }
 
