@@ -112,7 +112,11 @@ class CommunityScreen extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      MemberList(members: communityController.members),
+                      MemberList(
+                        members: communityController.members,
+                        communityName: communityController.name.value,
+                        communityId: communityController.communityId.value,
+                      ),
                       SizedBox(
                         height: 20,
                       ),

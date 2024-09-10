@@ -7,12 +7,20 @@ import '../../../constants/app_colors.dart';
 import '../../../constants/text_styles.dart';
 import '../../../controllers/ranking_controller.dart';
 import '../../../models/ranking.dart';
+import '../../../screens/community_member_screen.dart';
 import '../../ranking/ranking_info.dart';
 
 class MemberList extends StatelessWidget {
+  final String communityName;
+  final int communityId;
   final List members;
 
-  const MemberList({super.key, required this.members});
+  const MemberList({
+    super.key,
+    required this.members,
+    required this.communityName,
+    required this.communityId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,19 +40,29 @@ class MemberList extends StatelessWidget {
                   "멤버",
                   style: TextStyles.fs24w900cTextPrimary,
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "더보기",
-                      style: TextStyles.fs14w600cTextSecondary,
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.textSecondary,
-                      size: 10,
-                    ),
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    Get.to(
+                      CommunityMemberScreen(
+                        communityName: communityName,
+                        communityId: communityId,
+                      ),
+                    );
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "더보기",
+                        style: TextStyles.fs14w600cTextSecondary,
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: AppColors.textSecondary,
+                        size: 10,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
