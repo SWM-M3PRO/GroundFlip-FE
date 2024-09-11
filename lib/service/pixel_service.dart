@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../models/community_mode_pixel.dart';
+import '../models/community_mode_pixel_info.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_history_pixel_info.dart';
 import '../models/individual_mode_pixel.dart';
@@ -65,9 +66,7 @@ class PixelService {
   Future<List<CommunityModePixel>> getCommunityModePixels({
     required double currentLatitude,
     required double currentLongitude,
-    required int userId,
     int radius = 1000,
-    String? lookUpDate,
   }) async {
     var response = await dio.get(
       '/pixels/community-mode',
@@ -89,6 +88,16 @@ class PixelService {
     );
 
     return IndividualModePixelInfo.fromJson(response.data['data']);
+  }
+
+  Future<CommunityModePixelInfo> getCommunityModePixelInfo({
+    required int pixelId,
+  }) async {
+    var response = await dio.get(
+      '/pixels/community-mode/$pixelId',
+    );
+
+    return CommunityModePixelInfo.fromJson(response.data['data']);
   }
 
   Future<IndividualHistoryPixelInfo> getIndividualHistoryPixelInfo({
