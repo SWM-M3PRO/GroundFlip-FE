@@ -51,7 +51,13 @@ class RankingService {
 
   getCommunityRanking(int? communityId, DateTime lookupDate) async {
     if (communityId == null) {
-      return Ranking.fromJsonCommunity({"communityId": 1});
+      return Ranking.fromJsonCommunity({
+        "communityId": 1,
+        "name": "가입한 그룹이 없습니다.",
+        "rank": null,
+        "profileImageUrl": null,
+        "currentPixelCount": null
+      });
     }
     var response = await dio.get(
       '/ranking/community/${communityId.toString()}',
