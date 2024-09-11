@@ -9,6 +9,7 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../constants/app_colors.dart';
 import '../enums/pixel_mode.dart';
+import '../models/community_mode_pixel.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
 import '../models/user_pixel_count.dart';
@@ -22,6 +23,7 @@ import '../utils/walking_service_factory.dart';
 import '../widgets/map/filter_bottom_sheet.dart';
 import '../widgets/pixel.dart';
 import 'bottom_sheet_controller.dart';
+import 'my_page_controller.dart';
 
 class MapController extends SuperController {
   final PixelService pixelService = PixelService();
@@ -253,6 +255,22 @@ class MapController extends SuperController {
     ]);
   }
 
+  Future<void> _updateCommunityModePixel(int radius) async {
+    List<CommunityModePixel> communityModePixels =
+        await pixelService.getCommunityModePixels(
+      currentLatitude: currentCameraPosition.target.latitude,
+      currentLongitude: currentCameraPosition.target.longitude,
+      radius: radius,
+    );
+
+    pixels.assignAll([
+      for (var pixel in communityModePixels)
+        Pixel.fromCommunityModePixel(
+          pixel: pixel,
+        ),
+    ]);
+  }
+
   void trackPixels() {
     _updatePixelTimer =
         Timer.periodic(const Duration(seconds: 10), (timer) async {
@@ -276,6 +294,7 @@ class MapController extends SuperController {
         _updateIndividualHistoryPixels(radius);
         break;
       case PixelMode.groupMode:
+        _updateCommunityModePixel(radius);
         break;
     }
     await updateCurrentPixel();
@@ -288,6 +307,8 @@ class MapController extends SuperController {
       userId: UserManager().getUserId()!,
       currentLatitude: _locationService.currentLocation!.latitude!,
       currentLongitude: _locationService.currentLocation!.longitude!,
+      communityId:
+          Get.find<MyPageController>().currentUserInfo.value.communityId,
     );
     if (!isBottomSheetShowUp) {
       updatePixels();
