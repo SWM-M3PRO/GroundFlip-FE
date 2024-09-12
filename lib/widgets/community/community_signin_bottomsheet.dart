@@ -130,7 +130,9 @@ class CommunitySignInBottomSheet extends StatelessWidget {
                             CommunityController communityController = Get.find<CommunityController>();
                             await myPageController.updateUserInfo();
                             await communityController.updateCommunityInfo();
-                            Get.offAll(() => CommunityScreen());
+                            Get.back();
+                            Get.back();
+                            Get.back();
                           }
                           // else{
                           //   Get.dialog(

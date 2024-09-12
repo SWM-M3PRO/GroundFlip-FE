@@ -28,11 +28,11 @@ class CommunityService {
     var response = await dio.post(
       '/communities/$communityId',
       data: {'userId': userId},
-      // options: Options(
-      //   validateStatus: (status){
-      //     return status! < 500;
-      //   }
-      //),
+      options: Options(
+        validateStatus: (status){
+          return status! == 200;
+        }
+      ),
     );
 
     return response.statusCode;
