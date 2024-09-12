@@ -7,9 +7,15 @@ import '../../constants/text_styles.dart';
 class SignoutBottomSheet extends StatelessWidget {
   final String name;
   final String profileImageUrl;
+  final Function onTap;
+
+  // final CommunityController communityController = Get.find<>();
 
   const SignoutBottomSheet(
-      {super.key, required this.name, required this.profileImageUrl});
+      {super.key,
+      required this.name,
+      required this.profileImageUrl,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +108,9 @@ class SignoutBottomSheet extends StatelessWidget {
                   ),
                   Expanded(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        onTap();
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(16)),

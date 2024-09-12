@@ -4,6 +4,8 @@ import '../enums/ranking_kind.dart';
 import '../models/community.dart';
 import '../models/ranking.dart';
 import '../service/community_service.dart';
+import '../widgets/common/alert/alert.dart';
+import '../widgets/community/signout_bottom_sheet.dart';
 import 'my_page_controller.dart';
 
 class CommunityController extends GetxController {
@@ -87,9 +89,26 @@ class CommunityController extends GetxController {
   }
 
   quitCommunity() {
-    // ToDo : 그룹 탈퇴 구현
-    MyPageController myPageController = Get.find<MyPageController>();
-    myPageController.updateUserInfo();
-    isJoin.value = false;
+    Get.bottomSheet(
+      SignoutBottomSheet(
+          name: name.value, profileImageUrl: imageUrl.value, onTap: signOut),
+      isScrollControlled: true,
+    );
+  }
+
+  signOut() async {
+    try {
+      await communityService.signOutCommunity(communityId.value);
+      MyPageController myPageController = Get.find<MyPageController>();
+      myPageController.updateUserInfo();
+      isJoin.value = false;
+      Get.back();
+    } catch (e) {
+      Get.dialog(Alert(
+        title: '회원탈퇴에 실패했습니다!',
+        content: '다시 시도 해주세요.',
+        buttonText: '확인',
+      ));
+    }
   }
 }
