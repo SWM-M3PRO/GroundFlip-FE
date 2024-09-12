@@ -4,6 +4,7 @@ import '../models/community.dart';
 import '../models/ranking.dart';
 import '../models/search_community_response.dart';
 import '../utils/dio_service.dart';
+import '../utils/user_manager.dart';
 
 class CommunityService {
   static final CommunityService _instance = CommunityService._internal();
@@ -47,5 +48,14 @@ class CommunityService {
       queryParameters: {"community-id": communityId},
     );
     return response.data['data']['currentPixelCount'];
+  }
+
+  signOutCommunity(int communityId) async {
+    await dio.delete(
+      '/communities/$communityId',
+      data: {
+        "userId": UserManager().getUserId(),
+      },
+    );
   }
 }
