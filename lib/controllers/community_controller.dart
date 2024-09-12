@@ -90,7 +90,7 @@ class CommunityController extends GetxController {
 
   quitCommunity() {
     Get.bottomSheet(
-      SignoutBottomSheet(
+      SignOutBottomSheet(
           name: name.value, profileImageUrl: imageUrl.value, onTap: signOut),
       isScrollControlled: true,
     );

@@ -1,17 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 
-class SignoutBottomSheet extends StatelessWidget {
+class SignOutBottomSheet extends StatelessWidget {
   final String name;
   final String profileImageUrl;
   final Function onTap;
 
-  // final CommunityController communityController = Get.find<>();
-
-  const SignoutBottomSheet(
+  const SignOutBottomSheet(
       {super.key,
       required this.name,
       required this.profileImageUrl,
@@ -63,9 +62,11 @@ class SignoutBottomSheet extends StatelessWidget {
                   padding: const EdgeInsets.all(20.0),
                   child: Row(
                     children: [
-                      Image.asset(
-                        'assets/images/crying.png',
-                        width: 48,
+                      Image(
+                        image: CachedNetworkImageProvider(profileImageUrl),
+                        width: 30,
+                        height: 30,
+                        fit: BoxFit.cover,
                       ),
                       SizedBox(width: 20),
                       Text(
