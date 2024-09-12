@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../constants/app_colors.dart';
 import '../../controllers/community_controller.dart';
 import '../../controllers/my_page_controller.dart';
+import '../../screens/community_screen.dart';
 import '../../service/community_service.dart';
 import '../common/alert/alert.dart';
 import 'community_list.dart';
@@ -64,12 +65,12 @@ class CommunitySignInBottomSheet extends StatelessWidget {
                       children: [
                         checkFileExtension(communityImageUrl) == 'svg'
                             ? SvgPicture.network(
-                                communityImageUrl,
+                                Uri.encodeFull(communityImageUrl),
                                 width: 35,
                               )
                             : Image(
                                 image: CachedNetworkImageProvider(
-                                    communityImageUrl),
+                                    Uri.encodeFull(communityImageUrl),),
                                 width: 35,
                               ),
                         SizedBox(width: 15),
@@ -129,12 +130,13 @@ class CommunitySignInBottomSheet extends StatelessWidget {
                             CommunityController communityController = Get.find<CommunityController>();
                             await myPageController.updateUserInfo();
                             await communityController.updateCommunityInfo();
-                            Get.back();
-                          }else{
-                            Get.dialog(
-                                Alert(title: '이미 가입된 그룹입니다!', buttonText: '확인')
-                            );
+                            Get.offAll(() => CommunityScreen());
                           }
+                          // else{
+                          //   Get.dialog(
+                          //       Alert(title: '이미 가입된 그룹입니다!', buttonText: '확인')
+                          //   );
+                          // }
                         },
                         child: Container(
                           decoration: BoxDecoration(

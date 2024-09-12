@@ -34,7 +34,6 @@ class CommunityService {
       //   }
       //),
     );
-    print('2222 ${response.statusCode}');
 
     return response.statusCode;
   }
