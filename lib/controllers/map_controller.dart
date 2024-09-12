@@ -13,6 +13,7 @@ import '../models/community_mode_pixel.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
 import '../models/user_pixel_count.dart';
+import '../service/community_service.dart';
 import '../service/location_service.dart';
 import '../service/pixel_service.dart';
 import '../service/user_service.dart';
@@ -28,6 +29,7 @@ import 'my_page_controller.dart';
 class MapController extends SuperController {
   final PixelService pixelService = PixelService();
   final UserService userService = UserService();
+  final CommunityService communityService = CommunityService();
   final LocationService _locationService = LocationService();
   final WalkingService walkingService =
       WalkingServiceFactory.getWalkingService();
@@ -59,6 +61,7 @@ class MapController extends SuperController {
   final RxInt selectedMode = 1.obs;
   final RxInt selectedPeriod = 0.obs;
   final RxInt currentPixelCount = 0.obs;
+  final RxInt currentCommunityPixelCount = 0.obs;
   final RxInt accumulatePixelCount = 0.obs;
   final RxInt accumulatePixelCountPerPeriod = 0.obs;
 
@@ -121,6 +124,9 @@ class MapController extends SuperController {
     UserPixelCount pixelCountPeriod =
         await userService.getUserPixelCount(currentPeriod);
     currentPixelCount.value = pixelCount.currentPixelCount!;
+    currentCommunityPixelCount.value =
+        await communityService.getCommunityPixelCount(
+            Get.find<MyPageController>().currentUserInfo.value.communityId);
     accumulatePixelCount.value = pixelCount.accumulatePixelCount!;
     accumulatePixelCountPerPeriod.value =
         pixelCountPeriod.accumulatePixelCount!;
@@ -399,8 +405,10 @@ class MapController extends SuperController {
   getPixelCount() {
     if (currentPixelMode.value == PixelMode.individualHistory) {
       return accumulatePixelCountPerPeriod.value;
-    } else {
+    } else if (currentPixelMode.value == PixelMode.individualMode) {
       return currentPixelCount.value;
+    } else {
+      return currentCommunityPixelCount.value;
     }
   }
 

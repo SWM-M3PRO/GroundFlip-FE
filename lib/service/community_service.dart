@@ -37,4 +37,15 @@ class CommunityService {
 
     return Ranking.listFromJsonUser(response.data['data']);
   }
+
+  Future<int> getCommunityPixelCount(int? communityId) async {
+    if (communityId == null) {
+      return 0;
+    }
+    var response = await dio.get(
+      '/pixels/community/count',
+      queryParameters: {"community-id": communityId},
+    );
+    return response.data['data']['currentPixelCount'];
+  }
 }
