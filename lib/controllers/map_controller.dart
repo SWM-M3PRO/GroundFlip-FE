@@ -126,7 +126,8 @@ class MapController extends SuperController {
     currentPixelCount.value = pixelCount.currentPixelCount!;
     currentCommunityPixelCount.value =
         await communityService.getCommunityPixelCount(
-            Get.find<MyPageController>().currentUserInfo.value.communityId);
+      Get.find<MyPageController>().currentUserInfo.value.communityId,
+    );
     accumulatePixelCount.value = pixelCount.accumulatePixelCount!;
     accumulatePixelCountPerPeriod.value =
         pixelCountPeriod.accumulatePixelCount!;
