@@ -1,9 +1,12 @@
 import 'package:get/get.dart';
 
+import '../constants/app_colors.dart';
 import '../enums/ranking_kind.dart';
 import '../models/community.dart';
 import '../models/ranking.dart';
 import '../service/community_service.dart';
+import '../widgets/community/community_signin_bottomsheet.dart';
+import 'bottom_sheet_controller.dart';
 import 'community_controller.dart';
 import 'my_page_controller.dart';
 
@@ -58,6 +61,9 @@ class CommunityInfoController extends GetxController {
     ),
   ].obs;
 
+  final BottomSheetController bottomSheetController =
+      Get.find<BottomSheetController>();
+
   init(int communityId) async {
     Community community = await communityService.getCommunityInfo(communityId);
     name.value = community.name;
@@ -73,10 +79,21 @@ class CommunityInfoController extends GetxController {
   }
 
   signUpCommunity() async {
-    // ToDo : 그룹 가입 구현
+    bottomSheetController.minimize();
+    Get.bottomSheet(
+      CommunitySignInBottomSheet(
+        communityName: name.value,
+        communityImageUrl: imageUrl.value,
+      ),
+      backgroundColor: AppColors.backgroundSecondary,
+      enterBottomSheetDuration: Duration(milliseconds: 100),
+      exitBottomSheetDuration: Duration(milliseconds: 100),
+    );
     MyPageController myPageController = Get.find<MyPageController>();
     CommunityController communityController = Get.find<CommunityController>();
     await myPageController.updateUserInfo();
     communityController.updateCommunityInfo();
   }
+
+  void signInBottomSheet() {}
 }

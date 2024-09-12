@@ -85,21 +85,6 @@ class CommunityList extends StatelessWidget {
           color: AppColors.textPrimary,
           size: 20,
         );
-      case 1:
-        return Image.asset(
-          'assets/images/1st_place_medal.png',
-          width: 40,
-        );
-      case 2:
-        return Image.asset(
-          'assets/images/2nd_place_medal.png',
-          width: 40,
-        );
-      case 3:
-        return Image.asset(
-          'assets/images/3rd_place_medal.png',
-          width: 40,
-        );
       default:
         return Container();
     }
