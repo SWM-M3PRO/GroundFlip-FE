@@ -4,141 +4,166 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
+import '../../controllers/community_controller.dart';
+import '../../controllers/my_page_controller.dart';
+import '../../service/community_service.dart';
+import '../common/alert/alert.dart';
 import 'community_list.dart';
 
 class CommunitySignInBottomSheet extends StatelessWidget {
-  const CommunitySignInBottomSheet({
+  CommunitySignInBottomSheet({
     super.key,
     required this.communityName,
     required this.communityImageUrl,
+    required this.communityId,
   });
 
   final String communityName;
   final String communityImageUrl;
+  final int communityId;
+
+  final CommunityService communityService = CommunityService();
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      //width: 600,
-      height: 600,
-      child: Padding(
-        padding:
-            const EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 20),
-        child: Column(
-          children: [
-            Text(
-              '그룹에 가입하시겠습니까?',
-              style: TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 35,
-                fontWeight: FontWeight.w600,
+    return Wrap(
+      children: [SizedBox(
+        //height: 1000,
+        child: Padding(
+          padding:
+              const EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 20),
+          child: Column(
+            children: [
+              Text(
+                '그룹에 가입하시겠습니까?',
+                style: TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              '함께 걷다보면 더 알아가고 싶은 사람들입니다',
-              style: TextStyle(color: AppColors.textFifth, fontSize: 20),
-            ),
-            SizedBox(height: 5),
-            Image.asset(
-              'assets/images/shake_hand.png',
-              width: 250,
-              height: 250,
-            ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: AppColors.boxColorForth),
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      checkFileExtension(communityImageUrl) == 'svg'
-                          ? SvgPicture.network(
-                              communityImageUrl,
-                              width: 38,
-                            )
-                          : Image(
-                              image:
-                                  CachedNetworkImageProvider(communityImageUrl),
-                              width: 40,
-                            ),
-                      SizedBox(width: 15),
-                      Text(
-                        '${communityName}',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: AppColors.textPrimary,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      )
-                    ],
+              SizedBox(
+                height: 5,
+              ),
+              SizedBox(height: 20),
+              Image.asset(
+                'assets/images/shake_hand.png',
+                width: 100,
+                height: 100,
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: AppColors.boxColorForth),
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        checkFileExtension(communityImageUrl) == 'svg'
+                            ? SvgPicture.network(
+                                communityImageUrl,
+                                width: 35,
+                              )
+                            : Image(
+                                image: CachedNetworkImageProvider(
+                                    communityImageUrl),
+                                width: 35,
+                              ),
+                        SizedBox(width: 15),
+                        Text(
+                          '${communityName}',
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: AppColors.textPrimary,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                children: [
-                  InkWell(
-                    borderRadius: BorderRadius.circular(16),
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: AppColors.boxColorForth),
-                      child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Center(
-                          child: Text('취소',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: AppColors.textPrimary,
-                                  fontWeight: FontWeight.w400),
+              SizedBox(height: 15),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(16),
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Container(
+                          //width: (MediaQuery.of(context).size.width - 75) / 2,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: AppColors.boxColorForth),
+                          child: Padding(
+                            padding: EdgeInsets.all(15),
+                            child: Center(
+                              child: Text(
+                                '취소',
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    color: AppColors.textPrimary,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(width: 5),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(16),
-                    onTap: () {
-
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: AppColors.boxColorForth,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Center(
-                          child: Text('가입 신청',
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: AppColors.textThird,
-                                fontWeight: FontWeight.w400),
+                    SizedBox(width: 15),
+                    Expanded(
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(16),
+                        onTap: () async {
+                          int? response;
+                          response = await communityService.signInCommunity(communityId);
+                          if(response==200){
+                            MyPageController myPageController = Get.find<MyPageController>();
+                            CommunityController communityController = Get.find<CommunityController>();
+                            await myPageController.updateUserInfo();
+                            await communityController.updateCommunityInfo();
+                            Get.back();
+                          }else{
+                            Get.dialog(
+                                Alert(title: '이미 가입된 그룹입니다!', buttonText: '확인')
+                            );
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            color: AppColors.primary,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            child: Center(
+                              child: Text(
+                                '가입 신청',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  color: AppColors.textThird,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
-      ),
+      ),]
     );
   }
 

@@ -14,6 +14,7 @@ class CommunityInfoController extends GetxController {
   final CommunityService communityService = CommunityService();
   final RxString name = "".obs;
   final RxString imageUrl = "".obs;
+  final RxInt communityId = 0.obs;
   final RxInt memberCount = 0.obs;
   final RxInt communityColor = 0.obs;
   final RxInt communityRanking = 0.obs;
@@ -68,6 +69,7 @@ class CommunityInfoController extends GetxController {
     Community community = await communityService.getCommunityInfo(communityId);
     name.value = community.name;
     imageUrl.value = community.backgroundImageUrl;
+    this.communityId.value = communityId;
     memberCount.value = community.memberCount;
     communityColor.value = community.communityColor;
     communityRanking.value = community.communityRanking;
@@ -84,15 +86,14 @@ class CommunityInfoController extends GetxController {
       CommunitySignInBottomSheet(
         communityName: name.value,
         communityImageUrl: imageUrl.value,
+        communityId: communityId.value,
       ),
       backgroundColor: AppColors.backgroundSecondary,
       enterBottomSheetDuration: Duration(milliseconds: 100),
       exitBottomSheetDuration: Duration(milliseconds: 100),
+      isScrollControlled: true,
     );
-    MyPageController myPageController = Get.find<MyPageController>();
-    CommunityController communityController = Get.find<CommunityController>();
-    await myPageController.updateUserInfo();
-    communityController.updateCommunityInfo();
+
   }
 
   void signInBottomSheet() {}

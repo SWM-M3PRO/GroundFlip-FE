@@ -9,6 +9,7 @@ import '../utils/user_manager.dart';
 class CommunityService {
   static final CommunityService _instance = CommunityService._internal();
   final Dio dio = DioService().getDio();
+  final UserManager userManager = UserManager();
 
   CommunityService._internal();
 
@@ -19,6 +20,23 @@ class CommunityService {
   Future<Community> getCommunityInfo(int communityId) async {
     var response = await dio.get('/communities/$communityId');
     return Community.fromJson(response.data['data']);
+  }
+
+  Future<int?> signInCommunity(int communityId) async {
+    int? userId = UserManager().getUserId();
+
+    var response = await dio.post(
+      '/communities/$communityId',
+      data: {'userId': userId},
+      // options: Options(
+      //   validateStatus: (status){
+      //     return status! < 500;
+      //   }
+      //),
+    );
+    print('2222 ${response.statusCode}');
+
+    return response.statusCode;
   }
 
   Future<List<SearchCommunityResponse>> getSearchCommunities({
