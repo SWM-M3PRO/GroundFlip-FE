@@ -62,12 +62,12 @@ class CommunitySignInBottomSheet extends StatelessWidget {
                       children: [
                         checkFileExtension(communityImageUrl) == 'svg'
                             ? SvgPicture.network(
-                                Uri.encodeFull(communityImageUrl),
+                                communityImageUrl,
                                 width: 35,
                               )
                             : Image(
                                 image: CachedNetworkImageProvider(
-                                    Uri.encodeFull(communityImageUrl),),
+                                    communityImageUrl,),
                                 width: 35,
                               ),
                         SizedBox(width: 15),
@@ -96,7 +96,6 @@ class CommunitySignInBottomSheet extends StatelessWidget {
                           Get.back();
                         },
                         child: Container(
-                          //width: (MediaQuery.of(context).size.width - 75) / 2,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
                               color: AppColors.boxColorForth,),
