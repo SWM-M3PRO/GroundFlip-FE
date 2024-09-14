@@ -46,7 +46,7 @@ class UserManager {
   }
 
   int? getUserId() {
-    return 662;//userId;
+    return userId;
   }
 
   String getAccessToken() {
