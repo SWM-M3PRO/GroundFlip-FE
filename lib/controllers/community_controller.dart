@@ -91,7 +91,7 @@ class CommunityController extends GetxController {
   quitCommunity() {
     Get.bottomSheet(
       SignOutBottomSheet(
-          name: name.value, profileImageUrl: imageUrl.value, onTap: signOut),
+          name: name.value, profileImageUrl: imageUrl.value, onTap: signOut,),
       isScrollControlled: true,
     );
   }
@@ -108,7 +108,7 @@ class CommunityController extends GetxController {
         title: '회원탈퇴에 실패했습니다!',
         content: '다시 시도 해주세요.',
         buttonText: '확인',
-      ));
+      ),);
     }
   }
 }

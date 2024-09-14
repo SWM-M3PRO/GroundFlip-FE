@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
-import '../../screens/main_screen.dart';
 
 class SignInCompleteBottomSheet extends StatelessWidget {
   const SignInCompleteBottomSheet({super.key});
@@ -62,7 +61,7 @@ class SignInCompleteBottomSheet extends StatelessWidget {
               SizedBox(height: 20),
             ],
           ),
-        )
+        ),
       ],
     );
   }
