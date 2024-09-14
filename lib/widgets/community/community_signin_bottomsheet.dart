@@ -6,10 +6,7 @@ import 'package:get/get.dart';
 import '../../constants/app_colors.dart';
 import '../../controllers/community_controller.dart';
 import '../../controllers/my_page_controller.dart';
-import '../../screens/community_screen.dart';
 import '../../service/community_service.dart';
-import '../common/alert/alert.dart';
-import 'community_list.dart';
 
 class CommunitySignInBottomSheet extends StatelessWidget {
   CommunitySignInBottomSheet({
@@ -58,7 +55,7 @@ class CommunitySignInBottomSheet extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      color: AppColors.boxColorForth),
+                      color: AppColors.boxColorForth,),
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Row(
@@ -75,13 +72,13 @@ class CommunitySignInBottomSheet extends StatelessWidget {
                               ),
                         SizedBox(width: 15),
                         Text(
-                          '${communityName}',
+                          communityName,
                           style: TextStyle(
                             fontSize: 17,
                             color: AppColors.textPrimary,
                             fontWeight: FontWeight.w400,
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -102,7 +99,7 @@ class CommunitySignInBottomSheet extends StatelessWidget {
                           //width: (MediaQuery.of(context).size.width - 75) / 2,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
-                              color: AppColors.boxColorForth),
+                              color: AppColors.boxColorForth,),
                           child: Padding(
                             padding: EdgeInsets.all(15),
                             child: Center(
@@ -111,7 +108,7 @@ class CommunitySignInBottomSheet extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 17,
                                     color: AppColors.textPrimary,
-                                    fontWeight: FontWeight.w700),
+                                    fontWeight: FontWeight.w700,),
                               ),
                             ),
                           ),
@@ -163,11 +160,11 @@ class CommunitySignInBottomSheet extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
-      ),]
+      ),],
     );
   }
 

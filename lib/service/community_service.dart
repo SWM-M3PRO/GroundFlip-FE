@@ -31,7 +31,7 @@ class CommunityService {
       options: Options(
         validateStatus: (status){
           return status! == 200;
-        }
+        },
       ),
     );
 

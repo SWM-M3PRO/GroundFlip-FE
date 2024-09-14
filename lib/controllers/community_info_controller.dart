@@ -7,8 +7,6 @@ import '../models/ranking.dart';
 import '../service/community_service.dart';
 import '../widgets/community/community_signin_bottomsheet.dart';
 import 'bottom_sheet_controller.dart';
-import 'community_controller.dart';
-import 'my_page_controller.dart';
 
 class CommunityInfoController extends GetxController {
   final CommunityService communityService = CommunityService();
