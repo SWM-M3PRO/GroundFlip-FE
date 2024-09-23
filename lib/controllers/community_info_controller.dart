@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
-import '../enums/ranking_kind.dart';
 import '../models/community.dart';
 import '../models/ranking.dart';
 import '../service/community_service.dart';
@@ -22,43 +21,7 @@ class CommunityInfoController extends GetxController {
   final RxInt maxRanking = 0.obs;
   final RxBool isLoading = true.obs;
 
-  final RxList members = [
-    Ranking(
-      id: 1,
-      rank: 1,
-      currentPixelCount: 123,
-      name: "test1",
-      kind: RankingKind.community,
-    ),
-    Ranking(
-      id: 1,
-      rank: 2,
-      currentPixelCount: 123,
-      name: "test2",
-      kind: RankingKind.community,
-    ),
-    Ranking(
-      id: 1,
-      rank: 3,
-      currentPixelCount: 123,
-      name: "test3",
-      kind: RankingKind.community,
-    ),
-    Ranking(
-      id: 1,
-      rank: 4,
-      currentPixelCount: 123,
-      name: "test4",
-      kind: RankingKind.community,
-    ),
-    Ranking(
-      id: 1,
-      rank: 5,
-      currentPixelCount: 123,
-      name: "test5",
-      kind: RankingKind.community,
-    ),
-  ].obs;
+  final RxList members = [].obs;
 
   final BottomSheetController bottomSheetController =
       Get.find<BottomSheetController>();
@@ -75,6 +38,8 @@ class CommunityInfoController extends GetxController {
     accumulatePixelCount.value = community.accumulatePixelCount;
     maxPixelCount.value = community.maxPixelCount;
     maxRanking.value = community.maxRanking;
+    List<Ranking> members = await communityService.getMembers(communityId, 5);
+    this.members.assignAll(members);
     isLoading.value = false;
   }
 
@@ -91,7 +56,6 @@ class CommunityInfoController extends GetxController {
       exitBottomSheetDuration: Duration(milliseconds: 100),
       isScrollControlled: true,
     );
-
   }
 
   void signInBottomSheet() {}

@@ -40,26 +40,26 @@ class CommunityRecord extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
-          height: 20,
-        ),
-        Row(
-          children: [
-            CommunityRecordElement(
-              title: "하루 최대 px",
-              content: maxPixelCount.value,
-              iconImageUrl: "assets/images/max_pixel_icon.png",
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            CommunityRecordElement(
-              title: "최고 랭킹",
-              content: maxRankingCount.value,
-              iconImageUrl: "assets/images/max_ranking_icon.png",
-            ),
-          ],
-        ),
+        // SizedBox(
+        //   height: 20,
+        // ),
+        // Row(
+        //   children: [
+        //     CommunityRecordElement(
+        //       title: "하루 최대 px",
+        //       content: maxPixelCount.value,
+        //       iconImageUrl: "assets/images/max_pixel_icon.png",
+        //     ),
+        //     SizedBox(
+        //       width: 10,
+        //     ),
+        //     CommunityRecordElement(
+        //       title: "최고 랭킹",
+        //       content: maxRankingCount.value,
+        //       iconImageUrl: "assets/images/max_ranking_icon.png",
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }

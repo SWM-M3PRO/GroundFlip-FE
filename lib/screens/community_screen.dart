@@ -132,6 +132,9 @@ class CommunityScreen extends StatelessWidget {
                           QuitCommunityButton(
                             onTap: communityController.quitCommunity,
                           ),
+                          SizedBox(
+                            height: 10,
+                          ),
                         ],
                       ),
                     ),
