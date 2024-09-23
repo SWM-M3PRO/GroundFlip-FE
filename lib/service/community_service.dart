@@ -29,7 +29,7 @@ class CommunityService {
       '/communities/$communityId',
       data: {'userId': userId},
       options: Options(
-        validateStatus: (status){
+        validateStatus: (status) {
           return status! == 200;
         },
       ),
@@ -48,9 +48,9 @@ class CommunityService {
     return SearchCommunityResponse.listFromJson(response.data['data']);
   }
 
-  Future<List<Ranking>> getMembers(int communityId) async {
+  Future<List<Ranking>> getMembers(int communityId, int count) async {
     var response = await dio.get(
-      '/community/{communityId}/members',
+      '/communities/$communityId/members?count=$count',
     );
 
     return Ranking.listFromJsonUser(response.data['data']);

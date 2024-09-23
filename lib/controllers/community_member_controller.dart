@@ -14,8 +14,13 @@ class CommunityMemberController extends GetxController {
     isLoading.value = false;
   }
 
+  loadMembersWithDelay() async {
+    await Future.delayed(Duration(seconds: 1));
+    await loadMembers();
+  }
+
   loadMembers() async {
-    var members = await communityService.getMembers(communityId);
+    var members = await communityService.getMembers(communityId, 30);
     this.members.assignAll(members);
   }
 }
