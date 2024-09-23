@@ -28,7 +28,6 @@ class CommunitySignInBottomSheet extends StatelessWidget {
     return Wrap(
       children: [
         SizedBox(
-          //height: 1000,
           child: Padding(
             padding:
                 const EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 20),
@@ -146,11 +145,6 @@ class CommunitySignInBottomSheet extends StatelessWidget {
                                 isScrollControlled: true,
                               );
                             }
-                            // else{
-                            //   Get.dialog(
-                            //       Alert(title: '이미 가입된 그룹입니다!', buttonText: '확인')
-                            //   );
-                            // }
                           },
                           child: Container(
                             decoration: BoxDecoration(
