@@ -47,7 +47,6 @@ class MainController extends GetxController {
 
   void checkNewFeature() {
     bool? isChecked = storage.read('group_feature_checked');
-    print('----------isChecked : $isChecked');
     if (isChecked == null) {
       storage.write('group_feature_checked', true);
       _showNewFeature();
