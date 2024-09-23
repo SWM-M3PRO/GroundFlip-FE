@@ -33,101 +33,115 @@ class CommunityScreen extends StatelessWidget {
             ),
           );
         } else {
-          return CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                expandedHeight: 350.0,
-                floating: false,
-                pinned: true,
-                iconTheme: IconThemeData(
-                  color: Colors.white,
-                ),
-                actions: [
-                  IconButton(
-                    icon: SvgPicture.asset(
-                      'assets/images/share_icon.svg',
-                      width: 20,
+          return Scaffold(
+            backgroundColor: AppColors.background,
+            body: RefreshIndicator(
+              color: AppColors.primary,
+              backgroundColor: AppColors.backgroundThird,
+              onRefresh: () async {
+                await communityController.updateCommunityInfoWithDelay();
+              },
+              child: CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    expandedHeight: 350.0,
+                    floating: false,
+                    pinned: true,
+                    iconTheme: IconThemeData(
+                      color: Colors.white,
                     ),
-                    onPressed: () {},
-                  ),
-                ],
-                backgroundColor: AppColors.background,
-                flexibleSpace: LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    var top = constraints.biggest.height;
-                    return FlexibleSpaceBar(
-                      title: top <= 120
-                          ? Text(
-                              communityController.name.value,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          : Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10.0,
-                                ),
-                                child: Text(
+                    actions: [
+                      IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/images/share_icon.svg',
+                          width: 20,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ],
+                    backgroundColor: AppColors.background,
+                    flexibleSpace: LayoutBuilder(
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                        var top = constraints.biggest.height;
+                        return FlexibleSpaceBar(
+                          title: top <= 120
+                              ? Text(
                                   communityController.name.value,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                                  ),
+                                )
+                              : Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0,
+                                    ),
+                                    child: Text(
+                                      communityController.name.value,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                      background: CommunityImage(
-                        imageUrl: communityController.imageUrl.value,
-                      ),
-                      collapseMode: CollapseMode.parallax,
-                    );
-                  },
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      CommunityInfo(
-                        memberCount: communityController.memberCount,
-                        communityColor: communityController.communityColor,
-                        weeklyRanking: communityController.communityRanking,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      CommunityRecord(
-                        currentPixelCount:
-                            communityController.currentPixelCount,
-                        accumulatePixelCount:
-                            communityController.accumulatePixelCount,
-                        maxPixelCount: communityController.maxPixelCount,
-                        maxRankingCount: communityController.maxRanking,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      MemberList(
-                        members: communityController.members,
-                        communityName: communityController.name.value,
-                        communityId: communityController.communityId.value,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      QuitCommunityButton(
-                        onTap: communityController.quitCommunity,
-                      ),
-                    ],
+                          background: CommunityImage(
+                            imageUrl: communityController.imageUrl.value,
+                          ),
+                          collapseMode: CollapseMode.parallax,
+                        );
+                      },
+                    ),
                   ),
-                ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          CommunityInfo(
+                            memberCount: communityController.memberCount,
+                            communityColor: communityController.communityColor,
+                            weeklyRanking: communityController.communityRanking,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          CommunityRecord(
+                            currentPixelCount:
+                                communityController.currentPixelCount,
+                            accumulatePixelCount:
+                                communityController.accumulatePixelCount,
+                            maxPixelCount: communityController.maxPixelCount,
+                            maxRankingCount: communityController.maxRanking,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          MemberList(
+                            members: communityController.members,
+                            communityName: communityController.name.value,
+                            communityId: communityController.communityId.value,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          QuitCommunityButton(
+                            onTap: communityController.quitCommunity,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           );
         }
       }

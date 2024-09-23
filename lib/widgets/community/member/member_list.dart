@@ -67,6 +67,31 @@ class MemberList extends StatelessWidget {
               ],
             ),
           ),
+          if (members.isEmpty)
+            Column(
+              children: [
+                Center(
+                  child: Text(
+                    '가입한 유저가 없네요',
+                    style: TextStyles.fs20w700cTextPrimary,
+                  ),
+                ),
+                Text(
+                  '그룹에 가입하여 첫번째 유저가 되어보세요!',
+                  style: TextStyles.fs17w400cTextSecondary,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Image.asset(
+                  'assets/images/crying.png',
+                  width: 120,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
           for (int i = 0; i < members.length; i++)
             MemberListElement(
               ranking: members[i],

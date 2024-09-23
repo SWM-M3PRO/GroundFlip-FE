@@ -130,6 +130,9 @@ class CommunityInfoScreen extends StatelessWidget {
                       SignUpCommunityButton(
                         onTap: communityInfoController.signUpCommunity,
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
                     ],
                   ),
                 ),

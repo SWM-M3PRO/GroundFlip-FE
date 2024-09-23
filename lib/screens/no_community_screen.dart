@@ -10,53 +10,56 @@ class NoCommunityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBar(
-          backgroundColor: AppColors.background,
-        ),
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "가입한 그룹이 없습니다.",
-                style: TextStyles.fs28w800cTextPrimary,
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                "원하는 그룹을 검색해서 가입해보세요!",
-                style: TextStyles.fs17w400cTextSecondary,
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              InkWell(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
-                onTap: () {
-                  Get.to(SearchCommunityScreen());
-                },
-                child: Ink(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: AppColors.primary,
-                  ),
-                  height: 60,
-                  width: 200,
-                  child: Center(
-                    child: Text(
-                      "그룹 검색",
-                      style: TextStyles.fs17w600cTextBlack,
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Column(
+        children: [
+          AppBar(
+            backgroundColor: AppColors.background,
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "가입한 그룹이 없습니다.",
+                  style: TextStyles.fs28w800cTextPrimary,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "원하는 그룹을 검색해서 가입해보세요!",
+                  style: TextStyles.fs17w400cTextSecondary,
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                InkWell(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  onTap: () {
+                    Get.to(SearchCommunityScreen());
+                  },
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: AppColors.primary,
+                    ),
+                    height: 60,
+                    width: 200,
+                    child: Center(
+                      child: Text(
+                        "그룹 검색",
+                        style: TextStyles.fs17w600cTextBlack,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

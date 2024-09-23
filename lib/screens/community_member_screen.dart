@@ -51,7 +51,7 @@ class CommunityMemberScreen extends StatelessWidget {
             color: AppColors.primary,
             backgroundColor: AppColors.backgroundThird,
             onRefresh: () async {
-              await communityMemberController.loadMembers();
+              await communityMemberController.loadMembersWithDelay();
             },
             child: ListView(
               children: [

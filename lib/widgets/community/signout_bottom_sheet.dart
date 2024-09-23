@@ -14,7 +14,7 @@ class SignOutBottomSheet extends StatelessWidget {
       {super.key,
       required this.name,
       required this.profileImageUrl,
-      required this.onTap});
+      required this.onTap,});
 
   @override
   Widget build(BuildContext context) {
@@ -135,6 +135,6 @@ class SignOutBottomSheet extends StatelessWidget {
           ),
         ),
       ),
-    ]);
+    ],);
   }
 }

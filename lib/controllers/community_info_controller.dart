@@ -1,16 +1,17 @@
 import 'package:get/get.dart';
 
-import '../enums/ranking_kind.dart';
+import '../constants/app_colors.dart';
 import '../models/community.dart';
 import '../models/ranking.dart';
 import '../service/community_service.dart';
-import 'community_controller.dart';
-import 'my_page_controller.dart';
+import '../widgets/community/community_signin_bottomsheet.dart';
+import 'bottom_sheet_controller.dart';
 
 class CommunityInfoController extends GetxController {
   final CommunityService communityService = CommunityService();
   final RxString name = "".obs;
   final RxString imageUrl = "".obs;
+  final RxInt communityId = 0.obs;
   final RxInt memberCount = 0.obs;
   final RxInt communityColor = 0.obs;
   final RxInt communityRanking = 0.obs;
@@ -20,48 +21,16 @@ class CommunityInfoController extends GetxController {
   final RxInt maxRanking = 0.obs;
   final RxBool isLoading = true.obs;
 
-  final RxList members = [
-    Ranking(
-      id: 1,
-      rank: 1,
-      currentPixelCount: 123,
-      name: "test1",
-      kind: RankingKind.community,
-    ),
-    Ranking(
-      id: 1,
-      rank: 2,
-      currentPixelCount: 123,
-      name: "test2",
-      kind: RankingKind.community,
-    ),
-    Ranking(
-      id: 1,
-      rank: 3,
-      currentPixelCount: 123,
-      name: "test3",
-      kind: RankingKind.community,
-    ),
-    Ranking(
-      id: 1,
-      rank: 4,
-      currentPixelCount: 123,
-      name: "test4",
-      kind: RankingKind.community,
-    ),
-    Ranking(
-      id: 1,
-      rank: 5,
-      currentPixelCount: 123,
-      name: "test5",
-      kind: RankingKind.community,
-    ),
-  ].obs;
+  final RxList members = [].obs;
+
+  final BottomSheetController bottomSheetController =
+      Get.find<BottomSheetController>();
 
   init(int communityId) async {
     Community community = await communityService.getCommunityInfo(communityId);
     name.value = community.name;
     imageUrl.value = community.backgroundImageUrl;
+    this.communityId.value = communityId;
     memberCount.value = community.memberCount;
     communityColor.value = community.communityColor;
     communityRanking.value = community.communityRanking;
@@ -69,14 +38,25 @@ class CommunityInfoController extends GetxController {
     accumulatePixelCount.value = community.accumulatePixelCount;
     maxPixelCount.value = community.maxPixelCount;
     maxRanking.value = community.maxRanking;
+    List<Ranking> members = await communityService.getMembers(communityId, 5);
+    this.members.assignAll(members);
     isLoading.value = false;
   }
 
   signUpCommunity() async {
-    // ToDo : 그룹 가입 구현
-    MyPageController myPageController = Get.find<MyPageController>();
-    CommunityController communityController = Get.find<CommunityController>();
-    await myPageController.updateUserInfo();
-    communityController.updateCommunityInfo();
+    bottomSheetController.minimize();
+    Get.bottomSheet(
+      CommunitySignInBottomSheet(
+        communityName: name.value,
+        communityImageUrl: imageUrl.value,
+        communityId: communityId.value,
+      ),
+      backgroundColor: AppColors.backgroundSecondary,
+      enterBottomSheetDuration: Duration(milliseconds: 100),
+      exitBottomSheetDuration: Duration(milliseconds: 100),
+      isScrollControlled: true,
+    );
   }
+
+  void signInBottomSheet() {}
 }

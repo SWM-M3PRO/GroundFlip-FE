@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 
-import '../enums/ranking_kind.dart';
 import '../models/community.dart';
 import '../models/ranking.dart';
 import '../service/community_service.dart';
@@ -23,43 +22,7 @@ class CommunityController extends GetxController {
   final RxBool isJoin = true.obs;
   final RxBool isLoading = true.obs;
 
-  final RxList members = [
-    Ranking(
-      id: 1,
-      rank: 1,
-      currentPixelCount: 123,
-      name: "test1",
-      kind: RankingKind.community,
-    ),
-    Ranking(
-      id: 1,
-      rank: 2,
-      currentPixelCount: 123,
-      name: "test2",
-      kind: RankingKind.community,
-    ),
-    Ranking(
-      id: 1,
-      rank: 3,
-      currentPixelCount: 123,
-      name: "test3",
-      kind: RankingKind.community,
-    ),
-    Ranking(
-      id: 1,
-      rank: 4,
-      currentPixelCount: 123,
-      name: "test4",
-      kind: RankingKind.community,
-    ),
-    Ranking(
-      id: 1,
-      rank: 5,
-      currentPixelCount: 123,
-      name: "test5",
-      kind: RankingKind.community,
-    ),
-  ].obs;
+  final RxList members = [].obs;
 
   init() async {
     MyPageController myPageController = Get.find<MyPageController>();
@@ -68,6 +31,11 @@ class CommunityController extends GetxController {
     } else {
       await updateCommunityInfo();
     }
+  }
+
+  updateCommunityInfoWithDelay() async {
+    await Future.delayed(Duration(seconds: 1));
+    await updateCommunityInfo();
   }
 
   updateCommunityInfo() async {
@@ -85,13 +53,23 @@ class CommunityController extends GetxController {
     accumulatePixelCount.value = community.accumulatePixelCount;
     maxPixelCount.value = community.maxPixelCount;
     maxRanking.value = community.maxRanking;
+    await updateCommunityMember();
     isLoading.value = false;
+  }
+
+  updateCommunityMember() async {
+    List<Ranking> members =
+        await communityService.getMembers(communityId.value, 5);
+    this.members.assignAll(members);
   }
 
   quitCommunity() {
     Get.bottomSheet(
       SignOutBottomSheet(
-          name: name.value, profileImageUrl: imageUrl.value, onTap: signOut),
+        name: name.value,
+        profileImageUrl: imageUrl.value,
+        onTap: signOut,
+      ),
       isScrollControlled: true,
     );
   }
@@ -104,11 +82,13 @@ class CommunityController extends GetxController {
       isJoin.value = false;
       Get.back();
     } catch (e) {
-      Get.dialog(Alert(
-        title: '회원탈퇴에 실패했습니다!',
-        content: '다시 시도 해주세요.',
-        buttonText: '확인',
-      ));
+      Get.dialog(
+        Alert(
+          title: '회원탈퇴에 실패했습니다!',
+          content: '다시 시도 해주세요.',
+          buttonText: '확인',
+        ),
+      );
     }
   }
 }
