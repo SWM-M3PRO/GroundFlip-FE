@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:pedometer/pedometer.dart';
@@ -70,7 +71,7 @@ class AndroidWalkingHandler extends TaskHandler {
   }
 
   void onStepCountError(error) {
-    currentSteps = 0;
+    debugPrint('error');
   }
 
   updateStep(StepCount event) async {
