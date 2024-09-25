@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
+import '../ranking/ranking_type_toggle_button.dart';
 
 class MapAppBar extends StatelessWidget {
   const MapAppBar({super.key});
@@ -24,18 +24,7 @@ class RankingAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.background,
-      actions: [
-        IconButton(
-          icon: Icon(Icons.info_outline),
-          color: AppColors.buttonColor,
-          onPressed: () {
-            launchUrl(Uri.parse(rankingGuideUrl));
-          },
-        ),
-      ],
-      title: AppBarTitle(title: "주간 랭킹"),
-      // Todo: 그룹 기능 구현 시 활성화
-      // title: RankingTypeToggleButton(),
+      title: RankingTypeToggleButton(),
     );
   }
 }
@@ -45,10 +34,7 @@ class GroupAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: AppColors.background,
-      title: AppBarTitle(title: "그룹"),
-    );
+    return Container();
   }
 }
 

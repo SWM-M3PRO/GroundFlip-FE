@@ -2,6 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../screens/community_screen.dart';
 import '../screens/map_screen.dart';
 import '../screens/my_page_screen.dart';
 import '../screens/ranking_screen.dart';
@@ -13,16 +14,18 @@ class NavigationController extends GetxController {
   final RankingController rankingController = Get.find<RankingController>();
   final MapController mapController = Get.find<MapController>();
   final RxInt selectedIndex = 0.obs;
+
   static List<Widget> tabPages = <Widget>[
     const MapScreen(),
     const RankingScreen(),
-    // const GroupScreen(),
+    const CommunityScreen(),
     const MyPageScreen(),
   ];
+
   static List<Widget> appBars = <Widget>[
     const MapAppBar(),
     const RankingAppBar(),
-    // const GroupAppBar(),
+    const GroupAppBar(),
     const MyPageAppBar(),
   ];
 
@@ -43,7 +46,7 @@ class NavigationController extends GetxController {
       case 1:
         analytics.logScreenView(screenName: "ranking_screen");
         break;
-      case 2:
+      case 3:
         analytics.logScreenView(screenName: "mypage_screen");
         break;
     }

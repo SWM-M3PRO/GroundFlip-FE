@@ -8,6 +8,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../controllers/bottom_sheet_controller.dart';
 import '../controllers/map_controller.dart';
 import '../controllers/pixel_info_controller.dart';
+import '../models/community_mode_pixel.dart';
+import '../models/community_mode_pixel_info.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_history_pixel_info.dart';
 import '../models/individual_mode_pixel.dart';
@@ -107,6 +109,34 @@ class Pixel extends Polygon {
                 .getIndividualModePixelInfo(pixelId);
         Get.find<BottomSheetController>()
             .showIndividualModePixelInfo(pixelInfo, pixelId);
+      },
+    );
+  }
+
+  static Pixel fromCommunityModePixel({
+    required CommunityModePixel pixel,
+  }) {
+    return Pixel(
+      x: pixel.x,
+      y: pixel.y,
+      pixelId: pixel.pixelId,
+      polygonId: pixel.pixelId.toString(),
+      points: _getRectangleFromLatLng(
+        topLeftPoint: LatLng(pixel.latitude, pixel.longitude),
+      ),
+      fillColor: Color(pixel.communityColor)
+          .withOpacity(0.3 + (Random().nextDouble() * (0.6 - 0.3))),
+      strokeColor: Color(pixel.communityColor),
+      strokeWidth: defaultStrokeWidth,
+      customOnTap: (int pixelId) async {
+        FirebaseAnalytics.instance.logEvent(name: "community_mode_pixel_click");
+
+        Get.find<MapController>().changePixelToOnTabState(pixelId);
+
+        CommunityModePixelInfo pixelInfo = await Get.find<PixelInfoController>()
+            .getCommunityModePixelInfo(pixelId);
+        Get.find<BottomSheetController>()
+            .showCommunityModePixelInfo(pixelInfo, pixelId);
       },
     );
   }
