@@ -98,6 +98,11 @@ class TextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w500,
   );
+  static TextStyle fs14w600cTextSecondary = TextStyle(
+    color: AppColors.textSecondary,
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+  );
 
   static TextStyle fs14w400cTextSecondary = TextStyle(
     color: AppColors.textSecondary,

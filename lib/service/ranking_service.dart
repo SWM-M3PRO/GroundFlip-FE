@@ -22,7 +22,7 @@ class RankingService {
       },
     );
 
-    return Ranking.listFromJson(response.data['data']);
+    return Ranking.listFromJsonUser(response.data['data']);
   }
 
   getUserRanking(int userId, DateTime lookupDate) async {
@@ -34,6 +34,39 @@ class RankingService {
       },
     );
 
-    return Ranking.fromJson(response.data['data']);
+    return Ranking.fromJsonUser(response.data['data']);
+  }
+
+  getAllCommunityRanking(DateTime lookupDate) async {
+    var response = await dio.get(
+      '/ranking/community',
+      queryParameters: {
+        'lookup-date':
+            '${lookupDate.year}-${lookupDate.month.toString().padLeft(2, '0')}-${lookupDate.day.toString().padLeft(2, '0')}',
+      },
+    );
+
+    return Ranking.listFromJsonCommunity(response.data['data']);
+  }
+
+  getCommunityRanking(int? communityId, DateTime lookupDate) async {
+    if (communityId == null) {
+      return Ranking.fromJsonCommunity({
+        "communityId": 1,
+        "name": "가입한 그룹이 없습니다.",
+        "rank": null,
+        "profileImageUrl": null,
+        "currentPixelCount": null,
+      });
+    }
+    var response = await dio.get(
+      '/ranking/community/${communityId.toString()}',
+      queryParameters: {
+        'lookup-date':
+            '${lookupDate.year}-${lookupDate.month.toString().padLeft(2, '0')}-${lookupDate.day.toString().padLeft(2, '0')}',
+      },
+    );
+
+    return Ranking.fromJsonCommunity(response.data['data']);
   }
 }

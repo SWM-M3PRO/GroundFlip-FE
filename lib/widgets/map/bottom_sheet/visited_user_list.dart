@@ -7,7 +7,7 @@ import '../../../constants/text_styles.dart';
 import '../../../models/individual_mode_pixel_info.dart';
 
 class VisitedUserList extends StatelessWidget {
-  final PixelOwnerUser pixelOwnerUser;
+  final PixelOwner pixelOwnerUser;
   final List<VisitList> visitList;
 
   const VisitedUserList({
@@ -40,7 +40,7 @@ class OwnerInfo extends StatelessWidget {
     required this.pixelOwnerUser,
   });
 
-  final PixelOwnerUser pixelOwnerUser;
+  final PixelOwner pixelOwnerUser;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class OwnerInfo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    pixelOwnerUser.nickname ?? "알 수 없음",
+                    pixelOwnerUser.name ?? "알 수 없음",
                     style: TextStyles.fs17w600cTextPrimary,
                   ),
                   Row(
@@ -149,7 +149,7 @@ class VisitedUserListElement extends StatelessWidget {
             SizedBox(width: 10),
             Expanded(
               child: Text(
-                visitedUser.nickname ?? "알 수 없음",
+                visitedUser.name ?? "알 수 없음",
                 style: TextStyles.fs17w600cTextPrimary,
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../enums/pixel_mode.dart';
+import '../models/community_mode_pixel_info.dart';
 import '../models/individual_history_pixel_info.dart';
 import '../models/individual_mode_pixel_info.dart';
 import '../service/pixel_service.dart';
@@ -69,6 +70,30 @@ class BottomSheetController extends GetxController {
     mode.value = 2;
   }
 
+  void showCommunityModePixelInfo(
+    CommunityModePixelInfo pixelInfo,
+    int pixelId,
+  ) {
+    mode.value = 2;
+    changeVar.value = changeVar.value ? false : true;
+    draggableController.animateTo(
+      0.6,
+      duration: Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
+    );
+    currentHeader = PixelInfoHeader(
+      pixelId: pixelId,
+      address: pixelInfo.address,
+      visitCount: pixelInfo.visitCount!,
+      mode: PixelMode.individualMode,
+    );
+    currentBody = VisitedUserList(
+      pixelOwnerUser: pixelInfo.pixelOwnerCommunity!,
+      visitList: pixelInfo.visitList ?? [],
+    );
+    mode.value = 2;
+  }
+
   minimize() {
     currentHeader = StepStats();
     currentBody = StepStatsBody();
@@ -78,7 +103,6 @@ class BottomSheetController extends GetxController {
       duration: Duration(milliseconds: 200),
       curve: Curves.easeInOut,
     );
-
   }
 
   void changeStepStatIfMinimized() {
