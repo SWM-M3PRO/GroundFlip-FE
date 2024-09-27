@@ -85,9 +85,8 @@ class MapController extends SuperController {
     super.onInit();
     await _loadMapStyle();
     await initCurrentLocation();
-    _updateLatestPixel();
+    latestPixel = {'x': 0, 'y': 0};
     await updateCurrentPixel();
-    await occupyPixel();
     updatePixels();
     _trackUserLocation();
     trackPixels();
