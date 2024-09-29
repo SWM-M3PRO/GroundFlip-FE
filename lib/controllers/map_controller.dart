@@ -55,7 +55,8 @@ class MapController extends SuperController {
 
   Rx<PixelMode> currentPixelMode = PixelMode.individualMode.obs;
   String? currentPeriod;
-  RxList<Pixel> pixels = <Pixel>[].obs;
+  RxList<Pixel> visiblePixels = <Pixel>[].obs;
+  List<Pixel> pixelCache = [];
   RxList<Marker> markers = <Marker>[].obs;
   RxBool isLoading = true.obs;
   final RxInt selectedMode = 1.obs;
@@ -232,7 +233,7 @@ class MapController extends SuperController {
     mapStyle = await rootBundle.loadString(darkMapStylePath);
   }
 
-  Future<void> _updateIndividualHistoryPixels(int radius) async {
+  Future<void> _fetchIndividualHistoryPixels(int radius) async {
     List<IndividualHistoryPixel> individualHistoryPixels =
         await pixelService.getIndividualHistoryPixels(
       currentLatitude: currentCameraPosition.target.latitude,
@@ -242,13 +243,13 @@ class MapController extends SuperController {
       lookUpDate: currentPeriod,
     );
 
-    pixels.assignAll([
+    pixelCache = [
       for (var pixel in individualHistoryPixels)
         Pixel.fromIndividualHistoryPixel(pixel: pixel),
-    ]);
+    ];
   }
 
-  Future<void> _updateIndividualModePixel(int radius) async {
+  Future<void> _fetchIndividualModePixel(int radius) async {
     List<IndividualModePixel> individualModePixels =
         await pixelService.getIndividualModePixels(
       currentLatitude: currentCameraPosition.target.latitude,
@@ -256,16 +257,16 @@ class MapController extends SuperController {
       radius: radius,
     );
 
-    pixels.assignAll([
+    pixelCache = [
       for (var pixel in individualModePixels)
         Pixel.fromIndividualModePixel(
           pixel: pixel,
           isMyPixel: (pixel.userId == UserManager().getUserId()),
         ),
-    ]);
+    ];
   }
 
-  Future<void> _updateCommunityModePixel(int radius) async {
+  Future<void> _fetchCommunityModePixel(int radius) async {
     List<CommunityModePixel> communityModePixels =
         await pixelService.getCommunityModePixels(
       currentLatitude: currentCameraPosition.target.latitude,
@@ -273,17 +274,17 @@ class MapController extends SuperController {
       radius: radius,
     );
 
-    pixels.assignAll([
+    pixelCache = [
       for (var pixel in communityModePixels)
         Pixel.fromCommunityModePixel(
           pixel: pixel,
         ),
-    ]);
+    ];
   }
 
   void trackPixels() {
     _updatePixelTimer =
-        Timer.periodic(const Duration(seconds: 20), (timer) async {
+        Timer.periodic(const Duration(seconds: 10), (timer) async {
       UserManager().updateSecureStorage();
       updatePixels();
     });
@@ -291,31 +292,33 @@ class MapController extends SuperController {
 
   void updatePixels() async {
     if (_isMapOverZoomedOut()) {
-      pixels.value = [];
+      visiblePixels.value = [];
       return;
     }
 
     LatLngBounds currentMapBounds = await googleMapController!.getVisibleRegion();
 
     if (isCurrentBoundsWithinExpandedBounds(currentMapBounds, lastUpdateLatLngBounds!)) {
+      refreshRenderedPixel();
       return;
     }
 
-    lastUpdateLatLngBounds = expandBounds(currentMapBounds, 5);
+    lastUpdateLatLngBounds = expandBounds(currentMapBounds, 3);
 
     int currentMapRadius = await _getCurrentRadiusOfMap();
-    int radius = 5 * currentMapRadius;
+    int radius = 3 * currentMapRadius;
     switch (currentPixelMode.value) {
       case PixelMode.individualMode:
-        _updateIndividualModePixel(radius);
+        _fetchIndividualModePixel(radius);
         break;
       case PixelMode.individualHistory:
-        _updateIndividualHistoryPixels(radius);
+        _fetchIndividualHistoryPixels(radius);
         break;
       case PixelMode.groupMode:
-        _updateCommunityModePixel(radius);
+        _fetchCommunityModePixel(radius);
         break;
     }
+    refreshRenderedPixel();
     await updateCurrentPixel();
   }
 
@@ -431,11 +434,11 @@ class MapController extends SuperController {
     }
 
     lastOnTabPixel = Pixel.clonePixel(
-      pixels.firstWhere((pixel) => pixel.pixelId == pixelId),
+      visiblePixels.firstWhere((pixel) => pixel.pixelId == pixelId),
     );
     Pixel newPixel = Pixel.createOnTabStatePixel(lastOnTabPixel);
-    pixels.removeWhere((pixel) => pixel.pixelId == pixelId);
-    pixels.add(newPixel);
+    visiblePixels.removeWhere((pixel) => pixel.pixelId == pixelId);
+    visiblePixels.add(newPixel);
 
     isBottomSheetShowUp = true;
 
@@ -456,8 +459,8 @@ class MapController extends SuperController {
   }
 
   void changePixelToNormalState() {
-    pixels.removeWhere((pixel) => pixel.pixelId == lastOnTabPixel.pixelId);
-    pixels.add(lastOnTabPixel);
+    visiblePixels.removeWhere((pixel) => pixel.pixelId == lastOnTabPixel.pixelId);
+    visiblePixels.add(lastOnTabPixel);
   }
 
   startExplore() {
@@ -495,4 +498,25 @@ class MapController extends SuperController {
         currentBounds.southwest.longitude >= expandedBounds.southwest.longitude &&
         currentBounds.northeast.longitude <= expandedBounds.northeast.longitude;
   }
+
+  bool isPixelInCurrentBounds(Pixel pixel, LatLngBounds bounds) {
+    return isLatLngInBounds(pixel.points[0], bounds);
+  }
+
+  bool isLatLngInBounds(LatLng latLng, LatLngBounds bounds) {
+    return latLng.latitude >= bounds.southwest.latitude &&
+        latLng.latitude <= bounds.northeast.latitude &&
+        latLng.longitude >= bounds.southwest.longitude &&
+        latLng.longitude <= bounds.northeast.longitude;
+  }
+
+  void refreshRenderedPixel() async {
+    LatLngBounds currentBounds = await googleMapController!.getVisibleRegion();
+
+    LatLngBounds expandedBounds = expandBounds(currentBounds, 1.5);
+    visiblePixels.assignAll(
+        pixelCache.where((pixel) => isPixelInCurrentBounds(pixel, expandedBounds)).toList(),
+    );
+  }
+
 }
