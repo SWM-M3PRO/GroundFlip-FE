@@ -40,7 +40,8 @@ class MapController extends SuperController {
   static const String darkMapStylePath =
       'assets/map_style/dark_map_style_with_landmarks.txt';
   static const String userMarkerId = 'USER';
-  static const double maxZoomOutLevel = 13.0;
+  static const double maxZoomOutLevel = 13.5;
+  static const double defaultExpandFactor = 2;
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
 
@@ -74,14 +75,13 @@ class MapController extends SuperController {
   late Pixel lastOnTabPixel;
   bool isBottomSheetShowUp = false;
 
-  Timer? _cameraIdleTimer;
   Timer? _updatePixelTimer;
 
   RxInt elapsedSeconds = 0.obs; // 경과 시간을 초 단위로 저장
   Timer? _timer;
   RxBool isRunning = false.obs;
 
-  LatLngBounds? lastUpdateLatLngBounds;
+  LatLngBounds? lastFetchedLatLngBounds;
 
   @override
   void onInit() async {
@@ -90,12 +90,11 @@ class MapController extends SuperController {
     await initCurrentLocation();
     _updateLatestPixel();
     await updateCurrentPixel();
-    await occupyPixel();
-    lastUpdateLatLngBounds = LatLngBounds(northeast: LatLng(0, 0), southwest: LatLng(0, 0));
-    updatePixels();
+    lastFetchedLatLngBounds = LatLngBounds(northeast: LatLng(0, 0), southwest: LatLng(0, 0));
     _trackUserLocation();
     trackPixels();
     lastOnTabPixel = Pixel.createEmptyPixel();
+    updatePixels();
   }
 
   @override
@@ -147,7 +146,9 @@ class MapController extends SuperController {
 
   void updateCameraPosition(CameraPosition newCameraPosition) async {
     currentCameraPosition = newCameraPosition;
-    updatePixels();
+    if (!isBottomSheetShowUp) {
+      updatePixels();
+    }
   }
 
   setCameraOnCurrentLocation() {
@@ -280,7 +281,9 @@ class MapController extends SuperController {
     _updatePixelTimer =
         Timer.periodic(const Duration(seconds: 10), (timer) async {
       UserManager().updateSecureStorage();
-      updatePixels();
+      await fetchPixels();
+      refreshRenderedPixel();
+      await updateCurrentPixel();
     });
   }
 
@@ -292,15 +295,18 @@ class MapController extends SuperController {
 
     LatLngBounds currentMapBounds = await googleMapController!.getVisibleRegion();
 
-    if (isCurrentBoundsWithinExpandedBounds(currentMapBounds, lastUpdateLatLngBounds!)) {
-      refreshRenderedPixel();
-      return;
+    if (!isCurrentBoundsWithinExpandedBounds(currentMapBounds, lastFetchedLatLngBounds!)) {
+      lastFetchedLatLngBounds = expandBounds(currentMapBounds, defaultExpandFactor);
+      await fetchPixels();
     }
 
-    lastUpdateLatLngBounds = expandBounds(currentMapBounds, 3);
+    refreshRenderedPixel();
+    await updateCurrentPixel();
+  }
 
+  Future<void> fetchPixels() async {
     int currentMapRadius = await _getCurrentRadiusOfMap();
-    int radius = 3 * currentMapRadius;
+    int radius = (defaultExpandFactor * currentMapRadius).round();
     switch (currentPixelMode.value) {
       case PixelMode.individualMode:
         _fetchIndividualModePixel(radius);
@@ -312,8 +318,6 @@ class MapController extends SuperController {
         _fetchCommunityModePixel(radius);
         break;
     }
-    refreshRenderedPixel();
-    await updateCurrentPixel();
   }
 
   bool _isMapOverZoomedOut() => currentCameraPosition.zoom < maxZoomOutLevel;
@@ -436,7 +440,6 @@ class MapController extends SuperController {
 
     isBottomSheetShowUp = true;
 
-    _cameraIdleTimer?.cancel();
     _updatePixelTimer?.cancel();
 
     googleMapController?.animateCamera(
@@ -446,7 +449,7 @@ class MapController extends SuperController {
             newPixel.points[0].latitude - Pixel.latPerPixel * 6,
             newPixel.points[0].longitude,
           ),
-          zoom: 16.0,
+          zoom: currentCameraPosition.zoom,
         ),
       ),
     );
@@ -507,7 +510,7 @@ class MapController extends SuperController {
   void refreshRenderedPixel() async {
     LatLngBounds currentBounds = await googleMapController!.getVisibleRegion();
 
-    LatLngBounds expandedBounds = expandBounds(currentBounds, 1.5);
+    LatLngBounds expandedBounds = expandBounds(currentBounds, 1.2);
     visiblePixels.assignAll(
         pixelCache.where((pixel) => isPixelInCurrentBounds(pixel, expandedBounds)).toList(),
     );
