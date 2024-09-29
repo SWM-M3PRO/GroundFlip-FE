@@ -91,10 +91,10 @@ class MapController extends SuperController {
     _updateLatestPixel();
     await updateCurrentPixel();
     lastFetchedLatLngBounds = LatLngBounds(northeast: LatLng(0, 0), southwest: LatLng(0, 0));
+    await updatePixels();
     _trackUserLocation();
     trackPixels();
     lastOnTabPixel = Pixel.createEmptyPixel();
-    updatePixels();
   }
 
   @override
@@ -287,7 +287,7 @@ class MapController extends SuperController {
     });
   }
 
-  void updatePixels() async {
+  Future<void> updatePixels() async {
     if (_isMapOverZoomedOut()) {
       visiblePixels.value = [];
       return;
