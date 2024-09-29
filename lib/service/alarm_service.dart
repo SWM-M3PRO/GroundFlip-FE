@@ -25,10 +25,7 @@ class AlarmService {
           await secureStorage.secureStorage.write(key: currentStepKey, value: '0');
           AndroidWalkingHandler.currentSteps = 0;
 
-          FlutterForegroundTask.updateService(
-            notificationTitle: "걸음수",
-            notificationText: 0.toString(),
-          );
+          FlutterForegroundTask.restartService();
         }
       }
     }

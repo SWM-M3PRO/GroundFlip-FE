@@ -71,7 +71,7 @@ class AndroidWalkingHandler extends TaskHandler {
   }
 
   void onStepCountError(error) {
-    debugPrint('error');
+    FlutterForegroundTask.restartService();
   }
 
   updateStep(StepCount event) async {
