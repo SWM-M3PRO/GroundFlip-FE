@@ -147,7 +147,7 @@ class MapController extends SuperController {
 
   void updateCameraPosition(CameraPosition newCameraPosition) async {
     currentCameraPosition = newCameraPosition;
-    _cameraIdleTimer?.cancel();
+    updatePixels();
   }
 
   setCameraOnCurrentLocation() {
