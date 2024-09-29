@@ -51,14 +51,13 @@ class MapScreen extends StatelessWidget {
                       zoom: 16.0,
                     ),
                     onCameraMove: mapController.updateCameraPosition,
-                    onCameraIdle: mapController.onCameraIdle,
                     onMapCreated: (GoogleMapController ctrl) {
                       mapController.googleMapController = ctrl;
                     },
                     myLocationEnabled: true,
                     myLocationButtonEnabled: false,
                     style: mapController.mapStyle,
-                    polygons: Set<Polygon>.of(mapController.pixels),
+                    polygons: Set<Polygon>.of(mapController.visiblePixels),
                   ),
                 );
               }),

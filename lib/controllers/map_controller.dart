@@ -145,12 +145,6 @@ class MapController extends SuperController {
     return selectedPeriod.value;
   }
 
-  void onCameraIdle() {
-    if (!isBottomSheetShowUp) {
-      _cameraIdleTimer = Timer(Duration(milliseconds: 300), updatePixels);
-    }
-  }
-
   void updateCameraPosition(CameraPosition newCameraPosition) async {
     currentCameraPosition = newCameraPosition;
     _cameraIdleTimer?.cancel();
