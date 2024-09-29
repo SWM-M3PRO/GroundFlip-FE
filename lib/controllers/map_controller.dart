@@ -40,7 +40,7 @@ class MapController extends SuperController {
   static const String darkMapStylePath =
       'assets/map_style/dark_map_style_with_landmarks.txt';
   static const String userMarkerId = 'USER';
-  static const double maxZoomOutLevel = 14.0;
+  static const double maxZoomOutLevel = 13.0;
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
 
