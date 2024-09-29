@@ -80,6 +80,8 @@ class MapController extends SuperController {
   Timer? _timer;
   RxBool isRunning = false.obs;
 
+  LatLngBounds? lastUpdateLatLngBounds;
+
   @override
   void onInit() async {
     super.onInit();
@@ -88,6 +90,7 @@ class MapController extends SuperController {
     _updateLatestPixel();
     await updateCurrentPixel();
     await occupyPixel();
+    lastUpdateLatLngBounds = LatLngBounds(northeast: LatLng(0, 0), southwest: LatLng(0, 0));
     updatePixels();
     _trackUserLocation();
     trackPixels();
@@ -280,7 +283,7 @@ class MapController extends SuperController {
 
   void trackPixels() {
     _updatePixelTimer =
-        Timer.periodic(const Duration(seconds: 10), (timer) async {
+        Timer.periodic(const Duration(seconds: 20), (timer) async {
       UserManager().updateSecureStorage();
       updatePixels();
     });
@@ -292,7 +295,16 @@ class MapController extends SuperController {
       return;
     }
 
-    int radius = await _getCurrentRadiusOfMap();
+    LatLngBounds currentMapBounds = await googleMapController!.getVisibleRegion();
+
+    if (isCurrentBoundsWithinExpandedBounds(currentMapBounds, lastUpdateLatLngBounds!)) {
+      return;
+    }
+
+    lastUpdateLatLngBounds = expandBounds(currentMapBounds, 5);
+
+    int currentMapRadius = await _getCurrentRadiusOfMap();
+    int radius = 5 * currentMapRadius;
     switch (currentPixelMode.value) {
       case PixelMode.individualMode:
         _updateIndividualModePixel(radius);
@@ -465,5 +477,22 @@ class MapController extends SuperController {
 
   Future<void> deleteMyPlaceFromLocalStorage(String place) async {
     await box.remove(place);
+  }
+
+  LatLngBounds expandBounds(LatLngBounds bounds, double factor) {
+    final latDiff = (bounds.northeast.latitude - bounds.southwest.latitude) * (factor - 1) / 2;
+    final lngDiff = (bounds.northeast.longitude - bounds.southwest.longitude) * (factor - 1) / 2;
+
+    final newNorthEast = LatLng(bounds.northeast.latitude + latDiff, bounds.northeast.longitude + lngDiff);
+    final newSouthWest = LatLng(bounds.southwest.latitude - latDiff, bounds.southwest.longitude - lngDiff);
+
+    return LatLngBounds(northeast: newNorthEast, southwest: newSouthWest);
+  }
+
+  bool isCurrentBoundsWithinExpandedBounds(LatLngBounds currentBounds,LatLngBounds expandedBounds) {
+    return currentBounds.southwest.latitude >= expandedBounds.southwest.latitude &&
+        currentBounds.northeast.latitude <= expandedBounds.northeast.latitude &&
+        currentBounds.southwest.longitude >= expandedBounds.southwest.longitude &&
+        currentBounds.northeast.longitude <= expandedBounds.northeast.longitude;
   }
 }
