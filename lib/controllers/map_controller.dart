@@ -89,7 +89,7 @@ class MapController extends SuperController {
     await initCurrentLocation();
     latestPixel = {'x': 0, 'y': 0};
     await updateCurrentPixel();
-    updatePixels();
+    updateMap();
     _trackUserLocation();
     trackPixels();
     lastOnTabPixel = Pixel.createEmptyPixel();
@@ -144,7 +144,7 @@ class MapController extends SuperController {
 
   void onCameraIdle() {
     if (!isBottomSheetShowUp) {
-      _cameraIdleTimer = Timer(Duration(milliseconds: 300), updatePixels);
+      _cameraIdleTimer = Timer(Duration(milliseconds: 300), updateMap);
     }
   }
 
@@ -283,16 +283,23 @@ class MapController extends SuperController {
     _updatePixelTimer =
         Timer.periodic(const Duration(seconds: 10), (timer) async {
       UserManager().updateSecureStorage();
-      updatePixels();
+      updateMap();
     });
   }
 
-  void updatePixels() async {
+  void updateMap() async {
     if (_isMapOverZoomedOut()) {
       pixels.value = [];
+      await updateClusteredPixelCountMarkers();
       return;
+    } else {
+      markers.clear();
+      await updatePixels();
+      await updateCurrentPixel();
     }
+  }
 
+  Future<void> updatePixels() async {
     int radius = await _getCurrentRadiusOfMap();
     switch (currentPixelMode.value) {
       case PixelMode.individualMode:
@@ -305,7 +312,6 @@ class MapController extends SuperController {
         _updateCommunityModePixel(radius);
         break;
     }
-    await updateCurrentPixel();
   }
 
   Future<void> updateClusteredPixelCountMarkers() async {
@@ -328,7 +334,7 @@ class MapController extends SuperController {
           Get.find<MyPageController>().currentUserInfo.value.communityId,
     );
     if (!isBottomSheetShowUp) {
-      updatePixels();
+      updateMap();
     }
     await updateCurrentPixel();
   }
@@ -350,7 +356,7 @@ class MapController extends SuperController {
 
     isBottomSheetShowUp = false;
     lastOnTabPixel = Pixel.createEmptyPixel();
-    updatePixels();
+    updateMap();
     trackPixels();
   }
 
@@ -364,7 +370,7 @@ class MapController extends SuperController {
       currentPeriod = DateHandler.getNowString();
     }
     bottomSheetController.minimize();
-    updatePixels();
+    updateMap();
   }
 
   openFilterBottomSheet() {
