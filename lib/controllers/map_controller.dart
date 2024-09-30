@@ -315,11 +315,36 @@ class MapController extends SuperController {
   }
 
   Future<void> updateClusteredPixelCountMarkers() async {
-    List<Region> regions = await pixelService.getIndividualModeClusteredPixels(
-      currentLatitude: currentCameraPosition.target.latitude,
-      currentLongitude: currentCameraPosition.target.longitude,
-      radius: 1000,
-    );
+    int radius = await _getCurrentRadiusOfMap();
+    double currentLatitude = currentCameraPosition.target.latitude;
+    double currentLongitude = currentCameraPosition.target.longitude;
+
+    List<Region> regions;
+    switch (currentPixelMode.value) {
+      case PixelMode.individualMode:
+        regions = await pixelService.getIndividualModeClusteredPixels(
+          currentLatitude: currentLatitude,
+          currentLongitude: currentLongitude,
+          radius: radius,
+        );
+        break;
+      case PixelMode.individualHistory:
+        regions = await pixelService.getIndividualHistoryClusteredPixels(
+          currentLatitude: currentLatitude,
+          currentLongitude: currentLongitude,
+          userId: UserManager().getUserId()!,
+          radius: radius,
+        );
+        break;
+      case PixelMode.groupMode:
+        regions = await pixelService.getCommunityModeClusteredPixels(
+          currentLatitude: currentLatitude,
+          currentLongitude: currentLongitude,
+          radius: radius,
+        );
+        break;
+    }
+
     markers.assignAll(await createClusteredPixelMarker(regions));
   }
 
