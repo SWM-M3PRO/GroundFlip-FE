@@ -81,6 +81,25 @@ class PixelService {
     return IndividualHistoryPixel.listFromJson(response.data['data']);
   }
 
+  Future<List<Region>> getIndividualHistoryClusteredPixels({
+    required double currentLatitude,
+    required double currentLongitude,
+    required int userId,
+    int radius = 1000,
+  }) async {
+    var response = await dio.get(
+      '/pixels/individual-history/clustered',
+      queryParameters: {
+        'current-latitude': currentLatitude,
+        'current-longitude': currentLongitude,
+        'user-id': userId,
+        'radius': radius,
+      },
+    );
+
+    return Region.listFromJson(response.data['data']);
+  }
+
   Future<List<CommunityModePixel>> getCommunityModePixels({
     required double currentLatitude,
     required double currentLongitude,
@@ -96,6 +115,23 @@ class PixelService {
     );
 
     return CommunityModePixel.listFromJson(response.data['data']);
+  }
+
+  Future<List<Region>> getCommunityModeClusteredPixels({
+    required double currentLatitude,
+    required double currentLongitude,
+    int radius = 1000,
+  }) async {
+    var response = await dio.get(
+      '/pixels/community-mode/clustered',
+      queryParameters: {
+        'current-latitude': currentLatitude,
+        'current-longitude': currentLongitude,
+        'radius': radius,
+      },
+    );
+
+    return Region.listFromJson(response.data['data']);
   }
 
   Future<IndividualModePixelInfo> getIndividualModePixelInfo({
