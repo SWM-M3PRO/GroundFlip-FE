@@ -8,6 +8,7 @@ import '../models/individual_history_pixel_info.dart';
 import '../models/individual_mode_pixel.dart';
 import '../models/individual_mode_pixel_info.dart';
 import '../models/pixel_occupy_request.dart';
+import '../models/region.dart';
 import '../utils/dio_service.dart';
 
 class PixelService {
@@ -40,6 +41,23 @@ class PixelService {
     );
 
     return IndividualModePixel.listFromJson(response.data['data']);
+  }
+
+  Future<List<Region>> getIndividualModeClusteredPixels({
+    required double currentLatitude,
+    required double currentLongitude,
+    int radius = 1000,
+  }) async {
+    var response = await dio.get(
+      '/pixels/individual-mode/clustered',
+      queryParameters: {
+        'current-latitude': currentLatitude,
+        'current-longitude': currentLongitude,
+        'radius': radius,
+      },
+    );
+
+    return Region.listFromJson(response.data['data']);
   }
 
   Future<List<IndividualHistoryPixel>> getIndividualHistoryPixels({
