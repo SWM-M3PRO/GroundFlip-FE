@@ -420,7 +420,10 @@ class MapController extends SuperController {
           position: LatLng(regions[i].latitude, regions[i].longitude),
           icon: markerIcon,
           onTap: () {
-            expandMap(LatLng(regions[i].latitude, regions[i].longitude));
+            expandMap(
+              LatLng(regions[i].latitude, regions[i].longitude),
+              regions[i].regionLevel,
+            );
           },
         ),
       );
@@ -460,12 +463,13 @@ class MapController extends SuperController {
     return BitmapDescriptor.bytes(markerIcon!);
   }
 
-  void expandMap(LatLng position) {
+  void expandMap(LatLng position, String regionLevel) {
+    double zoom = regionLevel == 'CITY' ? 14.0 : 12.0;
     googleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
           target: position, // 마커 위치로 이동
-          zoom: 16.0, // 줌 레벨 설정 (필요한대로 변경 가능)
+          zoom: zoom, // 줌 레벨 설정 (필요한대로 변경 가능)
         ),
       ),
     );
