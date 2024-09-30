@@ -453,7 +453,7 @@ class MapController extends SuperController {
         .load('assets/images/count_marker/count_marker_$kind.png');
     ui.Codec codec = await ui.instantiateImageCodec(
       data.buffer.asUint8List(),
-      targetWidth: 70,
+      targetWidth: 50,
     );
     ui.FrameInfo fi = await codec.getNextFrame();
     Uint8List? markerIcon =
