@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import '../enums/pixel_mode.dart';
 import '../models/community_mode_pixel.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
+import '../models/region.dart';
 import '../models/user_pixel_count.dart';
 import '../service/community_service.dart';
 import '../service/location_service.dart';
@@ -56,7 +58,7 @@ class MapController extends SuperController {
   Rx<PixelMode> currentPixelMode = PixelMode.individualMode.obs;
   String? currentPeriod;
   RxList<Pixel> pixels = <Pixel>[].obs;
-  RxList<Marker> markers = <Marker>[].obs;
+  RxSet<Marker> markers = <Marker>{}.obs;
   RxBool isLoading = true.obs;
   final RxInt selectedMode = 1.obs;
   final RxInt selectedPeriod = 0.obs;
@@ -304,6 +306,15 @@ class MapController extends SuperController {
         break;
     }
     await updateCurrentPixel();
+  }
+
+  Future<void> updateClusteredPixelCountMarkers() async {
+    List<Region> regions = await pixelService.getIndividualModeClusteredPixels(
+      currentLatitude: currentCameraPosition.target.latitude,
+      currentLongitude: currentCameraPosition.target.longitude,
+      radius: 1000,
+    );
+    markers.assignAll(await createClusteredPixelMarker(regions));
   }
 
   bool _isMapOverZoomedOut() => currentCameraPosition.zoom < maxZoomOutLevel;
