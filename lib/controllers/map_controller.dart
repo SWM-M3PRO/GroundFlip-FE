@@ -419,6 +419,9 @@ class MapController extends SuperController {
           markerId: MarkerId('marker_${regions[i].regionName}'),
           position: LatLng(regions[i].latitude, regions[i].longitude),
           icon: markerIcon,
+          onTap: () {
+            expandMap(LatLng(regions[i].latitude, regions[i].longitude));
+          },
         ),
       );
     }
@@ -455,6 +458,17 @@ class MapController extends SuperController {
             ?.buffer
             .asUint8List();
     return BitmapDescriptor.bytes(markerIcon!);
+  }
+
+  void expandMap(LatLng position) {
+    googleMapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: position, // 마커 위치로 이동
+          zoom: 16.0, // 줌 레벨 설정 (필요한대로 변경 가능)
+        ),
+      ),
+    );
   }
 
   Future<int> _getCurrentRadiusOfMap() async {
