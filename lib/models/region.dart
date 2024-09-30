@@ -4,6 +4,7 @@ class Region {
   final double longitude;
   final String regionName;
   final int count;
+  final String regionLevel;
 
   Region({
     required this.regionId,
@@ -11,6 +12,7 @@ class Region {
     required this.longitude,
     required this.regionName,
     required this.count,
+    required this.regionLevel,
   });
 
   factory Region.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class Region {
         'longitude': var longitude,
         'regionName': var regionName,
         'count': var count,
+        'regionLevel': var regionLevel,
       } =>
         Region(
           regionId: regionId,
@@ -28,6 +31,7 @@ class Region {
           longitude: longitude,
           regionName: regionName,
           count: count,
+          regionLevel: regionLevel,
         ),
       _ => throw const FormatException('Failed to load Region')
     };
