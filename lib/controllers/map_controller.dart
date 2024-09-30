@@ -366,6 +366,55 @@ class MapController extends SuperController {
     );
   }
 
+  Future<Set<Marker>> createClusteredPixelMarker(List<Region> regions) async {
+    Set<Marker> clusteredPixelMarkers = {};
+
+    for (int i = 0; i < regions.length; i++) {
+      BytesMapBitmap markerIcon =
+          await _getClusteredPixelMarkerIcon(regions[i].count);
+      clusteredPixelMarkers.add(
+        Marker(
+          markerId: MarkerId('marker_${regions[i].regionName}'),
+          position: LatLng(regions[i].latitude, regions[i].longitude),
+          icon: markerIcon,
+        ),
+      );
+    }
+    return clusteredPixelMarkers;
+  }
+
+  Future<BytesMapBitmap> _getClusteredPixelMarkerIcon(int count) async {
+    String kind;
+    if (1 <= count && count < 5) {
+      kind = "1";
+    } else if (5 <= count && count < 10) {
+      kind = "5";
+    } else if (10 <= count && count < 50) {
+      kind = "10";
+    } else if (50 <= count && count < 100) {
+      kind = "50";
+    } else if (100 <= count && count < 500) {
+      kind = "100";
+    } else if (500 <= count && count < 1000) {
+      kind = "500";
+    } else {
+      kind = "1000";
+    }
+
+    ByteData data = await rootBundle
+        .load('assets/images/count_marker/count_marker_$kind.png');
+    ui.Codec codec = await ui.instantiateImageCodec(
+      data.buffer.asUint8List(),
+      targetWidth: 70,
+    );
+    ui.FrameInfo fi = await codec.getNextFrame();
+    Uint8List? markerIcon =
+        (await fi.image.toByteData(format: ui.ImageByteFormat.png))
+            ?.buffer
+            .asUint8List();
+    return BitmapDescriptor.bytes(markerIcon!);
+  }
+
   Future<int> _getCurrentRadiusOfMap() async {
     LatLngBounds visibleRegion = await googleMapController!.getVisibleRegion();
 
