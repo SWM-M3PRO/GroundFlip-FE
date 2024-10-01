@@ -93,6 +93,7 @@ class AndroidWalkingService implements WalkingService {
     });
   }
 
+  // ignore: unused_element
   Future<void> _initForegroundWalkingTask() async {
     if (Platform.isAndroid) {
       initForegroundTask();

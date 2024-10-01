@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../../../constants/app_colors.dart';
-import '../../../constants/text_styles.dart';
 import '../../../controllers/map_controller.dart';
-import '../../../controllers/walking_controller.dart';
 import '../../../screens/explore_mode_screen.dart';
 
 class BottomStats extends StatelessWidget {
