@@ -1,11 +1,6 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../../constants/app_colors.dart';
-import '../../constants/text_styles.dart';
-import '../../controllers/walking_controller.dart';
 
 class PixelBarChart extends StatelessWidget {
   PixelBarChart({super.key});
