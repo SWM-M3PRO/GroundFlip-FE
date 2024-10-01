@@ -55,6 +55,7 @@ class MapScreen extends StatelessWidget {
                     onMapCreated: (GoogleMapController ctrl) {
                       mapController.googleMapController = ctrl;
                     },
+                    markers: mapController.markers,
                     myLocationEnabled: true,
                     myLocationButtonEnabled: false,
                     style: mapController.mapStyle,
@@ -62,27 +63,26 @@ class MapScreen extends StatelessWidget {
                   ),
                 );
               }),
-             Positioned(
-                  right: 10,
-                  top: 110,
-                  child: Obx(() {
-                    if (mapController.currentPixelMode.value ==
-                        PixelMode.individualHistory) {
-                      return Column(
-                        children: [
-                          FilterButton(),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          MyPlaceButton(),
-                        ],
-                      );
-                    } else {
-                      return MyPlaceButton();
-                    }
-                  }),
-                ),
-
+              Positioned(
+                right: 10,
+                top: 110,
+                child: Obx(() {
+                  if (mapController.currentPixelMode.value ==
+                      PixelMode.individualHistory) {
+                    return Column(
+                      children: [
+                        FilterButton(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        MyPlaceButton(),
+                      ],
+                    );
+                  } else {
+                    return MyPlaceButton();
+                  }
+                }),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Column(
@@ -99,7 +99,9 @@ class MapScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           PixelCountInfo(count: 128),
-                          CurrentLocationButton(checkController: "map",),
+                          CurrentLocationButton(
+                            checkController: "map",
+                          ),
                         ],
                       ),
                     ),

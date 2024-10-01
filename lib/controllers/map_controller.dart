@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import '../enums/pixel_mode.dart';
 import '../models/community_mode_pixel.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
+import '../models/region.dart';
 import '../models/user_pixel_count.dart';
 import '../service/community_service.dart';
 import '../service/location_service.dart';
@@ -56,7 +58,7 @@ class MapController extends SuperController {
   Rx<PixelMode> currentPixelMode = PixelMode.individualMode.obs;
   String? currentPeriod;
   RxList<Pixel> pixels = <Pixel>[].obs;
-  RxList<Marker> markers = <Marker>[].obs;
+  RxSet<Marker> markers = <Marker>{}.obs;
   RxBool isLoading = true.obs;
   final RxInt selectedMode = 1.obs;
   final RxInt selectedPeriod = 0.obs;
@@ -87,7 +89,7 @@ class MapController extends SuperController {
     await initCurrentLocation();
     latestPixel = {'x': 0, 'y': 0};
     await updateCurrentPixel();
-    updatePixels();
+    updateMap();
     _trackUserLocation();
     trackPixels();
     lastOnTabPixel = Pixel.createEmptyPixel();
@@ -142,7 +144,7 @@ class MapController extends SuperController {
 
   void onCameraIdle() {
     if (!isBottomSheetShowUp) {
-      _cameraIdleTimer = Timer(Duration(milliseconds: 300), updatePixels);
+      _cameraIdleTimer = Timer(Duration(milliseconds: 300), updateMap);
     }
   }
 
@@ -281,16 +283,23 @@ class MapController extends SuperController {
     _updatePixelTimer =
         Timer.periodic(const Duration(seconds: 10), (timer) async {
       UserManager().updateSecureStorage();
-      updatePixels();
+      updateMap();
     });
   }
 
-  void updatePixels() async {
+  void updateMap() async {
     if (_isMapOverZoomedOut()) {
       pixels.value = [];
+      await updateClusteredPixelCountMarkers();
       return;
+    } else {
+      markers.clear();
+      await updatePixels();
+      await updateCurrentPixel();
     }
+  }
 
+  Future<void> updatePixels() async {
     int radius = await _getCurrentRadiusOfMap();
     switch (currentPixelMode.value) {
       case PixelMode.individualMode:
@@ -303,7 +312,40 @@ class MapController extends SuperController {
         _updateCommunityModePixel(radius);
         break;
     }
-    await updateCurrentPixel();
+  }
+
+  Future<void> updateClusteredPixelCountMarkers() async {
+    int radius = await _getCurrentRadiusOfMap();
+    double currentLatitude = currentCameraPosition.target.latitude;
+    double currentLongitude = currentCameraPosition.target.longitude;
+
+    List<Region> regions;
+    switch (currentPixelMode.value) {
+      case PixelMode.individualMode:
+        regions = await pixelService.getIndividualModeClusteredPixels(
+          currentLatitude: currentLatitude,
+          currentLongitude: currentLongitude,
+          radius: radius,
+        );
+        break;
+      case PixelMode.individualHistory:
+        regions = await pixelService.getIndividualHistoryClusteredPixels(
+          currentLatitude: currentLatitude,
+          currentLongitude: currentLongitude,
+          userId: UserManager().getUserId()!,
+          radius: radius,
+        );
+        break;
+      case PixelMode.groupMode:
+        regions = await pixelService.getCommunityModeClusteredPixels(
+          currentLatitude: currentLatitude,
+          currentLongitude: currentLongitude,
+          radius: radius,
+        );
+        break;
+    }
+
+    markers.assignAll(await createClusteredPixelMarker(regions));
   }
 
   bool _isMapOverZoomedOut() => currentCameraPosition.zoom < maxZoomOutLevel;
@@ -317,7 +359,7 @@ class MapController extends SuperController {
           Get.find<MyPageController>().currentUserInfo.value.communityId,
     );
     if (!isBottomSheetShowUp) {
-      updatePixels();
+      updateMap();
     }
     await updateCurrentPixel();
   }
@@ -339,7 +381,7 @@ class MapController extends SuperController {
 
     isBottomSheetShowUp = false;
     lastOnTabPixel = Pixel.createEmptyPixel();
-    updatePixels();
+    updateMap();
     trackPixels();
   }
 
@@ -353,7 +395,7 @@ class MapController extends SuperController {
       currentPeriod = DateHandler.getNowString();
     }
     bottomSheetController.minimize();
-    updatePixels();
+    updateMap();
   }
 
   openFilterBottomSheet() {
@@ -363,6 +405,73 @@ class MapController extends SuperController {
       backgroundColor: AppColors.backgroundSecondary,
       enterBottomSheetDuration: Duration(milliseconds: 100),
       exitBottomSheetDuration: Duration(milliseconds: 100),
+    );
+  }
+
+  Future<Set<Marker>> createClusteredPixelMarker(List<Region> regions) async {
+    Set<Marker> clusteredPixelMarkers = {};
+
+    for (int i = 0; i < regions.length; i++) {
+      BytesMapBitmap markerIcon =
+          await _getClusteredPixelMarkerIcon(regions[i].count);
+      clusteredPixelMarkers.add(
+        Marker(
+          markerId: MarkerId('marker_${regions[i].regionName}'),
+          position: LatLng(regions[i].latitude, regions[i].longitude),
+          icon: markerIcon,
+          onTap: () {
+            expandMap(
+              LatLng(regions[i].latitude, regions[i].longitude),
+              regions[i].regionLevel,
+            );
+          },
+        ),
+      );
+    }
+    return clusteredPixelMarkers;
+  }
+
+  Future<BytesMapBitmap> _getClusteredPixelMarkerIcon(int count) async {
+    String kind;
+    if (1 <= count && count < 5) {
+      kind = "1";
+    } else if (5 <= count && count < 10) {
+      kind = "5";
+    } else if (10 <= count && count < 50) {
+      kind = "10";
+    } else if (50 <= count && count < 100) {
+      kind = "50";
+    } else if (100 <= count && count < 500) {
+      kind = "100";
+    } else if (500 <= count && count < 1000) {
+      kind = "500";
+    } else {
+      kind = "1000";
+    }
+
+    ByteData data = await rootBundle
+        .load('assets/images/count_marker/count_marker_$kind.png');
+    ui.Codec codec = await ui.instantiateImageCodec(
+      data.buffer.asUint8List(),
+      targetWidth: 50,
+    );
+    ui.FrameInfo fi = await codec.getNextFrame();
+    Uint8List? markerIcon =
+        (await fi.image.toByteData(format: ui.ImageByteFormat.png))
+            ?.buffer
+            .asUint8List();
+    return BitmapDescriptor.bytes(markerIcon!);
+  }
+
+  void expandMap(LatLng position, String regionLevel) {
+    double zoom = regionLevel == 'CITY' ? 14.0 : 12.0;
+    googleMapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: position, // 마커 위치로 이동
+          zoom: zoom, // 줌 레벨 설정 (필요한대로 변경 가능)
+        ),
+      ),
     );
   }
 
