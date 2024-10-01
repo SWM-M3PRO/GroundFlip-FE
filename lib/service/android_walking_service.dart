@@ -26,7 +26,7 @@ class AndroidWalkingService implements WalkingService {
   late Stream<PedestrianStatus> _pedestrianStatusStream;
 
   AndroidWalkingService._internal() {
-    _initForegroundWalkingTask();
+    // _initForegroundWalkingTask();
   }
 
   factory AndroidWalkingService() {
