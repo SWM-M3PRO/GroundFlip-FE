@@ -26,9 +26,9 @@ class WalkingController extends GetxController {
   void onInit() {
     super.onInit();
     walkingService = WalkingServiceFactory.getWalkingService();
-    _initializeWeeklySteps();
-    _initializeCurrentStep();
-    _initializeUpdateTimer();
+    // _initializeWeeklySteps();
+    // _initializeCurrentStep();
+    // _initializeUpdateTimer();
   }
 
   void _initializeUpdateTimer() {
