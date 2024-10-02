@@ -40,13 +40,17 @@ class LocationService {
     return locationHistory.getCurrentLocationSpeed();
   }
 
-  initBackgroundLocation() {
-    location.enableBackgroundMode(enable: true);
-    location.changeNotificationOptions(
+  Future<void> enableBackgroundLocation() async {
+    await location.changeNotificationOptions(
       title: '땅 따먹기 중!',
       subtitle: '백그라운드 작동 중입니다.',
       iconName: 'drawable/background_app_icon',
     );
+    location.enableBackgroundMode(enable: true);
+  }
+
+  void disableBackgroundLocation() {
+    location.enableBackgroundMode(enable: false);
   }
 
   calculateSpeed(LocationData previousLocation, LocationData currentLocation) {
