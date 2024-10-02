@@ -26,7 +26,7 @@ class AndroidWalkingService implements WalkingService {
   late Stream<PedestrianStatus> _pedestrianStatusStream;
 
   AndroidWalkingService._internal() {
-    _initForegroundWalkingTask();
+    // _initForegroundWalkingTask();
   }
 
   factory AndroidWalkingService() {
@@ -93,6 +93,7 @@ class AndroidWalkingService implements WalkingService {
     });
   }
 
+  // ignore: unused_element
   Future<void> _initForegroundWalkingTask() async {
     if (Platform.isAndroid) {
       initForegroundTask();

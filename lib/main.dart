@@ -49,9 +49,9 @@ Future<void> main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-    String? title = message.notification!.title;
+    // String? title = message.notification!.title;
 
-    await AlarmService.initializeStepCount(title);
+    // await AlarmService.initializeStepCount(title);
   });
 
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);

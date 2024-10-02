@@ -6,9 +6,9 @@ import '../models/community_mode_pixel_info.dart';
 import '../models/individual_history_pixel_info.dart';
 import '../models/individual_mode_pixel_info.dart';
 import '../service/pixel_service.dart';
+import '../widgets/map/bottom_sheet/bottom_stats.dart';
 import '../widgets/map/bottom_sheet/individual_history_list.dart';
 import '../widgets/map/bottom_sheet/pixel_info_header.dart';
-import '../widgets/map/bottom_sheet/step_stats.dart';
 import '../widgets/map/bottom_sheet/visited_user_list.dart';
 import 'map_controller.dart';
 
@@ -17,8 +17,8 @@ class BottomSheetController extends GetxController {
   final DraggableScrollableController draggableController =
       DraggableScrollableController();
 
-  Widget currentBody = StepStatsBody();
-  Widget currentHeader = StepStats();
+  Widget currentBody = BottomStatsBody();
+  Widget currentHeader = BottomStats();
   RxInt mode = 0.obs;
   RxBool changeVar = true.obs;
   double size = 1.1;
@@ -95,8 +95,8 @@ class BottomSheetController extends GetxController {
   }
 
   minimize() {
-    currentHeader = StepStats();
-    currentBody = StepStatsBody();
+    currentHeader = BottomStats();
+    currentBody = BottomStatsBody();
     mode.value = 0;
     draggableController.animateTo(
       0.1,
@@ -107,8 +107,8 @@ class BottomSheetController extends GetxController {
 
   void changeStepStatIfMinimized() {
     if (draggableController.size <= 0.111 && size > draggableController.size) {
-      currentHeader = StepStats();
-      currentBody = StepStatsBody();
+      currentHeader = BottomStats();
+      currentBody = BottomStatsBody();
       mode.value = 0;
 
       Get.find<MapController>().changePixelToNormalState();
