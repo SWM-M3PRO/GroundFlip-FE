@@ -3,9 +3,8 @@ import 'package:get/get.dart';
 
 import '../controllers/my_page_controller.dart';
 import '../controllers/walking_controller.dart';
+import '../widgets/my_page/pixel_bar_chart.dart';
 import '../widgets/my_page/pixel_dash_board.dart';
-import '../widgets/my_page/step_bar_chart.dart';
-import '../widgets/my_page/today_step_chart.dart';
 import '../widgets/my_page/user_info.dart';
 
 class MyPageScreen extends StatelessWidget {
@@ -28,11 +27,11 @@ class MyPageScreen extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          TodayStepChart(),
+          // TodayStepChart(),
           SizedBox(
             height: 20,
           ),
-          StepBarChart(),
+          PixelBarChart(),
         ],
       ),
     );

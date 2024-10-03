@@ -13,7 +13,6 @@ import '../widgets/map/current_location_button.dart';
 import '../widgets/map/filter_button.dart';
 import '../widgets/map/mode_change_toggle.dart';
 import '../widgets/map/my_place_button.dart';
-import '../widgets/map/pixel_count_info.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -55,6 +54,7 @@ class MapScreen extends StatelessWidget {
                     onMapCreated: (GoogleMapController ctrl) {
                       mapController.googleMapController = ctrl;
                     },
+                    markers: mapController.markers,
                     myLocationEnabled: true,
                     myLocationButtonEnabled: false,
                     style: mapController.mapStyle,
@@ -62,27 +62,26 @@ class MapScreen extends StatelessWidget {
                   ),
                 );
               }),
-             Positioned(
-                  right: 10,
-                  top: 110,
-                  child: Obx(() {
-                    if (mapController.currentPixelMode.value ==
-                        PixelMode.individualHistory) {
-                      return Column(
-                        children: [
-                          FilterButton(),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          MyPlaceButton(),
-                        ],
-                      );
-                    } else {
-                      return MyPlaceButton();
-                    }
-                  }),
-                ),
-
+              Positioned(
+                right: 10,
+                top: 110,
+                child: Obx(() {
+                  if (mapController.currentPixelMode.value ==
+                      PixelMode.individualHistory) {
+                    return Column(
+                      children: [
+                        FilterButton(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        MyPlaceButton(),
+                      ],
+                    );
+                  } else {
+                    return MyPlaceButton();
+                  }
+                }),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Column(
@@ -96,10 +95,11 @@ class MapScreen extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          PixelCountInfo(count: 128),
-                          CurrentLocationButton(checkController: "map",),
+                          CurrentLocationButton(
+                            checkController: "map",
+                          ),
                         ],
                       ),
                     ),

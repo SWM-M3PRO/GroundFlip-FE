@@ -20,7 +20,6 @@ import 'screens/setting_screen.dart';
 import 'screens/sign_up_screen.dart';
 import 'service/alarm_service.dart';
 import 'service/auth_service.dart';
-import 'service/location_service.dart';
 import 'utils/user_manager.dart';
 import 'utils/version_check.dart';
 
@@ -49,14 +48,12 @@ Future<void> main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-    String? title = message.notification!.title;
+    // String? title = message.notification!.title;
 
-    await AlarmService.initializeStepCount(title);
+    // await AlarmService.initializeStepCount(title);
   });
 
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
-
-  LocationService().initBackgroundLocation();
 
   String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
 

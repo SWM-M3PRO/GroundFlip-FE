@@ -26,11 +26,12 @@ class WalkingController extends GetxController {
   void onInit() {
     super.onInit();
     walkingService = WalkingServiceFactory.getWalkingService();
-    _initializeWeeklySteps();
-    _initializeCurrentStep();
-    _initializeUpdateTimer();
+    // _initializeWeeklySteps();
+    // _initializeCurrentStep();
+    // _initializeUpdateTimer();
   }
 
+  // ignore: unused_element
   void _initializeUpdateTimer() {
     int updateInterval = Platform.isIOS ? 15 : 1;
     Timer.periodic(Duration(seconds: updateInterval), (timer) {
@@ -38,6 +39,7 @@ class WalkingController extends GetxController {
     });
   }
 
+  // ignore: unused_element
   void _initializeCurrentStep() async {
     int stepCount = await walkingService.getCurrentStep();
     if (stepCount != 0) {
@@ -45,6 +47,7 @@ class WalkingController extends GetxController {
     }
   }
 
+  // ignore: unused_element
   Future<void> _initializeWeeklySteps() async {
     DateTime nowDate = DateTime.now();
     selectedWeekStartDate =

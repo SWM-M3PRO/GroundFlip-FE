@@ -61,6 +61,7 @@ flutter:
     - assets/map_style/
     - assets/images/
     - assets/images/permission/
+    - assets/images/count_marker/
   uses-material-design: true
 
 flutter_native_splash:
