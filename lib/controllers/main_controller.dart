@@ -29,12 +29,15 @@ class MainController extends GetxController {
     await checkBatteryPermission();
   }
 
-  Future<void> checkLocationPermission() async {
+  Future<bool> checkLocationPermission() async {
     PermissionStatus status = await Permission.locationAlways.status;
 
     if (status != PermissionStatus.granted) {
       _showRequestLocationAlways();
+      return false;
     }
+
+    return true;
   }
 
   Future<void> checkBatteryPermission() async {

@@ -26,6 +26,7 @@ import '../utils/walking_service_factory.dart';
 import '../widgets/map/filter_bottom_sheet.dart';
 import '../widgets/pixel.dart';
 import 'bottom_sheet_controller.dart';
+import 'main_controller.dart';
 import 'my_page_controller.dart';
 
 class MapController extends SuperController {
@@ -81,6 +82,8 @@ class MapController extends SuperController {
   RxInt elapsedSeconds = 0.obs; // 경과 시간을 초 단위로 저장
   Timer? _timer;
   RxBool isRunning = false.obs;
+
+  RxBool isBackgroundEnabled = false.obs;
 
   @override
   void onInit() async {
@@ -144,7 +147,9 @@ class MapController extends SuperController {
 
   void onCameraIdle() {
     if (!isBottomSheetShowUp) {
-      _cameraIdleTimer = Timer(Duration(milliseconds: 300), updateMap);
+      _cameraIdleTimer = Timer(Duration(milliseconds: 300), () {
+        updateMap();
+      });
     }
   }
 
@@ -573,5 +578,20 @@ class MapController extends SuperController {
 
   Future<void> deleteMyPlaceFromLocalStorage(String place) async {
     await box.remove(place);
+  }
+
+  void changeBackgroundMode(bool changedValue) async {
+    if (changedValue) {
+      bool isLocationAlwaysEnabled = await Get.find<MainController>().checkLocationPermission();
+      if (!isLocationAlwaysEnabled) {
+        return;
+      }
+
+      LocationService().enableBackgroundLocation();
+      isBackgroundEnabled.value = changedValue;
+    } else {
+      LocationService().disableBackgroundLocation();
+      isBackgroundEnabled.value = changedValue;
+    }
   }
 }

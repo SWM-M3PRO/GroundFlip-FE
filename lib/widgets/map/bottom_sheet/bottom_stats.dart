@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../constants/text_styles.dart';
 import '../../../controllers/map_controller.dart';
 import '../../../screens/explore_mode_screen.dart';
 
@@ -10,9 +11,34 @@ class BottomStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MapController mapController = Get.find<MapController>();
+
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [],
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Text(
+          '백그라운드 모드 ',
+          style: TextStyles.fs17w400cTextSecondary,
+        ),
+        Obx(() =>
+            Switch(
+              value: mapController.isBackgroundEnabled.value,
+              onChanged: mapController.changeBackgroundMode,
+              activeColor: AppColors.primary,
+              inactiveThumbColor: AppColors.boxColorSecond,
+              inactiveTrackColor: AppColors.backgroundThird,
+              trackOutlineColor: WidgetStateProperty.resolveWith(
+                    (final Set<WidgetState> states) {
+                  if (states.contains(WidgetState.selected)) {
+                    return null;
+                  }
+                  return AppColors.backgroundThird;
+                },
+              ),
+            ),
+        ),
+      ],
     );
   }
 }
