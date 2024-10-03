@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:intl/intl.dart';
 
 import '../models/community_mode_pixel.dart';
 import '../models/community_mode_pixel_info.dart';
@@ -9,7 +10,9 @@ import '../models/individual_mode_pixel.dart';
 import '../models/individual_mode_pixel_info.dart';
 import '../models/pixel_occupy_request.dart';
 import '../models/region.dart';
+import '../models/user_step_response.dart';
 import '../utils/dio_service.dart';
+import '../utils/user_manager.dart';
 
 class PixelService {
   static final PixelService _instance = PixelService._internal();
@@ -202,5 +205,26 @@ class PixelService {
     int x = ((upperLeftLatitude - latitude) / latitudePerPixel).floor();
     int y = ((longitude - upperLeftLongitude) / longitudePerPixel).floor();
     return {'x': x, 'y': y};
+  }
+
+  Future<List<int>> getDailyPixelsInInterval(
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
+    int? userId = UserManager().getUserId();
+    var response = await dio.get(
+      '/pixels/count/daily/$userId',
+      queryParameters: {
+        "start-date": DateFormat('yyyy-MM-dd').format(startDate),
+        "end-date": DateFormat('yyyy-MM-dd').format(endDate),
+      },
+    );
+    List<int>? result =
+        DailyPixel.fromJson(response.data['data']).dailyPixelCounts ?? [];
+    if (result.isEmpty) {
+      return [0, 0, 0, 0, 0, 0, 0];
+    } else {
+      return result;
+    }
   }
 }

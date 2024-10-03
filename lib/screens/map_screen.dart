@@ -13,7 +13,6 @@ import '../widgets/map/current_location_button.dart';
 import '../widgets/map/filter_button.dart';
 import '../widgets/map/mode_change_toggle.dart';
 import '../widgets/map/my_place_button.dart';
-import '../widgets/map/pixel_count_info.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -96,9 +95,8 @@ class MapScreen extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          PixelCountInfo(count: 128),
                           CurrentLocationButton(
                             checkController: "map",
                           ),
