@@ -12,6 +12,7 @@ class PixelBarChart extends StatelessWidget {
 
   final MyPageController myPageController = Get.find<MyPageController>();
 
+  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(

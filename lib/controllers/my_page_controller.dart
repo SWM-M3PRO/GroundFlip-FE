@@ -145,8 +145,6 @@ class MyPageController extends GetxController {
         maxCount = number;
       }
     }
-    print(selectedWeeklyPixelCount.toList());
-    print(maxCount);
     if (maxCount == 0) {
       return 100;
     } else {
