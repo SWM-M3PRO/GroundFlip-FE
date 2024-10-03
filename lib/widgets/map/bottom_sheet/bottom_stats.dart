@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/text_styles.dart';
 import '../../../controllers/map_controller.dart';
+import '../../../enums/pixel_mode.dart';
 import '../../../screens/explore_mode_screen.dart';
 
 class BottomStats extends StatelessWidget {
@@ -15,28 +17,56 @@ class BottomStats extends StatelessWidget {
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          '백그라운드 모드 ',
-          style: TextStyles.fs17w400cTextSecondary,
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Obx(() {
+              return Image.asset(
+                mapController.currentPixelMode.value ==
+                        PixelMode.individualHistory
+                    ? "assets/images/accumulate_pixel_icon.png"
+                    : "assets/images/current_pixel_icon.png",
+                width: 40,
+              );
+            }),
+            SizedBox(
+              width: 10,
+            ),
+            Obx(() {
+              return Text(
+                NumberFormat('###,###,###')
+                    .format(mapController.getPixelCount()),
+                style: TextStyles.fs28w700cTextPrimary,
+              );
+            }),
+          ],
         ),
-        Obx(() =>
-            Switch(
-              value: mapController.isBackgroundEnabled.value,
-              onChanged: mapController.changeBackgroundMode,
-              activeColor: AppColors.primary,
-              inactiveThumbColor: AppColors.boxColorSecond,
-              inactiveTrackColor: AppColors.backgroundThird,
-              trackOutlineColor: WidgetStateProperty.resolveWith(
-                    (final Set<WidgetState> states) {
-                  if (states.contains(WidgetState.selected)) {
-                    return null;
-                  }
-                  return AppColors.backgroundThird;
-                },
+        Row(
+          children: [
+            Text(
+              '백그라운드 모드 ',
+              style: TextStyles.fs17w400cTextSecondary,
+            ),
+            Obx(
+              () => Switch(
+                value: mapController.isBackgroundEnabled.value,
+                onChanged: mapController.changeBackgroundMode,
+                activeColor: AppColors.primary,
+                inactiveThumbColor: AppColors.boxColorSecond,
+                inactiveTrackColor: AppColors.backgroundThird,
+                trackOutlineColor: WidgetStateProperty.resolveWith(
+                  (final Set<WidgetState> states) {
+                    if (states.contains(WidgetState.selected)) {
+                      return null;
+                    }
+                    return AppColors.backgroundThird;
+                  },
+                ),
               ),
             ),
+          ],
         ),
       ],
     );
