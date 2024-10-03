@@ -6,7 +6,6 @@ import '../../../constants/app_colors.dart';
 import '../../../constants/text_styles.dart';
 import '../../../controllers/map_controller.dart';
 import '../../../enums/pixel_mode.dart';
-import '../../../screens/explore_mode_screen.dart';
 
 class BottomStats extends StatelessWidget {
   const BottomStats({super.key});
@@ -85,26 +84,26 @@ class BottomStatsBody extends StatelessWidget {
           SizedBox(
             height: 200,
           ),
-          TextButton(
-            onPressed: () {
-              Get.find<MapController>().startExplore();
-              Get.to(ExploreModeScreen());
-            },
-            style: TextButton.styleFrom(
-              backgroundColor: AppColors.backgroundThird,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text(
-                '점령 모드',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ),
+          // TextButton(
+          //   onPressed: () {
+          //     Get.find<MapController>().startExplore();
+          //     Get.to(ExploreModeScreen());
+          //   },
+          //   style: TextButton.styleFrom(
+          //     backgroundColor: AppColors.backgroundThird,
+          //   ),
+          //   child: Padding(
+          //     padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          //     child: Text(
+          //       '점령 모드',
+          //       style: TextStyle(
+          //         fontSize: 20,
+          //         color: AppColors.primary,
+          //         fontWeight: FontWeight.w700,
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
