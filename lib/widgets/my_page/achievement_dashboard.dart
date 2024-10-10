@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
+import '../../screens/achievement_screen.dart';
 
 class AchievementDashboard extends StatelessWidget {
   const AchievementDashboard({super.key});
@@ -10,7 +12,7 @@ class AchievementDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print('123');
+        Get.to(AchievementScreen());
       },
       child: Container(
         decoration: BoxDecoration(
