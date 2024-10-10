@@ -47,6 +47,7 @@ dependencies:
   optimize_battery: ^0.0.4
   cached_network_image: ^3.4.0
   flutter_svg: ^2.0.10+1
+  flu_console: ^1.1.0
 
 
 dev_dependencies:
@@ -62,6 +63,7 @@ flutter:
     - assets/images/
     - assets/images/permission/
     - assets/images/count_marker/
+    - assets/images/badge/
   uses-material-design: true
 
 flutter_native_splash:

@@ -401,6 +401,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.68.0"
+  flu_console:
+    dependency: "direct main"
+    description:
+      name: flu_console
+      sha256: "0733b5cc5c7e6ad8cf460105f100ccb40f0e61ad9a165ea1f16c03cc89daf6c7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   flutter:
     dependency: "direct main"
     description: flutter

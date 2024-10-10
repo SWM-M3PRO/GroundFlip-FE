@@ -63,6 +63,8 @@ PODS:
     - GoogleUtilities/Reachability (~> 7.8)
     - GoogleUtilities/UserDefaults (~> 7.8)
     - nanopb (< 2.30911.0, >= 2.30908.0)
+  - flu_console (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_config (0.0.1):
     - Flutter
@@ -178,6 +180,7 @@ DEPENDENCIES:
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
+  - flu_console (from `.symlinks/plugins/flu_console/ios`)
   - Flutter (from `Flutter`)
   - flutter_config (from `.symlinks/plugins/flutter_config/ios`)
   - flutter_foreground_task (from `.symlinks/plugins/flutter_foreground_task/ios`)
@@ -226,6 +229,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_messaging:
     :path: ".symlinks/plugins/firebase_messaging/ios"
+  flu_console:
+    :path: ".symlinks/plugins/flu_console/ios"
   Flutter:
     :path: Flutter
   flutter_config:
@@ -281,6 +286,7 @@ SPEC CHECKSUMS:
   FirebaseCoreInternal: df84dd300b561c27d5571684f389bf60b0a5c934
   FirebaseInstallations: 913cf60d0400ebd5d6b63a28b290372ab44590dd
   FirebaseMessaging: 7b5d8033e183ab59eb5b852a53201559e976d366
+  flu_console: cab1ae3b53fd0f3bf7927d413cf51f1b275dab4c
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_config: f48f0d47a284f1791aacce2687eabb3309ba7a41
   flutter_foreground_task: 21ef182ab0a29a3005cc72cd70e5f45cb7f7f817

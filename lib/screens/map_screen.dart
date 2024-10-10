@@ -13,6 +13,7 @@ import '../widgets/map/current_location_button.dart';
 import '../widgets/map/filter_button.dart';
 import '../widgets/map/mode_change_toggle.dart';
 import '../widgets/map/my_place_button.dart';
+import 'log_screen.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -99,6 +100,13 @@ class MapScreen extends StatelessWidget {
                         children: [
                           CurrentLocationButton(
                             checkController: "map",
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Get.to(LogScreen(logs: mapController.getLogs()));
+                              // FluConsole.showConsoleButton(context);
+                            },
+                            child: Text('show log'),
                           ),
                         ],
                       ),

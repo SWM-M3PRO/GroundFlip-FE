@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
@@ -30,6 +31,7 @@ import 'main_controller.dart';
 import 'my_page_controller.dart';
 
 class MapController extends SuperController {
+  final random = Random();
   final PixelService pixelService = PixelService();
   final UserService userService = UserService();
   final CommunityService communityService = CommunityService();
@@ -67,6 +69,7 @@ class MapController extends SuperController {
   final RxInt currentCommunityPixelCount = 0.obs;
   final RxInt accumulatePixelCount = 0.obs;
   final RxInt accumulatePixelCountPerPeriod = 0.obs;
+  final List<String> logs = [];
 
   RxDouble speed = 0.0.obs;
   RxBool isCameraTrackingUser = true.obs;
@@ -96,6 +99,8 @@ class MapController extends SuperController {
     _trackUserLocation();
     trackPixels();
     lastOnTabPixel = Pixel.createEmptyPixel();
+    print('test');
+    logs.add('test');
   }
 
   @override
@@ -118,6 +123,14 @@ class MapController extends SuperController {
 
   @override
   void onHidden() {}
+
+  getLogs() {
+    return logs;
+  }
+
+  initLogs() {
+    logs.clear();
+  }
 
   onBottomBarHidden() {
     bottomSheetController.minimize();
@@ -195,14 +208,23 @@ class MapController extends SuperController {
         setCameraOnCurrentLocation();
       }
       speed.value = _locationService.getCurrentSpeed();
-      if (isPixelChanged() && isWalking()) {
+
+      int pid = random.nextInt(100000);
+      bool p = isPixelChanged(pid);
+      bool w = isWalking(pid);
+      String log =
+          '[pid : ${pid}] [${DateTime.now()}] [Location Changed] speed : ${speed.value}, isWalking : ${w}, isPixelChanged : ${p}';
+      logs.add(log);
+
+      if (p && w) {
         _updateLatestPixel();
-        await occupyPixel();
+        await occupyPixel(pid);
       }
     });
   }
 
-  isWalking() {
+  isWalking(int pid) {
+    logs.add('[pid : ${pid}] isWalking : ${walkingService.isWalking()}');
     return walkingService.isWalking() &&
         _locationService.getCurrentSpeed() <= 25;
   }
@@ -355,26 +377,36 @@ class MapController extends SuperController {
 
   bool _isMapOverZoomedOut() => currentCameraPosition.zoom < maxZoomOutLevel;
 
-  Future<void> occupyPixel() async {
-    await pixelService.occupyPixel(
-      userId: UserManager().getUserId()!,
-      currentLatitude: _locationService.currentLocation!.latitude!,
-      currentLongitude: _locationService.currentLocation!.longitude!,
-      communityId:
-          Get.find<MyPageController>().currentUserInfo.value.communityId,
-    );
+  Future<void> occupyPixel(int pid) async {
+    try {
+      await pixelService.occupyPixel(
+        userId: UserManager().getUserId()!,
+        currentLatitude: _locationService.currentLocation!.latitude!,
+        currentLongitude: _locationService.currentLocation!.longitude!,
+        communityId:
+            Get.find<MyPageController>().currentUserInfo.value.communityId,
+      );
+      logs.add(
+          '[pid : ${pid}] [${DateTime.now()}] success occupy ${_locationService.currentLocation!.latitude!}, ${_locationService.currentLocation!.longitude!}');
+    } catch (e) {
+      logs.add(
+          '[pid : ${pid}] [${DateTime.now()}] fail occupy ${_locationService.currentLocation!.latitude!}, ${_locationService.currentLocation!.longitude!}');
+    }
+
     if (!isBottomSheetShowUp) {
       updateMap();
     }
     await updateCurrentPixel();
   }
 
-  isPixelChanged() {
+  isPixelChanged(int pid) {
     Map<String, int> currentPixel =
         pixelService.computeRelativeCoordinateByCoordinate(
       _locationService.currentLocation!.latitude!,
       _locationService.currentLocation!.longitude!,
     );
+    logs.add(
+        '[pid : ${pid}] {[current] : ${currentPixel['x']}, ${currentPixel['y']}, [latest] : ${latestPixel['x']}, ${latestPixel['y']}');
     return latestPixel['x'] != currentPixel['x'] ||
         latestPixel['y'] != currentPixel['y'];
   }
@@ -582,7 +614,8 @@ class MapController extends SuperController {
 
   void changeBackgroundMode(bool changedValue) async {
     if (changedValue) {
-      bool isLocationAlwaysEnabled = await Get.find<MainController>().checkLocationPermission();
+      bool isLocationAlwaysEnabled =
+          await Get.find<MainController>().checkLocationPermission();
       if (!isLocationAlwaysEnabled) {
         return;
       }
