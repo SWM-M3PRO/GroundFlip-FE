@@ -48,15 +48,16 @@ class AchievementDashboard extends StatelessWidget {
               children: [
                 Image.asset(
                   "assets/images/badge/badge_1.png",
-                  width: 100,
+                  width: 80,
+                  // color: Color(0x1D0DF69E),
                 ),
                 Image.asset(
-                  "assets/images/badge/badge_5.png",
-                  width: 100,
+                  "assets/images/badge/badge_2.png",
+                  width: 80,
                 ),
                 Image.asset(
                   "assets/images/badge/badge_3.png",
-                  width: 100,
+                  width: 80,
                 ),
                 // Image.asset(
                 //   "assets/images/badge/badge_1.png",
