@@ -29,7 +29,7 @@ class AchievementCategory extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: Text(
                 categoryName,
-                style: TextStyles.fs20w600cTextPrimary,
+                style: TextStyles.fs17w700cTextPrimary,
               ),
             ),
             SizedBox(
@@ -37,7 +37,7 @@ class AchievementCategory extends StatelessWidget {
             ),
             Image.asset(
               badgeImage,
-              height: 100,
+              height: 80,
             ),
             SizedBox(
               height: 20,
@@ -47,7 +47,7 @@ class AchievementCategory extends StatelessWidget {
               style: TextStyles.fs14w500cTextSecondary,
             ),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -55,11 +55,6 @@ class AchievementCategory extends StatelessWidget {
                 Text(
                   '모두 보기',
                   style: TextStyles.fs17w500cPrimary,
-                ),
-                Icon(
-                  Icons.arrow_forward_ios_outlined,
-                  color: AppColors.textPrimary,
-                  size: 15,
                 ),
               ],
             ),
