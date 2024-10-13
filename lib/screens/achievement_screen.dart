@@ -29,7 +29,7 @@ class AchievementScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
+        child: ListView(
           children: [
             RecentAchievementDashboard(),
             SizedBox(
@@ -38,13 +38,13 @@ class AchievementScreen extends StatelessWidget {
             Row(
               children: [
                 AchievementCategory(
-                  categoryName: "많이 방문하기",
+                  categoryName: "탐험왕",
                   badgeImage: "assets/images/badge/badge_5.png",
                   badgeName: "새로운 땅 1000개 방문",
                 ),
                 SizedBox(width: 20),
                 AchievementCategory(
-                    categoryName: "땅 빼앗기",
+                    categoryName: "정복자",
                     badgeImage: "assets/images/badge/badge_2.png",
                     badgeName: "50개 약탈자"),
               ],
@@ -53,7 +53,23 @@ class AchievementScreen extends StatelessWidget {
             Row(
               children: [
                 AchievementCategory(
-                  categoryName: "도시 점령하기",
+                  categoryName: "식민지화",
+                  badgeImage: "assets/images/badge/badge_3.png",
+                  badgeName: "경기도",
+                ),
+                SizedBox(width: 20),
+                AchievementCategory(
+                  categoryName: "특수 목표",
+                  badgeImage: "assets/images/badge/badge_6.png",
+                  badgeName: "독도 지킴이",
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                AchievementCategory(
+                  categoryName: "식민지화",
                   badgeImage: "assets/images/badge/badge_3.png",
                   badgeName: "경기도",
                 ),
