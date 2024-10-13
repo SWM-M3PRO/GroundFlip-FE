@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 
 import '../models/community.dart';
@@ -34,6 +36,51 @@ class CommunityService {
         },
       ),
     );
+
+    return response.statusCode;
+  }
+
+  Future<int?> createCommunity({
+    required String communityName,
+    required int communityColor,
+    String? profileImagePath,
+  }) async {
+    late String fileName;
+    var communityInfoJson = jsonEncode(
+      {
+        'communityName': communityName,
+        'communityColor': communityColor.toString(),
+      },
+    );
+
+    var formData = FormData();
+
+    formData.files.add(
+      MapEntry(
+        'communityInfoRequest',
+        MultipartFile.fromString(
+          communityInfoJson,
+          contentType: DioMediaType.parse('application/json'),
+        ),
+      ),
+    );
+
+    if (profileImagePath != null) {
+      fileName = profileImagePath.split('/').last;
+      formData.files.add(
+        MapEntry(
+          'profileImage',
+          await MultipartFile.fromFile(profileImagePath, filename: fileName),
+        ),
+      );
+    }
+    print('2222 ${formData}');
+    var response = await dio.put(
+      '/community',
+      data: formData,
+      options: Options(contentType: 'multipart/form-data'),
+    );
+    print(2222);
 
     return response.statusCode;
   }
