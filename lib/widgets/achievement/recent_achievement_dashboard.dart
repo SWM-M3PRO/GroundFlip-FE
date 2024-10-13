@@ -12,7 +12,6 @@ class RecentAchievementDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print('123');
         Get.to(AchievementScreen());
       },
       child: Container(
@@ -28,7 +27,7 @@ class RecentAchievementDashboard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "최근 업적",
+                  "내 업적",
                   style: TextStyles.fs17w600cTextPrimary,
                 ),
                 SizedBox(
@@ -38,6 +37,15 @@ class RecentAchievementDashboard extends StatelessWidget {
                   Icons.arrow_forward_ios_outlined,
                   color: AppColors.textPrimary,
                   size: 15,
+                ),
+                Spacer(),
+                Text(
+                  '15',
+                  style: TextStyles.fs17w700cPrimary,
+                ),
+                Text(
+                  ' / 52',
+                  style: TextStyles.fs17w400cTextSecondary,
                 ),
               ],
             ),
@@ -49,15 +57,15 @@ class RecentAchievementDashboard extends StatelessWidget {
               children: [
                 Image.asset(
                   "assets/images/badge/badge_1.png",
-                  width: 100,
+                  width: 80,
                 ),
                 Image.asset(
                   "assets/images/badge/badge_5.png",
-                  width: 100,
+                  width: 80,
                 ),
                 Image.asset(
                   "assets/images/badge/badge_3.png",
-                  width: 100,
+                  width: 80,
                 ),
                 // Image.asset(
                 //   "assets/images/badge/badge_1.png",
