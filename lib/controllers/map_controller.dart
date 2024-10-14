@@ -20,9 +20,11 @@ import '../service/location_service.dart';
 import '../service/pixel_service.dart';
 import '../service/user_service.dart';
 import '../utils/date_handler.dart';
+import '../utils/secure_storage.dart';
 import '../utils/user_manager.dart';
 import '../utils/walking_service.dart';
 import '../utils/walking_service_factory.dart';
+import '../widgets/common/event_pop_up/pop_up_event.dart';
 import '../widgets/map/filter_bottom_sheet.dart';
 import '../widgets/pixel.dart';
 import 'bottom_sheet_controller.dart';
@@ -39,6 +41,7 @@ class MapController extends SuperController {
 
   final BottomSheetController bottomSheetController =
       Get.find<BottomSheetController>();
+  final String popupKey = "hidePopupUntil";
 
   static const String darkMapStylePath =
       'assets/map_style/dark_map_style_with_landmarks.txt';
@@ -96,6 +99,7 @@ class MapController extends SuperController {
     _trackUserLocation();
     trackPixels();
     lastOnTabPixel = Pixel.createEmptyPixel();
+    loadEvent();
   }
 
   @override
@@ -121,6 +125,21 @@ class MapController extends SuperController {
 
   onBottomBarHidden() {
     bottomSheetController.minimize();
+  }
+
+  loadEvent() async {
+    final popupData = await SecureStorage().secureStorage.read(key: popupKey);
+    if (popupData == null ||
+        popupData != DateTime.now().toString().split(" ")[0]) {
+      Get.bottomSheet(
+        EventPopUp(),
+        backgroundColor: AppColors.backgroundSecondary,
+      );
+    }
+  }
+
+  setDoNotShowToday() async {
+    await SecureStorage().secureStorage.write(key: popupKey, value: DateTime.now().toString().split(" ")[0]);
   }
 
   updateCurrentPixel() async {
@@ -582,7 +601,8 @@ class MapController extends SuperController {
 
   void changeBackgroundMode(bool changedValue) async {
     if (changedValue) {
-      bool isLocationAlwaysEnabled = await Get.find<MainController>().checkLocationPermission();
+      bool isLocationAlwaysEnabled =
+          await Get.find<MainController>().checkLocationPermission();
       if (!isLocationAlwaysEnabled) {
         return;
       }

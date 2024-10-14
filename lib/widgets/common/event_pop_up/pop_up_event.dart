@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/text_styles.dart';
+import '../../../utils/secure_storage.dart';
 import 'event_image.dart';
 
 class EventPopUp extends StatelessWidget {
@@ -59,7 +60,13 @@ class EventPopUp extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await SecureStorage().secureStorage.write(
+                              key: "hidePopupUntil",
+                              value: DateTime.now().toString().split(" ")[0],
+                            );
+                        Get.back();
+                      },
                       style: TextButton.styleFrom(
                         overlayColor: Colors.grey.withOpacity(0.2),
                       ),
