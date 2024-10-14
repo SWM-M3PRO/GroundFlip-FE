@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../models/announcement.dart';
+import '../models/announcement_info.dart';
+import '../screens/announcement_screen.dart';
 import '../service/announcement_service.dart';
 import '../widgets/announcement/announcement_element.dart';
 
@@ -47,6 +49,15 @@ class AnnouncementController extends GetxController {
         .toList();
     items.addAll(newItems);
     isLoading.value = false;
+  }
+
+  showAnnouncement(int announcementId) async {
+    AnnouncementInfo announcement =
+        await announcementService.getAnnouncementContent(announcementId);
+    Get.to(AnnouncementScreen(
+        title: announcement.title,
+        date: announcement.date,
+        content: announcement.content));
   }
 
   @override
