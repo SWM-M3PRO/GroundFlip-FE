@@ -6,9 +6,10 @@ import '../../../screens/setting_screen.dart';
 
 class EventImage extends StatelessWidget {
   final String imageUrl;
-  final int eventId;
+  final int? announcementId;
 
-  const EventImage({super.key, required this.imageUrl, required this.eventId});
+  const EventImage(
+      {super.key, required this.imageUrl, required this.announcementId});
 
   @override
   Widget build(BuildContext context) {
