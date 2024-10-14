@@ -2,20 +2,36 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../../../screens/setting_screen.dart';
+import '../../../models/announcement_info.dart';
+import '../../../screens/announcement_screen.dart';
+import '../../../service/announcement_service.dart';
 
 class EventImage extends StatelessWidget {
   final String imageUrl;
   final int? announcementId;
+  final AnnouncementService announcementService = AnnouncementService();
 
-  const EventImage(
-      {super.key, required this.imageUrl, required this.announcementId});
+  EventImage({
+    super.key,
+    required this.imageUrl,
+    required this.announcementId,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Get.to(SettingScreen());
+      onTap: () async {
+        if (announcementId != null) {
+          AnnouncementInfo announcement =
+              await announcementService.getAnnouncementContent(announcementId!);
+          Get.to(
+            AnnouncementScreen(
+              title: announcement.title,
+              date: announcement.date,
+              content: announcement.content,
+            ),
+          );
+        }
       },
       child: Image(
         image: CachedNetworkImageProvider(imageUrl),
