@@ -14,7 +14,7 @@ class Announcement {
       {
         'title': var title,
         'announcementId': var announcementId,
-        'date': var date,
+        'createdAt': var date,
       } =>
         Announcement(
           title: title,
