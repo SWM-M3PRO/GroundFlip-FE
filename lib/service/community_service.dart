@@ -43,7 +43,8 @@ class CommunityService {
   Future<int?> createCommunity({
     required String communityName,
     required int communityColor,
-    String? profileImagePath,
+    String? password,
+    required String profileImagePath,
   }) async {
     late String fileName;
     var communityInfoJson = jsonEncode(
