@@ -3,11 +3,14 @@ import 'package:get/get.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/text_styles.dart';
+import '../../../models/event.dart';
 import '../../../utils/secure_storage.dart';
 import 'event_image.dart';
 
 class EventPopUp extends StatelessWidget {
-  const EventPopUp({super.key});
+  final List<Event> events;
+
+  const EventPopUp({super.key, required this.events});
 
   @override
   Widget build(BuildContext context) {
@@ -35,21 +38,11 @@ class EventPopUp extends StatelessWidget {
                       });
                     },
                     children: [
-                      EventImage(
-                        imageUrl:
-                            "https://ground-flip-prod-storage.s3.ap-northeast-2.amazonaws.com/event/%E1%84%92%E1%85%A1%E1%86%AB%E1%84%80%E1%85%A1%E1%86%BC%E1%84%8B%E1%85%B5%E1%84%87%E1%85%A6%E1%86%AB%E1%84%90%E1%85%B32.png",
-                        eventId: 1,
-                      ),
-                      EventImage(
-                        imageUrl:
-                            "https://s3.ap-northeast-2.amazonaws.com/ground-flip-prod-storage/static/66ade0ab-833f-43d0-811a-7c228dcbebec.jpg",
-                        eventId: 1,
-                      ),
-                      EventImage(
-                        imageUrl:
-                            "https://ground-flip-prod-storage-resized.s3.ap-northeast-2.amazonaws.com/resized-static/da05e0cc-6831-45c6-aeee-2597c5a04d07%23%23%23626.jpg",
-                        eventId: 1,
-                      ),
+                      for (int i = 0; i < events.length; i++)
+                        EventImage(
+                          imageUrl: events[i].eventImageUrl,
+                          announcementId: events[i].announcementId,
+                        ),
                     ],
                   ),
                 ),
@@ -78,11 +71,12 @@ class EventPopUp extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "${currentPage + 1} / 3", // 현재 페이지 (1부터 시작)와 전체 페이지 수
+                        "${currentPage + 1} / ${events.length}",
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textSecondary),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textSecondary,
+                        ),
                       ),
                     ),
                     TextButton(
