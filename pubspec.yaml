@@ -47,6 +47,7 @@ dependencies:
   optimize_battery: ^0.0.4
   cached_network_image: ^3.4.0
   flutter_svg: ^2.0.10+1
+  flutter_markdown: ^0.7.4
 
 
 dev_dependencies:
