@@ -6,7 +6,6 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
-import '../service/android_walking_service.dart';
 import '../service/fcm_service.dart';
 import '../service/my_place_service.dart';
 
@@ -23,8 +22,7 @@ class MainController extends GetxController {
     super.onInit();
     fcmService.registerFcmToken();
     myPlaceService.getMyPlaceInfo();
-    await AndroidWalkingService().postAllUserStepFromStorage();
-    checkNewFeature();
+    // await AndroidWalkingService().postAllUserStepFromStorage();
     await checkLocationPermission();
     await checkBatteryPermission();
   }
@@ -45,14 +43,6 @@ class MainController extends GetxController {
         await OptimizeBattery.isIgnoringBatteryOptimizations();
     if (batteryPermissionGranted == false) {
       _showRequestBattery();
-    }
-  }
-
-  void checkNewFeature() {
-    bool? isChecked = storage.read('group_feature_checked');
-    if (isChecked == null) {
-      storage.write('group_feature_checked', true);
-      _showNewFeature();
     }
   }
 
