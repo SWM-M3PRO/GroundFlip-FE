@@ -6,16 +6,22 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
+import '../models/event.dart';
+import '../service/announcement_service.dart';
 import '../service/fcm_service.dart';
 import '../service/my_place_service.dart';
+import '../utils/secure_storage.dart';
+import '../widgets/common/event_pop_up/pop_up_event.dart';
 
 class MainController extends GetxController {
   final FcmService fcmService = FcmService();
   final MyPlaceService myPlaceService = MyPlaceService();
+  final AnnouncementService announcementService = AnnouncementService();
   final storage = GetStorage();
 
   final RxBool internetCheck = true.obs;
   final RxBool isAlertIsShow = false.obs;
+  final String popupKey = "hidePopupUntil";
 
   @override
   void onInit() async {
@@ -25,11 +31,12 @@ class MainController extends GetxController {
     // await AndroidWalkingService().postAllUserStepFromStorage();
     await checkLocationPermission();
     await checkBatteryPermission();
+    loadEvent();
   }
 
   Future<bool> checkLocationPermission() async {
     PermissionStatus status = await Permission.locationAlways.status;
-
+    //
     if (status != PermissionStatus.granted) {
       _showRequestLocationAlways();
       return false;
@@ -43,6 +50,23 @@ class MainController extends GetxController {
         await OptimizeBattery.isIgnoringBatteryOptimizations();
     if (batteryPermissionGranted == false) {
       _showRequestBattery();
+    }
+  }
+
+  loadEvent() async {
+    print('-------------------------------------------event');
+    final popupData = await SecureStorage().secureStorage.read(key: popupKey);
+    if (popupData == null ||
+        popupData != DateTime.now().toString().split(" ")[0]) {
+      List<Event> events = await announcementService.getEvents();
+
+      if (events.isEmpty) {
+        return;
+      }
+      Get.bottomSheet(
+        EventPopUp(events: events),
+        backgroundColor: AppColors.backgroundSecondary,
+      );
     }
   }
 

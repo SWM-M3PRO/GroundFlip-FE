@@ -11,12 +11,10 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import '../constants/app_colors.dart';
 import '../enums/pixel_mode.dart';
 import '../models/community_mode_pixel.dart';
-import '../models/event.dart';
 import '../models/individual_history_pixel.dart';
 import '../models/individual_mode_pixel.dart';
 import '../models/region.dart';
 import '../models/user_pixel_count.dart';
-import '../service/announcement_service.dart';
 import '../service/community_service.dart';
 import '../service/location_service.dart';
 import '../service/pixel_service.dart';
@@ -26,7 +24,6 @@ import '../utils/secure_storage.dart';
 import '../utils/user_manager.dart';
 import '../utils/walking_service.dart';
 import '../utils/walking_service_factory.dart';
-import '../widgets/common/event_pop_up/pop_up_event.dart';
 import '../widgets/map/filter_bottom_sheet.dart';
 import '../widgets/pixel.dart';
 import 'bottom_sheet_controller.dart';
@@ -40,11 +37,9 @@ class MapController extends SuperController {
   final LocationService _locationService = LocationService();
   final WalkingService walkingService =
       WalkingServiceFactory.getWalkingService();
-  final AnnouncementService announcementService = AnnouncementService();
 
   final BottomSheetController bottomSheetController =
       Get.find<BottomSheetController>();
-  final String popupKey = "hidePopupUntil";
 
   static const String darkMapStylePath =
       'assets/map_style/dark_map_style_with_landmarks.txt';
@@ -106,7 +101,6 @@ class MapController extends SuperController {
     trackPixels();
     lastOnTabPixel = Pixel.createEmptyPixel();
     _loadBackgroundModeStatus();
-    loadEvent();
   }
 
   @override
@@ -143,28 +137,6 @@ class MapController extends SuperController {
           .secureStorage
           .write(key: firstLaunchKey, value: 'false');
     }
-  }
-
-  loadEvent() async {
-    final popupData = await SecureStorage().secureStorage.read(key: popupKey);
-    if (popupData == null ||
-        popupData != DateTime.now().toString().split(" ")[0]) {
-      List<Event> events = await announcementService.getEvents();
-
-      if (events.isEmpty) {
-        return;
-      }
-      Get.bottomSheet(
-        EventPopUp(events: events),
-        backgroundColor: AppColors.backgroundSecondary,
-      );
-    }
-  }
-
-  setDoNotShowToday() async {
-    await SecureStorage()
-        .secureStorage
-        .write(key: popupKey, value: DateTime.now().toString().split(" ")[0]);
   }
 
   updateCurrentPixel() async {
