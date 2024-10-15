@@ -47,10 +47,14 @@ class CommunityService {
     required String profileImagePath,
   }) async {
     late String fileName;
+    late String hexCommunityColor;
+    hexCommunityColor = communityColor.toRadixString(16).toUpperCase();
+
     var communityInfoJson = jsonEncode(
       {
-        'communityName': communityName,
-        'communityColor': communityColor.toString(),
+        'name': communityName,
+        'communityColor': hexCommunityColor,
+        'password':password,
       },
     );
 
@@ -75,13 +79,12 @@ class CommunityService {
         ),
       );
     }
-    print('2222 ${formData}');
-    var response = await dio.put(
-      '/community',
+
+    var response = await dio.post(
+      '/communities',
       data: formData,
       options: Options(contentType: 'multipart/form-data'),
     );
-    print(2222);
 
     return response.statusCode;
   }
@@ -113,6 +116,13 @@ class CommunityService {
       queryParameters: {"community-id": communityId},
     );
     return response.data['data']['currentPixelCount'];
+  }
+
+  Future<int> getCommunityId(String communityName) async{
+    var response = await dio.get(
+      '/communities/id/$communityName'
+    );
+    return response.data['data'];
   }
 
   signOutCommunity(int communityId) async {
