@@ -6,9 +6,15 @@ import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 import '../../controllers/my_page_controller.dart';
 import '../../screens/user_info_update_screen.dart';
+import '../../utils/user_manager.dart';
 
 class UserInfo extends StatelessWidget {
   const UserInfo({super.key});
+
+  String getEncodedUserId() {
+    String base36 = UserManager().userId!.toRadixString(36).toUpperCase();
+    return base36.padLeft(6, '0');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,15 +57,45 @@ class UserInfo extends StatelessWidget {
                   () => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        myPageController.getCurrentUserNickname(),
-                        style: TextStyles.fs20w600cTextPrimary,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            // myPageController.getCurrentUserNickname(),
+                            '가나다라마바사아자차',
+                            style: TextStyles.fs20w600cTextPrimary,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                        ],
+                      ),
+                      SelectableText(
+                        '${getEncodedUserId()}',
+                        style: TextStyles.fs14w600cTextSecondary,
                       ),
                       if (myPageController.getCurrentUserCommunityName() !=
                           null)
-                        Text(
-                          myPageController.getCurrentUserCommunityName()!,
-                          style: TextStyles.fs14w400cTextSecondary,
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.group,
+                                  color: AppColors.primary,
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  myPageController
+                                      .getCurrentUserCommunityName()!,
+                                  style: TextStyles.fs14w500cPrimary,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                     ],
                   ),
