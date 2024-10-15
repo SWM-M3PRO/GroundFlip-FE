@@ -17,8 +17,12 @@ class AnnouncementService {
   }
 
   Future<List<Event>> getEvents() async {
-    var response = await dio.get('/announcement/events');
-    return Event.listFromJson(response.data['data']);
+    try {
+      var response = await dio.get('/announcement/events');
+      return Event.listFromJson(response.data['data']);
+    } catch (e) {
+      return [];
+    }
   }
 
   Future<List<Announcement>> getAnnouncements(int cursor) async {

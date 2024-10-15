@@ -52,6 +52,7 @@ class MapController extends SuperController {
   static const double maxZoomOutLevel = 14.0;
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
+  static const String backgroundModeStatusKey = 'backgroundModeStatusKey';
 
   late final String mapStyle;
 
@@ -102,6 +103,7 @@ class MapController extends SuperController {
     _trackUserLocation();
     trackPixels();
     lastOnTabPixel = Pixel.createEmptyPixel();
+    _loadBackgroundModeStatus();
     loadEvent();
   }
 
@@ -609,6 +611,24 @@ class MapController extends SuperController {
     await box.remove(place);
   }
 
+  _loadBackgroundModeStatus() async {
+    String? data =
+        await SecureStorage().secureStorage.read(key: backgroundModeStatusKey);
+    if (data == null) {
+      isBackgroundEnabled.value == false;
+    } else {
+      if (data == 'true') {
+        bool isLocationAlwaysEnabled =
+            await Get.find<MainController>().checkLocationPermission();
+        if (!isLocationAlwaysEnabled) {
+          return;
+        }
+        LocationService().enableBackgroundLocation();
+      }
+      isBackgroundEnabled.value = data == 'true';
+    }
+  }
+
   void changeBackgroundMode(bool changedValue) async {
     if (changedValue) {
       bool isLocationAlwaysEnabled =
@@ -619,9 +639,15 @@ class MapController extends SuperController {
 
       LocationService().enableBackgroundLocation();
       isBackgroundEnabled.value = changedValue;
+      await SecureStorage()
+          .secureStorage
+          .write(key: backgroundModeStatusKey, value: changedValue.toString());
     } else {
       LocationService().disableBackgroundLocation();
       isBackgroundEnabled.value = changedValue;
+      await SecureStorage()
+          .secureStorage
+          .write(key: backgroundModeStatusKey, value: changedValue.toString());
     }
   }
 }
