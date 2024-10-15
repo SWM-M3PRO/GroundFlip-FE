@@ -61,8 +61,7 @@ class UserInfo extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            // myPageController.getCurrentUserNickname(),
-                            '가나다라마바사아자차',
+                            myPageController.getCurrentUserNickname(),
                             style: TextStyles.fs20w600cTextPrimary,
                           ),
                           SizedBox(
