@@ -57,6 +57,7 @@ class CommunityList extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white,
                           ),
+                          autofocus: true,
                           onChanged: (text) {
                             searchCommunityController.inputPassword.value =
                                 text;
@@ -94,6 +95,9 @@ class CommunityList extends StatelessWidget {
                       style: TextStyle(
                         color: AppColors.textSecondary,
                       ),
+                    ),
+                    style: TextButton.styleFrom(
+                      overlayColor: AppColors.primary,
                     ),
                     onPressed: () async {
                       if (searchCommunityController.inputPassword.value ==

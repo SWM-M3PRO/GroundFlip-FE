@@ -8,7 +8,7 @@ class Community {
   int accumulatePixelCount;
   int maxPixelCount;
   int maxRanking;
-  String? password;
+  String password;
 
   Community({
     required this.communityRanking,
@@ -36,7 +36,7 @@ class Community {
       accumulatePixelCount: json['accumulatePixelCount'],
       maxPixelCount: json['maxPixelCount'],
       maxRanking: json['maxRanking'],
-      password: json['password'],
+      password: json['password'] ?? "",
     );
   }
 }
