@@ -11,6 +11,7 @@ class CommunityInfoController extends GetxController {
   final CommunityService communityService = CommunityService();
   final RxString name = "".obs;
   final RxString imageUrl = "".obs;
+  final RxString password = "".obs;
   final RxInt communityId = 0.obs;
   final RxInt memberCount = 0.obs;
   final RxInt communityColor = 0.obs;
@@ -41,6 +42,7 @@ class CommunityInfoController extends GetxController {
     List<Ranking> members = await communityService.getMembers(communityId, 5);
     this.members.assignAll(members);
     isLoading.value = false;
+    password.value = community.password;
   }
 
   signUpCommunity() async {
