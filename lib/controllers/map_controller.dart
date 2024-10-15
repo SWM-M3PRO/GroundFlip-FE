@@ -53,6 +53,7 @@ class MapController extends SuperController {
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
   static const String backgroundModeStatusKey = 'backgroundModeStatusKey';
+  static const String firstLaunchKey = 'firstLaunchKey';
 
   late final String mapStyle;
 
@@ -100,6 +101,7 @@ class MapController extends SuperController {
     latestPixel = {'x': 0, 'y': 0};
     await updateCurrentPixel();
     updateMap();
+    _occupyFirstPixel();
     _trackUserLocation();
     trackPixels();
     lastOnTabPixel = Pixel.createEmptyPixel();
@@ -130,6 +132,17 @@ class MapController extends SuperController {
 
   onBottomBarHidden() {
     bottomSheetController.minimize();
+  }
+
+  _occupyFirstPixel() async {
+    String? isFirstLaunch =
+        await SecureStorage().secureStorage.read(key: firstLaunchKey);
+    if (isFirstLaunch == null) {
+      occupyPixel();
+      await SecureStorage()
+          .secureStorage
+          .write(key: firstLaunchKey, value: 'false');
+    }
   }
 
   loadEvent() async {
