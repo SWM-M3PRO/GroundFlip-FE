@@ -8,6 +8,7 @@ class Community {
   int accumulatePixelCount;
   int maxPixelCount;
   int maxRanking;
+  String? password;
 
   Community({
     required this.communityRanking,
@@ -19,6 +20,7 @@ class Community {
     required this.accumulatePixelCount,
     required this.maxPixelCount,
     required this.maxRanking,
+    required this.password,
   });
 
   factory Community.fromJson(Map<String, dynamic> json) {
@@ -34,6 +36,7 @@ class Community {
       accumulatePixelCount: json['accumulatePixelCount'],
       maxPixelCount: json['maxPixelCount'],
       maxRanking: json['maxRanking'],
+      password: json['password'],
     );
   }
 }

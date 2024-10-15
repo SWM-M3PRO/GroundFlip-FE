@@ -133,6 +133,7 @@ class SearchCommunityScreen extends StatelessWidget {
                                       communityId: searchCommunityController
                                           .communityId.value,
                                       isSearched: 0,
+                                      password: searchCommunityController.password.value,
                                     ),
                                   ),
                                   if (index <
