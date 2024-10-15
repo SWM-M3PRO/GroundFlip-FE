@@ -5,11 +5,16 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../constants/app_colors.dart';
+import '../screens/community_info_screen.dart';
 import '../service/community_service.dart';
 import '../widgets/common/alert/alert.dart';
+import 'community_controller.dart';
+import 'community_info_controller.dart';
+import 'my_page_controller.dart';
 
 class CommunityCreateController extends GetxController {
   final CommunityService communityService = CommunityService();
+  final CommunityInfoController communityInfoController = CommunityInfoController();
 
   late final TextEditingController textEditingController;
   late final TextEditingController textEditingController2;
@@ -52,7 +57,7 @@ class CommunityCreateController extends GetxController {
 
   void initTextFocusNode() {
     textFocusNode.addListener(
-      () {
+          () {
         if (textFocusNode.hasFocus) {
           textEditingController.selection = TextSelection(
             baseOffset: 0,
@@ -65,7 +70,7 @@ class CommunityCreateController extends GetxController {
       },
     );
     textFocusNode2.addListener(
-      () {
+          () {
         if (textFocusNode2.hasFocus) {
           textEditingController2.selection = TextSelection(
             baseOffset: 0,
@@ -78,7 +83,7 @@ class CommunityCreateController extends GetxController {
       },
     );
     textFocusNode3.addListener(
-      () {
+          () {
         if (textFocusNode3.hasFocus) {
           textEditingController3.selection = TextSelection(
             baseOffset: 0,
@@ -200,6 +205,7 @@ class CommunityCreateController extends GetxController {
 
   void completeRegistration() async {
     try {
+      late int communityId;
       String? dioPassword = password.value;
       if (passwordOnOff.value == false) {
         dioPassword = null;
@@ -210,8 +216,12 @@ class CommunityCreateController extends GetxController {
         password: dioPassword,
         profileImagePath: profileImage.value!.path,
       );
+      communityId = await communityService.getCommunityId(communityName.value);
+
+      await signInCommunity(communityId);
+
       if (statusCode == 200) {
-        Get.offAllNamed('/onboard');
+        Get.offAllNamed('/main');
       }
     } catch (e) {
       if (!regExp1.hasMatch(communityName.value)) {
@@ -285,4 +295,19 @@ class CommunityCreateController extends GetxController {
       ),
     );
   }
+
+  Future<void> signInCommunity(int communityId) async {
+    int? response;
+    response = await communityService
+        .signInCommunity(communityId);
+    if (response == 200) {
+      MyPageController myPageController =
+      Get.find<MyPageController>();
+      CommunityController communityController =
+      Get.find<CommunityController>();
+      await myPageController.updateUserInfo();
+      await communityController.updateCommunityInfo();
+    }
+  }
+
 }
