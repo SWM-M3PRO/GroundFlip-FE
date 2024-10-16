@@ -30,7 +30,7 @@ class DioService {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          const accessToken = userManager.getAccessToken();
+          final accessToken = userManager.getAccessToken();
           options.headers.addAll({
             'Authorization': 'Bearer $accessToken',
           });
