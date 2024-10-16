@@ -20,10 +20,11 @@ class AnnouncementInfo {
         'content': var content,
       } =>
         AnnouncementInfo(
-            title: title,
-            announcementId: announcementId,
-            date: DateTime.parse(date),
-            content: content),
+          title: title,
+          announcementId: announcementId,
+          date: DateTime.parse(date),
+          content: content,
+        ),
       _ => throw const FormatException('Failed to load Announcement')
     };
   }

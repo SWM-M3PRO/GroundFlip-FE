@@ -13,7 +13,10 @@ class AnnouncementController extends GetxController {
   final ScrollController scrollController = ScrollController();
   final AnnouncementService announcementService = AnnouncementService();
   final Announcement announcement = Announcement(
-      title: 'V1.0.6 업데이트 공지', announcementId: 1, date: DateTime.now());
+    title: 'V1.0.6 업데이트 공지',
+    announcementId: 1,
+    date: DateTime.now(),
+  );
 
   @override
   void onInit() {
@@ -54,10 +57,13 @@ class AnnouncementController extends GetxController {
   showAnnouncement(int announcementId) async {
     AnnouncementInfo announcement =
         await announcementService.getAnnouncementContent(announcementId);
-    Get.to(AnnouncementScreen(
+    Get.to(
+      AnnouncementScreen(
         title: announcement.title,
         date: announcement.date,
-        content: announcement.content));
+        content: announcement.content,
+      ),
+    );
   }
 
   @override

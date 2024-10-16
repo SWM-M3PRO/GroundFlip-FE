@@ -67,11 +67,11 @@ class UserInfo extends StatelessWidget {
                           SizedBox(
                             width: 10,
                           ),
+                          SelectableText(
+                            getEncodedUserId(),
+                            style: TextStyles.fs14w600cTextSecondary,
+                          ),
                         ],
-                      ),
-                      SelectableText(
-                        '${getEncodedUserId()}',
-                        style: TextStyles.fs14w600cTextSecondary,
                       ),
                       if (myPageController.getCurrentUserCommunityName() !=
                           null)

@@ -16,7 +16,7 @@ class AnnouncementScreen extends StatelessWidget {
       {super.key,
       required this.title,
       required this.date,
-      required this.content});
+      required this.content,});
 
   @override
   Widget build(BuildContext context) {
@@ -54,23 +54,23 @@ class AnnouncementScreen extends StatelessWidget {
           data: content,
           styleSheet: MarkdownStyleSheet(
             h1: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white,),
             h2: TextStyle(
-                fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white,),
             h3: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white,),
             h4: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white,),
             h5: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white,),
             h6: TextStyle(
-                fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white,),
 
             p: TextStyle(fontSize: 16, color: Colors.white),
             strong: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white,),
             em: TextStyle(
-                fontSize: 16, fontStyle: FontStyle.italic, color: Colors.white),
+                fontSize: 16, fontStyle: FontStyle.italic, color: Colors.white,),
 
             blockquote: TextStyle(
               fontSize: 16,
@@ -87,16 +87,16 @@ class AnnouncementScreen extends StatelessWidget {
             code: TextStyle(
                 fontSize: 16,
                 fontFamily: 'monospace',
-                color: Colors.yellowAccent),
+                color: Colors.yellowAccent,),
 
             a: TextStyle(
                 fontSize: 16,
                 color: AppColors.primary,
-                decoration: TextDecoration.underline),
+                decoration: TextDecoration.underline,),
             del: TextStyle(
                 fontSize: 16,
                 color: Colors.red,
-                decoration: TextDecoration.lineThrough),
+                decoration: TextDecoration.lineThrough,),
 
             listBullet: TextStyle(fontSize: 16, color: Colors.white),
             listIndent: 24.0,
@@ -104,7 +104,7 @@ class AnnouncementScreen extends StatelessWidget {
             blockSpacing: 8.0,
             // 각 블록 사이의 간격
             horizontalRuleDecoration: BoxDecoration(
-                border: Border(top: BorderSide(color: Colors.grey))),
+                border: Border(top: BorderSide(color: Colors.grey)),),
 
             textAlign: WrapAlignment.start,
             // textScaleFactor: 1.0,
