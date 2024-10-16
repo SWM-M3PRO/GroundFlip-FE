@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../constants/app_colors.dart';
 import '../models/create_community_response.dart';
+import '../screens/community_screen.dart';
 import '../service/community_service.dart';
 import '../widgets/common/alert/alert.dart';
 import 'community_controller.dart';
@@ -243,7 +244,7 @@ class CommunityCreateController extends GetxController {
 
       if (response.statusCode == 200) {
         Get.offAllNamed('/main');
-        //Get.to(CommunityScreen());
+        //Get.off(CommunityScreen());
       }
     } catch (e) {
       if (e is DioException) {
