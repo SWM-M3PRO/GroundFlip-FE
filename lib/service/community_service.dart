@@ -85,7 +85,7 @@ class CommunityService {
       options: Options(contentType: 'multipart/form-data'),
     );
 
-    return CreateCommunityResponse.fromJson(response.data, 200);
+    return CreateCommunityResponse.fromJson(response.data, response.statusCode ?? 500);
   }
 
   Future<List<SearchCommunityResponse>> getSearchCommunities({
