@@ -1,11 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../constants/app_colors.dart';
-import '../screens/community_info_screen.dart';
 import '../service/community_service.dart';
 import '../widgets/common/alert/alert.dart';
 import 'community_controller.dart';
@@ -205,12 +203,33 @@ class CommunityCreateController extends GetxController {
 
   void completeRegistration() async {
     try {
-      print('1111 ${passwordOnOff.value}');
       late int communityId;
       String? dioPassword = password.value;
+
       if (passwordOnOff.value == false) {
         dioPassword = null;
+      }else{
+        if (passwordOnOff.value) {
+          if (!regExp3.hasMatch(password.value)) {
+            showErrorDialog('비밀번호 형식이 맞지 않습니다!');
+            return;
+          } else {
+            if (password.value != passwordCheck.value) {
+              showErrorDialog('비밀번호 확인이 맞지 않습니다!');
+              return;
+            }
+          }
+        }
       }
+      if (profileImage.value == null) {
+        showErrorDialog('이미지를 반드시 넣어 주세요!');
+        return;
+      }
+      if (!regExp1.hasMatch(communityName.value)) {
+        showErrorDialog('그룹명 형식이 맞지 않습니다!');
+        return;
+      }
+
       int? statusCode = await communityService.createCommunity(
         communityName: communityName.value,
         communityColor: selectedColor.value,
@@ -225,25 +244,6 @@ class CommunityCreateController extends GetxController {
         Get.offAllNamed('/main');
       }
     } catch (e) {
-      if (!regExp1.hasMatch(communityName.value)) {
-        showErrorDialog('그룹명 형식이 맞지 않습니다!');
-        return;
-      }
-      if (passwordOnOff.value) {
-        if (!regExp3.hasMatch(password.value)) {
-          showErrorDialog('비밀번호 형식이 맞지 않습니다!');
-          return;
-        } else {
-          if (password.value != passwordCheck.value) {
-            showErrorDialog('비밀번호 확인이 맞지 않습니다!');
-            return;
-          }
-        }
-      }
-      if (profileImage.value == null) {
-        showErrorDialog('이미지를 반드시 넣어 주세요!');
-        return;
-      }
       if (e is DioException) {
         final response = e.response;
         if (response != null && response.statusCode == 400) {
