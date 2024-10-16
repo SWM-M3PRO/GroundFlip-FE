@@ -237,10 +237,7 @@ class CommunityCreateController extends GetxController {
         password: dioPassword,
         profileImagePath: profileImage.value!.path,
       );
-      print(1111);
       communityId = response.communityId;
-      print('4444 ${communityId}');
-      print('5555 ${response.statusCode} ${response.communityId}');
 
       await signInCommunity(communityId);
 
