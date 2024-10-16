@@ -1,6 +1,5 @@
 import 'dart:io';
 
-//import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,8 +15,6 @@ class CommunityCreateScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final CommunityCreateController communityCreateController =
         Get.put(CommunityCreateController());
-
-    Color pickerColor = AppColors.primary;
 
     return GestureDetector(
       onTap: () {
@@ -540,23 +537,6 @@ class CommunityCreateScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                           onTap: () {
                             communityCreateController.completeRegistration();
-                            // print(2222);
-                            // if (communityCreateController.nicknameValidation
-                            //     .value=="3~10자 이내") {
-                            //   if (communityCreateController.passwordOnOff
-                            //       .value) {
-                            //     if (communityCreateController.passwordValidation
-                            //         .value == "0-9숫자, 4~10자리" &&
-                            //         communityCreateController
-                            //             .passwordCheckValidation.value ==
-                            //             "일치") {
-                            //       communityCreateController
-                            //           .completeRegistration();
-                            //     }
-                            //   }else {
-                            //     communityCreateController.completeRegistration();
-                            //   }
-                            // }
                           },
                           child: Container(
                             height: 60,
