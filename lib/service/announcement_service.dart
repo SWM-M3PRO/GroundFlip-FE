@@ -41,4 +41,14 @@ class AnnouncementService {
     );
     return AnnouncementInfo.fromJson(response.data['data']);
   }
+
+  Future<void> increaseEventViewCount(int eventId) async {
+    try {
+      await dio.get(
+        '/announcement/events/$eventId/views',
+      );
+    } catch (e) {
+      return;
+    }
+  }
 }
