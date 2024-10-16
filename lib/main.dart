@@ -19,6 +19,7 @@ import 'screens/policy_screen.dart';
 import 'screens/setting_screen.dart';
 import 'screens/sign_up_screen.dart';
 import 'service/alarm_service.dart';
+import 'service/auth_service.dart';
 import 'utils/user_manager.dart';
 import 'utils/version_check.dart';
 
