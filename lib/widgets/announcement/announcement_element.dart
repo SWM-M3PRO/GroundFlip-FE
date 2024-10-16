@@ -19,28 +19,34 @@ class AnnouncementElement extends StatelessWidget {
       onTap: () {
         controller.showAnnouncement(announcement.announcementId);
       },
-      child: Column(
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              announcement.title,
-              style: TextStyles.fs17w700cTextPrimary,
+      child: Container(
+        width: 800,
+        color: Colors.transparent,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  announcement.title,
+                  style: TextStyles.fs17w700cTextPrimary,
+                ),
+                Spacer(),
+              ],
             ),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              DateFormat('yyyy.MM.dd').format(announcement.date),
-              style: TextStyle(fontSize: 14, color: Colors.white70),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                DateFormat('yyyy.MM.dd').format(announcement.date),
+                style: TextStyle(fontSize: 14, color: Colors.white70),
+              ),
             ),
-          ),
-          Divider(
-            height: 20,
-            thickness: 0.3,
-            color: AppColors.textSecondary,
-          ),
-        ],
+            Divider(
+              height: 20,
+              thickness: 0.3,
+              color: AppColors.textSecondary,
+            ),
+          ],
+        ),
       ),
     );
   }
