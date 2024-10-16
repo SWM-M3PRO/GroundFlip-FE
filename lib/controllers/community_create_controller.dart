@@ -205,6 +205,7 @@ class CommunityCreateController extends GetxController {
 
   void completeRegistration() async {
     try {
+      print('1111 ${passwordOnOff.value}');
       late int communityId;
       String? dioPassword = password.value;
       if (passwordOnOff.value == false) {

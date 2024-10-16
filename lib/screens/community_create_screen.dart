@@ -542,22 +542,24 @@ class CommunityCreateScreen extends StatelessWidget {
                         return InkWell(
                           borderRadius: BorderRadius.circular(16),
                           onTap: () {
-                            if (communityCreateController.nicknameValidation
-                                .value=="3~10자 이내") {
-                              if (communityCreateController.passwordOnOff
-                                  .value) {
-                                if (communityCreateController.passwordValidation
-                                    .value == "0-9숫자, 4~10자리" &&
-                                    communityCreateController
-                                        .passwordCheckValidation.value ==
-                                        "일치") {
-                                  communityCreateController
-                                      .completeRegistration();
-                                }
-                              }else {
-                                communityCreateController.completeRegistration();
-                              }
-                            }
+                            communityCreateController.completeRegistration();
+                            // print(2222);
+                            // if (communityCreateController.nicknameValidation
+                            //     .value=="3~10자 이내") {
+                            //   if (communityCreateController.passwordOnOff
+                            //       .value) {
+                            //     if (communityCreateController.passwordValidation
+                            //         .value == "0-9숫자, 4~10자리" &&
+                            //         communityCreateController
+                            //             .passwordCheckValidation.value ==
+                            //             "일치") {
+                            //       communityCreateController
+                            //           .completeRegistration();
+                            //     }
+                            //   }else {
+                            //     communityCreateController.completeRegistration();
+                            //   }
+                            // }
                           },
                           child: Container(
                             height: 60,
