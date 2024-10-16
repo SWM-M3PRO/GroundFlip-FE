@@ -192,7 +192,7 @@ class CommunityCreateScreen extends StatelessWidget {
                                       onSubmitted:
                                           communityCreateController.onSubmitted,
                                       decoration: InputDecoration(
-                                        border: InputBorder.none
+                                        border: InputBorder.none,
                                       ),
                                       cursorColor: AppColors.primary,
                                       style: TextStyle(
