@@ -7,8 +7,7 @@ class CreateCommunityResponse {
     required this.statusCode,
   });
 
-  CreateCommunityResponse.fromJson(Map<String, dynamic> json, int statusCode) {
-    this.communityId = json['data'];
-    this.statusCode = statusCode;
+  CreateCommunityResponse.fromJson(Map<String, dynamic> json, this.statusCode) {
+    communityId = json['data'];
   }
 }
