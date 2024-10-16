@@ -24,8 +24,8 @@ class CommunityCreateController extends GetxController {
   final FocusNode textFocusNode3 = FocusNode();
 
   final ImagePicker picker = ImagePicker();
-  final RegExp regExp1 = RegExp(r'^[A-Za-z가-힣 0-9]{2,20}$');
-  final RegExp regExp2 = RegExp(r'^[A-Za-z가-힣0-9ㄱ-ㅎㅏ-ㅣ ]{3,10}$');
+  final RegExp regExp1 = RegExp(r'^[A-Za-z가-힣 0-9]{2,15}$');
+  final RegExp regExp2 = RegExp(r'^[A-Za-z가-힣0-9ㄱ-ㅎㅏ-ㅣ ]{2,15}$');
   final RegExp regExp3 = RegExp(r'^[0-9]{4,10}$');
 
   var profileImage = Rxn<XFile>();
@@ -123,6 +123,11 @@ class CommunityCreateController extends GetxController {
     } else {
       passwordValidation.value = "0-9숫자, 4~10자리";
     }
+    if (passwordCheck.value == password.value) {
+      passwordCheckValidation.value = "일치";
+    } else {
+      passwordCheckValidation.value = "";
+    }
   }
 
   void updateNickname(String inputString) {
@@ -139,7 +144,7 @@ class CommunityCreateController extends GetxController {
       nicknameValidation.value = "형식에 맞지 않습니다!";
     }
     if (regExp1.hasMatch(inputString)) {
-      nicknameValidation.value = "3~10자 이내";
+      nicknameValidation.value = "2~10자 이내";
     }
   }
 
@@ -152,7 +157,7 @@ class CommunityCreateController extends GetxController {
       nicknameValidation.value = "형식에 맞지 않습니다!";
     }
     if (regExp1.hasMatch(value)) {
-      nicknameValidation.value = "3~10자 이내";
+      nicknameValidation.value = "2~10자 이내";
     }
   }
 
@@ -243,8 +248,7 @@ class CommunityCreateController extends GetxController {
       await signInCommunity(communityId);
 
       if (response.statusCode == 200) {
-        Get.offAllNamed('/main');
-        //Get.off(CommunityScreen());
+        Get.back();
       }
     } catch (e) {
       if (e is DioException) {
