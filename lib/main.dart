@@ -54,7 +54,7 @@ Future<void> main() async {
 
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);
 
-  String initialRoute = '/main';//await AuthService().isLogin() ? '/main' : '/permission';
+  String initialRoute = await AuthService().isLogin() ? '/main' : '/permission';
 
   VersionCheck versionCheck = VersionCheck();
   versionCheck.versionCheck();
