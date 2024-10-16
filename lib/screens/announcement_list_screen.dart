@@ -50,7 +50,7 @@ class AnnouncementListScreen extends StatelessWidget {
                       }
                     },
                   ),
-                )),
+                ),),
           ),
         ],
       ),

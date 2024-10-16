@@ -54,7 +54,6 @@ class MainController extends GetxController {
   }
 
   loadEvent() async {
-    print('-------------------------------------------event');
     final popupData = await SecureStorage().secureStorage.read(key: popupKey);
     if (popupData == null ||
         popupData != DateTime.now().toString().split(" ")[0]) {
@@ -146,40 +145,6 @@ class MainController extends GetxController {
             ),
             onPressed: () async {
               await OptimizeBattery.stopOptimizingBatteryUsage();
-              Get.back();
-            },
-          ),
-        ],
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        backgroundColor: AppColors.boxColor,
-      ),
-    );
-  }
-
-  void _showNewFeature() {
-    Get.dialog(
-      AlertDialog(
-        title: Text(
-          '그룹 기능 출시!',
-          style: TextStyle(
-            color: AppColors.textPrimary,
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        content: Text(
-          '이제 그룹원들과 함께 점령할 수 있어요! 지금 바로 원하는 그룹에 가입해서 그룹의 랭킹을 높여보세요!!',
-          style: TextStyles.fs17w400cTextSecondary,
-        ),
-        actions: [
-          TextButton(
-            child: Text(
-              '닫기',
-              style: TextStyles.fs17w700cPrimary,
-            ),
-            onPressed: () async {
               Get.back();
             },
           ),
