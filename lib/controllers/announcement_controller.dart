@@ -8,8 +8,10 @@ import '../service/announcement_service.dart';
 import '../widgets/announcement/announcement_element.dart';
 
 class AnnouncementController extends GetxController {
-  var items = <AnnouncementElement>[].obs; // 관찰 가능한 리스트
-  var isLoading = false.obs; // 로딩 상태 관리
+  var items = <AnnouncementElement>[].obs;
+  var isLoading = false.obs;
+  var lastItemIndex = 0;
+
   final ScrollController scrollController = ScrollController();
   final AnnouncementService announcementService = AnnouncementService();
   final Announcement announcement = Announcement(
@@ -21,18 +23,18 @@ class AnnouncementController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadInitialItems(); // 초기 데이터 로드
-    scrollController.addListener(_onScroll); // 스크롤 이벤트 리스너 추가
+    loadInitialItems();
+    scrollController.addListener(_onScroll);
   }
 
   Future<void> loadInitialItems() async {
     final List<Announcement> announcements =
-        await announcementService.getAnnouncements(0);
+        await announcementService.getAnnouncements(lastItemIndex);
     final List<AnnouncementElement> newItems = announcements
         .map((announcement) => AnnouncementElement(announcement: announcement))
         .toList();
-
-    items.addAll(newItems); // 초기 20개 항목 로드
+    lastItemIndex = announcements[announcements.length - 1].announcementId;
+    items.addAll(newItems);
   }
 
   void _onScroll() {
@@ -46,10 +48,11 @@ class AnnouncementController extends GetxController {
   Future<void> fetchMoreItems() async {
     isLoading.value = true;
     final List<Announcement> announcements =
-        await announcementService.getAnnouncements(0);
+        await announcementService.getAnnouncements(lastItemIndex);
     final List<AnnouncementElement> newItems = announcements
         .map((announcement) => AnnouncementElement(announcement: announcement))
         .toList();
+    lastItemIndex = announcements[announcements.length - 1].announcementId;
     items.addAll(newItems);
     isLoading.value = false;
   }
