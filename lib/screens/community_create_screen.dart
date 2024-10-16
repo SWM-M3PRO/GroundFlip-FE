@@ -1,16 +1,13 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-
 //import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
 import '../controllers/community_create_controller.dart';
-import '../widgets/user_modify/select_birth_widget.dart';
-import '../widgets/user_modify/select_gender_widget.dart';
 
 class CommunityCreateScreen extends StatelessWidget {
   const CommunityCreateScreen({super.key});
@@ -66,7 +63,7 @@ class CommunityCreateScreen extends StatelessWidget {
                                       null
                                   ? FileImage(
                                       File(communityCreateController
-                                          .profileImage.value!.path),
+                                          .profileImage.value!.path,),
                                     ) as ImageProvider
                                   : AssetImage(
                                       'assets/images/default_profile_image.png',
@@ -249,7 +246,7 @@ class CommunityCreateScreen extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 8),
+                                    horizontal: 10, vertical: 8,),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
@@ -313,7 +310,7 @@ class CommunityCreateScreen extends StatelessWidget {
                                               borderRadius:
                                               BorderRadius.circular(5),
                                               color: Color(communityCreateController
-                                                  .selectedColor.value),
+                                                  .selectedColor.value,),
                                             ),
                                           ),
                                         ),
@@ -324,7 +321,7 @@ class CommunityCreateScreen extends StatelessWidget {
                                           .colorPickerStatement.value
                                       ? Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
+                                              vertical: 10,),
                                           child: ColorPicker(
                                             color: AppColors.primary,
                                             onColorChanged:
@@ -341,7 +338,7 @@ class CommunityCreateScreen extends StatelessWidget {
                                       : Container(),
                                 ],
                               );
-                            })
+                            }),
                           ],
                         ),
                       ),
@@ -377,7 +374,7 @@ class CommunityCreateScreen extends StatelessWidget {
                                       },
                                       activeColor: AppColors.primary,
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),

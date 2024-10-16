@@ -70,16 +70,14 @@ class CommunityService {
       ),
     );
 
-    if (profileImagePath != null) {
-      fileName = profileImagePath.split('/').last;
-      formData.files.add(
-        MapEntry(
-          'profileImage',
-          await MultipartFile.fromFile(profileImagePath, filename: fileName),
-        ),
-      );
-    }
-
+    fileName = profileImagePath.split('/').last;
+    formData.files.add(
+      MapEntry(
+        'profileImage',
+        await MultipartFile.fromFile(profileImagePath, filename: fileName),
+      ),
+    );
+  
     var response = await dio.post(
       '/communities',
       data: formData,
@@ -120,7 +118,7 @@ class CommunityService {
 
   Future<int> getCommunityId(String communityName) async{
     var response = await dio.get(
-      '/communities/id/$communityName'
+      '/communities/id/$communityName',
     );
     return response.data['data'];
   }

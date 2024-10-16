@@ -10,7 +10,7 @@ class SearchCommunityResponse {
       required this.backgroundImageUrl,
       required this.communityColor,
       required this.id,
-      required this.password});
+      required this.password,});
 
   factory SearchCommunityResponse.fromJson(Map<String, dynamic> json) {
     return switch (json) {

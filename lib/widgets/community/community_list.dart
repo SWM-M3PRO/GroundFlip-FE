@@ -62,16 +62,16 @@ class CommunityList extends StatelessWidget {
                             searchCommunityController.inputPassword.value =
                                 text;
                             print(
-                                searchCommunityController.inputPassword.value);
+                                searchCommunityController.inputPassword.value,);
                           },
                           cursorColor: AppColors.textPrimary,
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: AppColors.boxColorSecond)),
+                                      color: AppColors.boxColorSecond,),),
                               focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: AppColors.textPrimary))),
+                                      color: AppColors.textPrimary,),),),
                         ),
                         SizedBox(height: 8),
                         Obx(
@@ -80,7 +80,7 @@ class CommunityList extends StatelessWidget {
                               ? Text(
                                   '비밀번호가 맞지 않습니다',
                                   style: TextStyle(
-                                      fontSize: 10, color: AppColors.accent),
+                                      fontSize: 10, color: AppColors.accent,),
                                 )
                               : Container(),
                         ),
@@ -90,12 +90,6 @@ class CommunityList extends StatelessWidget {
                 ),
                 actions: [
                   TextButton(
-                    child: Text(
-                      '확인',
-                      style: TextStyle(
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
                     style: TextButton.styleFrom(
                       overlayColor: AppColors.primary,
                     ),
@@ -108,10 +102,16 @@ class CommunityList extends StatelessWidget {
                         );
                       } else {
                         print(
-                            '4444 ${searchCommunityController.checkPassword.value}');
+                            '4444 ${searchCommunityController.checkPassword.value}',);
                         searchCommunityController.checkPassword.value = false;
                       }
                     },
+                    child: Text(
+                      '확인',
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
                   ),
                 ],
                 shape: RoundedRectangleBorder(
