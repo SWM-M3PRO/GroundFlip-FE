@@ -1,21 +1,25 @@
 class Event {
   final String eventImageUrl;
   final int? announcementId;
+  final int eventId;
 
   Event({
     required this.eventImageUrl,
     required this.announcementId,
+    required this.eventId,
   });
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
         'eventImageUrl': var eventImageUrl,
-        'announcementId': var eventId,
+        'announcementId': var announcementId,
+        'eventId': var eventId,
       } =>
         Event(
           eventImageUrl: eventImageUrl,
-          announcementId: eventId,
+          announcementId: announcementId,
+          eventId: eventId,
         ),
       _ => throw const FormatException('Failed to load Pixel')
     };

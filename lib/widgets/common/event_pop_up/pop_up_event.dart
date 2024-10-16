@@ -40,6 +40,7 @@ class EventPopUp extends StatelessWidget {
                     children: [
                       for (int i = 0; i < events.length; i++)
                         EventImage(
+                          eventId: events[i].eventId,
                           imageUrl: events[i].eventImageUrl,
                           announcementId: events[i].announcementId,
                         ),

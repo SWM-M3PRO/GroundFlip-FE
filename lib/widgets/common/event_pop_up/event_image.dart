@@ -9,12 +9,14 @@ import '../../../service/announcement_service.dart';
 class EventImage extends StatelessWidget {
   final String imageUrl;
   final int? announcementId;
+  final int eventId;
   final AnnouncementService announcementService = AnnouncementService();
 
   EventImage({
     super.key,
     required this.imageUrl,
     required this.announcementId,
+    required this.eventId,
   });
 
   @override
@@ -22,6 +24,7 @@ class EventImage extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         if (announcementId != null) {
+          announcementService.increaseEventViewCount(eventId);
           AnnouncementInfo announcement =
               await announcementService.getAnnouncementContent(announcementId!);
           Get.to(
