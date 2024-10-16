@@ -11,6 +11,7 @@ import '../controllers/setting_controller.dart';
 import '../widgets/common/app_bar.dart';
 import '../widgets/setting/setting_item.dart';
 import '../widgets/setting/setting_section.dart';
+import 'announcement_list_screen.dart';
 import 'push_setting_screen.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -84,7 +85,7 @@ class SettingScreen extends StatelessWidget {
                 SettingsItem(
                   title: '공지사항',
                   onTap: () async {
-                    launchUrl(Uri.parse(announcementUrl));
+                    Get.to(AnnouncementListScreen());
                   },
                 ),
                 SettingsItem(

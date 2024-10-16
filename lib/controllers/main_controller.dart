@@ -6,32 +6,37 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
-import '../service/android_walking_service.dart';
+import '../models/event.dart';
+import '../service/announcement_service.dart';
 import '../service/fcm_service.dart';
 import '../service/my_place_service.dart';
+import '../utils/secure_storage.dart';
+import '../widgets/common/event_pop_up/pop_up_event.dart';
 
 class MainController extends GetxController {
   final FcmService fcmService = FcmService();
   final MyPlaceService myPlaceService = MyPlaceService();
+  final AnnouncementService announcementService = AnnouncementService();
   final storage = GetStorage();
 
   final RxBool internetCheck = true.obs;
   final RxBool isAlertIsShow = false.obs;
+  final String popupKey = "hidePopupUntil";
 
   @override
   void onInit() async {
     super.onInit();
     fcmService.registerFcmToken();
     myPlaceService.getMyPlaceInfo();
-    await AndroidWalkingService().postAllUserStepFromStorage();
-    checkNewFeature();
+    // await AndroidWalkingService().postAllUserStepFromStorage();
     await checkLocationPermission();
     await checkBatteryPermission();
+    loadEvent();
   }
 
   Future<bool> checkLocationPermission() async {
     PermissionStatus status = await Permission.locationAlways.status;
-
+    //
     if (status != PermissionStatus.granted) {
       _showRequestLocationAlways();
       return false;
@@ -48,11 +53,19 @@ class MainController extends GetxController {
     }
   }
 
-  void checkNewFeature() {
-    bool? isChecked = storage.read('group_feature_checked');
-    if (isChecked == null) {
-      storage.write('group_feature_checked', true);
-      _showNewFeature();
+  loadEvent() async {
+    final popupData = await SecureStorage().secureStorage.read(key: popupKey);
+    if (popupData == null ||
+        popupData != DateTime.now().toString().split(" ")[0]) {
+      List<Event> events = await announcementService.getEvents();
+
+      if (events.isEmpty) {
+        return;
+      }
+      Get.bottomSheet(
+        EventPopUp(events: events),
+        backgroundColor: AppColors.backgroundSecondary,
+      );
     }
   }
 
@@ -132,40 +145,6 @@ class MainController extends GetxController {
             ),
             onPressed: () async {
               await OptimizeBattery.stopOptimizingBatteryUsage();
-              Get.back();
-            },
-          ),
-        ],
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        backgroundColor: AppColors.boxColor,
-      ),
-    );
-  }
-
-  void _showNewFeature() {
-    Get.dialog(
-      AlertDialog(
-        title: Text(
-          '그룹 기능 출시!',
-          style: TextStyle(
-            color: AppColors.textPrimary,
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        content: Text(
-          '이제 그룹원들과 함께 점령할 수 있어요! 지금 바로 원하는 그룹에 가입해서 그룹의 랭킹을 높여보세요!!',
-          style: TextStyles.fs17w400cTextSecondary,
-        ),
-        actions: [
-          TextButton(
-            child: Text(
-              '닫기',
-              style: TextStyles.fs17w700cPrimary,
-            ),
-            onPressed: () async {
               Get.back();
             },
           ),
