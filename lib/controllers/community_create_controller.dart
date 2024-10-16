@@ -243,6 +243,7 @@ class CommunityCreateController extends GetxController {
 
       if (response.statusCode == 200) {
         Get.offAllNamed('/main');
+        //Get.to(CommunityScreen());
       }
     } catch (e) {
       if (e is DioException) {
@@ -302,6 +303,7 @@ class CommunityCreateController extends GetxController {
     int? response;
     response = await communityService
         .signInCommunity(communityId);
+
     if (response == 200) {
       MyPageController myPageController =
       Get.find<MyPageController>();
