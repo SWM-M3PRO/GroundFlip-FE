@@ -24,7 +24,7 @@ class CommunityList extends StatelessWidget {
   final int communityId;
   final int isSearched;
 
-  SearchCommunityController searchCommunityController =
+  final SearchCommunityController searchCommunityController =
       Get.find<SearchCommunityController>();
 
   @override
@@ -61,8 +61,6 @@ class CommunityList extends StatelessWidget {
                           onChanged: (text) {
                             searchCommunityController.inputPassword.value =
                                 text;
-                            print(
-                                searchCommunityController.inputPassword.value,);
                           },
                           cursorColor: AppColors.textPrimary,
                           decoration: InputDecoration(
@@ -101,8 +99,6 @@ class CommunityList extends StatelessWidget {
                           () => CommunityInfoScreen(communityId: communityId),
                         );
                       } else {
-                        print(
-                            '4444 ${searchCommunityController.checkPassword.value}',);
                         searchCommunityController.checkPassword.value = false;
                       }
                     },
