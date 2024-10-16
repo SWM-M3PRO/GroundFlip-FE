@@ -33,24 +33,28 @@ class AnnouncementListScreen extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: Obx(() => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: ListView.builder(
-                    controller: controller.scrollController,
-                    itemCount: controller.items.length + 1,
-                    itemBuilder: (context, index) {
-                      if (index < controller.items.length) {
-                        return controller.items[index];
-                      } else {
-                        return Center(
-                          child: controller.isLoading.value
-                              ? CircularProgressIndicator()
-                              : SizedBox.shrink(),
-                        );
-                      }
-                    },
-                  ),
-                ),),
+            child: Obx(
+              () => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: ListView.builder(
+                  controller: controller.scrollController,
+                  itemCount: controller.items.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index < controller.items.length) {
+                      return controller.items[index];
+                    } else {
+                      return Center(
+                        child: controller.isLoading.value
+                            ? CircularProgressIndicator(
+                                color: AppColors.primary,
+                              )
+                            : SizedBox.shrink(),
+                      );
+                    }
+                  },
+                ),
+              ),
+            ),
           ),
         ],
       ),
