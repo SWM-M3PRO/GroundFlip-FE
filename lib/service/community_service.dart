@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 
 import '../models/community.dart';
+import '../models/create_community_response.dart';
 import '../models/ranking.dart';
 import '../models/search_community_response.dart';
 import '../utils/dio_service.dart';
@@ -40,7 +41,7 @@ class CommunityService {
     return response.statusCode;
   }
 
-  Future<int?> createCommunity({
+  Future<CreateCommunityResponse> createCommunity({
     required String communityName,
     required int communityColor,
     String? password,
@@ -77,14 +78,14 @@ class CommunityService {
         await MultipartFile.fromFile(profileImagePath, filename: fileName),
       ),
     );
-  
+
     var response = await dio.post(
       '/communities',
       data: formData,
       options: Options(contentType: 'multipart/form-data'),
     );
 
-    return response.statusCode;
+    return CreateCommunityResponse.fromJson(response.data, 200);
   }
 
   Future<List<SearchCommunityResponse>> getSearchCommunities({

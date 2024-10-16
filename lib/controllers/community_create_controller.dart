@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../constants/app_colors.dart';
+import '../models/create_community_response.dart';
 import '../service/community_service.dart';
 import '../widgets/common/alert/alert.dart';
 import 'community_controller.dart';
@@ -230,17 +231,20 @@ class CommunityCreateController extends GetxController {
         return;
       }
 
-      int? statusCode = await communityService.createCommunity(
+      CreateCommunityResponse response = await communityService.createCommunity(
         communityName: communityName.value,
         communityColor: selectedColor.value,
         password: dioPassword,
         profileImagePath: profileImage.value!.path,
       );
-      communityId = await communityService.getCommunityId(communityName.value);
+      print(1111);
+      communityId = response.communityId;
+      print('4444 ${communityId}');
+      print('5555 ${response.statusCode} ${response.communityId}');
 
       await signInCommunity(communityId);
 
-      if (statusCode == 200) {
+      if (response.statusCode == 200) {
         Get.offAllNamed('/main');
       }
     } catch (e) {
