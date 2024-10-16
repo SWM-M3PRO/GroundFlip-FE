@@ -33,7 +33,9 @@ class AnnouncementController extends GetxController {
     final List<AnnouncementElement> newItems = announcements
         .map((announcement) => AnnouncementElement(announcement: announcement))
         .toList();
-    lastItemIndex = announcements[announcements.length - 1].announcementId;
+    if (announcements.isNotEmpty) {
+      lastItemIndex = announcements[announcements.length - 1].announcementId;
+    }
     items.addAll(newItems);
   }
 
@@ -52,7 +54,10 @@ class AnnouncementController extends GetxController {
     final List<AnnouncementElement> newItems = announcements
         .map((announcement) => AnnouncementElement(announcement: announcement))
         .toList();
-    lastItemIndex = announcements[announcements.length - 1].announcementId;
+    if (announcements.isNotEmpty) {
+      lastItemIndex = announcements[announcements.length - 1].announcementId;
+    }
+
     items.addAll(newItems);
     isLoading.value = false;
   }
