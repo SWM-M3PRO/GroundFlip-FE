@@ -27,7 +27,6 @@ class CommunityInfoScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Obx(() {
-        print('5555 ${communityInfoController.password.value}');
         if (communityInfoController.isLoading.value) {
           return const Center(
             child: CircularProgressIndicator(
