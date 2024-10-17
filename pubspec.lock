@@ -401,6 +401,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.68.0"
+  flex_color_picker:
+    dependency: "direct main"
+    description:
+      name: flex_color_picker
+      sha256: "12dc855ae8ef5491f529b1fc52c655f06dcdf4114f1f7fdecafa41eec2ec8d79"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.6.0"
+  flex_seed_scheme:
+    dependency: transitive
+    description:
+      name: flex_seed_scheme
+      sha256: "7639d2c86268eff84a909026eb169f008064af0fb3696a651b24b0fa24a40334"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -414,6 +430,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.0"
+  flutter_colorpicker:
+    dependency: "direct main"
+    description:
+      name: flutter_colorpicker
+      sha256: "969de5f6f9e2a570ac660fb7b501551451ea2a1ab9e2097e89475f60e07816ea"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   flutter_config:
     dependency: "direct main"
     description:

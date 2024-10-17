@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 
 import '../models/community.dart';
+import '../models/create_community_response.dart';
 import '../models/ranking.dart';
 import '../models/search_community_response.dart';
 import '../utils/dio_service.dart';
@@ -38,6 +41,53 @@ class CommunityService {
     return response.statusCode;
   }
 
+  Future<CreateCommunityResponse> createCommunity({
+    required String communityName,
+    required int communityColor,
+    String? password,
+    required String profileImagePath,
+  }) async {
+    late String fileName;
+    late String hexCommunityColor;
+    hexCommunityColor = communityColor.toRadixString(16).toUpperCase();
+
+    var communityInfoJson = jsonEncode(
+      {
+        'name': communityName,
+        'communityColor': hexCommunityColor,
+        'password':password,
+      },
+    );
+
+    var formData = FormData();
+
+    formData.files.add(
+      MapEntry(
+        'communityInfoRequest',
+        MultipartFile.fromString(
+          communityInfoJson,
+          contentType: DioMediaType.parse('application/json'),
+        ),
+      ),
+    );
+
+    fileName = profileImagePath.split('/').last;
+    formData.files.add(
+      MapEntry(
+        'profileImage',
+        await MultipartFile.fromFile(profileImagePath, filename: fileName),
+      ),
+    );
+
+    var response = await dio.post(
+      '/communities',
+      data: formData,
+      options: Options(contentType: 'multipart/form-data'),
+    );
+
+    return CreateCommunityResponse.fromJson(response.data, response.statusCode ?? 500);
+  }
+
   Future<List<SearchCommunityResponse>> getSearchCommunities({
     required String searchKeyword,
   }) async {
@@ -65,6 +115,13 @@ class CommunityService {
       queryParameters: {"community-id": communityId},
     );
     return response.data['data']['currentPixelCount'];
+  }
+
+  Future<int> getCommunityId(String communityName) async{
+    var response = await dio.get(
+      '/communities/id/$communityName',
+    );
+    return response.data['data'];
   }
 
   signOutCommunity(int communityId) async {

@@ -12,6 +12,9 @@ class SearchCommunityController extends GetxController {
   RxString imageUrl = "".obs;
   RxString communityName = "".obs;
   RxInt communityId = 0.obs;
+  RxString password = "".obs;
+  RxString inputPassword = "".obs;
+  RxBool checkPassword = true.obs;
 
   final CommunityService communityService = CommunityService();
 
@@ -52,14 +55,16 @@ class SearchCommunityController extends GetxController {
     searchKeyword.value = value;
     if (textEditingController.text.isNotEmpty) {
       getSearchedGroup(value);
-    }else{
+    } else {
       searchResult.clear();
     }
   }
 
-  void updateCommunityInfo(dynamic communityInfo){
+  void updateCommunityInfo(dynamic communityInfo) {
     imageUrl.value = communityInfo.backgroundImageUrl;
     communityName.value = communityInfo.name;
     communityId.value = communityInfo.id;
+    password.value =
+        communityInfo.password ?? "";
   }
 }

@@ -46,7 +46,12 @@ class CommunityInfoScreen extends StatelessWidget {
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
-                    Get.back();
+                    if(communityInfoController.password.value != ""){
+                      Get.back();
+                      Get.back();
+                    }else{
+                      Get.back();
+                    }
                   },
                 ),
                 actions: [
