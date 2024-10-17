@@ -84,11 +84,22 @@ class Rank extends StatelessWidget {
         height: size,
       );
     } else {
+      Widget rankText;
+      if (rank! > 9999) {
+        rankText =
+            Text(rank.toString(), style: TextStyles.fs12w800cTextPrimary);
+      } else if (rank! > 999) {
+        rankText =
+            Text(rank.toString(), style: TextStyles.fs16w700cTextPrimary);
+      } else {
+        rankText =
+            Text(rank.toString(), style: TextStyles.fs20w800cTextPrimary);
+      }
       return SizedBox(
         width: size,
         height: size,
         child: Center(
-          child: Text(rank.toString(), style: TextStyles.fs20w800cTextPrimary),
+          child: rankText,
         ),
       );
     }
@@ -175,6 +186,17 @@ class MyRank extends StatelessWidget {
         height: 44,
       );
     } else {
+      Widget rankText;
+      if (rank! > 9999) {
+        rankText =
+            Text(rank.toString(), style: TextStyles.fs12w800cTextPrimary);
+      } else if (rank! > 999) {
+        rankText =
+            Text(rank.toString(), style: TextStyles.fs16w700cTextPrimary);
+      } else {
+        rankText =
+            Text(rank.toString(), style: TextStyles.fs20w800cTextPrimary);
+      }
       return Container(
         width: 44,
         height: 44,
@@ -183,7 +205,7 @@ class MyRank extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(22)),
         ),
         child: Center(
-          child: Text(rank.toString(), style: TextStyles.fs20w800cTextPrimary),
+          child: rankText,
         ),
       );
     }

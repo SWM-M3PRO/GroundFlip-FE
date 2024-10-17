@@ -5,30 +5,122 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../constants/app_colors.dart';
+import '../../controllers/search_community_controller.dart';
 import '../../screens/community_info_screen.dart';
 
 class CommunityList extends StatelessWidget {
-  const CommunityList({
+  CommunityList({
     super.key,
     required this.imageUrl,
     required this.communityName,
     required this.isSearched,
     required this.communityId,
+    required this.password,
   });
 
   final String imageUrl;
   final String communityName;
+  final String password;
   final int communityId;
   final int isSearched;
 
+  final SearchCommunityController searchCommunityController =
+      Get.find<SearchCommunityController>();
+
   @override
   Widget build(BuildContext context) {
+    searchCommunityController.inputPassword.value = "";
+
     return ListTile(
       title: InkWell(
         onTap: () {
-          Get.to(
-            () => CommunityInfoScreen(communityId: communityId),
-          );
+          searchCommunityController.checkPassword.value = true;
+          if (password != "") {
+            Get.dialog(
+              AlertDialog(
+                title: Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      children: [
+                        Text(
+                          '비밀번호',
+                          style: TextStyle(
+                            color: AppColors.textPrimary,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        TextField(
+                          obscureText: true,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                          autofocus: true,
+                          onChanged: (text) {
+                            searchCommunityController.inputPassword.value =
+                                text;
+                          },
+                          cursorColor: AppColors.textPrimary,
+                          decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: AppColors.boxColorSecond,),),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: AppColors.textPrimary,),),),
+                        ),
+                        SizedBox(height: 8),
+                        Obx(
+                          () => searchCommunityController.checkPassword.value ==
+                                  false
+                              ? Text(
+                                  '비밀번호가 맞지 않습니다',
+                                  style: TextStyle(
+                                      fontSize: 10, color: AppColors.accent,),
+                                )
+                              : Container(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      overlayColor: AppColors.primary,
+                    ),
+                    onPressed: () async {
+                      if (searchCommunityController.inputPassword.value ==
+                          password) {
+                        searchCommunityController.checkPassword.value = true;
+                        Get.to(
+                          () => CommunityInfoScreen(communityId: communityId),
+                        );
+                      } else {
+                        searchCommunityController.checkPassword.value = false;
+                      }
+                    },
+                    child: Text(
+                      '확인',
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ),
+                ],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                backgroundColor: AppColors.boxColor,
+              ),
+            );
+          } else {
+            Get.to(
+              () => CommunityInfoScreen(communityId: communityId),
+            );
+          }
         },
         child: Row(
           children: [
@@ -54,6 +146,13 @@ class CommunityList extends StatelessWidget {
               ],
             ),
             Spacer(),
+            password != ""
+                ? Icon(
+                    Icons.lock,
+                    size: 20,
+                  )
+                : Container(),
+            SizedBox(width: 5),
             selectIcon(isSearched),
           ],
         ),

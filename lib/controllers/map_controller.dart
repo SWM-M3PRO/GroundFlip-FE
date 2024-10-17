@@ -20,6 +20,7 @@ import '../service/location_service.dart';
 import '../service/pixel_service.dart';
 import '../service/user_service.dart';
 import '../utils/date_handler.dart';
+import '../utils/secure_storage.dart';
 import '../utils/user_manager.dart';
 import '../utils/walking_service.dart';
 import '../utils/walking_service_factory.dart';
@@ -46,6 +47,8 @@ class MapController extends SuperController {
   static const double maxZoomOutLevel = 14.0;
   static const double latPerPixel = 0.000724;
   static const double lonPerPixel = 0.000909;
+  static const String backgroundModeStatusKey = 'backgroundModeStatusKey';
+  static const String firstLaunchKey = 'firstLaunchKey';
 
   late final String mapStyle;
 
@@ -93,9 +96,11 @@ class MapController extends SuperController {
     latestPixel = {'x': 0, 'y': 0};
     await updateCurrentPixel();
     updateMap();
+    _occupyFirstPixel();
     _trackUserLocation();
     trackPixels();
     lastOnTabPixel = Pixel.createEmptyPixel();
+    _loadBackgroundModeStatus();
   }
 
   @override
@@ -121,6 +126,17 @@ class MapController extends SuperController {
 
   onBottomBarHidden() {
     bottomSheetController.minimize();
+  }
+
+  _occupyFirstPixel() async {
+    String? isFirstLaunch =
+        await SecureStorage().secureStorage.read(key: firstLaunchKey);
+    if (isFirstLaunch == null) {
+      occupyPixel();
+      await SecureStorage()
+          .secureStorage
+          .write(key: firstLaunchKey, value: 'false');
+    }
   }
 
   updateCurrentPixel() async {
@@ -580,18 +596,43 @@ class MapController extends SuperController {
     await box.remove(place);
   }
 
+  _loadBackgroundModeStatus() async {
+    String? data =
+        await SecureStorage().secureStorage.read(key: backgroundModeStatusKey);
+    if (data == null) {
+      isBackgroundEnabled.value == false;
+    } else {
+      if (data == 'true') {
+        bool isLocationAlwaysEnabled =
+            await Get.find<MainController>().checkLocationPermission();
+        if (!isLocationAlwaysEnabled) {
+          return;
+        }
+        LocationService().enableBackgroundLocation();
+      }
+      isBackgroundEnabled.value = data == 'true';
+    }
+  }
+
   void changeBackgroundMode(bool changedValue) async {
     if (changedValue) {
-      bool isLocationAlwaysEnabled = await Get.find<MainController>().checkLocationPermission();
+      bool isLocationAlwaysEnabled =
+          await Get.find<MainController>().checkLocationPermission();
       if (!isLocationAlwaysEnabled) {
         return;
       }
 
       LocationService().enableBackgroundLocation();
       isBackgroundEnabled.value = changedValue;
+      await SecureStorage()
+          .secureStorage
+          .write(key: backgroundModeStatusKey, value: changedValue.toString());
     } else {
       LocationService().disableBackgroundLocation();
       isBackgroundEnabled.value = changedValue;
+      await SecureStorage()
+          .secureStorage
+          .write(key: backgroundModeStatusKey, value: changedValue.toString());
     }
   }
 }
