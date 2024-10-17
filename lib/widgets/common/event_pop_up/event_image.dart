@@ -38,7 +38,7 @@ class EventImage extends StatelessWidget {
       },
       child: Image(
         image: CachedNetworkImageProvider(imageUrl),
-        fit: BoxFit.cover,
+        fit: BoxFit.fitWidth,
       ),
     );
   }
