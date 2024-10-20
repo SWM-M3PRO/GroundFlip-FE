@@ -53,15 +53,23 @@ class SignUpScreen extends StatelessWidget {
                       Obx(
                         () => Column(
                           children: [
-                            CircleAvatar(
-                              radius: 80.0,
-                              backgroundImage: controller.profileImage.value != null
-                                  ? FileImage(
-                                      File(controller.profileImage.value!.path),
-                                    ) as ImageProvider
-                                  : AssetImage(
-                                      'assets/images/default_profile_image.png',
-                                    ) as ImageProvider,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(15.0),
+                              child: Container(
+                                width: 160.0,
+                                height: 160.0,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: controller.profileImage.value != null
+                                        ? FileImage(File(controller
+                                            .profileImage.value!.path,),)
+                                        : AssetImage(
+                                                'assets/images/default_profile_image.png',)
+                                            as ImageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
@@ -73,7 +81,7 @@ class SignUpScreen extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     borderRadius: BorderRadius.circular(16),
-                                    onTap: (){
+                                    onTap: () {
                                       controller.getImage(context);
                                     },
                                     child: Container(
@@ -121,15 +129,18 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                         child: Column(
                           children: [
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10, bottom: 5),
+                                padding:
+                                    const EdgeInsets.only(left: 10, bottom: 5),
                                 child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.baseline,
                                   textBaseline: TextBaseline.alphabetic,
                                   children: [
                                     Text(
@@ -166,7 +177,8 @@ class SignUpScreen extends StatelessWidget {
                                 ),
                                 child: Center(
                                   child: TextField(
-                                    controller: controller.textEditingController,
+                                    controller:
+                                        controller.textEditingController,
                                     autofocus: false,
                                     focusNode: controller.textFocusNode,
                                     onChanged: controller.updateNickname,
@@ -186,18 +198,19 @@ class SignUpScreen extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               child: Obx(
                                 () => Padding(
-                                  padding: const EdgeInsets.only(left: 10, top: 5),
+                                  padding:
+                                      const EdgeInsets.only(left: 10, top: 5),
                                   child: Row(
                                     children: [
                                       Text(
                                         controller.nicknameValidation.value,
                                         style: TextStyle(
                                           fontSize: 14,
-                                          color:
-                                              controller.nicknameValidation.value ==
-                                                      "3~10자 이내"
-                                                  ? AppColors.primary
-                                                  : AppColors.textForth,
+                                          color: controller.nicknameValidation
+                                                      .value ==
+                                                  "3~10자 이내"
+                                              ? AppColors.primary
+                                              : AppColors.textForth,
                                         ),
                                       ),
                                       Icon(
@@ -226,7 +239,8 @@ class SignUpScreen extends StatelessWidget {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10, bottom: 8),
+                                padding:
+                                    const EdgeInsets.only(left: 10, bottom: 8),
                                 child: Text(
                                   '출생년도',
                                   style: TextStyle(

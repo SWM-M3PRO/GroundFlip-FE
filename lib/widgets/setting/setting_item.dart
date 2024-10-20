@@ -53,11 +53,7 @@ class SettingsItem extends StatelessWidget {
               if (subTitle != null)
                 Text(subTitle!, style: TextStyles.fs17w400cTextSecondary),
               SizedBox(width: 20),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: AppColors.textSecondary,
-                size: 15,
-              ),
+
             ],
           ),
         ),

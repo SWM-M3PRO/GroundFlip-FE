@@ -11,10 +11,10 @@ class ProfileImage extends StatelessWidget {
   final int checkVersion;
   late final dynamic controller;
 
-  ProfileImage({super.key, required this.checkVersion}){
-    if(checkVersion==0){
+  ProfileImage({super.key, required this.checkVersion}) {
+    if (checkVersion == 0) {
       controller = Get.find<UserInfoController>();
-    }else{
+    } else {
       controller = Get.find<SignUpController>();
     }
   }
@@ -24,43 +24,55 @@ class ProfileImage extends StatelessWidget {
     return Obx(
       () => Column(
         children: [
-          CircleAvatar(
-            radius: 80.0,
-            backgroundImage: controller.profileImage.value != null
-                ? FileImage(
-              File(controller.profileImage.value!.path),
-            ) as ImageProvider
-                : controller.imageS3Url.value == ""
-                ? AssetImage(
-              'assets/images/default_profile_image.png',
-            ) as ImageProvider
-                : NetworkImage(controller.imageS3Url.value)
-            as ImageProvider,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(24.0),
+            child: Container(
+              width: 160.0,
+              height: 160.0,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: controller.profileImage.value != null
+                      ? FileImage(
+                          File(controller.profileImage.value!.path),
+                        ) as ImageProvider
+                      : controller.imageS3Url.value == ""
+                          ? AssetImage(
+                              'assets/images/default_profile_image.png',
+                            ) as ImageProvider
+                          : NetworkImage(controller.imageS3Url.value)
+                              as ImageProvider,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
-                vertical: 10, horizontal: 0,),
+              vertical: 10,
+              horizontal: 0,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     controller.getImage(context);
                   },
                   borderRadius: BorderRadius.circular(24),
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: BorderRadius.circular(12),
                       color: AppColors.boxColorThird,
                     ),
                     child: Center(
                       child: Text(
                         '이미지 변경',
                         style: TextStyle(
-                            color: AppColors.textPrimary,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,),
+                          color: AppColors.textPrimary,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -70,9 +82,9 @@ class ProfileImage extends StatelessWidget {
                   onTap: controller.deleteImage,
                   borderRadius: BorderRadius.circular(24),
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: BorderRadius.circular(12),
                       color: AppColors.boxColorThird,
                     ),
                     child: Center(

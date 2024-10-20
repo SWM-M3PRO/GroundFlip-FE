@@ -15,6 +15,8 @@ import 'announcement_list_screen.dart';
 import 'push_setting_screen.dart';
 
 class SettingScreen extends StatelessWidget {
+  static String policyUrl =
+      'https://autumn-blouse-355.notion.site/eb53cab4f7a24135babca2c6b8ebde1c?pvs=4';
   static String individualInfoPolicyUrl =
       'https://autumn-blouse-355.notion.site/e338b4179e5248eebe4c5827b347307b?pvs=4';
   static String serviceUsePolicyUrl =
@@ -59,6 +61,17 @@ class SettingScreen extends StatelessWidget {
         child: ListView(
           children: [
             SettingsSection(
+              title: '버전 정보',
+              items: [
+                Obx(() => SettingsItem(
+                  title: '현재 버전',
+                  subTitle: settingController.currentVersion.value,
+                  isLast: true,
+                ),
+                ),
+              ],
+            ),
+            SettingsSection(
               items: [
                 SettingsItem(
                   title: '알림 설정',
@@ -80,56 +93,39 @@ class SettingScreen extends StatelessWidget {
               ],
             ),
             SettingsSection(
-              title: '가이드',
+              title: '공지사항 및 문의',
               items: [
+                SettingsItem(
+                  title: '문의를 위한 오픈 채팅방',
+                  onTap: () {
+                    launchUrl(Uri.parse(customerSupportUrl));
+                  },
+                ),
                 SettingsItem(
                   title: '공지사항',
                   onTap: () async {
                     Get.to(AnnouncementListScreen());
                   },
-                ),
-                SettingsItem(
-                  title: '사용 가이드',
-                  onTap: () {
-                    launchUrl(Uri.parse(playGuideUrl));
-                  },
-                ),
-                SettingsItem(
-                  title: '고객 문의 및 개선 요청',
                   isLast: true,
-                  onTap: () {
-                    launchUrl(Uri.parse(customerSupportUrl));
-                  },
+
                 ),
               ],
             ),
             SettingsSection(
-              title: '기타',
+              title: '약관',
               items: [
                 SettingsItem(
-                  title: '서비스 이용약관',
-                  onTap: () {
-                    launchUrl(Uri.parse(serviceUsePolicyUrl));
-                  },
-                ),
-                SettingsItem(
-                  title: '위치기반서비스 이용약관',
-                  onTap: () {
-                    launchUrl(Uri.parse(placeServicePolicyUrl));
-                  },
-                ),
-                SettingsItem(
-                  title: '개인정보 처리 방침',
+                  title: '개인정보처리방침',
                   onTap: () {
                     launchUrl(Uri.parse(individualInfoPolicyUrl));
                   },
                 ),
-                Obx(
-                  () => SettingsItem(
-                    title: '버전 정보',
-                    subTitle: settingController.currentVersion.value,
-                    isLast: true,
-                  ),
+                SettingsItem(
+                  title: '서비스이용약관',
+                  onTap: () {
+                    launchUrl(Uri.parse(serviceUsePolicyUrl));
+                  },
+                  isLast: true,
                 ),
               ],
             ),
@@ -148,6 +144,7 @@ class SettingScreen extends StatelessWidget {
                   onTap: () {
                     settingController.removeAccount();
                   },
+
                 ),
               ],
             ),

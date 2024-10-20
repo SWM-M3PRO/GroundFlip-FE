@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -46,10 +48,12 @@ class MainController extends GetxController {
   }
 
   Future<void> checkBatteryPermission() async {
-    bool batteryPermissionGranted =
-        await OptimizeBattery.isIgnoringBatteryOptimizations();
-    if (batteryPermissionGranted == false) {
-      _showRequestBattery();
+    if (Platform.isAndroid) {
+      bool batteryPermissionGranted =
+          await OptimizeBattery.isIgnoringBatteryOptimizations();
+      if (batteryPermissionGranted == false) {
+        _showRequestBattery();
+      }
     }
   }
 
