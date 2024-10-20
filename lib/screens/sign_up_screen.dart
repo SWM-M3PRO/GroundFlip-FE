@@ -62,9 +62,9 @@ class SignUpScreen extends StatelessWidget {
                                   image: DecorationImage(
                                     image: controller.profileImage.value != null
                                         ? FileImage(File(controller
-                                            .profileImage.value!.path))
+                                            .profileImage.value!.path,),)
                                         : AssetImage(
-                                                'assets/images/default_profile_image.png')
+                                                'assets/images/default_profile_image.png',)
                                             as ImageProvider,
                                     fit: BoxFit.cover,
                                   ),
