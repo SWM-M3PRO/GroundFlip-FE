@@ -252,6 +252,7 @@ class UserInfoController extends GetxController {
 
   void deleteImage() {
     profileImage.value = null;
+    imageS3Url.value = "";
     update();
   }
 }
