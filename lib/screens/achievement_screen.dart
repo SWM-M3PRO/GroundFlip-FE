@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
+import '../constants/text_styles.dart';
 import '../widgets/achievement/achievement_category.dart';
 import '../widgets/achievement/recent_achievement_dashboard.dart';
 import '../widgets/common/app_bar.dart';
 
 class AchievementScreen extends StatelessWidget {
+  const AchievementScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +38,13 @@ class AchievementScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
+            Text(
+              '카테고리',
+              style: TextStyles.fs17w600cTextPrimary,
+            ),
+            SizedBox(
+              height: 10,
+            ),
             Row(
               children: [
                 AchievementCategory(
@@ -44,9 +54,10 @@ class AchievementScreen extends StatelessWidget {
                 ),
                 SizedBox(width: 20),
                 AchievementCategory(
-                    categoryName: "정복자",
-                    badgeImage: "assets/images/badge/badge_2.png",
-                    badgeName: "50개 약탈자"),
+                  categoryName: "정복자",
+                  badgeImage: "assets/images/badge/badge_2.png",
+                  badgeName: "50개 약탈자",
+                ),
               ],
             ),
             SizedBox(height: 20),
