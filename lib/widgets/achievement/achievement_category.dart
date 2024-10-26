@@ -3,18 +3,16 @@ import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
-import '../../screens/my_achievement_screen.dart';
+import '../../screens/category_achievement_list_screen.dart';
 
 class AchievementCategory extends StatelessWidget {
   final String categoryName;
   final String badgeImage;
-  final String badgeName;
 
   const AchievementCategory({
     super.key,
     required this.categoryName,
     required this.badgeImage,
-    required this.badgeName,
   });
 
   @override
@@ -23,7 +21,12 @@ class AchievementCategory extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.all(Radius.circular(16)),
         onTap: () {
-          Get.to(MyAchievementScreen());
+          Get.to(CategoryAchievementListScreen(
+            categoryName: categoryName,
+            categoryImageUrl: badgeImage,
+            categoryDescription:
+                "앱을 켜고 아무 땅이나 방문하여 얻을 수 있는 업적입니다. 많은 땅을 방문하여 뱃지를 모아보세요.",
+          ));
         },
         child: Ink(
           decoration: BoxDecoration(
@@ -35,7 +38,6 @@ class AchievementCategory extends StatelessWidget {
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
-            // color: AppColors.backgroundSecondary,
             borderRadius: BorderRadius.all(Radius.circular(16)),
           ),
           padding: const EdgeInsets.all(20.0),
@@ -58,22 +60,6 @@ class AchievementCategory extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Text(
-                badgeName,
-                style: TextStyles.fs14w800cTextPrimary,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: [
-              //     Text(
-              //       '모두 보기',
-              //       style: TextStyles.fs17w500cPrimary,
-              //     ),
-              //   ],
-              // ),
             ],
           ),
         ),

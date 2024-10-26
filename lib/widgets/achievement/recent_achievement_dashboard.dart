@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
-import '../../constants/text_styles.dart';
 import '../../screens/my_achievement_screen.dart';
+import 'achievement_list_element.dart';
 
 class RecentAchievementDashboard extends StatelessWidget {
   const RecentAchievementDashboard({super.key});
@@ -23,49 +23,29 @@ class RecentAchievementDashboard extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "내 업적",
-                  style: TextStyles.fs17w600cTextPrimary,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Icon(
-                  Icons.arrow_forward_ios_outlined,
-                  color: AppColors.textPrimary,
-                  size: 15,
-                ),
-                Spacer(),
-                Text(
-                  '15',
-                  style: TextStyles.fs17w700cPrimary,
-                ),
-                Text(
-                  ' / 52',
-                  style: TextStyles.fs17w400cTextSecondary,
-                ),
-              ],
-            ),
             SizedBox(
               height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset(
-                  "assets/images/badge/badge_1.png",
-                  width: 80,
+                AchievementListElement(
+                  badgeUrl: "assets/images/badge/badge_1.png",
+                  achievementName: "10개의 땅 방문",
+                  obtainedDate: DateTime.now(),
+                  isClickable: false,
                 ),
-                Image.asset(
-                  "assets/images/badge/badge_2.png",
-                  width: 80,
+                AchievementListElement(
+                  badgeUrl: "assets/images/badge/badge_3.png",
+                  achievementName: "50개의 땅 점령",
+                  obtainedDate: DateTime.now(),
+                  isClickable: false,
                 ),
-                Image.asset(
-                  "assets/images/badge/badge_3.png",
-                  width: 80,
+                AchievementListElement(
+                  badgeUrl: "assets/images/badge/badge_4.png",
+                  achievementName: "경기도 정복",
+                  obtainedDate: DateTime.now(),
+                  isClickable: false,
                 ),
               ],
             ),
