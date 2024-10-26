@@ -34,6 +34,13 @@ class AchievementScreen extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: ListView(
           children: [
+            Text(
+              '내 업적',
+              style: TextStyles.fs17w600cTextPrimary,
+            ),
+            SizedBox(
+              height: 10,
+            ),
             RecentAchievementDashboard(),
             SizedBox(
               height: 20,
@@ -50,13 +57,11 @@ class AchievementScreen extends StatelessWidget {
                 AchievementCategory(
                   categoryName: "탐험왕",
                   badgeImage: "assets/images/badge/badge_5.png",
-                  badgeName: "새로운 땅 1000개 방문",
                 ),
                 SizedBox(width: 20),
                 AchievementCategory(
                   categoryName: "정복자",
                   badgeImage: "assets/images/badge/badge_2.png",
-                  badgeName: "50개 약탈자",
                 ),
               ],
             ),
@@ -66,13 +71,11 @@ class AchievementScreen extends StatelessWidget {
                 AchievementCategory(
                   categoryName: "식민지화",
                   badgeImage: "assets/images/badge/badge_3.png",
-                  badgeName: "경기도",
                 ),
                 SizedBox(width: 20),
                 AchievementCategory(
                   categoryName: "특수 목표",
                   badgeImage: "assets/images/badge/badge_6.png",
-                  badgeName: "독도 지킴이",
                 ),
               ],
             ),
@@ -82,13 +85,11 @@ class AchievementScreen extends StatelessWidget {
                 AchievementCategory(
                   categoryName: "식민지화",
                   badgeImage: "assets/images/badge/badge_3.png",
-                  badgeName: "경기도",
                 ),
                 SizedBox(width: 20),
                 AchievementCategory(
                   categoryName: "특수 목표",
                   badgeImage: "assets/images/badge/badge_6.png",
-                  badgeName: "독도 지킴이",
                 ),
               ],
             ),
