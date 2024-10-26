@@ -81,6 +81,12 @@ class TextStyles {
     color: AppColors.textPrimary,
   );
 
+  static TextStyle fs20w600cTextSecondary = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textSecondary,
+  );
+
   static TextStyle fs14w500cPrimary = TextStyle(
     color: AppColors.primary,
     fontSize: 14,
