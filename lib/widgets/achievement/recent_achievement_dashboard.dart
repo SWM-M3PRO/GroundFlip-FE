@@ -10,11 +10,12 @@ class RecentAchievementDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
+      borderRadius: BorderRadius.all(Radius.circular(16)),
       onTap: () {
         Get.to(MyAchievementScreen());
       },
-      child: Container(
+      child: Ink(
         decoration: BoxDecoration(
           color: AppColors.backgroundSecondary,
           borderRadius: BorderRadius.all(Radius.circular(16)),

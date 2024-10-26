@@ -8,11 +8,12 @@ class AchievementListElement extends StatelessWidget {
   final String achievementName;
   final DateTime obtainedDate;
 
-  const AchievementListElement(
-      {super.key,
-      required this.badgeUrl,
-      required this.achievementName,
-      required this.obtainedDate});
+  const AchievementListElement({
+    super.key,
+    required this.badgeUrl,
+    required this.achievementName,
+    required this.obtainedDate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class AchievementListElement extends StatelessWidget {
         Text(
           DateFormat('yyyy.MM.dd').format(obtainedDate),
           style: TextStyles.fs14w500cTextSecondary,
-        )
+        ),
       ],
     );
   }
