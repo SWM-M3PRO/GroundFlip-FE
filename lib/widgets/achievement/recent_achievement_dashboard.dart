@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
-import '../../screens/achievement_screen.dart';
+import '../../screens/my_achievement_screen.dart';
 
 class RecentAchievementDashboard extends StatelessWidget {
   const RecentAchievementDashboard({super.key});
@@ -12,7 +12,7 @@ class RecentAchievementDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(AchievementScreen());
+        Get.to(MyAchievementScreen());
       },
       child: Container(
         decoration: BoxDecoration(
@@ -23,7 +23,6 @@ class RecentAchievementDashboard extends StatelessWidget {
         child: Column(
           children: [
             Row(
-              // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
@@ -60,17 +59,13 @@ class RecentAchievementDashboard extends StatelessWidget {
                   width: 80,
                 ),
                 Image.asset(
-                  "assets/images/badge/badge_5.png",
+                  "assets/images/badge/badge_2.png",
                   width: 80,
                 ),
                 Image.asset(
                   "assets/images/badge/badge_3.png",
                   width: 80,
                 ),
-                // Image.asset(
-                //   "assets/images/badge/badge_1.png",
-                //   width: 100,
-                // ),
               ],
             ),
           ],
