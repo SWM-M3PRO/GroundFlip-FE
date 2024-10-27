@@ -14,97 +14,96 @@ class PixelBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.backgroundSecondary,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0.0, 0, 20, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Obx(
-                    () => GestureDetector(
-                      onTap: myPageController.getIsPreviousButtonEnabled()
-                          ? () {
-                              myPageController.loadPreviousWeeklyPixelCount();
-                            }
-                          : null,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.backgroundSecondary,
-                          borderRadius: BorderRadius.all(Radius.circular(16)),
-                        ),
-                        padding: const EdgeInsets.fromLTRB(20.0, 20, 10, 20),
-                        child: Icon(
-                          Icons.arrow_back_ios_new_outlined,
-                          color: AppColors.textPrimary,
-                          size: 20,
-                        ),
+    return Container(
+      height: 400,
+      decoration: BoxDecoration(
+        color: AppColors.backgroundSecondary,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0.0, 0, 20, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Obx(
+                  () => GestureDetector(
+                    onTap: myPageController.getIsPreviousButtonEnabled()
+                        ? () {
+                            myPageController.loadPreviousWeeklyPixelCount();
+                          }
+                        : null,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.backgroundSecondary,
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                      ),
+                      padding: const EdgeInsets.fromLTRB(20.0, 20, 10, 20),
+                      child: Icon(
+                        Icons.arrow_back_ios_new_outlined,
+                        color: AppColors.textPrimary,
+                        size: 20,
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    child: Obx(
-                      () => Text(
-                        myPageController.getSelectedWeekInfo(),
-                        style: TextStyles.fs17w600cTextPrimary,
+                ),
+                GestureDetector(
+                  child: Obx(
+                    () => Text(
+                      myPageController.getSelectedWeekInfo(),
+                      style: TextStyles.fs17w600cTextPrimary,
+                    ),
+                  ),
+                ),
+                Obx(
+                  () => GestureDetector(
+                    onTap: myPageController.getIsNextButtonEnabled()
+                        ? () {
+                            myPageController.loadNextWeeklyPixelCount();
+                          }
+                        : null,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.backgroundSecondary,
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                      ),
+                      padding: const EdgeInsets.fromLTRB(10.0, 20, 20, 20),
+                      child: Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        color: AppColors.textPrimary,
+                        size: 20,
                       ),
                     ),
                   ),
-                  Obx(
-                    () => GestureDetector(
-                      onTap: myPageController.getIsNextButtonEnabled()
-                          ? () {
-                              myPageController.loadNextWeeklyPixelCount();
-                            }
-                          : null,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.backgroundSecondary,
-                          borderRadius: BorderRadius.all(Radius.circular(16)),
-                        ),
-                        padding: const EdgeInsets.fromLTRB(10.0, 20, 20, 20),
-                        child: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: AppColors.textPrimary,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Expanded(
-              child: Obx(
-                () => Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: BarChart(
-                    BarChartData(
-                      barTouchData: getBarTouchData(),
-                      titlesData: getTitlesData(myPageController.getMaxCount()),
-                      borderData: borderData,
-                      barGroups:
-                          getBarGroups(myPageController.getWeeklyPixelCount()),
-                      gridData: FlGridData(
-                        show: true,
-                        drawVerticalLine: false,
-                        horizontalInterval: myPageController.getMaxCount() / 4,
-                      ),
-                      alignment: BarChartAlignment.spaceAround,
-                      maxY: myPageController.getMaxCount(),
+          ),
+          Expanded(
+            child: Obx(
+              () => Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: BarChart(
+                  BarChartData(
+                    barTouchData: getBarTouchData(),
+                    titlesData: getTitlesData(myPageController.getMaxCount()),
+                    borderData: borderData,
+                    barGroups:
+                        getBarGroups(myPageController.getWeeklyPixelCount()),
+                    gridData: FlGridData(
+                      show: true,
+                      drawVerticalLine: false,
+                      horizontalInterval: myPageController.getMaxCount() / 4,
                     ),
+                    alignment: BarChartAlignment.spaceAround,
+                    maxY: myPageController.getMaxCount(),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

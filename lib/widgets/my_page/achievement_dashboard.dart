@@ -24,46 +24,44 @@ class AchievementDashboard extends StatelessWidget {
         child: Column(
           children: [
             Row(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "업적",
-                  style: TextStyles.fs17w600cTextPrimary,
+                Row(
+                  children: [
+                    Text(
+                      "업적 | ",
+                      style: TextStyles.fs20w700cTextPrimary,
+                    ),
+                    Text(
+                      "3",
+                      style: TextStyles.fs20w700cPrimary,
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  width: 10,
+                Spacer(),
+                Row(
+                  children: [
+                    Image.asset(
+                      "assets/images/badge/badge_1.png",
+                      width: 50,
+                      height: 50,
+                    ),
+                    Image.asset(
+                      "assets/images/badge/badge_2.png",
+                      width: 50,
+                      height: 50,
+                    ),
+                    Image.asset(
+                      "assets/images/badge/badge_3.png",
+                      width: 50,
+                      height: 50,
+                    ),
+                    Image.asset(
+                      "assets/images/badge/badge_4.png",
+                      width: 50,
+                      height: 50,
+                    ),
+                  ],
                 ),
-                Icon(
-                  Icons.arrow_forward_ios_outlined,
-                  color: AppColors.textPrimary,
-                  size: 15,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  "assets/images/badge/badge_1.png",
-                  width: 80,
-                  // color: Color(0x1D0DF69E),
-                ),
-                Image.asset(
-                  "assets/images/badge/badge_2.png",
-                  width: 80,
-                ),
-                Image.asset(
-                  "assets/images/badge/badge_3.png",
-                  width: 80,
-                ),
-                // Image.asset(
-                //   "assets/images/badge/badge_1.png",
-                //   width: 100,
-                // ),
               ],
             ),
           ],
