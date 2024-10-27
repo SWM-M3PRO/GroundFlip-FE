@@ -17,8 +17,8 @@ class MyPageScreen extends StatelessWidget {
     Get.put(MyPageController());
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
-      child: Column(
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: ListView(
         children: [
           UserInfo(),
           SizedBox(
@@ -33,6 +33,9 @@ class MyPageScreen extends StatelessWidget {
             height: 20,
           ),
           PixelBarChart(),
+          SizedBox(
+            height: 20,
+          )
         ],
       ),
     );
