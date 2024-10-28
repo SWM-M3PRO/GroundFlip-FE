@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../controllers/my_page_controller.dart';
 import '../controllers/walking_controller.dart';
+import '../widgets/my_page/achievement_dashboard.dart';
 import '../widgets/my_page/pixel_bar_chart.dart';
 import '../widgets/my_page/pixel_dash_board.dart';
 import '../widgets/my_page/user_info.dart';
@@ -16,8 +17,8 @@ class MyPageScreen extends StatelessWidget {
     Get.put(MyPageController());
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
-      child: Column(
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: ListView(
         children: [
           UserInfo(),
           SizedBox(
@@ -27,11 +28,14 @@ class MyPageScreen extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          // TodayStepChart(),
+          AchievementDashboard(),
           SizedBox(
             height: 20,
           ),
           PixelBarChart(),
+          SizedBox(
+            height: 20,
+          )
         ],
       ),
     );
