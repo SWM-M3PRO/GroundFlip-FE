@@ -1,9 +1,9 @@
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/get.dart';
 
 import '../models/achievement/achievement_category.dart';
 import '../models/achievement/achievement_element.dart';
 import '../models/achievement/user_achievements.dart';
+import '../screens/my_achievement_screen.dart';
 import '../service/achievement_service.dart';
 import '../utils/user_manager.dart';
 
@@ -30,5 +30,12 @@ class AchievementController extends GetxController {
     achievementElements.assignAll(userAchievements.recentAchievements);
     achievementCategories.assignAll(categories);
     isLoading.value = false;
+  }
+
+  moveToMyAchievementScreen() async {
+    UserAchievements userAchievements = await achievementService
+        .getUserAchievements(UserManager().userId!, null);
+    Get.to(
+        MyAchievementScreen(achievements: userAchievements.recentAchievements));
   }
 }

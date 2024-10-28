@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../controllers/achievement_controller.dart';
-import '../../screens/my_achievement_screen.dart';
 import 'achievement_list_element.dart';
 
 class RecentAchievementDashboard extends StatelessWidget {
@@ -15,8 +14,8 @@ class RecentAchievementDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.all(Radius.circular(16)),
-      onTap: () {
-        Get.to(MyAchievementScreen());
+      onTap: () async {
+        await controller.moveToMyAchievementScreen();
       },
       child: Ink(
         decoration: BoxDecoration(
