@@ -43,85 +43,11 @@ class MyAchievementScreen extends StatelessWidget {
               achievements: [
                 for (int i = 0; i < achievements.length; i++)
                   AchievementListElement(
+                    achievementId: achievements[i].achievementId,
                     badgeUrl: achievements[i].badgeImageUrl,
                     achievementName: achievements[i].achievementName,
                     obtainedDate: achievements[i].obtainedDate,
                   ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_3.png",
-                //   achievementName: "50개의 땅 점령",
-                //   obtainedDate: DateTime.now(),
-                // ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_4.png",
-                //   achievementName: "경기도 정복",
-                //   obtainedDate: DateTime.now(),
-                // ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_2.png",
-                //   achievementName: "10개의 땅 방문",
-                //   obtainedDate: DateTime.now(),
-                // ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_6.png",
-                //   achievementName: "50개의 땅 점령",
-                //   obtainedDate: DateTime.now(),
-                // ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_1.png",
-                //   achievementName: "경기도 정복",
-                //   obtainedDate: DateTime.now(),
-                // ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_1.png",
-                //   achievementName: "10개의 땅 방문",
-                //   obtainedDate: DateTime.now(),
-                // ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_3.png",
-                //   achievementName: "50개의 땅 점령",
-                //   obtainedDate: DateTime.now(),
-                // ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_1.png",
-                //   achievementName: "10개의 땅 방문",
-                //   obtainedDate: DateTime.now(),
-                // ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_3.png",
-                //   achievementName: "50개의 땅 점령",
-                //   obtainedDate: DateTime.now(),
-                // ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_4.png",
-                //   achievementName: "경기도 정복",
-                //   obtainedDate: DateTime.now(),
-                // ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_2.png",
-                //   achievementName: "10개의 땅 방문",
-                //   obtainedDate: DateTime.now(),
-                // ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_6.png",
-                //   achievementName: "50개의 땅 점령",
-                //   obtainedDate: DateTime.now(),
-                // ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_1.png",
-                //   achievementName: "경기도 정복",
-                //   obtainedDate: DateTime.now(),
-                // ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_1.png",
-                //   achievementName: "10개의 땅 방문",
-                //   obtainedDate: DateTime.now(),
-                // ),
-                // AchievementListElement(
-                //   badgeUrl: "assets/images/badge/badge_3.png",
-                //   achievementName: "50개의 땅 점령",
-                //   obtainedDate: DateTime.now(),
-                // ),
               ],
             ),
           ],

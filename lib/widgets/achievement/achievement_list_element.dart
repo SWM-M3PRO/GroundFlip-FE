@@ -4,16 +4,19 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../constants/text_styles.dart';
-import '../../screens/achievement_info_screen.dart';
+import '../../controllers/achievement_controller.dart';
 
 class AchievementListElement extends StatelessWidget {
+  final int achievementId;
   final String badgeUrl;
   final String achievementName;
   final DateTime? obtainedDate;
   final bool isClickable;
+  final AchievementController controller = Get.find<AchievementController>();
 
-  const AchievementListElement({
+  AchievementListElement({
     super.key,
+    required this.achievementId,
     required this.badgeUrl,
     required this.achievementName,
     this.obtainedDate,
@@ -55,17 +58,7 @@ class AchievementListElement extends StatelessWidget {
     if (isClickable) {
       return GestureDetector(
         onTap: () {
-          Get.to(
-            AchievementInfoScreen(
-              badgeUrl: "assets/images/badge/badge_4.png",
-              achievementName: "경기도 정복왕",
-              obtainedDate: DateTime.now(),
-              achievementDetail: '경기도 땅의 10%를 방문하여 획득하세요.',
-              currentValue: 50,
-              completionGoal: 50,
-              isRewardReceived: false,
-            ),
-          );
+          controller.moveToAchievementInfoScreen(achievementId);
         },
         child: getElement(),
       );

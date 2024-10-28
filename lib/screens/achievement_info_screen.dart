@@ -1,30 +1,20 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
+import '../models/achievement/achievement.dart';
 import '../widgets/achievement/achievement_gage.dart';
 import '../widgets/achievement/reward_button.dart';
 
 class AchievementInfoScreen extends StatelessWidget {
-  final String badgeUrl;
-  final String achievementName;
-  final DateTime obtainedDate;
-  final String achievementDetail;
-  final int currentValue;
-  final int completionGoal;
-  final bool isRewardReceived;
+  final Achievement achievement;
 
   const AchievementInfoScreen({
     super.key,
-    required this.badgeUrl,
-    required this.achievementName,
-    required this.obtainedDate,
-    required this.achievementDetail,
-    required this.currentValue,
-    required this.completionGoal,
-    required this.isRewardReceived,
+    required this.achievement,
   });
 
   @override
@@ -52,36 +42,51 @@ class AchievementInfoScreen extends StatelessWidget {
               SizedBox(
                 height: 100,
               ),
-              Image.asset(
-                badgeUrl,
+              Image(
+                image: CachedNetworkImageProvider(
+                  achievement.badgeImageUrl,
+                ),
                 width: 250,
                 height: 250,
                 color: Colors.black.withOpacity(
-                  currentValue >= completionGoal ? 0 : 0.8,
-                ), // 어두운 명암을 줄 색상
+                  achievement.currentValue >= achievement.completionGoal
+                      ? 0
+                      : 0.8,
+                ),
                 colorBlendMode: BlendMode.darken,
               ),
+              // Image.asset(
+              //   achievement.badgeImageUrl,
+              //   width: 250,
+              //   height: 250,
+              //   color: Colors.black.withOpacity(
+              //     achievement.currentValue >= achievement.completionGoal
+              //         ? 0
+              //         : 0.8,
+              //   ), // 어두운 명암을 줄 색상
+              //   colorBlendMode: BlendMode.darken,
+              // ),
               SizedBox(
                 height: 20,
               ),
               Text(
-                achievementName,
+                achievement.achievementName,
                 style: TextStyles.fs28w700cTextPrimary,
               ),
-              if (currentValue >= completionGoal)
+              if (achievement.currentValue >= achievement.completionGoal)
                 Text(
-                  DateFormat('yyyy.MM.dd').format(obtainedDate),
+                  DateFormat('yyyy.MM.dd').format(achievement.obtainedDate!),
                   style: TextStyles.fs20w600cTextSecondary,
                 ),
               AchievementGage(
-                currentValue: currentValue,
-                completionGoal: completionGoal,
+                currentValue: achievement.currentValue,
+                completionGoal: achievement.completionGoal,
               ),
               SizedBox(
                 height: 10,
               ),
               Text(
-                achievementDetail,
+                achievement.achievementDetail,
                 style: TextStyles.fs17w700cTextPrimary,
               ),
               SizedBox(
@@ -89,8 +94,9 @@ class AchievementInfoScreen extends StatelessWidget {
               ),
               RewardButton(
                 reward: 50,
-                isRewardReceived: isRewardReceived,
-                isAchieved: currentValue >= completionGoal,
+                isRewardReceived: achievement.isRewardReceived,
+                isAchieved:
+                    achievement.currentValue >= achievement.completionGoal,
               ),
             ],
           ),

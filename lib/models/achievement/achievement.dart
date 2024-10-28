@@ -4,11 +4,11 @@ class Achievement {
   final String badgeImageUrl;
   final DateTime? obtainedDate;
   final int categoryId;
-  final int? currentValue;
+  final int currentValue;
   final int completionGoal;
   final String achievementDetail;
   final int? reward;
-  final bool? isRewardReceived;
+  final bool isRewardReceived;
 
   Achievement({
     required this.achievementId,

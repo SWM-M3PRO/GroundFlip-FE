@@ -36,6 +36,8 @@ class RecentAchievementDashboard extends StatelessWidget {
                       i < controller.achievementElements.length;
                       i++)
                     AchievementListElement(
+                      achievementId:
+                          controller.achievementElements[i].achievementId,
                       badgeUrl: controller.achievementElements[i].badgeImageUrl,
                       achievementName:
                           controller.achievementElements[i].achievementName,

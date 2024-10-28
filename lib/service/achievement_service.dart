@@ -27,7 +27,7 @@ class AchievementService {
 
   Future<Achievement> getAchievementInfo(int userId, int achievementId) async {
     var response = await dio.get(
-      '/users/$achievementId',
+      '/achievements/$achievementId',
       queryParameters: {"user-id": userId},
     );
     return Achievement.fromJson(response.data['data']);
