@@ -1,18 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
+import '../../models/achievement/achievement_category.dart';
 import '../../screens/category_achievement_list_screen.dart';
 
-class AchievementCategory extends StatelessWidget {
-  final String categoryName;
-  final String badgeImage;
+class AchievementCategoryElement extends StatelessWidget {
+  final AchievementCategory achievementCategory;
 
-  const AchievementCategory({
+  const AchievementCategoryElement({
     super.key,
-    required this.categoryName,
-    required this.badgeImage,
+    required this.achievementCategory,
   });
 
   @override
@@ -22,8 +22,8 @@ class AchievementCategory extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(16)),
         onTap: () {
           Get.to(CategoryAchievementListScreen(
-            categoryName: categoryName,
-            categoryImageUrl: badgeImage,
+            categoryName: achievementCategory.categoryName,
+            categoryImageUrl: achievementCategory.categoryImageUrl,
             categoryDescription:
                 "앱을 켜고 아무 땅이나 방문하여 얻을 수 있는 업적입니다. 많은 땅을 방문하여 뱃지를 모아보세요.",
           ));
@@ -46,15 +46,18 @@ class AchievementCategory extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  categoryName,
+                  achievementCategory.categoryName,
                   style: TextStyles.fs17w700cTextPrimary,
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
-              Image.asset(
-                badgeImage,
+              Image(
+                image: CachedNetworkImageProvider(
+                  achievementCategory.categoryImageUrl,
+                ),
+                width: 80,
                 height: 80,
               ),
               SizedBox(

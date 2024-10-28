@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
 import '../controllers/achievement_controller.dart';
-import '../widgets/achievement/achievement_category.dart';
+import '../widgets/achievement/achievement_category_element.dart';
 import '../widgets/achievement/recent_achievement_dashboard.dart';
 import '../widgets/common/app_bar.dart';
 
@@ -58,46 +58,25 @@ class AchievementScreen extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                Row(
-                  children: [
-                    AchievementCategory(
-                      categoryName: "탐험왕",
-                      badgeImage: "assets/images/badge/badge_5.png",
+                Obx(
+                  () => GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20,
+                      childAspectRatio: 1,
                     ),
-                    SizedBox(width: 20),
-                    AchievementCategory(
-                      categoryName: "정복자",
-                      badgeImage: "assets/images/badge/badge_2.png",
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    AchievementCategory(
-                      categoryName: "식민지화",
-                      badgeImage: "assets/images/badge/badge_3.png",
-                    ),
-                    SizedBox(width: 20),
-                    AchievementCategory(
-                      categoryName: "특수 목표",
-                      badgeImage: "assets/images/badge/badge_6.png",
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    AchievementCategory(
-                      categoryName: "식민지화",
-                      badgeImage: "assets/images/badge/badge_3.png",
-                    ),
-                    SizedBox(width: 20),
-                    AchievementCategory(
-                      categoryName: "특수 목표",
-                      badgeImage: "assets/images/badge/badge_6.png",
-                    ),
-                  ],
+                    itemCount:
+                        achievementController.achievementCategories.length,
+                    itemBuilder: (context, index) {
+                      return AchievementCategoryElement(
+                        achievementCategory:
+                            achievementController.achievementCategories[index],
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
