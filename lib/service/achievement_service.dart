@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../models/achievement/achievement.dart';
 import '../models/achievement/achievement_category.dart';
+import '../models/achievement/achievements_by_category.dart';
 import '../models/achievement/user_achievements.dart';
 import '../utils/dio_service.dart';
 import '../utils/secure_storage.dart';
@@ -38,5 +39,14 @@ class AchievementService {
       '/achievements/category',
     );
     return AchievementCategory.listFromJson(response.data['data']);
+  }
+
+  Future<AchievementsByCategory> getAchievementsByCategory(
+      int userId, int categoryId) async {
+    var response = await dio.get(
+      '/achievements/category/$categoryId',
+      queryParameters: {"user-id": userId},
+    );
+    return AchievementsByCategory.fromJson(response.data['data']);
   }
 }

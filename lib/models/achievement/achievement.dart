@@ -28,7 +28,9 @@ class Achievement {
       achievementId: json['achievementId'] as int,
       achievementName: json['achievementName'] as String,
       badgeImageUrl: json['badgeImageUrl'] as String,
-      obtainedDate: DateTime.parse(json['obtainedDate'] as String),
+      obtainedDate: json['obtainedDate'] != null
+          ? DateTime.parse(json['obtainedDate'] as String)
+          : null,
       categoryId: json['categoryId'] as int,
       currentValue: json['currentValue'] as int,
       completionGoal: json['completionGoal'] as int,

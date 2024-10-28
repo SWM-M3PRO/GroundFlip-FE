@@ -1,22 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
+import '../models/achievement/achievements_by_category.dart';
 import '../widgets/achievement/achievement_grid.dart';
 import '../widgets/achievement/achievement_list_element.dart';
 import '../widgets/common/app_bar.dart';
 
 class CategoryAchievementListScreen extends StatelessWidget {
-  final String categoryName;
-  final String categoryDescription;
-  final String categoryImageUrl;
+  final AchievementsByCategory achievementsByCategory;
 
   const CategoryAchievementListScreen(
-      {super.key,
-      required this.categoryName,
-      required this.categoryDescription,
-      required this.categoryImageUrl});
+      {super.key, required this.achievementsByCategory});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +22,7 @@ class CategoryAchievementListScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         title: AppBarTitle(
-          title: categoryName,
+          title: achievementsByCategory.categoryName,
         ),
         leadingWidth: 40,
         leading: Padding(
@@ -45,8 +42,10 @@ class CategoryAchievementListScreen extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Image.asset(
-              categoryImageUrl,
+            Image(
+              image: CachedNetworkImageProvider(
+                achievementsByCategory.categoryImageUrl,
+              ),
               width: 150,
               height: 150,
             ),
@@ -58,11 +57,11 @@ class CategoryAchievementListScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    categoryName,
+                    achievementsByCategory.categoryName,
                     style: TextStyles.fs28w700cTextPrimary,
                   ),
                   Text(
-                    categoryDescription,
+                    achievementsByCategory.categoryDescription,
                     style: TextStyles.fs14w800cTextPrimary,
                   ),
                   Divider(
@@ -71,43 +70,22 @@ class CategoryAchievementListScreen extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(height: 20),
             AchievementGrid(
               achievements: [
-                AchievementListElement(
-                  badgeUrl: "assets/images/badge/badge7.png",
-                  achievementName: "10개의 땅 방문",
-                  obtainedDate: DateTime.now(),
-                ),
-                AchievementListElement(
-                  badgeUrl: "assets/images/badge/badge8.png",
-                  achievementName: "30개의 땅 방문",
-                  obtainedDate: DateTime.now(),
-                ),
-                AchievementListElement(
-                  badgeUrl: "assets/images/badge/badge9.png",
-                  achievementName: "50개의 땅 방문",
-                  obtainedDate: DateTime.now(),
-                ),
-                AchievementListElement(
-                  badgeUrl: "assets/images/badge/badge10.png",
-                  achievementName: "100개의 땅 방문",
-                  // obtainedDate: DateTime.now(),
-                ),
-                AchievementListElement(
-                  badgeUrl: "assets/images/badge/badge11.png",
-                  achievementName: "300개의 땅 방문",
-                  // obtainedDate: DateTime.now(),
-                ),
-                AchievementListElement(
-                  badgeUrl: "assets/images/badge/badge12.png",
-                  achievementName: "500개의 땅 방문",
-                  // obtainedDate: DateTime.now(),
-                ),
-                AchievementListElement(
-                  badgeUrl: "assets/images/badge/badge13.png",
-                  achievementName: "1000개의 땅 방문",
-                  // obtainedDate: DateTime.now(),
-                ),
+                for (int i = 0;
+                    i < achievementsByCategory.achievements.length;
+                    i++)
+                  AchievementListElement(
+                    achievementId:
+                        achievementsByCategory.achievements[i].achievementId,
+                    badgeUrl:
+                        achievementsByCategory.achievements[i].badgeImageUrl,
+                    achievementName:
+                        achievementsByCategory.achievements[i].achievementName,
+                    obtainedDate:
+                        achievementsByCategory.achievements[i].obtainedDate,
+                  ),
               ],
             ),
           ],

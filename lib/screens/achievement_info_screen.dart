@@ -55,17 +55,6 @@ class AchievementInfoScreen extends StatelessWidget {
                 ),
                 colorBlendMode: BlendMode.darken,
               ),
-              // Image.asset(
-              //   achievement.badgeImageUrl,
-              //   width: 250,
-              //   height: 250,
-              //   color: Colors.black.withOpacity(
-              //     achievement.currentValue >= achievement.completionGoal
-              //         ? 0
-              //         : 0.8,
-              //   ), // 어두운 명암을 줄 색상
-              //   colorBlendMode: BlendMode.darken,
-              // ),
               SizedBox(
                 height: 20,
               ),
@@ -93,7 +82,7 @@ class AchievementInfoScreen extends StatelessWidget {
                 height: 20,
               ),
               RewardButton(
-                reward: 50,
+                reward: achievement.reward!,
                 isRewardReceived: achievement.isRewardReceived,
                 isAchieved:
                     achievement.currentValue >= achievement.completionGoal,
