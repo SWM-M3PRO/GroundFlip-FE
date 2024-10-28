@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -22,13 +23,15 @@ class AchievementListElement extends StatelessWidget {
   Widget getElement() {
     return Column(
       children: [
-        Image.asset(
-          badgeUrl,
+        Image(
+          image: CachedNetworkImageProvider(
+            badgeUrl,
+          ),
           width: 80,
           height: 80,
           color: Colors.black.withOpacity(
             obtainedDate != null ? 0 : 0.8,
-          ), // 어두운 명암을 줄 색상
+          ),
           colorBlendMode: BlendMode.darken,
         ),
         SizedBox(
