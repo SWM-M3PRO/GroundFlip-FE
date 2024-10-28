@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../models/achievement/achievement.dart';
 import '../models/achievement/user_achievements.dart';
 import '../utils/dio_service.dart';
 import '../utils/secure_storage.dart';
@@ -17,9 +18,17 @@ class AchievementService {
 
   Future<UserAchievements> getUserAchievements(int userId, int? count) async {
     var response = await dio.get(
-      '/users/$userId',
+      '/achievements/user',
       queryParameters: {"user-id": userId, 'count': count},
     );
     return UserAchievements.fromJson(response.data['data']);
+  }
+
+  Future<Achievement> getAchievementInfo(int userId, int achievementId) async {
+    var response = await dio.get(
+      '/users/$achievementId',
+      queryParameters: {"user-id": userId},
+    );
+    return Achievement.fromJson(response.data['data']);
   }
 }
