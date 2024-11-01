@@ -1,12 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
+import '../../controllers/my_page_controller.dart';
 import '../../screens/achievement_screen.dart';
 
 class AchievementDashboard extends StatelessWidget {
-  const AchievementDashboard({super.key});
+  AchievementDashboard({super.key});
+
+  final MyPageController myPageController = Get.find<MyPageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,35 +35,27 @@ class AchievementDashboard extends StatelessWidget {
                       "업적 | ",
                       style: TextStyles.fs20w700cTextPrimary,
                     ),
-                    Text(
-                      "3",
-                      style: TextStyles.fs20w700cPrimary,
+                    Obx(
+                      () => Text(
+                        myPageController.achievementCount.value.toString(),
+                        style: TextStyles.fs20w700cPrimary,
+                      ),
                     ),
                   ],
                 ),
                 Spacer(),
                 Row(
                   children: [
-                    Image.asset(
-                      "assets/images/badge/badge_1.png",
-                      width: 50,
-                      height: 50,
-                    ),
-                    Image.asset(
-                      "assets/images/badge/badge_2.png",
-                      width: 50,
-                      height: 50,
-                    ),
-                    Image.asset(
-                      "assets/images/badge/badge_3.png",
-                      width: 50,
-                      height: 50,
-                    ),
-                    Image.asset(
-                      "assets/images/badge/badge_4.png",
-                      width: 50,
-                      height: 50,
-                    ),
+                    for (int i = 0;
+                        i < myPageController.achievementElements.length;
+                        i++)
+                      Image(
+                        image: CachedNetworkImageProvider(
+                          myPageController.achievementElements[i].badgeImageUrl,
+                        ),
+                        width: 50,
+                        height: 50,
+                      ),
                   ],
                 ),
               ],

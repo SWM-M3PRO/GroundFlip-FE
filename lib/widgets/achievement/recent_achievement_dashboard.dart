@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
-import '../../screens/my_achievement_screen.dart';
+import '../../controllers/achievement_controller.dart';
 import 'achievement_list_element.dart';
 
 class RecentAchievementDashboard extends StatelessWidget {
-  const RecentAchievementDashboard({super.key});
+  RecentAchievementDashboard({super.key});
+
+  final AchievementController controller = Get.find<AchievementController>();
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.all(Radius.circular(16)),
-      onTap: () {
-        Get.to(MyAchievementScreen());
+      onTap: () async {
+        await controller.moveToMyAchievementScreen();
       },
       child: Ink(
         decoration: BoxDecoration(
@@ -26,28 +28,25 @@ class RecentAchievementDashboard extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AchievementListElement(
-                  badgeUrl: "assets/images/badge/badge_1.png",
-                  achievementName: "10개의 땅 방문",
-                  obtainedDate: DateTime.now(),
-                  isClickable: false,
-                ),
-                AchievementListElement(
-                  badgeUrl: "assets/images/badge/badge_3.png",
-                  achievementName: "50개의 땅 점령",
-                  obtainedDate: DateTime.now(),
-                  isClickable: false,
-                ),
-                AchievementListElement(
-                  badgeUrl: "assets/images/badge/badge_4.png",
-                  achievementName: "경기도 정복",
-                  obtainedDate: DateTime.now(),
-                  isClickable: false,
-                ),
-              ],
+            Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  for (int i = 0;
+                      i < controller.achievementElements.length;
+                      i++)
+                    AchievementListElement(
+                      achievementId:
+                          controller.achievementElements[i].achievementId,
+                      badgeUrl: controller.achievementElements[i].badgeImageUrl,
+                      achievementName:
+                          controller.achievementElements[i].achievementName,
+                      obtainedDate:
+                          controller.achievementElements[i].obtainedDate,
+                      isClickable: false,
+                    ),
+                ],
+              ),
             ),
           ],
         ),
