@@ -1,15 +1,19 @@
 class Notification {
   final String category;
   final int categoryId;
-  final String contents;
+  final String title;
   final DateTime date;
+  final int? contentId;
+  final String? contents;
   bool isRead;
 
   Notification({
     required this.category,
     required this.categoryId,
-    required this.contents,
+    required this.title,
     required this.date,
+    required this.contentId,
+    required this.contents,
     required this.isRead,
   });
 
@@ -18,14 +22,18 @@ class Notification {
       {
         'category': var category,
         'categoryId': var categoryId,
-        'contents': var contents,
+        'title': var title,
         'date': var date,
+        'contentId': var contentId,
+        'contents': var contents,
         'isRead': var isRead,
       } =>
         Notification(
           category: category,
           categoryId: categoryId,
           date: DateTime.parse(date),
+          title: title,
+          contentId: contentId,
           contents: contents,
           isRead: isRead,
         ),

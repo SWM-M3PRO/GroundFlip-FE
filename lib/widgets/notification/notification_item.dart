@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import '../../constants/app_colors.dart';
 import '../../controllers/notification_controller.dart';
 import '../../models/notification.dart' as n;
-import '../../screens/announcement_screen.dart';
 
 class NotificationItem extends StatelessWidget {
   final n.Notification notification;
@@ -25,13 +24,7 @@ class NotificationItem extends StatelessWidget {
         InkWell(
           borderRadius: BorderRadius.all(Radius.circular(16)),
           onTap: () {
-            if (notification.categoryId == 1) {
-              Get.to(AnnouncementScreen(
-                  title: '버전 1.0.2 알림', date: DateTime.now(), content: '# 안녕'));
-            }
-            if (!notification.isRead) {
-              controller.markAsRead(index);
-            }
+            controller.moveToContents(index);
           },
           child: Stack(
             children: [
@@ -96,7 +89,7 @@ class NotificationItem extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              notification.contents,
+                              notification.title,
                               style: TextStyle(
                                 color: AppColors.textPrimary,
                                 fontSize: 17,
