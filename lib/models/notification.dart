@@ -1,4 +1,5 @@
 class Notification {
+  final int notificationId;
   final String category;
   final int categoryId;
   final String title;
@@ -8,6 +9,7 @@ class Notification {
   bool isRead;
 
   Notification({
+    required this.notificationId,
     required this.category,
     required this.categoryId,
     required this.title,
@@ -20,6 +22,7 @@ class Notification {
   factory Notification.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
+        'notificationId': var notificationId,
         'category': var category,
         'categoryId': var categoryId,
         'title': var title,
@@ -29,6 +32,7 @@ class Notification {
         'isRead': var isRead,
       } =>
         Notification(
+          notificationId: notificationId,
           category: category,
           categoryId: categoryId,
           date: DateTime.parse(date),

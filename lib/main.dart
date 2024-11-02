@@ -10,9 +10,12 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
+import 'constants/app_colors.dart';
+import 'controllers/map_controller.dart';
 import 'firebase_options.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
+import 'screens/notification_screen.dart';
 import 'screens/on_board_screen.dart';
 import 'screens/permission_request_screen.dart';
 import 'screens/policy_screen.dart';
@@ -48,9 +51,23 @@ Future<void> main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-    // String? title = message.notification!.title;
-
     // await AlarmService.initializeStepCount(title);
+    String? title = message.notification?.title ?? '알림';
+    String? body = message.notification?.body ?? '새로운 알림이 도착했습니다';
+    final mapController = Get.find<MapController>();
+    mapController.loadNotificationStatus();
+
+    Get.snackbar(
+      title,
+      body,
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: AppColors.backgroundSecondary,
+      colorText: Colors.white,
+      duration: Duration(seconds: 2),
+      onTap: (snack) {
+        Get.to(() => NotificationScreen());
+      },
+    );
   });
 
   KakaoSdk.init(nativeAppKey: dotenv.env['NATIVE_APP_KEY']!);

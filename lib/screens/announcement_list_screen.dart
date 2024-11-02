@@ -8,10 +8,9 @@ import '../widgets/common/app_bar.dart';
 class AnnouncementListScreen extends StatelessWidget {
   AnnouncementListScreen({super.key});
 
-  final AnnouncementController controller = Get.put(AnnouncementController());
-
   @override
   Widget build(BuildContext context) {
+    AnnouncementController controller = Get.put(AnnouncementController());
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(

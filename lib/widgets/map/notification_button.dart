@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
+import '../../controllers/map_controller.dart';
 import '../../screens/notification_screen.dart';
 
 class NotificationButton extends StatelessWidget {
@@ -9,9 +10,9 @@ class NotificationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MapController mapController = Get.find<MapController>();
     return GestureDetector(
       onTap: () {
-        // mapController.openFilterBottomSheet();
         Get.to(NotificationScreen());
       },
       child: Stack(
@@ -28,19 +29,24 @@ class NotificationButton extends StatelessWidget {
               size: 20, // 아이콘 크기
             ),
           ),
-          // 안 읽은게 있는 경우만 표시 되게
-          Positioned(
-            top: 8,
-            right: 8,
-            child: Container(
-              width: 5,
-              height: 5,
-              decoration: BoxDecoration(
-                color: AppColors.primary, // 초록색 점
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
+          Obx(() {
+            if (mapController.isNotificationRead.value) {
+              return Positioned(
+                top: 8,
+                right: 8,
+                child: Container(
+                  width: 5,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary, // 초록색 점
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              );
+            } else {
+              return SizedBox();
+            }
+          })
         ],
       ),
     );

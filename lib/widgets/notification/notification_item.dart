@@ -78,8 +78,7 @@ class NotificationItem extends StatelessWidget {
                                   ],
                                 ),
                                 Text(
-                                  DateFormat('yyyy.MM.dd')
-                                      .format(notification.date),
+                                  formatDate(notification.date),
                                   style: TextStyle(
                                     color: AppColors.textSecondary,
                                     fontSize: 13,
@@ -111,5 +110,17 @@ class NotificationItem extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String formatDate(DateTime date) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final dateToCheck = DateTime(date.year, date.month, date.day);
+
+    if (dateToCheck == today) {
+      return DateFormat('HH:mm').format(date);
+    } else {
+      return DateFormat('yyyy.MM.dd').format(date);
+    }
   }
 }

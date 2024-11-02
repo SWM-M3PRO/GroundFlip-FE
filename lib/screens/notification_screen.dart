@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
+import '../controllers/map_controller.dart';
 import '../controllers/notification_controller.dart';
 import '../widgets/common/app_bar.dart';
 import '../widgets/notification/category_button.dart';
@@ -11,11 +12,10 @@ import '../widgets/notification/notification_item.dart';
 class NotificationScreen extends StatelessWidget {
   NotificationScreen({super.key});
 
-  final NotificationController notificationController =
-      Get.put(NotificationController());
-
   @override
   Widget build(BuildContext context) {
+    NotificationController notificationController =
+        Get.put(NotificationController());
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -29,6 +29,8 @@ class NotificationScreen extends StatelessWidget {
           child: IconButton(
             icon: Icon(Icons.arrow_back_ios, color: Colors.white),
             onPressed: () {
+              final mapController = Get.find<MapController>();
+              mapController.loadNotificationStatus();
               Get.back();
             },
           ),
