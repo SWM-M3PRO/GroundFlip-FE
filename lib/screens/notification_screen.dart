@@ -59,8 +59,17 @@ class NotificationScreen extends StatelessWidget {
               child: Obx(() {
                 return ListView.builder(
                   itemCount:
-                      notificationController.filteredNotifications.length,
+                      notificationController.filteredNotifications.length + 1,
                   itemBuilder: (context, index) {
+                    if (index ==
+                        notificationController.filteredNotifications.length) {
+                      return Center(
+                        child: Text(
+                          "최근 14일 동안의 알림만 표시됩니다.",
+                          style: TextStyles.fs14w400cTextSecondary,
+                        ),
+                      );
+                    }
                     final notification =
                         notificationController.filteredNotifications[index];
 
@@ -71,12 +80,6 @@ class NotificationScreen extends StatelessWidget {
                   },
                 );
               }),
-            ),
-            Center(
-              child: Text(
-                "최근 14일 동안의 알림만 표시됩니다.",
-                style: TextStyles.fs14w400cTextSecondary,
-              ),
             ),
           ],
         ),
