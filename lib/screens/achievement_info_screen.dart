@@ -7,7 +7,6 @@ import '../constants/app_colors.dart';
 import '../constants/text_styles.dart';
 import '../models/achievement/achievement.dart';
 import '../widgets/achievement/achievement_gage.dart';
-import '../widgets/achievement/reward_button.dart';
 
 class AchievementInfoScreen extends StatelessWidget {
   final Achievement achievement;
@@ -81,12 +80,12 @@ class AchievementInfoScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              RewardButton(
-                reward: achievement.reward!,
-                isRewardReceived: achievement.isRewardReceived,
-                isAchieved:
-                    achievement.currentValue >= achievement.completionGoal,
-              ),
+              // RewardButton(
+              //   reward: achievement.reward!,
+              //   isRewardReceived: achievement.isRewardReceived,
+              //   isAchieved:
+              //       achievement.currentValue >= achievement.completionGoal,
+              // ),
             ],
           ),
         ),
