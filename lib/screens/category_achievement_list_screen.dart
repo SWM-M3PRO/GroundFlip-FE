@@ -12,8 +12,10 @@ import '../widgets/common/app_bar.dart';
 class CategoryAchievementListScreen extends StatelessWidget {
   final AchievementsByCategory achievementsByCategory;
 
-  const CategoryAchievementListScreen(
-      {super.key, required this.achievementsByCategory});
+  const CategoryAchievementListScreen({
+    super.key,
+    required this.achievementsByCategory,
+  });
 
   @override
   Widget build(BuildContext context) {

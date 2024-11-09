@@ -13,7 +13,8 @@ class UserAchievements {
     return UserAchievements(
       achievementCount: json['achievementCount'] as int,
       recentAchievements: AchievementElement.listFromJson(
-          json['recentAchievements'] as List<dynamic>),
+        json['recentAchievements'] as List<dynamic>,
+      ),
     );
   }
 }

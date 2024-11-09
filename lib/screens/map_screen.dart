@@ -13,6 +13,7 @@ import '../widgets/map/current_location_button.dart';
 import '../widgets/map/filter_button.dart';
 import '../widgets/map/mode_change_toggle.dart';
 import '../widgets/map/my_place_button.dart';
+import '../widgets/map/notification_button.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -70,6 +71,10 @@ class MapScreen extends StatelessWidget {
                       PixelMode.individualHistory) {
                     return Column(
                       children: [
+                        NotificationButton(),
+                        SizedBox(
+                          height: 10,
+                        ),
                         FilterButton(),
                         SizedBox(
                           height: 10,
@@ -78,7 +83,15 @@ class MapScreen extends StatelessWidget {
                       ],
                     );
                   } else {
-                    return MyPlaceButton();
+                    return Column(
+                      children: [
+                        NotificationButton(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        MyPlaceButton(),
+                      ],
+                    );
                   }
                 }),
               ),

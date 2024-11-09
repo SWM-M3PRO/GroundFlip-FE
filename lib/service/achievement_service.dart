@@ -42,7 +42,9 @@ class AchievementService {
   }
 
   Future<AchievementsByCategory> getAchievementsByCategory(
-      int userId, int categoryId) async {
+    int userId,
+    int categoryId,
+  ) async {
     var response = await dio.get(
       '/achievements/category/$categoryId',
       queryParameters: {"user-id": userId},

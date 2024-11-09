@@ -35,7 +35,7 @@ class MyPageScreen extends StatelessWidget {
           PixelBarChart(),
           SizedBox(
             height: 20,
-          )
+          ),
         ],
       ),
     );

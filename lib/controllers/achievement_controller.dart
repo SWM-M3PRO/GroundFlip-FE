@@ -40,7 +40,8 @@ class AchievementController extends GetxController {
     UserAchievements userAchievements = await achievementService
         .getUserAchievements(UserManager().userId!, null);
     Get.to(
-        MyAchievementScreen(achievements: userAchievements.recentAchievements));
+      MyAchievementScreen(achievements: userAchievements.recentAchievements),
+    );
   }
 
   moveToAchievementInfoScreen(int achievementId) async {

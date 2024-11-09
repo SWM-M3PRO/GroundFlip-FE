@@ -69,6 +69,12 @@ class TextStyles {
     color: AppColors.accent,
   );
 
+  static TextStyle fs14w800cTextBlack = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w800,
+    color: AppColors.textBlack,
+  );
+
   static TextStyle fs20w700cPrimary = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w700,

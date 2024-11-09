@@ -44,19 +44,22 @@ class AchievementDashboard extends StatelessWidget {
                   ],
                 ),
                 Spacer(),
-                Row(
-                  children: [
-                    for (int i = 0;
-                        i < myPageController.achievementElements.length;
-                        i++)
-                      Image(
-                        image: CachedNetworkImageProvider(
-                          myPageController.achievementElements[i].badgeImageUrl,
+                Obx(
+                  () => Row(
+                    children: [
+                      for (int i = 0;
+                          i < myPageController.achievementElements.length;
+                          i++)
+                        Image(
+                          image: CachedNetworkImageProvider(
+                            myPageController
+                                .achievementElements[i].badgeImageUrl,
+                          ),
+                          width: 50,
+                          height: 50,
                         ),
-                        width: 50,
-                        height: 50,
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),

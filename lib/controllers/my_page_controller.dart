@@ -42,6 +42,12 @@ class MyPageController extends GetxController {
     _initializeWeeklySteps();
   }
 
+  refreshData() async {
+    await updateUserInfo();
+    await updateAchievementInfo();
+    await updateAchievementInfo();
+  }
+
   void initSelectedWeek() {
     DateTime nowDate = DateTime.now();
     selectedWeekStartDate =
