@@ -1,21 +1,31 @@
 import 'package:get/get.dart';
 
+import '../models/achievement/achievement_element.dart';
+import '../models/achievement/user_achievements.dart';
 import '../models/user.dart';
 import '../models/user_pixel_count.dart';
+import '../service/achievement_service.dart';
 import '../service/pixel_service.dart';
 import '../service/user_service.dart';
 import '../utils/date_handler.dart';
+import '../utils/user_manager.dart';
 
 class MyPageController extends GetxController {
   final UserService userService = UserService();
   final PixelService pixelService = PixelService();
+  final AchievementService achievementService = AchievementService();
+
   final Rx<User> currentUserInfo = User().obs;
   final RxInt currentPixelCount = 0.obs;
   final RxInt accumulatePixelCount = 0.obs;
+  final RxInt achievementCount = 0.obs;
   final RxList<int> selectedWeeklyPixelCount = <int>[0, 0, 0, 0, 0, 0, 0].obs;
+  final RxList<AchievementElement> achievementElements =
+      <AchievementElement>[].obs;
   final RxString selectedWeekInfo = "".obs;
   final RxBool isNextButtonEnabled = false.obs;
   final RxBool isPreviousButtonEnabled = true.obs;
+
   late DateTime selectedWeekStartDate;
   late DateTime selectedWeekEndDate;
 
@@ -26,8 +36,16 @@ class MyPageController extends GetxController {
     super.onInit();
     await updateUserInfo();
     await _updatePixelCount();
+    await updateAchievementInfo();
+
     initSelectedWeek();
     _initializeWeeklySteps();
+  }
+
+  refreshData() async {
+    await updateUserInfo();
+    await updateAchievementInfo();
+    await updateAchievementInfo();
   }
 
   void initSelectedWeek() {
@@ -60,6 +78,13 @@ class MyPageController extends GetxController {
   updateUserInfo() async {
     User userInfo = await userService.getCurrentUserInfo();
     currentUserInfo.value = userInfo;
+  }
+
+  updateAchievementInfo() async {
+    UserAchievements userAchievements =
+        await achievementService.getUserAchievements(UserManager().userId!, 5);
+    achievementCount.value = userAchievements.achievementCount;
+    achievementElements.assignAll(userAchievements.recentAchievements);
   }
 
   getProfileImageURL() {
