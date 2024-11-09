@@ -17,6 +17,7 @@ import '../models/region.dart';
 import '../models/user_pixel_count.dart';
 import '../service/community_service.dart';
 import '../service/location_service.dart';
+import '../service/notification_service.dart';
 import '../service/pixel_service.dart';
 import '../service/user_service.dart';
 import '../utils/date_handler.dart';
@@ -35,6 +36,7 @@ class MapController extends SuperController {
   final UserService userService = UserService();
   final CommunityService communityService = CommunityService();
   final LocationService _locationService = LocationService();
+  final NotificationService notificationService = NotificationService();
   final WalkingService walkingService =
       WalkingServiceFactory.getWalkingService();
 
@@ -70,6 +72,7 @@ class MapController extends SuperController {
   final RxInt currentCommunityPixelCount = 0.obs;
   final RxInt accumulatePixelCount = 0.obs;
   final RxInt accumulatePixelCountPerPeriod = 0.obs;
+  final RxBool isNotificationRead = false.obs;
 
   RxDouble speed = 0.0.obs;
   RxBool isCameraTrackingUser = true.obs;
@@ -101,6 +104,7 @@ class MapController extends SuperController {
     trackPixels();
     lastOnTabPixel = Pixel.createEmptyPixel();
     _loadBackgroundModeStatus();
+    loadNotificationStatus();
   }
 
   @override
@@ -123,6 +127,10 @@ class MapController extends SuperController {
 
   @override
   void onHidden() {}
+
+  loadNotificationStatus() async {
+    isNotificationRead.value = await notificationService.isUnreadNotification(UserManager().userId!);
+  }
 
   onBottomBarHidden() {
     bottomSheetController.minimize();
