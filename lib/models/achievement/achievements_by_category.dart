@@ -22,7 +22,8 @@ class AchievementsByCategory {
       categoryImageUrl: json['categoryImageUrl'] as String,
       categoryDescription: json['categoryDescription'] as String,
       achievements: AchievementElement.listFromJson(
-          json['achievements'] as List<dynamic>),
+        json['achievements'] as List<dynamic>,
+      ),
     );
   }
 }

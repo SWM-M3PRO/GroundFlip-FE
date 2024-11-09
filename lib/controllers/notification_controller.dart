@@ -30,11 +30,6 @@ class NotificationController extends GetxController {
     ever(selectedCategory, (_) => _filterNotifications());
   }
 
-  @override
-  onReady() {
-    print('hello');
-  }
-
   Future<void> loadNotifications() async {
     List<n.Notification> userNotifications =
         await notificationService.getNotifications(UserManager().userId!);
@@ -46,8 +41,9 @@ class NotificationController extends GetxController {
       filteredNotifications.assignAll(notifications);
     } else {
       filteredNotifications.assignAll(
-        notifications.where((notification) =>
-            notification.categoryId == selectedCategory.value),
+        notifications.where(
+          (notification) => notification.categoryId == selectedCategory.value,
+        ),
       );
     }
   }

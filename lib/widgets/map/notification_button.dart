@@ -46,7 +46,7 @@ class NotificationButton extends StatelessWidget {
             } else {
               return SizedBox();
             }
-          })
+          }),
         ],
       ),
     );

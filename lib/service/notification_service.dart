@@ -30,7 +30,6 @@ class NotificationService {
       '/notifications/unread/check',
       queryParameters: {"user-id": userId},
     );
-    print(response.data['data']);
     return response.data['data'];
   }
 }

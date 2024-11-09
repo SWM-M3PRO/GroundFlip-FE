@@ -60,7 +60,7 @@ class AchievementDashboard extends StatelessWidget {
                         ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ],
