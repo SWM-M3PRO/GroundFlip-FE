@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
 import '../enums/ranking_kind.dart';
+import '../enums/ranking_type.dart';
 import '../models/ranking.dart';
 import '../models/user_pixel_count.dart';
 import '../service/ranking_service.dart';
@@ -22,6 +23,7 @@ class RankingController extends GetxController {
 
   late Rx<Ranking> myRanking;
   final RxInt selectedType = 0.obs;
+  final Rx<RankingType> rankingType = RankingType.current.obs;
   final RxList rankings = [].obs;
 
   final RxDouble t = 0.0.obs;
@@ -47,10 +49,11 @@ class RankingController extends GetxController {
   _initRanking() async {
     isLoading.value = true;
     List<Ranking> rankings =
-        await rankingService.getAllUserRanking(selectedWeek);
+        await rankingService.getAllUserRanking(selectedWeek, rankingType.value);
     Ranking myRanking = await rankingService.getUserRanking(
       UserManager().getUserId()!,
       selectedWeek,
+      rankingType.value,
     );
     this.rankings.assignAll(rankings);
     this.myRanking = myRanking.obs;
@@ -66,10 +69,14 @@ class RankingController extends GetxController {
     List<Ranking> rankings;
     Ranking myRanking;
     if (selectedType.value == 0) {
-      rankings = await rankingService.getAllUserRanking(selectedWeek);
+      rankings = await rankingService.getAllUserRanking(
+        selectedWeek,
+        rankingType.value,
+      );
       myRanking = await rankingService.getUserRanking(
         UserManager().getUserId()!,
         selectedWeek,
+        rankingType.value,
       );
     } else {
       int? communityId =
@@ -123,8 +130,21 @@ class RankingController extends GetxController {
     return selectedType.value;
   }
 
+  getRankingType() {
+    return rankingType.value;
+  }
+
   updateSelectedType(int type) {
     selectedType.value = type;
+    _updateRankingWithProgressIndicator();
+  }
+
+  updateRakingType(int type) {
+    if (type == 0) {
+      rankingType.value = RankingType.current;
+    } else {
+      rankingType.value = RankingType.accumulate;
+    }
     _updateRankingWithProgressIndicator();
   }
 
