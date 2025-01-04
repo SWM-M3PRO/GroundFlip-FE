@@ -1,0 +1,4 @@
+enum RankingType {
+  current,
+  accumulate,
+}
