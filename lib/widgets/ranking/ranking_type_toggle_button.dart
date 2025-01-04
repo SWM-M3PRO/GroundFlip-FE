@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../controllers/ranking_controller.dart';
+import '../../enums/ranking_type.dart';
 
 class RankingTypeToggleButton extends StatelessWidget {
-  RankingTypeToggleButton({super.key});
+  const RankingTypeToggleButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,8 @@ class RankingTypeToggleButton extends StatelessWidget {
     return Obx(() {
       return Center(
         child: AnimatedToggleSwitch<int>.size(
-          current: rankingController.getSelectedType(),
+          current:
+              rankingController.getRankingType() == RankingType.current ? 0 : 1,
           style: ToggleStyle(
             backgroundColor: AppColors.backgroundSecondary,
             indicatorColor: AppColors.buttonColor,
@@ -25,8 +27,8 @@ class RankingTypeToggleButton extends StatelessWidget {
           values: const [0, 1],
           iconOpacity: 1.0,
           selectedIconScale: 1.0,
-          indicatorSize: Size.fromWidth(175),
-          height: 48,
+          indicatorSize: Size.fromWidth(50),
+          height: 28,
           iconAnimationType: AnimationType.onHover,
           styleAnimationType: AnimationType.onHover,
           spacing: 2.0,
@@ -40,7 +42,7 @@ class RankingTypeToggleButton extends StatelessWidget {
             );
           },
           customIconBuilder: (context, local, global) {
-            final text = const ['개인', '그룹'][local.index];
+            final text = const ['현재', '누적'][local.index];
             return Center(
               child: Text(
                 text,
@@ -50,14 +52,14 @@ class RankingTypeToggleButton extends StatelessWidget {
                     Colors.black,
                     local.animationValue,
                   ),
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
               ),
             );
           },
           borderWidth: 0.0,
-          onChanged: (i) => rankingController.updateSelectedType(i),
+          onChanged: (i) => rankingController.updateRakingType(i),
         ),
       );
     });
