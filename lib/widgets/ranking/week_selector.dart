@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 import '../../controllers/ranking_controller.dart';
+import 'ranking_type_toggle_button.dart';
 import 'week_wheel_picker.dart';
 
 class WeekSelector extends StatelessWidget {
@@ -18,7 +18,7 @@ class WeekSelector extends StatelessWidget {
     final RankingController rankingController = Get.find<RankingController>();
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Row(
         children: [
           GestureDetector(
@@ -51,13 +51,7 @@ class WeekSelector extends StatelessWidget {
             ),
           ),
           Spacer(),
-          IconButton(
-            icon: Icon(Icons.info_outline),
-            color: AppColors.buttonColor,
-            onPressed: () {
-              launchUrl(Uri.parse(rankingGuideUrl));
-            },
-          ),
+          RankingTypeToggleButton(),
         ],
       ),
     );
