@@ -51,7 +51,9 @@ class MapController extends SuperController {
   static const double lonPerPixel = 0.000909;
   static const String backgroundModeStatusKey = 'backgroundModeStatusKey';
   static const String firstLaunchKey = 'firstLaunchKey';
-
+  static const double defaultMapUpdateThreshold = 300;  // 줌 레벨 16 기준 threshold
+  static const double zoomChangeThreshold = 0.5;  // 줌 변경 감지 임계값
+  
   late final String mapStyle;
 
   GoogleMapController? googleMapController;
@@ -90,6 +92,8 @@ class MapController extends SuperController {
   RxBool isRunning = false.obs;
 
   RxBool isBackgroundEnabled = false.obs;
+
+  double? _lastZoomLevel;
 
   @override
   void onInit() async {
