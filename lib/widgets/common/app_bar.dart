@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
-import '../ranking/ranking_type_toggle_button.dart';
+import '../ranking/selected_type_toggle_button.dart';
 
 class MapAppBar extends StatelessWidget {
   const MapAppBar({super.key});
@@ -24,7 +24,7 @@ class RankingAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.background,
-      title: RankingTypeToggleButton(),
+      title: SelectedTypeToggleButton(),
     );
   }
 }

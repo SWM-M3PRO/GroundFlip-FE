@@ -5,7 +5,7 @@ import '../constants/app_colors.dart';
 import '../controllers/ranking_controller.dart';
 import '../widgets/ranking/my_ranking_info.dart';
 import '../widgets/ranking/ranking_list.dart';
-import '../widgets/ranking/week_selector.dart';
+import '../widgets/ranking/ranking_option_selector.dart';
 
 class RankingScreen extends StatelessWidget {
   const RankingScreen({super.key});
@@ -19,7 +19,7 @@ class RankingScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
           child: Column(
             children: [
-              WeekSelector(),
+              RankingOptionSelector(),
               MyRankingInfo(),
               SizedBox(
                 height: 20,

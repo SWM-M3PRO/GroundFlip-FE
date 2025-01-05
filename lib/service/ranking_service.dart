@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../enums/ranking_type.dart';
 import '../models/ranking.dart';
 import '../utils/dio_service.dart';
 
@@ -13,9 +14,14 @@ class RankingService {
     return _instance;
   }
 
-  getAllUserRanking(DateTime lookupDate) async {
+  getAllUserRanking(DateTime lookupDate, RankingType type) async {
+    String path = '/ranking/user';
+    if (type == RankingType.accumulate) {
+      path = '/ranking/accumulate/user';
+    }
+
     var response = await dio.get(
-      '/ranking/user',
+      path,
       queryParameters: {
         'lookup-date':
             '${lookupDate.year}-${lookupDate.month.toString().padLeft(2, '0')}-${lookupDate.day.toString().padLeft(2, '0')}',
@@ -25,9 +31,14 @@ class RankingService {
     return Ranking.listFromJsonUser(response.data['data']);
   }
 
-  getUserRanking(int userId, DateTime lookupDate) async {
+  getUserRanking(int userId, DateTime lookupDate, RankingType type) async {
+    String path = '/ranking/user';
+    if (type == RankingType.accumulate) {
+      path = '/ranking/accumulate/user';
+    }
+
     var response = await dio.get(
-      '/ranking/user/${userId.toString()}',
+      '$path/${userId.toString()}',
       queryParameters: {
         'lookup-date':
             '${lookupDate.year}-${lookupDate.month.toString().padLeft(2, '0')}-${lookupDate.day.toString().padLeft(2, '0')}',
