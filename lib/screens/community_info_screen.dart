@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../constants/app_colors.dart';
 import '../controllers/community_info_controller.dart';
+import '../controllers/my_page_controller.dart';
 import '../widgets/community/community_action_button.dart';
 import '../widgets/community/community_image.dart';
 import '../widgets/community/community_info.dart';
@@ -23,6 +24,7 @@ class CommunityInfoScreen extends StatelessWidget {
     final CommunityInfoController communityInfoController =
         Get.put(CommunityInfoController());
     communityInfoController.init(communityId);
+    final MyPageController myPageController = Get.find<MyPageController>();
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -46,10 +48,10 @@ class CommunityInfoScreen extends StatelessWidget {
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
-                    if(communityInfoController.password.value != ""){
+                    if (communityInfoController.password.value != "") {
                       Get.back();
                       Get.back();
-                    }else{
+                    } else {
                       Get.back();
                     }
                   },
@@ -132,9 +134,11 @@ class CommunityInfoScreen extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      SignUpCommunityButton(
-                        onTap: communityInfoController.signUpCommunity,
-                      ),
+                      if (myPageController.currentUserInfo.value.communityId ==
+                          null)
+                        SignUpCommunityButton(
+                          onTap: communityInfoController.signUpCommunity,
+                        ),
                       SizedBox(
                         height: 20,
                       ),
