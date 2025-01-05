@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:ground_flip/widgets/ranking/week_wheel_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 import '../../controllers/ranking_controller.dart';
 import '../../enums/ranking_type.dart';
+import 'week_wheel_picker.dart';
 
 class WeekSelector extends StatelessWidget {
   const WeekSelector({super.key});

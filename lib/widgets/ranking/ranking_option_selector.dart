@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ground_flip/widgets/ranking/week_selector.dart';
 
 import 'ranking_type_toggle_button.dart';
+import 'week_selector.dart';
 
 class RankingOptionSelector extends StatelessWidget {
   static String rankingGuideUrl =
