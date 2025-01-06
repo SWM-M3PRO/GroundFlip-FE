@@ -179,29 +179,14 @@ class MapController extends SuperController {
     if (!isBottomSheetShowUp) {
       _cameraIdleTimer = Timer(Duration(milliseconds: 300), () {
         final currentZoomLevel = currentCameraPosition.zoom;
-        final calculatedThreshold = _calculateThresholdByZoom(currentZoomLevel);
-        final zoomLevelChanged = _hasZoomChanged(currentZoomLevel);
+        final moveAmountThreshold = _calculateThresholdByZoom(currentZoomLevel);
 
-        if (zoomLevelChanged || _cameraMovedOverThreshold(calculatedThreshold)) {
-          updateMap();
-        }
 
-        _lastZoomLevel = currentCameraPosition.zoom;
-        lastStoppedCameraPosition = currentCameraPosition;
+        // updateMap();
       });
     }
   }
 
-  bool _cameraMovedOverThreshold(double threshold) {
-    final distance = _calculateDistance(currentCameraPosition.target, lastStoppedCameraPosition.target);
-    return distance > threshold;
-  }
-
-
-  bool _hasZoomChanged(double currentZoom) {
-    if (_lastZoomLevel == null) return true;
-    return (currentZoom - _lastZoomLevel!).abs() > zoomChangeThreshold;
-  }
 
   double _calculateThresholdByZoom(double zoom) {
     const double baseZoomLevel = 16;
@@ -224,7 +209,6 @@ class MapController extends SuperController {
       ),
       zoom: 16.0,
     );
-    lastStoppedCameraPosition = currentCameraPosition;
     googleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(currentCameraPosition),
     );
