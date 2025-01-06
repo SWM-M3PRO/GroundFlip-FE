@@ -52,8 +52,9 @@ class MapController extends SuperController {
   static const String backgroundModeStatusKey = 'backgroundModeStatusKey';
   static const String firstLaunchKey = 'firstLaunchKey';
   static const double defaultMapUpdateThreshold = 300;  // 줌 레벨 16 기준 threshold
-  static const double zoomChangeThreshold = 0.5;  // 줌 변경 감지 임계값
-  
+  static const double zoomChangeThreshold = 0.3;  // 줌 변경 감지 임계값
+
+
   late final String mapStyle;
 
   GoogleMapController? googleMapController;
@@ -176,9 +177,20 @@ class MapController extends SuperController {
   void onCameraIdle() {
     if (!isBottomSheetShowUp) {
       _cameraIdleTimer = Timer(Duration(milliseconds: 300), () {
-        updateMap();
+        final currentZoomLevel = currentCameraPosition.zoom;
+        final moveAmountThreshold = _calculateThresholdByZoom(currentZoomLevel);
+
+
+        // updateMap();
       });
     }
+  }
+
+
+  double _calculateThresholdByZoom(double zoom) {
+    const double baseZoomLevel = 16;
+    double threshold = defaultMapUpdateThreshold * math.pow(2, (baseZoomLevel - zoom));
+    return threshold.clamp(50, 2000);
   }
 
   void updateCameraPosition(CameraPosition newCameraPosition) async {
