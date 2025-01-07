@@ -26,7 +26,11 @@ class CommunityInfoBottomSheet extends StatelessWidget {
       height: 400,
       child: Padding(
         padding: const EdgeInsets.only(
-            top: 5.0, left: 20.0, right: 20.0, bottom: 20.0),
+          top: 5.0,
+          left: 20.0,
+          right: 20.0,
+          bottom: 20.0,
+        ),
         child: Column(
           children: [
             Center(
@@ -50,7 +54,8 @@ class CommunityInfoBottomSheet extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20.0), // 이미지 둥근 모서리
                     child: Image(
                       image: CachedNetworkImageProvider(
-                          community.backgroundImageUrl),
+                        community.backgroundImageUrl,
+                      ),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -67,8 +72,10 @@ class CommunityInfoBottomSheet extends StatelessWidget {
                     children: [
                       Align(
                         alignment: Alignment.bottomLeft,
-                        child: Text(community.name,
-                            style: TextStyles.fs24w600cTextPrimary),
+                        child: Text(
+                          community.name,
+                          style: TextStyles.fs24w600cTextPrimary,
+                        ),
                       ),
                       SizedBox(
                         height: 10,
@@ -90,7 +97,7 @@ class CommunityInfoBottomSheet extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
             SizedBox(
@@ -115,7 +122,7 @@ class CommunityInfoBottomSheet extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
