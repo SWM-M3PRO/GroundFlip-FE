@@ -51,6 +51,9 @@ class MapController extends SuperController {
   static const double lonPerPixel = 0.000909;
   static const String backgroundModeStatusKey = 'backgroundModeStatusKey';
   static const String firstLaunchKey = 'firstLaunchKey';
+  static const double defaultMapUpdateThreshold = 300;  // 줌 레벨 16 기준 threshold
+  static const double zoomChangeThreshold = 0.3;  // 줌 변경 감지 임계값
+
 
   late final String mapStyle;
 
@@ -58,6 +61,7 @@ class MapController extends SuperController {
 
   final box = GetStorage();
 
+  late CameraPosition lastStoppedCameraPosition;
   late CameraPosition currentCameraPosition;
   late Map<String, int> latestPixel;
 
@@ -90,6 +94,8 @@ class MapController extends SuperController {
   RxBool isRunning = false.obs;
 
   RxBool isBackgroundEnabled = false.obs;
+
+  double? _lastZoomLevel;
 
   @override
   void onInit() async {
@@ -172,9 +178,35 @@ class MapController extends SuperController {
   void onCameraIdle() {
     if (!isBottomSheetShowUp) {
       _cameraIdleTimer = Timer(Duration(milliseconds: 300), () {
-        updateMap();
+        final currentZoomLevel = currentCameraPosition.zoom;
+        final calculatedThreshold = _calculateThresholdByZoom(currentZoomLevel);
+        final zoomLevelChanged = _hasZoomChanged(currentZoomLevel);
+
+        if (zoomLevelChanged || _cameraMovedOverThreshold(calculatedThreshold)) {
+          updateMap();
+        }
+
+        lastStoppedCameraPosition = currentCameraPosition;
+        // updateMap();
       });
     }
+  }
+
+  bool _cameraMovedOverThreshold(double threshold) {
+    final distance = _calculateDistance(currentCameraPosition.target, lastStoppedCameraPosition.target);
+    return distance > threshold;
+  }
+
+
+  bool _hasZoomChanged(double currentZoom) {
+    if (_lastZoomLevel == null) return true;
+    return (currentZoom - _lastZoomLevel!).abs() > zoomChangeThreshold;
+  }
+
+  double _calculateThresholdByZoom(double zoom) {
+    const double baseZoomLevel = 16;
+    double threshold = defaultMapUpdateThreshold * math.pow(2, (baseZoomLevel - zoom));
+    return threshold.clamp(50, 2000);
   }
 
   void updateCameraPosition(CameraPosition newCameraPosition) async {
