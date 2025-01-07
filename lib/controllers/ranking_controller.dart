@@ -5,18 +5,22 @@ import 'package:get/get.dart';
 import '../constants/app_colors.dart';
 import '../enums/ranking_kind.dart';
 import '../enums/ranking_type.dart';
+import '../models/community.dart';
 import '../models/ranking.dart';
 import '../models/user_pixel_count.dart';
+import '../service/community_service.dart';
 import '../service/ranking_service.dart';
 import '../service/user_service.dart';
 import '../utils/date_handler.dart';
 import '../utils/user_manager.dart';
+import '../widgets/ranking/community_info_bottom_sheet.dart';
 import '../widgets/ranking/ranking_bottom_sheet.dart';
 import 'my_page_controller.dart';
 
 class RankingController extends GetxController {
   final RankingService rankingService = RankingService();
   final UserService userService = UserService();
+  final CommunityService communityService = CommunityService();
   final ScrollController scrollController = ScrollController();
 
   final RxBool isLoading = true.obs;
@@ -159,20 +163,39 @@ class RankingController extends GetxController {
   void openRankingBottomSheet(Ranking ranking) async {
     FirebaseAnalytics.instance.logEvent(name: "ranking_element_click");
     if (ranking.kind == RankingKind.user) {
-      UserPixelCount pixelCount =
-          await userService.getAnotherUserPixelCount(null, ranking.id);
-      Get.bottomSheet(
-        RankingBottomSheet(
-          userId: ranking.id,
-          nickname: ranking.name!,
-          profileImageUrl: ranking.profileImageUrl,
-          currentPixelCount: pixelCount.currentPixelCount!,
-          accumulatePixelCount: pixelCount.accumulatePixelCount!,
-        ),
-        backgroundColor: AppColors.background,
-        enterBottomSheetDuration: Duration(milliseconds: 100),
-        exitBottomSheetDuration: Duration(milliseconds: 100),
-      );
+      await openUserInfo(ranking);
+    } else {
+      await openCommunityInfo(ranking);
     }
+  }
+
+  Future<void> openUserInfo(Ranking ranking) async {
+    UserPixelCount pixelCount =
+        await userService.getAnotherUserPixelCount(null, ranking.id);
+    Get.bottomSheet(
+      RankingBottomSheet(
+        userId: ranking.id,
+        nickname: ranking.name!,
+        profileImageUrl: ranking.profileImageUrl,
+        currentPixelCount: pixelCount.currentPixelCount!,
+        accumulatePixelCount: pixelCount.accumulatePixelCount!,
+      ),
+      backgroundColor: AppColors.background,
+      enterBottomSheetDuration: Duration(milliseconds: 100),
+      exitBottomSheetDuration: Duration(milliseconds: 100),
+    );
+  }
+
+  Future<void> openCommunityInfo(Ranking ranking) async {
+    Community community = await communityService.getCommunityInfo(ranking.id);
+    Get.bottomSheet(
+      CommunityInfoBottomSheet(
+        community: community,
+        communityId: ranking.id,
+      ),
+      backgroundColor: AppColors.background,
+      enterBottomSheetDuration: Duration(milliseconds: 100),
+      exitBottomSheetDuration: Duration(milliseconds: 100),
+    );
   }
 }
